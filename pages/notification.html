@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notification Management | HRMS Admin</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    
+    <style>
+        * { font-family: 'Inter', sans-serif; }
+        body { background-color: #f3eeef; }
+        
+        .section-card {
+            background: white;
+            border-radius: 12px;
+            border: 1px solid #5c003f;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .stat-card {
+            background: white;
+            border-radius: 12px;
+            border: 1px solid #5c003f;
+            padding: 16px;
+            transition: all 0.3s ease;
+        }
+        .stat-card:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(84,8,99,0.1); }
+        
+        .btn-primary {
+            background-color: #540863;
+            transition: all 0.3s ease;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            border: none;
+        }
+        .btn-primary:hover { background-color: #92487A; transform: translateY(-1px); }
+        
+        .btn-success {
+            background-color: #28a745;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            cursor: pointer;
+            border: none;
+        }
+        .btn-success:hover { background-color: #218838; }
+        
+        .btn-danger {
+            background-color: #dc3545;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            cursor: pointer;
+            border: none;
+        }
+        .btn-danger:hover { background-color: #c82333; }
+        
+        .btn-warning {
+            background-color: #ffc107;
+            color: #333;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            cursor: pointer;
+            border: none;
+        }
+        .btn-warning:hover { background-color: #e0a800; }
+        
+        .btn-outline {
+            border: 1px solid #540863;
+            color: #540863;
+            padding: 8px 16px;
+            border-radius: 8px;
+            background: transparent;
+            cursor: pointer;
+        }
+        .btn-outline:hover { background-color: #540863; color: white; }
+        
+        input, select, textarea {
+            border: 1px solid #5c003f;
+            border-radius: 8px;
+            padding: 8px 12px;
+            width: 100%;
+        }
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #540863;
+            box-shadow: 0 0 0 2px rgba(84, 8, 99, 0.1);
+        }
+        
+        label {
+            font-size: 13px;
+            font-weight: 500;
+            color: #540863;
+            margin-bottom: 4px;
+            display: block;
+        }
+        
+        /* Tab Navigation */
+        .tab-nav {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 24px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #5c003f;
+            flex-wrap: wrap;
+        }
+        
+        .tab-btn {
+            padding: 8px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            background: transparent;
+            color: #92487A;
+            cursor: pointer;
+            border: none;
+        }
+        
+        .tab-btn:hover {
+            background-color: rgba(84, 8, 99, 0.1);
+            color: #540863;
+        }
+        
+        .tab-btn.active {
+            background-color: #540863;
+            color: white;
+        }
+        
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        
+        /* Notification Item Styles */
+        .notification-item {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 12px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .notification-item:hover { border-color: #540863; box-shadow: 0 2px 8px rgba(84,8,99,0.1); }
+        .notification-item.unread { background: #FFD3D5; border-left: 4px solid #540863; }
+        .notification-item.read { background: white; opacity: 0.8; }
+        
+        /* Status Badges */
+        .status-sent { background: rgba(40, 167, 69, 0.2); color: #155724; }
+        .status-pending { background: rgba(255, 193, 7, 0.2); color: #856404; }
+        .status-failed { background: rgba(220, 53, 69, 0.2); color: #721c24; }
+        .status-draft { background: rgba(108, 117, 125, 0.2); color: #383d41; }
+        
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        .modal.active { display: flex; }
+        .modal-content {
+            background: white;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 550px;
+            max-height: 85vh;
+            overflow-y: auto;
+            padding: 24px;
+        }
+        
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 12px 20px;
+            border-radius: 8px;
+            color: white;
+            z-index: 1100;
+            animation: slideIn 0.3s ease;
+        }
+        .toast.success { background-color: #28a745; }
+        .toast.error { background-color: #dc3545; }
+        .toast.info { background-color: #17a2b8; }
+        
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
+        .main-content { margin-top: 64px; }
+        
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-track { background: #f3eeef; }
+        ::-webkit-scrollbar-thumb { background: #92487A; border-radius: 10px; }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+        
+        .pie-chart-container {
+            max-width: 200px;
+            margin: 0 auto;
+        }
+        
+        @media (max-width: 768px) {
+            .section-card { padding: 16px; }
+            .tab-btn { padding: 6px 12px; font-size: 12px; }
+            .form-row { grid-template-columns: 1fr; }
+            .pie-chart-container { max-width: 150px; }
+        }
+    </style>
+</head>
+<body class="bg-[#f3eeef]">
+    
+    <div class="flex h-screen overflow-hidden">
+        <div id="sidebar-container"></div>
+        
+        <div class="flex-1 flex flex-col overflow-hidden">
+            <div id="header-container"></div>
+            
+            <main class="flex-1 overflow-y-auto p-5 main-content">
+                
+                <!-- Page Header -->
+                <div class="mb-4">
+                    <h1 class="text-xl font-bold" style="color: #540863;">Notification Management</h1>
+                    <p class="text-xs mt-0.5" style="color: #92487A;">Manage email, SMS, and in-app notifications, templates, and delivery reports</p>
+                </div>
+                
+                <!-- Tab Navigation -->
+                <div class="tab-nav">
+                    <button class="tab-btn active" data-tab="notifications">🔔 Notifications</button>
+                    <button class="tab-btn" data-tab="templates">📝 Email Templates</button>
+                    <button class="tab-btn" data-tab="sms">💬 SMS Templates</button>
+                    <button class="tab-btn" data-tab="settings">⚙️ Settings</button>
+                    <button class="tab-btn" data-tab="reports">📊 Reports</button>
+                </div>
+                
+                <!-- ==================== TAB 1: NOTIFICATIONS ==================== -->
+                <div id="tab-notifications" class="tab-content active">
+                    <!-- Stats Cards -->
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-5">
+                        <div class="stat-card"><p class="text-xs text-gray-500">Total Sent</p><p class="text-2xl font-bold" style="color:#540863;" id="totalSent">1,248</p><p class="text-xs text-green-600">This month</p></div>
+                        <div class="stat-card"><p class="text-xs text-gray-500">Unread</p><p class="text-2xl font-bold" style="color:#ffc107;" id="unreadCount">23</p><p class="text-xs text-yellow-600">Awaiting read</p></div>
+                        <div class="stat-card"><p class="text-xs text-gray-500">Delivery Rate</p><p class="text-2xl font-bold" style="color:#28a745;" id="deliveryRate">98.5%</p><p class="text-xs text-green-600">+2.3%</p></div>
+                        <div class="stat-card"><p class="text-xs text-gray-500">Scheduled</p><p class="text-2xl font-bold" style="color:#540863;" id="scheduledCount">8</p><p class="text-xs text-gray-500">Pending</p></div>
+                    </div>
+                    
+                    <!-- Create Notification Button -->
+                    <div class="section-card">
+                        <div class="flex justify-between items-center">
+                            <h3 class="text-md font-semibold" style="color:#540863;">Send Notification</h3>
+                            <button onclick="openSendNotificationModal()" class="btn-primary text-sm"><i class="fas fa-plus mr-1"></i>Send New</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Notifications List -->
+                    <div class="section-card">
+                        <div class="flex justify-between items-center mb-4 flex-wrap gap-3">
+                            <h3 class="text-md font-semibold" style="color:#540863;">All Notifications</h3>
+                            <div class="flex gap-2 flex-wrap">
+                                <select id="notificationTypeFilter" class="w-40 text-sm" onchange="filterNotifications()">
+                                    <option value="all">All Types</option>
+                                    <option value="email">Email</option>
+                                    <option value="sms">SMS</option>
+                                    <option value="inapp">In-App</option>
+                                </select>
+                                <select id="notificationStatusFilter" class="w-40 text-sm" onchange="filterNotifications()">
+                                    <option value="all">All Status</option>
+                                    <option value="sent">Sent</option>
+                                    <option value="pending">Pending</option>
+                                    <option value="failed">Failed</option>
+                                </select>
+                                <input type="text" id="notificationSearch" placeholder="Search..." class="w-48 text-sm" onkeyup="filterNotifications()">
+                                <button onclick="markAllAsRead()" class="btn-outline text-sm"><i class="fas fa-check-double mr-1"></i>Mark All Read</button>
+                            </div>
+                        </div>
+                        
+                        <div id="notificationsList">
+                            <div class="notification-item unread" data-id="1" data-type="email" data-status="sent">
+                                <div class="flex justify-between items-start">
+                                    <div class="flex gap-3">
+                                        <div class="w-10 h-10 rounded-full bg-[#540863]/10 flex items-center justify-center"><i class="fas fa-envelope text-[#540863]"></i></div>
+                                        <div><h4 class="font-semibold" style="color:#540863;">Welcome to the Team!</h4><p class="text-sm text-gray-600 mt-1">Welcome email sent to Sarah Johnson</p><div class="flex gap-3 mt-2"><span class="text-xs text-gray-400"><i class="far fa-clock mr-1"></i>2 hours ago</span><span class="text-xs status-sent px-2 py-0.5 rounded-full">Sent</span></div></div>
+                                    </div>
+                                    <div class="flex gap-2"><button onclick="viewNotification(1)" class="text-[#540863] hover:scale-110 transition"><i class="fas fa-eye"></i></button><button onclick="openEditNotificationModal(1)" class="text-[#92487A] hover:scale-110 transition"><i class="fas fa-edit"></i></button><button onclick="openDeleteModal(1)" class="text-red-500 hover:scale-110 transition"><i class="fas fa-trash"></i></button></div>
+                                </div>
+                            </div>
+                            <div class="notification-item unread" data-id="2" data-type="sms" data-status="sent">
+                                <div class="flex justify-between items-start">
+                                    <div class="flex gap-3"><div class="w-10 h-10 rounded-full bg-[#92487A]/10 flex items-center justify-center"><i class="fas fa-sms text-[#92487A]"></i></div>
+                                    <div><h4 class="font-semibold" style="color:#540863;">Leave Approved</h4><p class="text-sm text-gray-600 mt-1">Your leave request has been approved</p><div class="flex gap-3 mt-2"><span class="text-xs text-gray-400"><i class="far fa-clock mr-1"></i>5 hours ago</span><span class="text-xs status-sent px-2 py-0.5 rounded-full">Sent</span></div></div></div>
+                                    <div class="flex gap-2"><button onclick="viewNotification(2)" class="text-[#540863]"><i class="fas fa-eye"></i></button><button onclick="openEditNotificationModal(2)" class="text-[#92487A]"><i class="fas fa-edit"></i></button><button onclick="openDeleteModal(2)" class="text-red-500"><i class="fas fa-trash"></i></button></div>
+                                </div>
+                            </div>
+                            <div class="notification-item read" data-id="3" data-type="inapp" data-status="sent">
+                                <div class="flex justify-between items-start">
+                                    <div class="flex gap-3"><div class="w-10 h-10 rounded-full bg-[#E49BA6]/10 flex items-center justify-center"><i class="fas fa-bell text-[#E49BA6]"></i></div>
+                                    <div><h4 class="font-semibold" style="color:#540863;">Payroll Processed</h4><p class="text-sm text-gray-600 mt-1">March 2024 payroll has been processed</p><div class="flex gap-3 mt-2"><span class="text-xs text-gray-400"><i class="far fa-clock mr-1"></i>Yesterday</span><span class="text-xs status-sent px-2 py-0.5 rounded-full">Sent</span></div></div></div>
+                                    <div class="flex gap-2"><button onclick="viewNotification(3)" class="text-[#540863]"><i class="fas fa-eye"></i></button><button onclick="openEditNotificationModal(3)" class="text-[#92487A]"><i class="fas fa-edit"></i></button><button onclick="openDeleteModal(3)" class="text-red-500"><i class="fas fa-trash"></i></button></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- ==================== TAB 2: EMAIL TEMPLATES ==================== -->
+                <div id="tab-templates" class="tab-content">
+                    <div class="section-card">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-md font-semibold" style="color:#540863;">Email Templates</h3>
+                            <button onclick="openTemplateModal()" class="btn-primary text-sm"><i class="fas fa-plus mr-1"></i>Add Template</button>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="emailTemplatesList">
+                            <div class="p-4 border rounded-lg" style="border-color:#5c003f;">
+                                <div class="flex justify-between items-start"><div><i class="fas fa-envelope-open-text text-[#540863] text-xl"></i><h4 class="font-semibold mt-1" style="color:#540863;">Welcome Email</h4><p class="text-xs text-gray-500">Sent to new employees on joining</p></div>
+                                <div><button onclick="editTemplate(this)" class="text-[#540863] mr-2"><i class="fas fa-edit"></i></button><button onclick="deleteTemplate(this)" class="text-red-500"><i class="fas fa-trash"></i></button></div></div>
+                                <div class="mt-2 flex gap-2"><span class="text-xs status-sent px-2 py-0.5 rounded-full">Active</span></div>
+                            </div>
+                            <div class="p-4 border rounded-lg" style="border-color:#5c003f;">
+                                <div class="flex justify-between items-start"><div><i class="fas fa-check-circle text-[#540863] text-xl"></i><h4 class="font-semibold mt-1" style="color:#540863;">Leave Approved</h4><p class="text-xs text-gray-500">Sent when leave is approved</p></div>
+                                <div><button onclick="editTemplate(this)" class="text-[#540863] mr-2"><i class="fas fa-edit"></i></button><button onclick="deleteTemplate(this)" class="text-red-500"><i class="fas fa-trash"></i></button></div></div>
+                                <div class="mt-2 flex gap-2"><span class="text-xs status-sent px-2 py-0.5 rounded-full">Active</span></div>
+                            </div>
+                            <div class="p-4 border rounded-lg" style="border-color:#5c003f;">
+                                <div class="flex justify-between items-start"><div><i class="fas fa-money-bill-wave text-[#540863] text-xl"></i><h4 class="font-semibold mt-1" style="color:#540863;">Payroll Generated</h4><p class="text-xs text-gray-500">Sent when payroll is processed</p></div>
+                                <div><button onclick="editTemplate(this)" class="text-[#540863] mr-2"><i class="fas fa-edit"></i></button><button onclick="deleteTemplate(this)" class="text-red-500"><i class="fas fa-trash"></i></button></div></div>
+                                <div class="mt-2 flex gap-2"><span class="text-xs status-sent px-2 py-0.5 rounded-full">Active</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- ==================== TAB 3: SMS TEMPLATES ==================== -->
+                <div id="tab-sms" class="tab-content">
+                    <div class="section-card">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-md font-semibold" style="color:#540863;">SMS Templates</h3>
+                            <button onclick="openSmsTemplateModal()" class="btn-primary text-sm"><i class="fas fa-plus mr-1"></i>Add Template</button>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="smsTemplatesList">
+                            <div class="p-4 border rounded-lg" style="border-color:#5c003f;">
+                                <div class="flex justify-between items-start"><div><i class="fas fa-sms text-[#540863] text-xl"></i><h4 class="font-semibold mt-1" style="color:#540863;">OTP Verification</h4><p class="text-xs text-gray-500">Your OTP is {{otp}}</p></div>
+                                <div><button onclick="editSmsTemplate(this)" class="text-[#540863] mr-2"><i class="fas fa-edit"></i></button><button onclick="deleteSmsTemplate(this)" class="text-red-500"><i class="fas fa-trash"></i></button></div></div>
+                            </div>
+                            <div class="p-4 border rounded-lg" style="border-color:#5c003f;">
+                                <div class="flex justify-between items-start"><div><i class="fas fa-calendar-check text-[#540863] text-xl"></i><h4 class="font-semibold mt-1" style="color:#540863;">Leave Approval</h4><p class="text-xs text-gray-500">Your leave request has been approved</p></div>
+                                <div><button onclick="editSmsTemplate(this)" class="text-[#540863] mr-2"><i class="fas fa-edit"></i></button><button onclick="deleteSmsTemplate(this)" class="text-red-500"><i class="fas fa-trash"></i></button></div></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- ==================== TAB 4: SETTINGS ==================== -->
+                <div id="tab-settings" class="tab-content">
+                    <div class="section-card">
+                        <h3 class="text-md font-semibold mb-4" style="color:#540863;">Notification Settings</h3>
+                        <form id="notificationSettingsForm">
+                            <div class="space-y-4">
+                                <div class="flex items-center justify-between p-3 border-b"><div><span class="font-medium" style="color:#540863;">Email Notifications</span><p class="text-xs text-gray-500">Send email notifications for all updates</p></div><label class="switch"><input type="checkbox" id="email_enabled" checked><span class="slider"></span></label></div>
+                                <div class="flex items-center justify-between p-3 border-b"><div><span class="font-medium" style="color:#540863;">SMS Notifications</span><p class="text-xs text-gray-500">Send SMS notifications for important alerts</p></div><label class="switch"><input type="checkbox" id="sms_enabled" checked><span class="slider"></span></label></div>
+                                <div class="flex items-center justify-between p-3 border-b"><div><span class="font-medium" style="color:#540863;">In-App Notifications</span><p class="text-xs text-gray-500">Show notifications inside the application</p></div><label class="switch"><input type="checkbox" id="inapp_enabled" checked><span class="slider"></span></label></div>
+                                <div class="flex items-center justify-between p-3 border-b"><div><span class="font-medium" style="color:#540863;">Push Notifications</span><p class="text-xs text-gray-500">Send push notifications to browser</p></div><label class="switch"><input type="checkbox" id="push_enabled"><span class="slider"></span></label></div>
+                            </div>
+                            <div class="flex justify-end mt-4"><button type="submit" class="btn-primary">Save Settings</button></div>
+                        </form>
+                    </div>
+                    
+                    <!-- SMTP Settings -->
+                    <div class="section-card">
+                        <h3 class="text-md font-semibold mb-4" style="color:#540863;">SMTP Configuration</h3>
+                        <form id="smtpForm">
+                            <div class="form-row"><div><label>SMTP Host</label><input type="text" value="smtp.gmail.com"></div><div><label>SMTP Port</label><input type="text" value="587"></div></div>
+                            <div class="form-row"><div><label>Username</label><input type="text" value="noreply@hrms.com"></div><div><label>Password</label><input type="password" value="********"></div></div>
+                            <div class="form-row"><div><label>From Email</label><input type="email" value="notifications@hrms.com"></div><div><label>From Name</label><input type="text" value="HRMS Admin"></div></div>
+                            <div class="flex justify-end"><button type="submit" class="btn-primary">Test Connection</button></div>
+                        </form>
+                    </div>
+                </div>
+                
+                <!-- ==================== TAB 5: REPORTS ==================== -->
+                <div id="tab-reports" class="tab-content">
+                    <div class="section-card">
+                        <h3 class="text-md font-semibold mb-4" style="color:#540863;">Notification Reports</h3>
+                        <div class="form-row">
+                            <div><label>Report Type</label><select id="notifReportType"><option>Delivery Report</option><option>Template Usage</option><option>User Engagement</option></select></div>
+                            <div><label>Date Range</label><select id="notifReportDate"><option>Last 7 Days</option><option>Last 30 Days</option><option>This Month</option><option>Last Month</option></select></div>
+                            <div class="flex items-end"><button onclick="generateNotifReport()" class="btn-primary w-full">Generate Report</button></div>
+                        </div>
+                        <div id="notifReportPreview" class="mt-4 p-4 bg-gray-50 rounded-lg text-center text-gray-500">Select filters and click Generate</div>
+                    </div>
+                    
+                    <!-- Notification Stats Chart -->
+                    <div class="section-card">
+                        <h3 class="text-md font-semibold mb-3 text-center" style="color:#540863;">Notification Delivery Stats</h3>
+                        <div class="pie-chart-container"><canvas id="deliveryChart" height="180" width="180"></canvas></div>
+                        <div class="flex justify-center gap-3 mt-3 flex-wrap"><div class="flex items-center gap-1"><div class="w-3 h-3 rounded-full" style="background:#28a745;"></div><span class="text-xs">Delivered (85%)</span></div><div class="flex items-center gap-1"><div class="w-3 h-3 rounded-full" style="background:#ffc107;"></div><span class="text-xs">Opened (12%)</span></div><div class="flex items-center gap-1"><div class="w-3 h-3 rounded-full" style="background:#dc3545;"></div><span class="text-xs">Failed (3%)</span></div></div>
+                    </div>
+                </div>
+                
+            </main>
+        </div>
+    </div>
+    
+    <!-- Send Notification Modal -->
+    <div id="sendNotificationModal" class="modal">
+        <div class="modal-content"><div class="flex justify-between items-center mb-4"><h3 class="text-lg font-semibold" style="color:#540863;">Send Notification</h3><button onclick="closeSendNotificationModal()" class="text-gray-500 text-xl">&times;</button></div>
+        <form id="sendNotificationForm"><div><label>Notification Type</label><select id="notif_type" required><option>Email</option><option>SMS</option><option>In-App</option></select></div><div class="mt-2"><label>Recipient(s)</label><select id="notif_recipient"><option>All Employees</option><option>Select Department</option><option>Specific Employee</option></select></div><div class="mt-2"><label>Subject/Title</label><input type="text" id="notif_subject" required></div><div class="mt-2"><label>Message</label><textarea id="notif_message" rows="4" required></textarea></div><div class="mt-2"><label>Schedule (Optional)</label><input type="datetime-local" id="notif_schedule"></div><div class="flex justify-end gap-3 mt-4"><button type="button" onclick="closeSendNotificationModal()" class="btn-outline">Cancel</button><button type="submit" class="btn-primary">Send Now</button></div></form></div>
+    </div>
+    
+    <!-- View Notification Modal -->
+    <div id="viewNotificationModal" class="modal">
+        <div class="modal-content"><div class="flex justify-between items-center mb-4"><h3 class="text-lg font-semibold" style="color:#540863;">Notification Details</h3><button onclick="closeViewNotificationModal()" class="text-gray-500 text-xl">&times;</button></div>
+        <div id="notificationDetails"></div><div class="flex justify-end mt-4"><button onclick="closeViewNotificationModal()" class="btn-primary">Close</button></div></div>
+    </div>
+    
+    <!-- Edit Notification Modal -->
+    <div id="editNotificationModal" class="modal">
+        <div class="modal-content"><div class="flex justify-between items-center mb-4"><h3 class="text-lg font-semibold" style="color:#540863;">Edit Notification</h3><button onclick="closeEditNotificationModal()" class="text-gray-500 text-xl">&times;</button></div>
+        <form id="editNotificationForm"><div><label>Subject/Title</label><input type="text" id="edit_notif_subject"></div><div class="mt-2"><label>Message</label><textarea id="edit_notif_message" rows="4"></textarea></div><div class="flex justify-end gap-3 mt-4"><button type="button" onclick="closeEditNotificationModal()" class="btn-outline">Cancel</button><button type="submit" class="btn-primary">Update</button></div></form></div>
+    </div>
+    
+    <!-- Template Modal -->
+    <div id="templateModal" class="modal">
+        <div class="modal-content"><div class="flex justify-between items-center mb-4"><h3 class="text-lg font-semibold" style="color:#540863;">Add Email Template</h3><button onclick="closeTemplateModal()" class="text-gray-500 text-xl">&times;</button></div>
+        <form id="templateForm"><div><label>Template Name</label><input type="text" required></div><div class="mt-2"><label>Subject</label><input type="text" required></div><div class="mt-2"><label>Body</label><textarea rows="5" required></textarea></div><div class="flex justify-end gap-3 mt-4"><button type="button" onclick="closeTemplateModal()" class="btn-outline">Cancel</button><button type="submit" class="btn-primary">Save Template</button></div></form></div>
+    </div>
+    
+    <!-- SMS Template Modal -->
+    <div id="smsTemplateModal" class="modal">
+        <div class="modal-content"><div class="flex justify-between items-center mb-4"><h3 class="text-lg font-semibold" style="color:#540863;">Add SMS Template</h3><button onclick="closeSmsTemplateModal()" class="text-gray-500 text-xl">&times;</button></div>
+        <form id="smsTemplateForm"><div><label>Template Name</label><input type="text" required></div><div class="mt-2"><label>Message Body</label><textarea rows="3" required></textarea></div><div class="flex justify-end gap-3 mt-4"><button type="button" onclick="closeSmsTemplateModal()" class="btn-outline">Cancel</button><button type="submit" class="btn-primary">Save Template</button></div></form></div>
+    </div>
+    
+    <!-- Delete Confirmation Modal -->
+    <div id="deleteModal" class="modal">
+        <div class="modal-content text-center"><div class="flex justify-between items-center mb-4"><h3 class="text-lg font-semibold" style="color:#dc3545;">Confirm Delete</h3><button onclick="closeDeleteModal()" class="text-gray-500 text-xl">&times;</button></div>
+        <div class="py-4"><i class="fas fa-exclamation-triangle text-5xl text-red-500 mb-3"></i><p class="text-gray-700 mb-2">Are you sure you want to delete this notification?</p><p class="text-sm text-gray-500" id="deleteItemId"></p></div>
+        <div class="flex justify-center gap-3 mt-4"><button onclick="closeDeleteModal()" class="btn-outline px-6">Cancel</button><button onclick="confirmDelete()" class="btn-danger px-6">Delete</button></div></div>
+    </div>
+    
+    <script src="/assets/js/common.js"></script>
+    <script src="/assets/js/sidebar.js"></script>
+    <script src="/assets/js/header.js"></script>
+    
+    <script>
+        let deliveryChart = null;
+        let deleteTargetId = null;
+        let deleteTargetElement = null;
+        
+        // Switch Toggle CSS
+        const switchStyle = document.createElement('style');
+        switchStyle.textContent = `.switch { position: relative; display: inline-block; width: 50px; height: 24px; } .switch input { opacity: 0; width: 0; height: 0; } .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; transition: 0.3s; border-radius: 24px; } .slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 3px; bottom: 3px; background-color: white; transition: 0.3s; border-radius: 50%; } input:checked + .slider { background-color: #540863; } input:checked + .slider:before { transform: translateX(26px); }`;
+        document.head.appendChild(switchStyle);
+        
+        // Tab Navigation
+        function initTabs() {
+            const tabs = document.querySelectorAll('.tab-btn');
+            const contents = document.querySelectorAll('.tab-content');
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const tabId = this.getAttribute('data-tab');
+                    tabs.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    contents.forEach(content => content.classList.remove('active'));
+                    document.getElementById(`tab-${tabId}`).classList.add('active');
+                    localStorage.setItem('notificationActiveTab', tabId);
+                    if (tabId === 'reports') updateDeliveryChart();
+                });
+            });
+            const savedTab = localStorage.getItem('notificationActiveTab');
+            if (savedTab) { const savedTabBtn = document.querySelector(`.tab-btn[data-tab="${savedTab}"]`); if (savedTabBtn) savedTabBtn.click(); }
+        }
+        
+        // Send Notification Functions
+        function openSendNotificationModal() { document.getElementById('sendNotificationModal').classList.add('active'); }
+        function closeSendNotificationModal() { document.getElementById('sendNotificationModal').classList.remove('active'); }
+        document.getElementById('sendNotificationForm')?.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const subject = document.getElementById('notif_subject').value;
+            showToast(`Notification "${subject}" sent successfully!`, 'success');
+            closeSendNotificationModal();
+            this.reset();
+        });
+        
+        // View Notification
+        function viewNotification(id) {
+            const notification = document.querySelector(`.notification-item[data-id="${id}"]`);
+            const title = notification.querySelector('h4')?.innerText;
+            const message = notification.querySelector('p')?.innerText;
+            document.getElementById('notificationDetails').innerHTML = `<div class="space-y-3"><div class="p-3 bg-gray-50 rounded-lg"><p class="text-sm font-medium" style="color:#540863;">Subject:</p><p>${title}</p></div><div class="p-3 bg-gray-50 rounded-lg"><p class="text-sm font-medium" style="color:#540863;">Message:</p><p>${message}</p></div><div class="p-3 bg-gray-50 rounded-lg"><p class="text-sm font-medium" style="color:#540863;">Sent At:</p><p>${new Date().toLocaleString()}</p></div></div>`;
+            notification.classList.remove('unread');
+            notification.classList.add('read');
+            document.getElementById('viewNotificationModal').classList.add('active');
+            updateUnreadCount();
+        }
+        function closeViewNotificationModal() { document.getElementById('viewNotificationModal').classList.remove('active'); }
+        
+        // Edit Notification
+        let editingNotificationId = null;
+        function openEditNotificationModal(id) {
+            editingNotificationId = id;
+            const notification = document.querySelector(`.notification-item[data-id="${id}"]`);
+            const title = notification.querySelector('h4')?.innerText;
+            const message = notification.querySelector('p')?.innerText;
+            document.getElementById('edit_notif_subject').value = title;
+            document.getElementById('edit_notif_message').value = message;
+            document.getElementById('editNotificationModal').classList.add('active');
+        }
+        function closeEditNotificationModal() { document.getElementById('editNotificationModal').classList.remove('active'); editingNotificationId = null; }
+        document.getElementById('editNotificationForm')?.addEventListener('submit', function(e) {
+            e.preventDefault();
+            if (editingNotificationId) {
+                const notification = document.querySelector(`.notification-item[data-id="${editingNotificationId}"]`);
+                const newTitle = document.getElementById('edit_notif_subject').value;
+                const newMessage = document.getElementById('edit_notif_message').value;
+                notification.querySelector('h4').innerText = newTitle;
+                notification.querySelector('p').innerText = newMessage;
+                showToast('Notification updated successfully!', 'success');
+            }
+            closeEditNotificationModal();
+        });
+        
+        // Delete Functions
+        function openDeleteModal(id) {
+            deleteTargetId = id;
+            deleteTargetElement = document.querySelector(`.notification-item[data-id="${id}"]`);
+            document.getElementById('deleteItemId').innerHTML = `Notification ID: <strong>${id}</strong>`;
+            document.getElementById('deleteModal').classList.add('active');
+        }
+        function closeDeleteModal() { document.getElementById('deleteModal').classList.remove('active'); deleteTargetId = null; deleteTargetElement = null; }
+        function confirmDelete() {
+            if (deleteTargetElement) {
+                deleteTargetElement.remove();
+                showToast(`Notification ${deleteTargetId} deleted successfully!`, 'success');
+                updateStats();
+            }
+            closeDeleteModal();
+        }
+        
+        // Filter Functions
+        function filterNotifications() {
+            const search = document.getElementById('notificationSearch').value.toLowerCase();
+            const type = document.getElementById('notificationTypeFilter').value;
+            const status = document.getElementById('notificationStatusFilter').value;
+            const notifications = document.querySelectorAll('.notification-item');
+            notifications.forEach(notif => {
+                let show = true;
+                const title = notif.querySelector('h4')?.innerText.toLowerCase();
+                const notifType = notif.getAttribute('data-type');
+                const notifStatus = notif.getAttribute('data-status');
+                if(search && !title.includes(search)) show = false;
+                if(type !== 'all' && notifType !== type) show = false;
+                if(status !== 'all' && notifStatus !== status) show = false;
+                notif.style.display = show ? '' : 'none';
+            });
+        }
+        
+        function markAllAsRead() {
+            document.querySelectorAll('.notification-item.unread').forEach(notif => {
+                notif.classList.remove('unread');
+                notif.classList.add('read');
+            });
+            updateUnreadCount();
+            showToast('All notifications marked as read!', 'success');
+        }
+        
+        function updateUnreadCount() {
+            const unread = document.querySelectorAll('.notification-item.unread').length;
+            document.getElementById('unreadCount').innerText = unread;
+        }
+        function updateStats() {
+            const total = document.querySelectorAll('.notification-item').length;
+            document.getElementById('totalSent').innerText = total;
+            updateUnreadCount();
+        }
+        
+        // Template Functions
+        function openTemplateModal() { document.getElementById('templateModal').classList.add('active'); }
+        function closeTemplateModal() { document.getElementById('templateModal').classList.remove('active'); }
+        document.getElementById('templateForm')?.addEventListener('submit', function(e) { e.preventDefault(); showToast('Template saved!', 'success'); closeTemplateModal(); });
+        function editTemplate(btn) { showToast('Edit template feature', 'info'); }
+        function deleteTemplate(btn) { if(confirm('Delete this template?')) btn.closest('.p-4').remove(); showToast('Template deleted!', 'success'); }
+        
+        // SMS Template Functions
+        function openSmsTemplateModal() { document.getElementById('smsTemplateModal').classList.add('active'); }
+        function closeSmsTemplateModal() { document.getElementById('smsTemplateModal').classList.remove('active'); }
+        document.getElementById('smsTemplateForm')?.addEventListener('submit', function(e) { e.preventDefault(); showToast('SMS template saved!', 'success'); closeSmsTemplateModal(); });
+        function editSmsTemplate(btn) { showToast('Edit SMS template', 'info'); }
+        function deleteSmsTemplate(btn) { if(confirm('Delete this template?')) btn.closest('.p-4').remove(); showToast('SMS template deleted!', 'success'); }
+        
+        // Settings Functions
+        document.getElementById('notificationSettingsForm')?.addEventListener('submit', function(e) { e.preventDefault(); showToast('Settings saved!', 'success'); });
+        document.getElementById('smtpForm')?.addEventListener('submit', function(e) { e.preventDefault(); showToast('SMTP connection tested successfully!', 'success'); });
+        
+        // Report Functions
+        function generateNotifReport() { document.getElementById('notifReportPreview').innerHTML = '<div class="text-center"><i class="fas fa-chart-line text-3xl text-gray-400 mb-2"></i><p>Report generated successfully!</p></div>'; showToast('Report generated!', 'success'); }
+        
+        function updateDeliveryChart() {
+            const ctx = document.getElementById('deliveryChart').getContext('2d');
+            if (deliveryChart) deliveryChart.destroy();
+            deliveryChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: { labels: ['Delivered', 'Opened', 'Failed'], datasets: [{ data: [85, 12, 3], backgroundColor: ['#28a745', '#ffc107', '#dc3545'], borderWidth: 0 }] },
+                options: { responsive: true, maintainAspectRatio: true, plugins: { legend: { display: false } }, cutout: '60%' }
+            });
+        }
+        
+        function showToast(message, type) { const toast = document.createElement('div'); toast.className = `toast ${type}`; toast.innerHTML = message; document.body.appendChild(toast); setTimeout(() => toast.remove(), 3000); }
+        function setActiveMenu(module) { setTimeout(() => { document.querySelectorAll('.nav-link').forEach(link => { link.classList.remove('active'); if(link.getAttribute('data-module') === module) link.classList.add('active'); }); }, 500); }
+        
+        document.addEventListener('DOMContentLoaded', function() { loadSidebar(); loadHeader(); setActiveMenu('notification'); initTabs(); updateDeliveryChart(); updateStats(); });
+    </script>
+</body>
+</html>

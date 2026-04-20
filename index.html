@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HRMS Admin - Login</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        /* Custom animation for fade-in */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(15px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 0.3;
+            }
+            50% {
+                opacity: 0.6;
+            }
+        }
+        
+        .fade-in-up {
+            animation: fadeInUp 0.5s ease-out;
+        }
+        
+        .slide-in-left {
+            animation: slideInLeft 0.5s ease-out;
+        }
+        
+        .slide-in-right {
+            animation: slideInRight 0.5s ease-out;
+        }
+        
+        .bg-pulse {
+            animation: pulse 4s ease-in-out infinite;
+        }
+        
+        /* Custom checkbox styling */
+        .custom-checkbox {
+            appearance: none;
+            width: 16px;
+            height: 16px;
+            border: 2px solid #5c003f;
+            border-radius: 4px;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.2s;
+        }
+        
+        .custom-checkbox:checked {
+            background-color: #540863;
+            border-color: #540863;
+        }
+        
+        .custom-checkbox:checked::after {
+            content: '\f00c';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            font-size: 9px;
+            color: white;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        
+        /* Input focus effects */
+        .input-focus-effect:focus {
+            box-shadow: 0 0 0 3px rgba(84, 8, 99, 0.1);
+            transform: translateY(-1px);
+            border-color: #540863;
+        }
+        
+        /* Hover effects */
+        .login-btn-hover {
+            transition: all 0.3s ease;
+        }
+        
+        .login-btn-hover:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 8px 20px -5px rgba(84, 8, 99, 0.4);
+        }
+        
+        /* Password strength indicator */
+        .strength-bar {
+            transition: all 0.3s ease;
+        }
+        
+        /* Reduced card styles */
+        .login-card {
+            max-width: 1100px;
+        }
+        
+        .welcome-section {
+            padding: 28px 32px !important;
+        }
+        
+        .form-section {
+            padding: 32px 40px !important;
+        }
+        
+        .feature-item {
+            margin-top: 8px !important;
+        }
+        
+        .logo-container {
+            margin-bottom: 24px !important;
+        }
+        
+        .welcome-title {
+            font-size: 28px !important;
+        }
+        
+        .welcome-text {
+            font-size: 13px !important;
+        }
+        
+        .feature-text {
+            font-size: 12px !important;
+            gap: 8px !important;
+        }
+        
+        .feature-icon {
+            width: 20px !important;
+            height: 20px !important;
+        }
+        
+        .feature-icon i {
+            font-size: 10px !important;
+        }
+        
+        .form-title {
+            font-size: 24px !important;
+            margin-bottom: 6px !important;
+        }
+        
+        .form-subtitle {
+            font-size: 12px !important;
+        }
+        
+        .input-field {
+            padding: 10px 12px !important;
+            font-size: 14px !important;
+        }
+        
+        .input-icon {
+            font-size: 12px !important;
+        }
+        
+        .label-text {
+            font-size: 12px !important;
+        }
+        
+        .btn-login {
+            padding: 10px !important;
+            font-size: 14px !important;
+        }
+        
+        .demo-box {
+            padding: 10px !important;
+            margin-top: 20px !important;
+        }
+        
+        .demo-text {
+            font-size: 11px !important;
+        }
+        
+        .footer-text {
+            font-size: 10px !important;
+            padding-top: 12px !important;
+        }
+        
+        @media (max-width: 768px) {
+            .form-section {
+                padding: 24px !important;
+            }
+            .welcome-section {
+                display: none !important;
+            }
+        }
+    </style>
+</head>
+<body class="bg-[#f3eeef] min-h-screen">
+    
+    <!-- Main Container -->
+    <div class="min-h-screen flex items-center justify-center p-4">
+        
+        <!-- Login Card Container - Reduced Size -->
+        <div class="w-full max-w-4xl login-card">
+            <div class="bg-white rounded-2xl shadow-xl overflow-hidden border border-[#5c003f]">
+                <div class="flex flex-col lg:flex-row">
+                    
+                    <!-- Left Side - Welcome Section (Reduced Height) -->
+                    <div class="lg:w-3/5 welcome-section text-white hidden lg:flex flex-col justify-between relative overflow-hidden" style="background: linear-gradient(135deg, #540863 0%, #92487A 100%);">
+                        
+                       
+                        
+                        <!-- Logo Section -->
+                        <div class="relative z-10 logo-container">
+                            <div class="flex items-center gap-2 mb-6">
+                                <div class="w-8 h-8 rounded-lg flex items-center justify-center backdrop-blur-sm" style="background-color: rgba(255, 255, 255, 0.2);">
+                                    <i class="fas fa-chart-line text-base"></i>
+                                </div>
+                                <span class="text-lg font-bold tracking-wide">HRMS Admin</span>
+                            </div>
+                            
+                            <div class="space-y-2">
+                                <h1 class="text-2xl font-bold leading-tight slide-in-left welcome-title">
+                                    Welcome to<br>
+                                    <span style="color: #FFD3D5;">HRMS Platform</span>
+                                </h1>
+                                <p class="text-xs leading-relaxed slide-in-left text-white/80 welcome-text" style="animation-delay: 0.1s;">
+                                    Complete HR Management Solution for modern organizations.
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <!-- Features List - Reduced -->
+                        <div class="relative z-10 mt-6 space-y-2">
+                            <div class="flex items-center gap-2 text-xs slide-in-left feature-text" style="animation-delay: 0.2s;">
+                                <div class="w-5 h-5 rounded-full flex items-center justify-center feature-icon" style="background-color: rgba(255, 255, 255, 0.2);">
+                                    <i class="fas fa-check text-[9px]"></i>
+                                </div>
+                                <span>Centralized Employee Database</span>
+                            </div>
+                            <div class="flex items-center gap-2 text-xs slide-in-left feature-text" style="animation-delay: 0.3s;">
+                                <div class="w-5 h-5 rounded-full flex items-center justify-center feature-icon" style="background-color: rgba(255, 255, 255, 0.2);">
+                                    <i class="fas fa-check text-[9px]"></i>
+                                </div>
+                                <span>Automated Attendance & Leave</span>
+                            </div>
+                            <div class="flex items-center gap-2 text-xs slide-in-left feature-text" style="animation-delay: 0.4s;">
+                                <div class="w-5 h-5 rounded-full flex items-center justify-center feature-icon" style="background-color: rgba(255, 255, 255, 0.2);">
+                                    <i class="fas fa-check text-[9px]"></i>
+                                </div>
+                                <span>Secure Payroll Management</span>
+                            </div>
+                            <div class="flex items-center gap-2 text-xs slide-in-left feature-text" style="animation-delay: 0.5s;">
+                                <div class="w-5 h-5 rounded-full flex items-center justify-center feature-icon" style="background-color: rgba(255, 255, 255, 0.2);">
+                                    <i class="fas fa-check text-[9px]"></i>
+                                </div>
+                                <span>Real-time Analytics & Reports</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Footer Text -->
+                        <div class="relative z-10 mt-6 text-[10px] text-white/70">
+                            <i class="fas fa-shield-alt mr-1 text-[9px]"></i> Secure & Reliable
+                        </div>
+                        
+                        <!-- Animated Circles -->
+                        <div class="absolute -bottom-16 -left-16 w-48 h-48 rounded-full opacity-20 bg-pulse" style="background-color: #92487A;"></div>
+                        <div class="absolute -top-16 -right-16 w-60 h-60 rounded-full opacity-10 bg-pulse" style="background-color: #FFD3D5; animation-delay: 2s;"></div>
+                    </div>
+                    
+                    <!-- Right Side - Login Form (Reduced Height) -->
+                    <div class="lg:w-3/5 form-section bg-white">
+                        
+                        <!-- Mobile Logo (Visible only on mobile) -->
+                        <div class="flex justify-center mb-6 lg:hidden">
+                            <div class="flex items-center gap-2">
+                                <div class="w-8 h-8 rounded-lg flex items-center justify-center" style="background: linear-gradient(135deg, #540863 0%, #92487A 100%);">
+                                    <i class="fas fa-chart-line text-white text-sm"></i>
+                                </div>
+                                <span class="text-lg font-bold" style="color: #540863;">HRMS Admin</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Form Header - Reduced -->
+                        <div class="text-center lg:text-left mb-5 fade-in-up">
+                            <h2 class="text-2xl font-bold mb-1 form-title" style="color: #540863;">
+                                Sign In
+                            </h2>
+                            <p class="text-xs form-subtitle" style="color: #92487A;">
+                                Enter your credentials to access the admin panel
+                            </p>
+                        </div>
+                        
+                        <!-- Login Form -->
+                        <form id="loginForm" class="space-y-4 fade-in-up" style="animation-delay: 0.1s;">
+                            
+                            <!-- Email Input -->
+                            <div class="space-y-1">
+                                <label class="block text-xs font-medium label-text" style="color: #540863;">
+                                    <i class="fas fa-envelope mr-1 text-[11px]" style="color: #92487A;"></i>
+                                    Email Address
+                                </label>
+                                <div class="relative">
+                                    <div class="absolute inset-y-0 left-0 pl-3 ml-4 flex items-center pointer-events-none">
+                                        <!-- <i class="fas fa-envelope text-[11px]" style="color: #92487A;"></i> -->
+                                    </div>
+                                    <input type="email" 
+                                           id="email" 
+                                           name="email" 
+                                           placeholder="admin@hrms.com" 
+                                           class="w-full py-2 border rounded-lg focus:outline-none focus:ring-2 transition-all duration-200 input-focus-effect input-field"
+                                           style="border-color: #5c003f; font-size: 13px;"
+                                           value="admin@hrms.com"
+                                           required>
+                                </div>
+                            </div>
+                            
+                            <!-- Password Input -->
+                            <div class="space-y-1">
+                                <label class="block text-xs font-medium label-text" style="color: #540863;">
+                                    <i class="fas fa-lock mr-1 text-[11px]" style="color: #92487A;"></i>
+                                    Password
+                                </label>
+                                <div class="relative">
+                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                        <!-- <i class="fas fa-lock text-[11px]" style="color: #92487A;"></i> -->
+                                    </div>
+                                    <input type="password" 
+                                           id="password" 
+                                           name="password" 
+                                           placeholder="••••••••" 
+                                           class="w-full pl-9 pr-9 py-2 border rounded-lg focus:outline-none focus:ring-2 transition-all duration-200 input-focus-effect input-field"
+                                           style="border-color: #5c003f; font-size: 13px;"
+                                           value="admin123"
+                                           required>
+                                    <button type="button" id="togglePassword" class="absolute inset-y-0 right-0 pr-3 flex items-center">
+                                        <i class="fas fa-eye text-[11px] hover:opacity-70 transition" style="color: #92487A;"></i>
+                                    </button>
+                                </div>
+                                
+                                <!-- Password Strength Indicator -->
+                                <div id="passwordStrength" class="hidden mt-1">
+                                    <div class="flex gap-1 h-1">
+                                        <div class="strength-bar flex-1 bg-gray-200 rounded-full"></div>
+                                        <div class="strength-bar flex-1 bg-gray-200 rounded-full"></div>
+                                        <div class="strength-bar flex-1 bg-gray-200 rounded-full"></div>
+                                        <div class="strength-bar flex-1 bg-gray-200 rounded-full"></div>
+                                    </div>
+                                    <p id="strengthText" class="text-[10px] mt-1 text-gray-500"></p>
+                                </div>
+                            </div>
+                            
+                            <!-- Remember Me & Forgot Password -->
+                            <div class="flex items-center justify-between">
+                                <label class="flex items-center gap-1.5 cursor-pointer">
+                                    <input type="checkbox" id="rememberMe" class="custom-checkbox">
+                                    <span class="text-xs" style="color: #92487A;">Remember me</span>
+                                </label>
+                                <a href="#" id="forgotPassword" class="text-xs transition-all hover:opacity-80" style="color: #540863;">
+                                    Forgot Password?
+                                </a>
+                            </div>
+                            
+                            <!-- Login Button -->
+                            <button type="submit" id="loginBtn" class="w-full py-2 rounded-lg font-medium transition-all duration-300 login-btn-hover flex items-center justify-center gap-2 btn-login" style="background: linear-gradient(135deg, #540863 0%, #92487A 100%); color: white;">
+                                <i class="fas fa-sign-in-alt text-xs"></i>
+                                <span class="text-sm">Sign In</span>
+                            </button>
+                            
+                            <!-- Demo Credentials Info - Reduced -->
+                            <div class="mt-4 p-3 rounded-lg border demo-box" style="background-color: #FFD3D5; border-color: #5c003f;">
+                                <div class="flex items-start gap-1.5">
+                                    <i class="fas fa-info-circle mt-0.5 text-xs" style="color: #540863;"></i>
+                                    <div class="text-[11px] demo-text" style="color: #540863;">
+                                        <p class="font-medium mb-0.5" style="color: #540863;">Demo Credentials</p>
+                                        <p>Email: admin@hrms.com</p>
+                                        <p>Password: admin123</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Footer Links -->
+                            <div class="text-center pt-2 footer-text">
+                                <p class="text-[10px]" style="color: #92487A;">
+                                    © 2024 HRMS Admin Panel. All rights reserved.
+                                </p>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Custom JavaScript -->
+    <script>
+        // DOM Elements
+        const loginForm = document.getElementById('loginForm');
+        const emailInput = document.getElementById('email');
+        const passwordInput = document.getElementById('password');
+        const togglePasswordBtn = document.getElementById('togglePassword');
+        const rememberMeCheckbox = document.getElementById('rememberMe');
+        const loginBtn = document.getElementById('loginBtn');
+        const forgotPasswordLink = document.getElementById('forgotPassword');
+        
+        // Toggle Password Visibility
+        togglePasswordBtn.addEventListener('click', function() {
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            const icon = this.querySelector('i');
+            icon.classList.toggle('fa-eye');
+            icon.classList.toggle('fa-eye-slash');
+        });
+        
+        // Password Strength Checker
+        passwordInput.addEventListener('focus', function() {
+            document.getElementById('passwordStrength').classList.remove('hidden');
+        });
+        
+        passwordInput.addEventListener('input', function() {
+            const password = this.value;
+            const strength = checkPasswordStrength(password);
+            updateStrengthIndicator(strength);
+        });
+        
+        function checkPasswordStrength(password) {
+            let strength = 0;
+            if (password.length >= 6) strength++;
+            if (password.length >= 10) strength++;
+            if (/[a-z]/.test(password) && /[A-Z]/.test(password)) strength++;
+            if (/[0-9]/.test(password)) strength++;
+            if (/[^a-zA-Z0-9]/.test(password)) strength++;
+            return Math.min(strength, 4);
+        }
+        
+        function updateStrengthIndicator(strength) {
+            const bars = document.querySelectorAll('.strength-bar');
+            const strengthText = document.getElementById('strengthText');
+            
+            const colors = ['bg-red-500', 'bg-orange-500', 'bg-yellow-500', 'bg-green-500'];
+            const messages = ['Weak', 'Fair', 'Good', 'Strong'];
+            
+            bars.forEach((bar, index) => {
+                bar.classList.remove('bg-red-500', 'bg-orange-500', 'bg-yellow-500', 'bg-green-500', 'bg-gray-200');
+                if (index < strength) {
+                    bar.classList.add(colors[strength - 1]);
+                } else {
+                    bar.classList.add('bg-gray-200');
+                }
+            });
+            
+            if (strength > 0) {
+                strengthText.textContent = `${messages[strength - 1]} password`;
+                strengthText.className = `text-[10px] mt-1 text-${colors[strength - 1].replace('bg-', '')}`;
+            } else {
+                strengthText.textContent = '';
+            }
+        }
+        
+        // Load saved credentials
+        function loadSavedCredentials() {
+            const savedEmail = localStorage.getItem('hrms_email');
+            const savedPassword = localStorage.getItem('hrms_password');
+            const savedRemember = localStorage.getItem('hrms_remember') === 'true';
+            
+            if (savedRemember && savedEmail && savedPassword) {
+                emailInput.value = savedEmail;
+                passwordInput.value = savedPassword;
+                rememberMeCheckbox.checked = true;
+            }
+        }
+        
+        // Save credentials
+        function saveCredentials(email, password, remember) {
+            if (remember) {
+                localStorage.setItem('hrms_email', email);
+                localStorage.setItem('hrms_password', password);
+                localStorage.setItem('hrms_remember', 'true');
+            } else {
+                localStorage.removeItem('hrms_email');
+                localStorage.removeItem('hrms_password');
+                localStorage.setItem('hrms_remember', 'false');
+            }
+        }
+        
+        // Show notification toast
+        function showNotification(message, type = 'success') {
+            const existingToast = document.querySelector('.notification-toast');
+            if (existingToast) {
+                existingToast.remove();
+            }
+            
+            const colors = {
+                success: '#28a745',
+                error: '#dc3545',
+                warning: '#ffc107',
+                info: '#17a2b8'
+            };
+            
+            const icons = {
+                success: 'fa-check-circle',
+                error: 'fa-exclamation-circle',
+                warning: 'fa-exclamation-triangle',
+                info: 'fa-info-circle'
+            };
+            
+            const toast = document.createElement('div');
+            toast.className = `notification-toast fixed bottom-4 right-4 text-white px-4 py-2 rounded-lg shadow-lg z-50 transition-all duration-300 flex items-center gap-2 text-sm`;
+            toast.style.backgroundColor = colors[type];
+            toast.innerHTML = `
+                <i class="fas ${icons[type]} text-xs"></i>
+                <span>${message}</span>
+            `;
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateX(100px)';
+                setTimeout(() => {
+                    toast.remove();
+                }, 300);
+            }, 3000);
+        }
+        
+        // Show loading state on button
+        function setLoading(isLoading) {
+            if (isLoading) {
+                loginBtn.disabled = true;
+                loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin text-xs"></i><span class="ml-2 text-sm">Signing in...</span>';
+                loginBtn.classList.add('opacity-70', 'cursor-not-allowed');
+            } else {
+                loginBtn.disabled = false;
+                loginBtn.innerHTML = '<i class="fas fa-sign-in-alt text-xs"></i><span class="ml-2 text-sm">Sign In</span>';
+                loginBtn.classList.remove('opacity-70', 'cursor-not-allowed');
+            }
+        }
+        
+        // Handle Login
+        async function handleLogin(event) {
+            event.preventDefault();
+            
+            const email = emailInput.value.trim();
+            const password = passwordInput.value;
+            const remember = rememberMeCheckbox.checked;
+            
+            if (!email || !password) {
+                showNotification('Please enter both email and password', 'error');
+                return;
+            }
+            
+            if (!email.includes('@') || !email.includes('.')) {
+                showNotification('Please enter a valid email address', 'error');
+                return;
+            }
+            
+            if (password.length < 6) {
+                showNotification('Password must be at least 6 characters', 'error');
+                return;
+            }
+            
+            setLoading(true);
+            
+            setTimeout(() => {
+                if (email === 'admin@hrms.com' && password === 'admin123') {
+                    saveCredentials(email, password, remember);
+                    
+                    sessionStorage.setItem('hrms_logged_in', 'true');
+                    sessionStorage.setItem('hrms_user', JSON.stringify({
+                        email: email,
+                        name: 'Rajesh Kumar',
+                        role: 'Super Admin',
+                        avatar: '../assets/images/avatar.png'
+                    }));
+                    
+                    showNotification('Login successful! Redirecting...', 'success');
+                    
+                    setTimeout(() => {
+                        window.location.href = 'dashboard.html';
+                    }, 1000);
+                } else {
+                    showNotification('Invalid email or password. Please try again.', 'error');
+                    setLoading(false);
+                    
+                    const formContainer = document.querySelector('.bg-white');
+                    formContainer.classList.add('animate-shake');
+                    setTimeout(() => {
+                        formContainer.classList.remove('animate-shake');
+                    }, 500);
+                }
+            }, 1500);
+        }
+        
+        // Forgot Password Handler
+        function handleForgotPassword(event) {
+            event.preventDefault();
+            const email = emailInput.value.trim();
+            if (email) {
+                showNotification(`Password reset link sent to ${email}`, 'success');
+            } else {
+                showNotification('Please enter your email address first', 'warning');
+            }
+        }
+        
+        // Add shake animation CSS
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes shake {
+                0%, 100% { transform: translateX(0); }
+                25% { transform: translateX(-4px); }
+                75% { transform: translateX(4px); }
+            }
+            .animate-shake {
+                animation: shake 0.3s ease-in-out;
+            }
+        `;
+        document.head.appendChild(style);
+        
+        // Event Listeners
+        loginForm.addEventListener('submit', handleLogin);
+        forgotPasswordLink.addEventListener('click', handleForgotPassword);
+        
+        // Check if already logged in
+        function checkExistingSession() {
+            const isLoggedIn = sessionStorage.getItem('hrms_logged_in');
+            if (isLoggedIn === 'true') {
+                window.location.href = 'dashboard.html';
+            }
+        }
+        
+        // Enter key press handler
+        document.addEventListener('keypress', function(event) {
+            if (event.key === 'Enter' && !loginBtn.disabled) {
+                handleLogin(event);
+            }
+        });
+        
+        // Initialize
+        loadSavedCredentials();
+        checkExistingSession();
+        
+        // Add focus effects
+        const inputs = document.querySelectorAll('input');
+        inputs.forEach(input => {
+            input.addEventListener('focus', function() {
+                this.parentElement.classList.add('ring-2', 'ring-purple-100');
+            });
+            input.addEventListener('blur', function() {
+                this.parentElement.classList.remove('ring-2', 'ring-purple-100');
+            });
+        });
+    </script>
+</body>
+</html>

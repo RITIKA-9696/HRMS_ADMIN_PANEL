@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KPI / Performance | HRMS Admin</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    
+    <style>
+        * { font-family: 'Inter', sans-serif; }
+        body { background-color: #f3eeef; }
+        
+        .section-card {
+            background: white;
+            border-radius: 12px;
+            border: 1px solid #5c003f;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .stat-card {
+            background: white;
+            border-radius: 12px;
+            border: 1px solid #5c003f;
+            padding: 16px;
+            transition: all 0.3s ease;
+        }
+        .stat-card:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(84,8,99,0.1); }
+        
+        .btn-primary {
+            background-color: #540863;
+            transition: all 0.3s ease;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            border: none;
+        }
+        .btn-primary:hover { background-color: #92487A; transform: translateY(-1px); }
+        
+        .btn-secondary {
+            background-color: #92487A;
+            transition: all 0.3s ease;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            border: none;
+        }
+        .btn-secondary:hover { background-color: #540863; transform: translateY(-1px); }
+        
+        .btn-success {
+            background-color: #28a745;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            cursor: pointer;
+            border: none;
+        }
+        .btn-success:hover { background-color: #218838; }
+        
+        .btn-danger {
+            background-color: #dc3545;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            cursor: pointer;
+            border: none;
+        }
+        .btn-danger:hover { background-color: #c82333; }
+        
+        .btn-warning {
+            background-color: #ffc107;
+            color: #333;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            cursor: pointer;
+            border: none;
+        }
+        .btn-warning:hover { background-color: #e0a800; }
+        
+        .btn-outline {
+            border: 1px solid #540863;
+            color: #540863;
+            padding: 8px 16px;
+            border-radius: 8px;
+            background: transparent;
+            cursor: pointer;
+        }
+        .btn-outline:hover { background-color: #540863; color: white; }
+        
+        input, select, textarea {
+            border: 1px solid #5c003f;
+            border-radius: 8px;
+            padding: 8px 12px;
+            width: 100%;
+        }
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #540863;
+            box-shadow: 0 0 0 2px rgba(84, 8, 99, 0.1);
+        }
+        
+        label {
+            font-size: 13px;
+            font-weight: 500;
+            color: #540863;
+            margin-bottom: 4px;
+            display: block;
+        }
+        
+        /* Tab Navigation */
+        .tab-nav {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 24px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #5c003f;
+            flex-wrap: wrap;
+        }
+        
+        .tab-btn {
+            padding: 8px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            background: transparent;
+            color: #92487A;
+            cursor: pointer;
+            border: none;
+        }
+        
+        .tab-btn:hover {
+            background-color: rgba(84, 8, 99, 0.1);
+            color: #540863;
+        }
+        
+        .tab-btn.active {
+            background-color: #540863;
+            color: white;
+        }
+        
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        
+        /* Rating Stars */
+        .rating-star {
+            color: #ffc107;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .rating-star:hover { transform: scale(1.1); }
+        
+        /* KPI Card */
+        .kpi-card {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 16px;
+            transition: all 0.3s ease;
+        }
+        .kpi-card:hover { border-color: #540863; box-shadow: 0 4px 12px rgba(84,8,99,0.1); }
+        
+        /* Progress Bar */
+        .progress-bar {
+            height: 8px;
+            background: #e5e7eb;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            border-radius: 10px;
+            transition: width 0.5s ease;
+        }
+        
+        /* Rating Badge */
+        .rating-excellent { background: rgba(40, 167, 69, 0.2); color: #155724; }
+        .rating-good { background: rgba(23, 162, 184, 0.2); color: #0c5460; }
+        .rating-average { background: rgba(255, 193, 7, 0.2); color: #856404; }
+        .rating-poor { background: rgba(220, 53, 69, 0.2); color: #721c24; }
+        
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        .modal.active { display: flex; }
+        .modal-content {
+            background: white;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 85vh;
+            overflow-y: auto;
+            padding: 24px;
+        }
+        
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 12px 20px;
+            border-radius: 8px;
+            color: white;
+            z-index: 1100;
+            animation: slideIn 0.3s ease;
+        }
+        .toast.success { background-color: #28a745; }
+        .toast.error { background-color: #dc3545; }
+        .toast.info { background-color: #17a2b8; }
+        
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
+        .main-content { margin-top: 64px; }
+        
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-track { background: #f3eeef; }
+        ::-webkit-scrollbar-thumb { background: #92487A; border-radius: 10px; }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+        
+        .data-row:hover { background-color: rgba(84, 8, 99, 0.05); cursor: pointer; }
+        table { width: 100%; border-collapse: collapse; }
+        
+        /* Pie Chart Container */
+        .pie-chart-container {
+            max-width: 200px;
+            margin: 0 auto;
+        }
+        
+        @media (max-width: 768px) {
+            .section-card { padding: 16px; }
+            .tab-btn { padding: 6px 12px; font-size: 12px; }
+            .form-row { grid-template-columns: 1fr; }
+            .pie-chart-container { max-width: 150px; }
+        }
+    </style>
+</head>
+<body class="bg-[#f3eeef]">
+    
+    <div class="flex h-screen overflow-hidden">
+        <div id="sidebar-container"></div>
+        
+        <div class="flex-1 flex flex-col overflow-hidden">
+            <div id="header-container"></div>
+            
+            <main class="flex-1 overflow-y-auto p-5 main-content">
+                
+                <!-- Page Header -->
+                <div class="mb-4">
+                    <h1 class="text-xl font-bold" style="color: #540863;">KPI / Performance Management</h1>
+                    <p class="text-xs mt-0.5" style="color: #92487A;">Manage employee KPIs, goals, performance reviews, and feedback</p>
+                </div>
+                
+                <!-- Tab Navigation -->
+                <div class="tab-nav">
+                    <button class="tab-btn active" data-tab="dashboard">📊 Dashboard</button>
+                    <button class="tab-btn" data-tab="kpi">🎯 KPI Templates</button>
+                    <button class="tab-btn" data-tab="goals">🏆 Goal Setting</button>
+                    <button class="tab-btn" data-tab="reviews">📝 Performance Reviews</button>
+                    <button class="tab-btn" data-tab="feedback">💬 360° Feedback</button>
+                    <button class="tab-btn" data-tab="reports">📈 Reports</button>
+                </div>
+                
+                <!-- ==================== TAB 1: DASHBOARD ==================== -->
+                <div id="tab-dashboard" class="tab-content active">
+                    <!-- Stats Cards -->
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-5">
+                        <div class="stat-card"><p class="text-xs text-gray-500">Average Rating</p><p class="text-2xl font-bold" style="color:#540863;">4.2</p><p class="text-xs text-green-600">↑ 0.3 vs last quarter</p></div>
+                        <div class="stat-card"><p class="text-xs text-gray-500">Goals Achieved</p><p class="text-2xl font-bold" style="color:#28a745;">78%</p><p class="text-xs text-green-600">↑ 5% vs last quarter</p></div>
+                        <div class="stat-card"><p class="text-xs text-gray-500">Reviews Completed</p><p class="text-2xl font-bold" style="color:#540863;">156</p><p class="text-xs text-blue-600">This quarter</p></div>
+                        <div class="stat-card"><p class="text-xs text-gray-500">Top Performers</p><p class="text-2xl font-bold" style="color:#ffc107;">24</p><p class="text-xs text-yellow-600">Rating ≥ 4.5</p></div>
+                    </div>
+                    
+                    <!-- Performance Distribution Chart -->
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-5 mb-5">
+                        <div class="section-card">
+                            <h3 class="text-md font-semibold mb-3" style="color:#540863;">Performance Distribution</h3>
+                            <div class="pie-chart-container">
+                                <canvas id="performancePieChart" height="180" width="180"></canvas>
+                            </div>
+                            <div class="flex justify-center gap-3 mt-3 flex-wrap">
+                                <div class="flex items-center gap-1"><div class="w-3 h-3 rounded-full" style="background:#28a745;"></div><span class="text-xs">Excellent (45)</span></div>
+                                <div class="flex items-center gap-1"><div class="w-3 h-3 rounded-full" style="background:#17a2b8;"></div><span class="text-xs">Good (62)</span></div>
+                                <div class="flex items-center gap-1"><div class="w-3 h-3 rounded-full" style="background:#ffc107;"></div><span class="text-xs">Average (28)</span></div>
+                                <div class="flex items-center gap-1"><div class="w-3 h-3 rounded-full" style="background:#dc3545;"></div><span class="text-xs">Poor (12)</span></div>
+                            </div>
+                        </div>
+                        
+                        <div class="section-card">
+                            <h3 class="text-md font-semibold mb-3" style="color:#540863;">Department Performance</h3>
+                            <canvas id="deptPerformanceChart" height="180"></canvas>
+                        </div>
+                    </div>
+                    
+                    <!-- Top Performers List -->
+                    <div class="section-card">
+                        <h3 class="text-md font-semibold mb-3" style="color:#540863;">Top Performers This Quarter</h3>
+                        <div class="overflow-x-auto">
+                            <table class="w-full">
+                                <thead>
+                                    <tr class="border-b" style="border-color:#5c003f;">
+                                        <th class="text-left py-2 text-xs">Employee</th>
+                                        <th class="text-left py-2 text-xs">Department</th>
+                                        <th class="text-left py-2 text-xs">Designation</th>
+                                        <th class="text-left py-2 text-xs">Rating</th>
+                                        <th class="text-left py-2 text-xs">Achievements</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="border-b"><td class="py-2 text-sm" style="color:#540863;">Rajesh Kumar</td><td class="py-2 text-sm">IT</td><td class="py-2 text-sm">Senior Developer</td><td class="py-2"><span class="rating-excellent text-xs px-2 py-1 rounded-full">4.8 ★</span></td><td class="py-2 text-sm">Completed 3 major projects</td></tr>
+                                    <tr class="border-b"><td class="py-2 text-sm" style="color:#540863;">Priya Sharma</td><td class="py-2 text-sm">HR</td><td class="py-2 text-sm">HR Manager</td><td class="py-2"><span class="rating-excellent text-xs px-2 py-1 rounded-full">4.7 ★</span></td><td class="py-2 text-sm">Reduced attrition by 15%</td></tr>
+                                    <tr class="border-b"><td class="py-2 text-sm" style="color:#540863;">Amit Mehta</td><td class="py-2 text-sm">Sales</td><td class="py-2 text-sm">Sales Manager</td><td class="py-2"><span class="rating-good text-xs px-2 py-1 rounded-full">4.5 ★</span></td><td class="py-2 text-sm">Achieved 120% of target</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- ==================== TAB 2: KPI TEMPLATES ==================== -->
+                <div id="tab-kpi" class="tab-content">
+                    <div class="section-card">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-md font-semibold" style="color:#540863;">KPI Templates by Role</h3>
+                            <button onclick="openKPITemplateModal()" class="btn-primary text-sm"><i class="fas fa-plus mr-1"></i>Create Template</button>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="kpiTemplatesList">
+                            <div class="kpi-card">
+                                <div class="flex justify-between items-start"><div><i class="fas fa-code text-[#540863] text-xl"></i><h4 class="font-semibold mt-1" style="color:#540863;">Software Developer</h4><p class="text-xs text-gray-500">IT Department</p></div><button onclick="editKPITemplate(this)" class="text-[#540863]"><i class="fas fa-edit"></i></button></div>
+                                <div class="mt-2 space-y-1"><p class="text-xs"><i class="fas fa-check-circle text-green-500 mr-1"></i> Code quality (30%)</p><p class="text-xs"><i class="fas fa-check-circle text-green-500 mr-1"></i> Project completion (25%)</p><p class="text-xs"><i class="fas fa-check-circle text-green-500 mr-1"></i> Bug resolution (20%)</p><p class="text-xs"><i class="fas fa-check-circle text-green-500 mr-1"></i> Team collaboration (15%)</p><p class="text-xs"><i class="fas fa-check-circle text-green-500 mr-1"></i> Innovation (10%)</p></div>
+                            </div>
+                            <div class="kpi-card">
+                                <div class="flex justify-between items-start"><div><i class="fas fa-chart-line text-[#540863] text-xl"></i><h4 class="font-semibold mt-1" style="color:#540863;">Sales Executive</h4><p class="text-xs text-gray-500">Sales Department</p></div><button onclick="editKPITemplate(this)" class="text-[#540863]"><i class="fas fa-edit"></i></button></div>
+                                <div class="mt-2 space-y-1"><p class="text-xs"><i class="fas fa-check-circle text-green-500 mr-1"></i> Revenue target (40%)</p><p class="text-xs"><i class="fas fa-check-circle text-green-500 mr-1"></i> New clients (25%)</p><p class="text-xs"><i class="fas fa-check-circle text-green-500 mr-1"></i> Customer retention (20%)</p><p class="text-xs"><i class="fas fa-check-circle text-green-500 mr-1"></i> Sales pipeline (15%)</p></div>
+                            </div>
+                            <div class="kpi-card">
+                                <div class="flex justify-between items-start"><div><i class="fas fa-users text-[#540863] text-xl"></i><h4 class="font-semibold mt-1" style="color:#540863;">HR Executive</h4><p class="text-xs text-gray-500">HR Department</p></div><button onclick="editKPITemplate(this)" class="text-[#540863]"><i class="fas fa-edit"></i></button></div>
+                                <div class="mt-2 space-y-1"><p class="text-xs"><i class="fas fa-check-circle text-green-500 mr-1"></i> Recruitment (30%)</p><p class="text-xs"><i class="fas fa-check-circle text-green-500 mr-1"></i> Employee engagement (25%)</p><p class="text-xs"><i class="fas fa-check-circle text-green-500 mr-1"></i> Training completion (20%)</p><p class="text-xs"><i class="fas fa-check-circle text-green-500 mr-1"></i> Attendance management (15%)</p><p class="text-xs"><i class="fas fa-check-circle text-green-500 mr-1"></i> Employee relations (10%)</p></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- ==================== TAB 3: GOAL SETTING ==================== -->
+                <div id="tab-goals" class="tab-content">
+                    <div class="section-card">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-md font-semibold" style="color:#540863;">Employee Goals</h3>
+                            <button onclick="openGoalModal()" class="btn-primary text-sm"><i class="fas fa-plus mr-1"></i>Set Goal</button>
+                        </div>
+                        
+                        <div class="overflow-x-auto">
+                            <table class="w-full">
+                                <thead>
+                                    <tr class="border-b" style="border-color:#5c003f;">
+                                        <th class="text-left py-2 text-xs">Employee</th>
+                                        <th class="text-left py-2 text-xs">Goal Title</th>
+                                        <th class="text-left py-2 text-xs">Target Date</th>
+                                        <th class="text-left py-2 text-xs">Progress</th>
+                                        <th class="text-left py-2 text-xs">Status</th>
+                                        <th class="text-left py-2 text-xs">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="goalsList">
+                                    <tr class="border-b"><td class="py-2 text-sm" style="color:#540863;">Rajesh Kumar</td><td class="py-2 text-sm">Complete backend migration</td><td class="py-2 text-sm">2024-06-30</td><td class="py-2"><div class="w-32"><div class="progress-bar"><div class="progress-fill" style="width: 75%; background:#540863;"></div></div><span class="text-xs">75%</span></div></td><td class="py-2"><span class="status-pending text-xs px-2 py-1 rounded-full">In Progress</span></td><td class="py-2"><button onclick="editGoal(this)" class="text-[#540863] mr-2"><i class="fas fa-edit"></i></button><button onclick="deleteGoal(this)" class="text-red-500"><i class="fas fa-trash"></i></button></td></tr>
+                                    <tr class="border-b"><td class="py-2 text-sm" style="color:#540863;">Priya Sharma</td><td class="py-2 text-sm">Implement new HRMS</td><td class="py-2 text-sm">2024-05-15</td><td class="py-2"><div class="w-32"><div class="progress-bar"><div class="progress-fill" style="width: 90%; background:#28a745;"></div></div><span class="text-xs">90%</span></div></td><td class="py-2"><span class="status-approved text-xs px-2 py-1 rounded-full">On Track</span></td><td class="py-2"><button onclick="editGoal(this)" class="text-[#540863] mr-2"><i class="fas fa-edit"></i></button><button onclick="deleteGoal(this)" class="text-red-500"><i class="fas fa-trash"></i></button></td></tr>
+                                    <tr class="border-b"><td class="py-2 text-sm" style="color:#540863;">Amit Mehta</td><td class="py-2 text-sm">Increase sales by 20%</td><td class="py-2 text-sm">2024-06-30</td><td class="py-2"><div class="w-32"><div class="progress-bar"><div class="progress-fill" style="width: 60%; background:#ffc107;"></div></div><span class="text-xs">60%</span></div></td><td class="py-2"><span class="status-pending text-xs px-2 py-1 rounded-full">In Progress</span></td><td class="py-2"><button onclick="editGoal(this)" class="text-[#540863] mr-2"><i class="fas fa-edit"></i></button><button onclick="deleteGoal(this)" class="text-red-500"><i class="fas fa-trash"></i></button></td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- ==================== TAB 4: PERFORMANCE REVIEWS ==================== -->
+                <div id="tab-reviews" class="tab-content">
+                    <div class="section-card">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-md font-semibold" style="color:#540863;">Performance Reviews</h3>
+                            <div class="flex gap-2">
+                                <select id="reviewCycle" class="w-36 text-sm" onchange="filterReviews()">
+                                    <option value="all">All Cycles</option>
+                                    <option value="Q1">Q1 2024</option>
+                                    <option value="Q2">Q2 2024</option>
+                                    <option value="Annual">Annual 2023</option>
+                                </select>
+                                <button onclick="openReviewModal()" class="btn-primary text-sm"><i class="fas fa-plus mr-1"></i>New Review</button>
+                            </div>
+                        </div>
+                        
+                        <div class="overflow-x-auto">
+                            <table class="w-full">
+                                <thead>
+                                    <tr class="border-b" style="border-color:#5c003f;">
+                                        <th class="text-left py-2 text-xs">Employee</th>
+                                        <th class="text-left py-2 text-xs">Review Cycle</th>
+                                        <th class="text-left py-2 text-xs">Reviewer</th>
+                                        <th class="text-left py-2 text-xs">Rating</th>
+                                        <th class="text-left py-2 text-xs">Status</th>
+                                        <th class="text-left py-2 text-xs">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="reviewsList">
+                                    <tr class="border-b"><td class="py-2 text-sm" style="color:#540863;">Rajesh Kumar</td><td class="py-2 text-sm">Q1 2024</td><td class="py-2 text-sm">IT Head</td><td class="py-2"><span class="rating-excellent text-xs px-2 py-1 rounded-full">4.8 ★</span></td><td class="py-2"><span class="status-approved text-xs px-2 py-1 rounded-full">Completed</span></td><td class="py-2"><button onclick="viewReview(this)" class="text-[#540863]"><i class="fas fa-eye"></i></button></td></tr>
+                                    <tr class="border-b"><td class="py-2 text-sm" style="color:#540863;">Priya Sharma</td><td class="py-2 text-sm">Q1 2024</td><td class="py-2 text-sm">HR Head</td><td class="py-2"><span class="rating-good text-xs px-2 py-1 rounded-full">4.5 ★</span></td><td class="py-2"><span class="status-approved text-xs px-2 py-1 rounded-full">Completed</span></td><td class="py-2"><button onclick="viewReview(this)" class="text-[#540863]"><i class="fas fa-eye"></i></button></td></tr>
+                                    <tr class="border-b"><td class="py-2 text-sm" style="color:#540863;">Amit Mehta</td><td class="py-2 text-sm">Q1 2024</td><td class="py-2 text-sm">Sales Head</td><td class="py-2"><span class="rating-average text-xs px-2 py-1 rounded-full">3.5 ★</span></td><td class="py-2"><span class="status-pending text-xs px-2 py-1 rounded-full">Pending</span></td><td class="py-2"><button onclick="completeReview(this)" class="btn-success text-xs">Complete</button></td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <!-- Review Calendar -->
+                    <div class="section-card">
+                        <h3 class="text-md font-semibold mb-3" style="color:#540863;">Upcoming Reviews</h3>
+                        <div class="space-y-2">
+                            <div class="flex justify-between items-center p-2 border-b"><div><i class="fas fa-calendar text-[#540863] mr-2"></i><span>Neha Gupta - Q2 Review</span></div><div>Due: 2024-05-15</div><div><span class="text-xs text-yellow-600">Pending</span></div></div>
+                            <div class="flex justify-between items-center p-2 border-b"><div><i class="fas fa-calendar text-[#540863] mr-2"></i><span>Vikram Singh - Annual Review</span></div><div>Due: 2024-05-20</div><div><span class="text-xs text-yellow-600">Pending</span></div></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- ==================== TAB 5: 360° FEEDBACK ==================== -->
+                <div id="tab-feedback" class="tab-content">
+                    <div class="section-card">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-md font-semibold" style="color:#540863;">Feedback Requests</h3>
+                            <button onclick="openFeedbackModal()" class="btn-primary text-sm"><i class="fas fa-plus mr-1"></i>Request Feedback</button>
+                        </div>
+                        
+                        <div class="overflow-x-auto">
+                            <table class="w-full">
+                                <thead>
+                                    <tr class="border-b" style="border-color:#5c003f;">
+                                        <th class="text-left py-2 text-xs">For Employee</th>
+                                        <th class="text-left py-2 text-xs">Feedback Type</th>
+                                        <th class="text-left py-2 text-xs">Requested From</th>
+                                        <th class="text-left py-2 text-xs">Due Date</th>
+                                        <th class="text-left py-2 text-xs">Status</th>
+                                        <th class="text-left py-2 text-xs">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="feedbackList">
+                                    <tr class="border-b"><td class="py-2 text-sm" style="color:#540863;">Rajesh Kumar</td><td class="py-2 text-sm">Peer Review</td><td class="py-2 text-sm">Team Members</td><td class="py-2 text-sm">2024-04-20</td><td class="py-2"><span class="status-pending text-xs px-2 py-1 rounded-full">Pending</span></td><td class="py-2"><button onclick="sendReminder(this)" class="btn-warning text-xs">Remind</button></td></tr>
+                                    <tr class="border-b"><td class="py-2 text-sm" style="color:#540863;">Priya Sharma</td><td class="py-2 text-sm">Manager Review</td><td class="py-2 text-sm">HR Head</td><td class="py-2 text-sm">2024-04-18</td><td class="py-2"><span class="status-approved text-xs px-2 py-1 rounded-full">Completed</span></td><td class="py-2"><button onclick="viewFeedback(this)" class="text-[#540863]">View</button></td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <!-- Feedback Summary -->
+                    <div class="section-card">
+                        <h3 class="text-md font-semibold mb-3" style="color:#540863;">Feedback Summary</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div class="text-center p-3 border rounded-lg"><p class="text-xs text-gray-500">Total Feedback</p><p class="text-2xl font-bold" style="color:#540863;">124</p></div>
+                            <div class="text-center p-3 border rounded-lg"><p class="text-xs text-gray-500">Average Rating</p><p class="text-2xl font-bold" style="color:#28a745;">4.2 ★</p></div>
+                            <div class="text-center p-3 border rounded-lg"><p class="text-xs text-gray-500">Completion Rate</p><p class="text-2xl font-bold" style="color:#17a2b8;">85%</p></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- ==================== TAB 6: REPORTS ==================== -->
+                <div id="tab-reports" class="tab-content">
+                    <div class="section-card">
+                        <h3 class="text-md font-semibold mb-4" style="color:#540863;">Performance Reports</h3>
+                        <div class="form-row">
+                            <div><label>Report Type</label><select id="perfReportType"><option>Department Performance</option><option>Individual Performance</option><option>Rating Distribution</option></select></div>
+                            <div><label>Department</label><select id="perfDepartment"><option>All Departments</option><option>IT</option><option>HR</option><option>Sales</option></select></div>
+                            <div><label>Quarter</label><select id="perfQuarter"><option>Q1 2024</option><option>Q4 2023</option><option>Q3 2023</option></select></div>
+                            <div class="flex items-end"><button onclick="generatePerfReport()" class="btn-primary w-full">Generate Report</button></div>
+                        </div>
+                        <div id="perfReportPreview" class="mt-4 p-4 bg-gray-50 rounded-lg text-center text-gray-500">Select filters and click Generate</div>
+                    </div>
+                    
+                    <!-- Rating Distribution Chart -->
+                    <div class="section-card">
+                        <h3 class="text-md font-semibold mb-3" style="color:#540863;">Rating Distribution by Department</h3>
+                        <canvas id="ratingChart" height="200"></canvas>
+                    </div>
+                </div>
+                
+            </main>
+        </div>
+    </div>
+    
+    <!-- KPI Template Modal -->
+    <div id="kpiTemplateModal" class="modal">
+        <div class="modal-content">
+            <div class="flex justify-between items-center mb-4"><h3 class="text-lg font-semibold" style="color:#540863;">Create KPI Template</h3><button onclick="closeKPITemplateModal()" class="text-gray-500 text-xl">&times;</button></div>
+            <form id="kpiTemplateForm"><div><label>Template Name</label><input type="text" required></div><div class="mt-2"><label>Department</label><select><option>IT</option><option>HR</option><option>Sales</option></select></div><div class="mt-2"><label>KPI Items (comma separated)</label><textarea rows="3" placeholder="e.g., Code quality, Project completion, Bug resolution"></textarea></div><div class="flex justify-end gap-3 mt-4"><button type="button" onclick="closeKPITemplateModal()" class="btn-outline">Cancel</button><button type="submit" class="btn-primary">Save Template</button></div></form>
+        </div>
+    </div>
+    
+    <!-- Goal Modal -->
+    <div id="goalModal" class="modal">
+        <div class="modal-content"><div class="flex justify-between items-center mb-4"><h3 class="text-lg font-semibold" style="color:#540863;">Set Goal</h3><button onclick="closeGoalModal()" class="text-gray-500 text-xl">&times;</button></div>
+        <form id="goalForm"><div><label>Employee</label><select required><option>Rajesh Kumar</option><option>Priya Sharma</option><option>Amit Mehta</option></select></div><div class="mt-2"><label>Goal Title</label><input type="text" required></div><div class="mt-2"><label>Description</label><textarea rows="2"></textarea></div><div class="mt-2"><label>Target Date</label><input type="date" required></div><div class="flex justify-end gap-3 mt-4"><button type="button" onclick="closeGoalModal()" class="btn-outline">Cancel</button><button type="submit" class="btn-primary">Set Goal</button></div></form></div>
+    </div>
+    
+    <!-- Review Modal -->
+    <div id="reviewModal" class="modal">
+        <div class="modal-content"><div class="flex justify-between items-center mb-4"><h3 class="text-lg font-semibold" style="color:#540863;">Performance Review</h3><button onclick="closeReviewModal()" class="text-gray-500 text-xl">&times;</button></div>
+        <form id="reviewForm"><div><label>Employee</label><select><option>Rajesh Kumar</option><option>Priya Sharma</option></select></div><div class="mt-2"><label>Review Cycle</label><select><option>Q1 2024</option><option>Q2 2024</option></select></div><div class="mt-2"><label>Rating (1-5)</label><div class="flex gap-1" id="ratingStars"><i class="fas fa-star rating-star" data-value="1"></i><i class="fas fa-star rating-star" data-value="2"></i><i class="fas fa-star rating-star" data-value="3"></i><i class="fas fa-star rating-star" data-value="4"></i><i class="fas fa-star rating-star" data-value="5"></i></div><input type="hidden" id="ratingValue"></div><div class="mt-2"><label>Comments</label><textarea rows="3"></textarea></div><div class="flex justify-end gap-3 mt-4"><button type="button" onclick="closeReviewModal()" class="btn-outline">Cancel</button><button type="submit" class="btn-primary">Submit Review</button></div></form></div>
+    </div>
+    
+    <!-- Feedback Modal -->
+    <div id="feedbackModal" class="modal">
+        <div class="modal-content"><div class="flex justify-between items-center mb-4"><h3 class="text-lg font-semibold" style="color:#540863;">Request Feedback</h3><button onclick="closeFeedbackModal()" class="text-gray-500 text-xl">&times;</button></div>
+        <form id="feedbackForm"><div><label>For Employee</label><select><option>Rajesh Kumar</option><option>Priya Sharma</option></select></div><div class="mt-2"><label>Feedback Type</label><select><option>Peer Review</option><option>Manager Review</option><option>Self Assessment</option></select></div><div class="mt-2"><label>Request From</label><select multiple size="3"><option>Team Member 1</option><option>Team Member 2</option></select></div><div class="mt-2"><label>Due Date</label><input type="date"></div><div class="flex justify-end gap-3 mt-4"><button type="button" onclick="closeFeedbackModal()" class="btn-outline">Cancel</button><button type="submit" class="btn-primary">Send Request</button></div></form></div>
+    </div>
+    
+    <script src="/assets/js/common.js"></script>
+    <script src="/assets/js/sidebar.js"></script>
+    <script src="/assets/js/header.js"></script>
+    
+    <script>
+        let performancePieChart = null;
+        let deptPerformanceChart = null;
+        let ratingChart = null;
+        
+        // Star Rating Setup
+        function initStarRating() {
+            const stars = document.querySelectorAll('#ratingStars .rating-star');
+            stars.forEach(star => {
+                star.addEventListener('click', function() {
+                    const value = parseInt(this.getAttribute('data-value'));
+                    document.getElementById('ratingValue').value = value;
+                    stars.forEach((s, index) => {
+                        if (index < value) {
+                            s.style.color = '#ffc107';
+                        } else {
+                            s.style.color = '#e5e7eb';
+                        }
+                    });
+                });
+            });
+        }
+        
+        // Tab Navigation
+        function initTabs() {
+            const tabs = document.querySelectorAll('.tab-btn');
+            const contents = document.querySelectorAll('.tab-content');
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const tabId = this.getAttribute('data-tab');
+                    tabs.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    contents.forEach(content => content.classList.remove('active'));
+                    document.getElementById(`tab-${tabId}`).classList.add('active');
+                    localStorage.setItem('kpiActiveTab', tabId);
+                    if (tabId === 'dashboard') updateCharts();
+                    if (tabId === 'reports') updateRatingChart();
+                });
+            });
+            const savedTab = localStorage.getItem('kpiActiveTab');
+            if (savedTab) { const savedTabBtn = document.querySelector(`.tab-btn[data-tab="${savedTab}"]`); if (savedTabBtn) savedTabBtn.click(); }
+        }
+        
+        function updateCharts() {
+            updatePerformancePieChart();
+            updateDeptPerformanceChart();
+        }
+        
+        function updatePerformancePieChart() {
+            const ctx = document.getElementById('performancePieChart').getContext('2d');
+            if (performancePieChart) performancePieChart.destroy();
+            performancePieChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: { labels: ['Excellent (4.5-5)', 'Good (3.5-4.4)', 'Average (2.5-3.4)', 'Poor (1-2.4)'], datasets: [{ data: [45, 62, 28, 12], backgroundColor: ['#28a745', '#17a2b8', '#ffc107', '#dc3545'], borderWidth: 0 }] },
+                options: { responsive: true, maintainAspectRatio: true, plugins: { legend: { display: false } }, cutout: '60%' }
+            });
+        }
+        
+        function updateDeptPerformanceChart() {
+            const ctx = document.getElementById('deptPerformanceChart').getContext('2d');
+            if (deptPerformanceChart) deptPerformanceChart.destroy();
+            deptPerformanceChart = new Chart(ctx, {
+                type: 'bar',
+                data: { labels: ['IT', 'HR', 'Sales', 'Finance', 'Operations'], datasets: [{ label: 'Average Rating', data: [4.5, 4.3, 4.1, 4.4, 4.0], backgroundColor: '#540863', borderRadius: 6 }] },
+                options: { responsive: true, maintainAspectRatio: true, scales: { y: { max: 5, ticks: { stepSize: 1 } } }, plugins: { legend: { display: false } } }
+            });
+        }
+        
+        function updateRatingChart() {
+            const ctx = document.getElementById('ratingChart').getContext('2d');
+            if (ratingChart) ratingChart.destroy();
+            ratingChart = new Chart(ctx, {
+                type: 'bar',
+                data: { labels: ['IT', 'HR', 'Sales', 'Finance'], datasets: [{ label: 'Excellent', data: [12, 8, 15, 10], backgroundColor: '#28a745', borderRadius: 4 }, { label: 'Good', data: [18, 12, 20, 14], backgroundColor: '#17a2b8', borderRadius: 4 }, { label: 'Average', data: [8, 4, 10, 6], backgroundColor: '#ffc107', borderRadius: 4 }, { label: 'Poor', data: [4, 2, 6, 3], backgroundColor: '#dc3545', borderRadius: 4 }] },
+                options: { responsive: true, maintainAspectRatio: true, plugins: { legend: { position: 'bottom' } } }
+            });
+        }
+        
+        // KPI Functions
+        function openKPITemplateModal() { document.getElementById('kpiTemplateModal').classList.add('active'); }
+        function closeKPITemplateModal() { document.getElementById('kpiTemplateModal').classList.remove('active'); }
+        document.getElementById('kpiTemplateForm')?.addEventListener('submit', function(e) { e.preventDefault(); showToast('KPI Template created!', 'success'); closeKPITemplateModal(); });
+        function editKPITemplate(btn) { showToast('Edit template', 'info'); }
+        
+        // Goal Functions
+        function openGoalModal() { document.getElementById('goalModal').classList.add('active'); }
+        function closeGoalModal() { document.getElementById('goalModal').classList.remove('active'); }
+        document.getElementById('goalForm')?.addEventListener('submit', function(e) { e.preventDefault(); showToast('Goal set successfully!', 'success'); closeGoalModal(); });
+        function editGoal(btn) { showToast('Edit goal', 'info'); }
+        function deleteGoal(btn) { if(confirm('Delete this goal?')) btn.closest('tr').remove(); showToast('Goal deleted!', 'success'); }
+        
+        // Review Functions
+        function openReviewModal() { document.getElementById('reviewModal').classList.add('active'); initStarRating(); }
+        function closeReviewModal() { document.getElementById('reviewModal').classList.remove('active'); }
+        document.getElementById('reviewForm')?.addEventListener('submit', function(e) { e.preventDefault(); showToast('Review submitted!', 'success'); closeReviewModal(); });
+        function viewReview(btn) { showToast('View review details', 'info'); }
+        function completeReview(btn) { showToast('Review completed!', 'success'); btn.closest('tr').cells[4].innerHTML = '<span class="status-approved text-xs px-2 py-1 rounded-full">Completed</span>'; btn.remove(); }
+        function filterReviews() { const cycle = document.getElementById('reviewCycle').value; const rows = document.querySelectorAll('#reviewsList tr'); rows.forEach(row => { row.style.display = cycle === 'all' || row.cells[1]?.innerText === cycle ? '' : 'none'; }); }
+        
+        // Feedback Functions
+        function openFeedbackModal() { document.getElementById('feedbackModal').classList.add('active'); }
+        function closeFeedbackModal() { document.getElementById('feedbackModal').classList.remove('active'); }
+        document.getElementById('feedbackForm')?.addEventListener('submit', function(e) { e.preventDefault(); showToast('Feedback request sent!', 'success'); closeFeedbackModal(); });
+        function sendReminder(btn) { showToast('Reminder sent!', 'success'); }
+        function viewFeedback(btn) { showToast('View feedback', 'info'); }
+        
+        // Report Functions
+        function generatePerfReport() { document.getElementById('perfReportPreview').innerHTML = '<div class="text-center"><i class="fas fa-chart-line text-3xl text-gray-400 mb-2"></i><p>Performance report generated!</p></div>'; showToast('Report generated!', 'success'); }
+        
+        function showToast(message, type) { const toast = document.createElement('div'); toast.className = `toast ${type}`; toast.innerHTML = message; document.body.appendChild(toast); setTimeout(() => toast.remove(), 3000); }
+        
+        function setActiveMenu(module) { setTimeout(() => { document.querySelectorAll('.nav-link').forEach(link => { link.classList.remove('active'); if(link.getAttribute('data-module') === module) link.classList.add('active'); }); }, 500); }
+        
+        document.addEventListener('DOMContentLoaded', function() { loadSidebar(); loadHeader(); setActiveMenu('kpi'); initTabs(); updateCharts(); updateRatingChart(); });
+    </script>
+</body>
+</html>

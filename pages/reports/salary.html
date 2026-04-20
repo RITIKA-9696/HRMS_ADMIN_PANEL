@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Salary Report | Reports | HRMS Admin</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    
+    <style>
+        * { font-family: 'Inter', sans-serif; }
+        body { background-color: #f3eeef; }
+        
+        .section-card {
+            background: white;
+            border-radius: 12px;
+            border: 1px solid #5c003f;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .stat-card {
+            background: white;
+            border-radius: 12px;
+            border: 1px solid #5c003f;
+            padding: 16px;
+            transition: all 0.3s ease;
+        }
+        .stat-card:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(84,8,99,0.1); }
+        
+        .btn-primary {
+            background-color: #540863;
+            transition: all 0.3s ease;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            border: none;
+        }
+        .btn-primary:hover { background-color: #92487A; transform: translateY(-1px); }
+        
+        .btn-outline {
+            border: 1px solid #540863;
+            color: #540863;
+            padding: 8px 16px;
+            border-radius: 8px;
+            background: transparent;
+            cursor: pointer;
+        }
+        .btn-outline:hover { background-color: #540863; color: white; }
+        
+        input, select {
+            border: 1px solid #5c003f;
+            border-radius: 8px;
+            padding: 8px 12px;
+            width: 100%;
+        }
+        
+        label {
+            font-size: 13px;
+            font-weight: 500;
+            color: #540863;
+            margin-bottom: 4px;
+            display: block;
+        }
+        
+        .submodule-nav {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 24px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #5c003f;
+            flex-wrap: wrap;
+        }
+        
+        .submodule-link {
+            padding: 8px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            background: transparent;
+            color: #92487A;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .submodule-link:hover { background-color: rgba(84, 8, 99, 0.1); color: #540863; }
+        .submodule-link.active { background-color: #540863; color: white; }
+        
+        .report-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+        .report-table th, .report-table td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        .report-table th { background-color: #f8f0f2; color: #540863; font-weight: 600; }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+        
+        .chart-container { max-width: 100%; height: 280px; }
+        
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 12px 20px;
+            border-radius: 8px;
+            color: white;
+            z-index: 1100;
+            animation: slideIn 0.3s ease;
+        }
+        .toast.success { background-color: #28a745; }
+        
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
+        .main-content { margin-top: 64px; }
+        
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-track { background: #f3eeef; }
+        ::-webkit-scrollbar-thumb { background: #92487A; border-radius: 10px; }
+        
+        @media (max-width: 768px) {
+            .section-card { padding: 16px; }
+            .submodule-link { padding: 6px 12px; font-size: 12px; }
+            .form-row { grid-template-columns: 1fr; }
+            .chart-container { height: 220px; }
+        }
+    </style>
+</head>
+<body class="bg-[#f3eeef]">
+    
+    <div class="flex h-screen overflow-hidden">
+        <div id="sidebar-container"></div>
+        
+        <div class="flex-1 flex flex-col overflow-hidden">
+            <div id="header-container"></div>
+            
+            <main class="flex-1 overflow-y-auto p-5 main-content">
+                
+                <div class="mb-4">
+                    <h1 class="text-xl font-bold" style="color: #540863;">Reports & Analytics</h1>
+                    <p class="text-xs mt-0.5" style="color: #92487A;">Generate and export comprehensive reports</p>
+                </div>
+                
+                <div class="submodule-nav">
+                    <a href="/pages/reports/employee.html" class="submodule-link">📊 Employee Report</a>
+                    <a href="/pages/reports/attendance.html" class="submodule-link">⏱️ Attendance Report</a>
+                    <a href="/pages/reports/leave.html" class="submodule-link">🌴 Leave Report</a>
+                    <a href="/pages/reports/salary.html" class="submodule-link active">💰 Salary Report</a>
+                </div>
+                
+                <div class="section-card">
+                    <h3 class="text-md font-semibold mb-4" style="color:#540863;">Salary Report</h3>
+                    <div class="form-row">
+                        <div><label>Month</label>
+                            <select id="salaryMonth">
+                                <option value="1">January 2024</option>
+                                <option value="2">February 2024</option>
+                                <option value="3">March 2024</option>
+                                <option value="4" selected>April 2024</option>
+                                <option value="5">May 2024</option>
+                            </select>
+                        </div>
+                        <div><label>Department</label>
+                            <select id="salaryDept">
+                                <option value="all">All Departments</option>
+                                <option>Information Technology</option>
+                                <option>Human Resources</option>
+                                <option>Sales & Marketing</option>
+                                <option>Finance & Accounts</option>
+                            </select>
+                        </div>
+                        <div><label>Report Format</label>
+                            <select id="salaryFormat">
+                                <option>Summary</option>
+                                <option>Detailed</option>
+                                <option>Bank File Format</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="flex justify-end gap-3">
+                        <button onclick="generateReport()" class="btn-primary"><i class="fas fa-chart-line mr-2"></i>Generate Report</button>
+                        <button onclick="exportReport()" class="btn-outline"><i class="fas fa-download mr-2"></i>Export Excel</button>
+                        <button onclick="printReport()" class="btn-outline"><i class="fas fa-print mr-2"></i>Print</button>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-5" id="salarySummary" style="display: none;">
+                    <div class="stat-card"><p class="text-xs text-gray-500">Total Gross Salary</p><p class="text-2xl font-bold" style="color:#540863;" id="totalGross">₹0</p></div>
+                    <div class="stat-card"><p class="text-xs text-gray-500">Total Deductions</p><p class="text-2xl font-bold" style="color:#dc3545;" id="totalDeductions">₹0</p></div>
+                    <div class="stat-card"><p class="text-xs text-gray-500">Net Payable</p><p class="text-2xl font-bold" style="color:#28a745;" id="totalNetPay">₹0</p></div>
+                    <div class="stat-card"><p class="text-xs text-gray-500">Employees</p><p class="text-2xl font-bold" style="color:#540863;" id="totalEmployees">0</p></div>
+                </div>
+                
+                <div class="section-card">
+                    <h3 class="text-md font-semibold mb-3 text-center" style="color:#540863;">Department-wise Salary Distribution</h3>
+                    <div class="chart-container"><canvas id="salaryChart" height="250"></canvas></div>
+                </div>
+                
+                <div id="reportPreview" class="section-card" style="display: none;">
+                    <h3 class="text-md font-semibold mb-3" style="color:#540863;">Salary Report Preview</h3>
+                    <div id="reportContent"></div>
+                </div>
+                
+            </main>
+        </div>
+    </div>
+    
+    <script src="../../assets/js/common.js"></script>
+    <script src="../../assets/js/sidebar.js"></script>
+    <script src="../../assets/js/header.js"></script>
+    
+    <script>
+        let salaryChart = null;
+        
+        function generateReport() {
+            updateChart();
+            const month = document.getElementById('salaryMonth').options[document.getElementById('salaryMonth').selectedIndex]?.text;
+            const dept = document.getElementById('salaryDept').value;
+            
+            const salaryData = [
+                { name: 'Rajesh Kumar', dept: 'Information Technology', basic: 30000, hra: 15000, allowances: 8000, deductions: 5000, net: 48000 },
+                { name: 'Priya Sharma', dept: 'Human Resources', basic: 28000, hra: 14000, allowances: 7000, deductions: 4800, net: 44200 },
+                { name: 'Amit Mehta', dept: 'Sales & Marketing', basic: 35000, hra: 17500, allowances: 10000, deductions: 6200, net: 56300 },
+                { name: 'Neha Gupta', dept: 'Finance & Accounts', basic: 40000, hra: 20000, allowances: 12000, deductions: 7000, net: 65000 }
+            ];
+            
+            let filteredData = salaryData;
+            if (dept !== 'all') filteredData = filteredData.filter(e => e.dept === dept);
+            
+            let totalGross = 0, totalDed = 0, totalNet = 0;
+            let tableHtml = `<table class="report-table"><thead><tr><th>Employee</th><th>Department</th><th>Basic</th><th>HRA</th><th>Allowances</th><th>Deductions</th><th>Net Salary</th></tr></thead><tbody>`;
+            filteredData.forEach(emp => {
+                const gross = emp.basic + emp.hra + emp.allowances;
+                totalGross += gross;
+                totalDed += emp.deductions;
+                totalNet += emp.net;
+                tableHtml += `<tr><td class="py-2">${emp.name}</td><td class="py-2">${emp.dept}</td><td class="py-2">₹${emp.basic.toLocaleString()}</td><td class="py-2">₹${emp.hra.toLocaleString()}</td><td class="py-2">₹${emp.allowances.toLocaleString()}</td><td class="py-2">₹${emp.deductions.toLocaleString()}</td><td class="py-2"><strong>₹${emp.net.toLocaleString()}</strong></td></tr>`;
+            });
+            tableHtml += `</tbody></table>`;
+            
+            document.getElementById('reportContent').innerHTML = tableHtml;
+            document.getElementById('reportPreview').style.display = 'block';
+            document.getElementById('salarySummary').style.display = 'grid';
+            document.getElementById('totalGross').innerHTML = `₹${totalGross.toLocaleString()}`;
+            document.getElementById('totalDeductions').innerHTML = `₹${totalDed.toLocaleString()}`;
+            document.getElementById('totalNetPay').innerHTML = `₹${totalNet.toLocaleString()}`;
+            document.getElementById('totalEmployees').innerHTML = filteredData.length;
+            showToast(`Salary report generated for ${month}!`, 'success');
+        }
+        
+        function updateChart() {
+            const ctx = document.getElementById('salaryChart').getContext('2d');
+            if (salaryChart) salaryChart.destroy();
+            salaryChart = new Chart(ctx, {
+                type: 'bar',
+                data: { labels: ['IT', 'HR', 'Sales', 'Finance'], datasets: [{ label: 'Average Salary', data: [58000, 50000, 62000, 65000], backgroundColor: '#540863', borderRadius: 8 }] },
+                options: { responsive: true, maintainAspectRatio: true, scales: { y: { ticks: { callback: function(value) { return '₹' + value.toLocaleString(); } } } }, plugins: { legend: { display: false } } }
+            });
+        }
+        
+        function exportReport() { showToast('Report exported!', 'success'); }
+        function printReport() { window.print(); }
+        
+        function showToast(message, type) { const toast = document.createElement('div'); toast.className = `toast ${type}`; toast.innerHTML = message; document.body.appendChild(toast); setTimeout(() => toast.remove(), 3000); }
+        function setActiveMenu(module) { setTimeout(() => { document.querySelectorAll('.nav-link').forEach(link => { link.classList.remove('active'); if(link.getAttribute('data-module') === module) link.classList.add('active'); }); }, 500); }
+        
+        document.addEventListener('DOMContentLoaded', function() { loadSidebar(); loadHeader(); setActiveMenu('reports'); updateChart(); });
+    </script>
+</body>
+</html>

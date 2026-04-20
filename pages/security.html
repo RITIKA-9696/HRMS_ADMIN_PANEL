@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Security & Role | HRMS Admin</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    
+    <style>
+        * { font-family: 'Inter', sans-serif; }
+        body { background-color: #f3eeef; }
+        
+        .section-card {
+            background: white;
+            border-radius: 12px;
+            border: 1px solid #5c003f;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .stat-card {
+            background: white;
+            border-radius: 12px;
+            border: 1px solid #5c003f;
+            padding: 16px;
+            transition: all 0.3s ease;
+        }
+        .stat-card:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(84,8,99,0.1); }
+        
+        .btn-primary {
+            background-color: #540863;
+            transition: all 0.3s ease;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            border: none;
+        }
+        .btn-primary:hover { background-color: #92487A; transform: translateY(-1px); }
+        
+        .btn-secondary {
+            background-color: #92487A;
+            transition: all 0.3s ease;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            border: none;
+        }
+        .btn-secondary:hover { background-color: #540863; transform: translateY(-1px); }
+        
+        .btn-danger {
+            background-color: #dc3545;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            cursor: pointer;
+            border: none;
+        }
+        .btn-danger:hover { background-color: #c82333; }
+        
+        .btn-outline {
+            border: 1px solid #540863;
+            color: #540863;
+            padding: 8px 16px;
+            border-radius: 8px;
+            background: transparent;
+            cursor: pointer;
+        }
+        .btn-outline:hover { background-color: #540863; color: white; }
+        
+        input, select, textarea {
+            border: 1px solid #5c003f;
+            border-radius: 8px;
+            padding: 8px 12px;
+            width: 100%;
+        }
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #540863;
+            box-shadow: 0 0 0 2px rgba(84, 8, 99, 0.1);
+        }
+        
+        label {
+            font-size: 13px;
+            font-weight: 500;
+            color: #540863;
+            margin-bottom: 4px;
+            display: block;
+        }
+        
+        /* Submodule Navigation (Tabs) */
+        .submodule-nav {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 24px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #5c003f;
+            flex-wrap: wrap;
+        }
+        
+        .submodule-link {
+            padding: 8px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            background: transparent;
+            color: #92487A;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .submodule-link:hover {
+            background-color: rgba(84, 8, 99, 0.1);
+            color: #540863;
+        }
+        
+        .submodule-link.active {
+            background-color: #540863;
+            color: white;
+        }
+        
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        .modal.active { display: flex; }
+        .modal-content {
+            background: white;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 550px;
+            max-height: 85vh;
+            overflow-y: auto;
+            padding: 24px;
+        }
+        
+        /* Permission Checkbox */
+        .permission-group {
+            border: 1px solid #e5e7eb;
+            border-radius: 10px;
+            padding: 12px;
+            margin-bottom: 12px;
+        }
+        .permission-group:hover { background-color: #faf5f6; }
+        
+        .perm-checkbox {
+            width: 16px;
+            height: 16px;
+            accent-color: #540863;
+            cursor: pointer;
+        }
+        
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 12px 20px;
+            border-radius: 8px;
+            color: white;
+            z-index: 1100;
+            animation: slideIn 0.3s ease;
+        }
+        .toast.success { background-color: #28a745; }
+        .toast.error { background-color: #dc3545; }
+        .toast.info { background-color: #17a2b8; }
+        
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
+        .main-content { margin-top: 64px; }
+        
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-track { background: #f3eeef; }
+        ::-webkit-scrollbar-thumb { background: #92487A; border-radius: 10px; }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+        
+        .data-row:hover { background-color: rgba(84, 8, 99, 0.05); cursor: pointer; }
+        table { width: 100%; border-collapse: collapse; }
+        
+        /* Switch Toggle */
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 46px;
+            height: 22px;
+        }
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: 0.3s;
+            border-radius: 22px;
+        }
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: 0.3s;
+            border-radius: 50%;
+        }
+        input:checked + .slider { background-color: #540863; }
+        input:checked + .slider:before { transform: translateX(24px); }
+        
+        @media (max-width: 768px) {
+            .section-card { padding: 16px; }
+            .submodule-link { padding: 6px 12px; font-size: 12px; }
+            .form-row { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body class="bg-[#f3eeef]">
+    
+    <div class="flex h-screen overflow-hidden">
+        <div id="sidebar-container"></div>
+        
+        <div class="flex-1 flex flex-col overflow-hidden">
+            <div id="header-container"></div>
+            
+            <main class="flex-1 overflow-y-auto p-5 main-content">
+                
+                <!-- Page Header -->
+                <div class="mb-4">
+                    <h1 class="text-xl font-bold" style="color: #540863;">Security & Role Management</h1>
+                    <p class="text-xs mt-0.5" style="color: #92487A;">Manage user roles, permissions, and view audit logs</p>
+                </div>
+                
+                <!-- Submodule Navigation (Tabs) -->
+                <div class="submodule-nav">
+                    <a href="?tab=roles" class="submodule-link" data-tab="roles">🛡️ Role Management</a>
+                    <a href="?tab=permissions" class="submodule-link" data-tab="permissions">🔐 Permissions</a>
+                    <a href="?tab=audit" class="submodule-link" data-tab="audit">📋 Audit Logs</a>
+                </div>
+                
+                <!-- ==================== TAB 1: ROLE MANAGEMENT ==================== -->
+                <div id="tab-roles" class="tab-content active">
+                    <!-- Stats Cards -->
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-5">
+                        <div class="stat-card"><p class="text-xs text-gray-500">Total Roles</p><p class="text-2xl font-bold" style="color:#540863;">6</p></div>
+                        <div class="stat-card"><p class="text-xs text-gray-500">Active Users</p><p class="text-2xl font-bold" style="color:#28a745;">156</p></div>
+                        <div class="stat-card"><p class="text-xs text-gray-500">Total Permissions</p><p class="text-2xl font-bold" style="color:#540863;">48</p></div>
+                        <div class="stat-card"><p class="text-xs text-gray-500">Custom Roles</p><p class="text-2xl font-bold" style="color:#ffc107;">3</p></div>
+                    </div>
+                    
+                    <div class="section-card">
+                        <div class="flex justify-between items-center mb-4 flex-wrap gap-3">
+                            <h3 class="text-md font-semibold" style="color:#540863;">User Roles</h3>
+                            <button onclick="openRoleModal()" class="btn-primary text-sm"><i class="fas fa-plus mr-1"></i>Add Role</button>
+                        </div>
+                        
+                        <div class="overflow-x-auto">
+                            <table class="w-full">
+                                <thead>
+                                    <tr class="border-b" style="border-color:#5c003f;">
+                                        <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">Role Name</th>
+                                        <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">Description</th>
+                                        <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">Users</th>
+                                        <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">Status</th>
+                                        <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">Created Date</th>
+                                        <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="rolesList">
+                                    <tr class="border-b data-row" style="border-color:#e5e7eb;">
+                                        <td class="py-3"><div><p class="text-sm font-medium" style="color:#540863;">Super Admin</p><p class="text-xs" style="color:#92487A;">Full system access</p></div></td>
+                                        <td class="py-3 text-sm" style="color:#92487A;">Complete access to all modules</td>
+                                        <td class="py-3 text-sm" style="color:#92487A;">1</td>
+                                        <td class="py-3"><span class="status-approved text-xs px-2 py-1 rounded-full">Active</span></td>
+                                        <td class="py-3 text-sm" style="color:#92487A;">2024-01-01</td>
+                                        <td class="py-3"><button onclick="editRole(this)" class="text-[#540863] mr-2"><i class="fas fa-edit"></i></button><button onclick="deleteRole(this)" class="text-red-500"><i class="fas fa-trash"></i></button></td>
+                                    </tr>
+                                    <tr class="border-b data-row" style="border-color:#e5e7eb;">
+                                        <td class="py-3"><div><p class="text-sm font-medium" style="color:#540863;">HR Manager</p><p class="text-xs" style="color:#92487A;">HR module access</p></div></td>
+                                        <td class="py-3 text-sm" style="color:#92487A;">Employee, Leave, Attendance management</td>
+                                        <td class="py-3 text-sm" style="color:#92487A;">3</td>
+                                        <td class="py-3"><span class="status-approved text-xs px-2 py-1 rounded-full">Active</span></td>
+                                        <td class="py-3 text-sm" style="color:#92487A;">2024-01-01</td>
+                                        <td class="py-3"><button onclick="editRole(this)" class="text-[#540863] mr-2"><i class="fas fa-edit"></i></button><button onclick="deleteRole(this)" class="text-red-500"><i class="fas fa-trash"></i></button></td>
+                                    </tr>
+                                    <tr class="border-b data-row" style="border-color:#e5e7eb;">
+                                        <td class="py-3"><div><p class="text-sm font-medium" style="color:#540863;">Finance Manager</p><p class="text-xs" style="color:#92487A;">Finance module access</p></div></td>
+                                        <td class="py-3 text-sm" style="color:#92487A;">Payroll, Expense management</td>
+                                        <td class="py-3 text-sm" style="color:#92487A;">2</td>
+                                        <td class="py-3"><span class="status-approved text-xs px-2 py-1 rounded-full">Active</span></td>
+                                        <td class="py-3 text-sm" style="color:#92487A;">2024-01-01</td>
+                                        <td class="py-3"><button onclick="editRole(this)" class="text-[#540863] mr-2"><i class="fas fa-edit"></i></button><button onclick="deleteRole(this)" class="text-red-500"><i class="fas fa-trash"></i></button></td>
+                                    </tr>
+                                    <tr class="border-b data-row" style="border-color:#e5e7eb;">
+                                        <td class="py-3"><div><p class="text-sm font-medium" style="color:#540863;">Department Head</p><p class="text-xs" style="color:#92487A;">Department level access</p></div></td>
+                                        <td class="py-3 text-sm" style="color:#92487A;">Team management, approvals</td>
+                                        <td class="py-3 text-sm" style="color:#92487A;">8</td>
+                                        <td class="py-3"><span class="status-approved text-xs px-2 py-1 rounded-full">Active</span></td>
+                                        <td class="py-3 text-sm" style="color:#92487A;">2024-01-15</td>
+                                        <td class="py-3"><button onclick="editRole(this)" class="text-[#540863] mr-2"><i class="fas fa-edit"></i></button><button onclick="deleteRole(this)" class="text-red-500"><i class="fas fa-trash"></i></button></td>
+                                    </tr>
+                                    <tr class="border-b data-row" style="border-color:#e5e7eb;">
+                                        <td class="py-3"><div><p class="text-sm font-medium" style="color:#540863;">Employee</p><p class="text-xs" style="color:#92487A;">Basic user access</p></div></td>
+                                        <td class="py-3 text-sm" style="color:#92487A;">Self-service portal access</td>
+                                        <td class="py-3 text-sm" style="color:#92487A;">142</td>
+                                        <td class="py-3"><span class="status-approved text-xs px-2 py-1 rounded-full">Active</span></td>
+                                        <td class="py-3 text-sm" style="color:#92487A;">2024-01-01</td>
+                                        <td class="py-3"><button onclick="editRole(this)" class="text-[#540863] mr-2"><i class="fas fa-edit"></i></button><button onclick="deleteRole(this)" class="text-red-500"><i class="fas fa-trash"></i></button></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <!-- Role Assignment -->
+                    <div class="section-card">
+                        <h3 class="text-md font-semibold mb-4" style="color:#540863;">Assign Role to User</h3>
+                        <form id="assignRoleForm" class="form-row">
+                            <div><label>Select User</label><select required><option>Rajesh Kumar</option><option>Priya Sharma</option><option>Amit Mehta</option></select></div>
+                            <div><label>Select Role</label><select required><option>Super Admin</option><option>HR Manager</option><option>Finance Manager</option><option>Department Head</option><option>Employee</option></select></div>
+                            <div class="flex items-end"><button type="submit" class="btn-primary">Assign Role</button></div>
+                        </form>
+                    </div>
+                </div>
+                
+                <!-- ==================== TAB 2: PERMISSIONS ==================== -->
+                <div id="tab-permissions" class="tab-content">
+                    <div class="section-card">
+                        <div class="flex justify-between items-center mb-4 flex-wrap gap-3">
+                            <h3 class="text-md font-semibold" style="color:#540863;">Role Permissions</h3>
+                            <div class="flex gap-2">
+                                <select id="permissionRole" class="w-56 text-sm" onchange="loadPermissions()">
+                                    <option value="Super Admin">Super Admin</option>
+                                    <option value="HR Manager">HR Manager</option>
+                                    <option value="Finance Manager">Finance Manager</option>
+                                    <option value="Department Head">Department Head</option>
+                                    <option value="Employee">Employee</option>
+                                </select>
+                                <button onclick="savePermissions()" class="btn-primary text-sm"><i class="fas fa-save mr-1"></i>Save Permissions</button>
+                            </div>
+                        </div>
+                        
+                        <div id="permissionsContainer">
+                            <!-- Dashboard Permissions -->
+                            <div class="permission-group">
+                                <div class="flex justify-between items-center mb-2"><h4 class="font-semibold" style="color:#540863;">📊 Dashboard</h4><label class="switch"><input type="checkbox" class="perm-toggle" data-module="dashboard"><span class="slider"></span></label></div>
+                                <div class="grid grid-cols-2 md:grid-cols-4 gap-2 ml-4"><label class="flex items-center gap-2"><input type="checkbox" class="perm-checkbox" data-perm="view"> View</label><label class="flex items-center gap-2"><input type="checkbox" class="perm-checkbox" data-perm="export"> Export</label></div>
+                            </div>
+                            
+                            <!-- Employee Management Permissions -->
+                            <div class="permission-group">
+                                <div class="flex justify-between items-center mb-2"><h4 class="font-semibold" style="color:#540863;">👥 Employee Management</h4><label class="switch"><input type="checkbox" class="perm-toggle" data-module="employees"><span class="slider"></span></label></div>
+                                <div class="grid grid-cols-2 md:grid-cols-4 gap-2 ml-4"><label class="flex items-center gap-2"><input type="checkbox" class="perm-checkbox" data-perm="view"> View</label><label class="flex items-center gap-2"><input type="checkbox" class="perm-checkbox" data-perm="create"> Create</label><label class="flex items-center gap-2"><input type="checkbox" class="perm-checkbox" data-perm="edit"> Edit</label><label class="flex items-center gap-2"><input type="checkbox" class="perm-checkbox" data-perm="delete"> Delete</label></div>
+                            </div>
+                            
+                            <!-- Attendance Permissions -->
+                            <div class="permission-group">
+                                <div class="flex justify-between items-center mb-2"><h4 class="font-semibold" style="color:#540863;">⏱️ Attendance</h4><label class="switch"><input type="checkbox" class="perm-toggle" data-module="attendance"><span class="slider"></span></label></div>
+                                <div class="grid grid-cols-2 md:grid-cols-4 gap-2 ml-4"><label class="flex items-center gap-2"><input type="checkbox" class="perm-checkbox" data-perm="view"> View</label><label class="flex items-center gap-2"><input type="checkbox" class="perm-checkbox" data-perm="edit"> Edit</label><label class="flex items-center gap-2"><input type="checkbox" class="perm-checkbox" data-perm="export"> Export</label></div>
+                            </div>
+                            
+                            <!-- Leave Management Permissions -->
+                            <div class="permission-group">
+                                <div class="flex justify-between items-center mb-2"><h4 class="font-semibold" style="color:#540863;">🌴 Leave Management</h4><label class="switch"><input type="checkbox" class="perm-toggle" data-module="leave"><span class="slider"></span></label></div>
+                                <div class="grid grid-cols-2 md:grid-cols-4 gap-2 ml-4"><label class="flex items-center gap-2"><input type="checkbox" class="perm-checkbox" data-perm="view"> View</label><label class="flex items-center gap-2"><input type="checkbox" class="perm-checkbox" data-perm="approve"> Approve</label><label class="flex items-center gap-2"><input type="checkbox" class="perm-checkbox" data-perm="reject"> Reject</label></div>
+                            </div>
+                            
+                            <!-- Payroll Permissions -->
+                            <div class="permission-group">
+                                <div class="flex justify-between items-center mb-2"><h4 class="font-semibold" style="color:#540863;">💰 Payroll</h4><label class="switch"><input type="checkbox" class="perm-toggle" data-module="payroll"><span class="slider"></span></label></div>
+                                <div class="grid grid-cols-2 md:grid-cols-4 gap-2 ml-4"><label class="flex items-center gap-2"><input type="checkbox" class="perm-checkbox" data-perm="view"> View</label><label class="flex items-center gap-2"><input type="checkbox" class="perm-checkbox" data-perm="process"> Process</label><label class="flex items-center gap-2"><input type="checkbox" class="perm-checkbox" data-perm="export"> Export</label></div>
+                            </div>
+                            
+                            <!-- Reports Permissions -->
+                            <div class="permission-group">
+                                <div class="flex justify-between items-center mb-2"><h4 class="font-semibold" style="color:#540863;">📊 Reports</h4><label class="switch"><input type="checkbox" class="perm-toggle" data-module="reports"><span class="slider"></span></label></div>
+                                <div class="grid grid-cols-2 md:grid-cols-4 gap-2 ml-4"><label class="flex items-center gap-2"><input type="checkbox" class="perm-checkbox" data-perm="view"> View</label><label class="flex items-center gap-2"><input type="checkbox" class="perm-checkbox" data-perm="export"> Export</label></div>
+                            </div>
+                            
+                            <!-- Settings Permissions -->
+                            <div class="permission-group">
+                                <div class="flex justify-between items-center mb-2"><h4 class="font-semibold" style="color:#540863;">⚙️ Settings</h4><label class="switch"><input type="checkbox" class="perm-toggle" data-module="settings"><span class="slider"></span></label></div>
+                                <div class="grid grid-cols-2 md:grid-cols-4 gap-2 ml-4"><label class="flex items-center gap-2"><input type="checkbox" class="perm-checkbox" data-perm="view"> View</label><label class="flex items-center gap-2"><input type="checkbox" class="perm-checkbox" data-perm="edit"> Edit</label></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- ==================== TAB 3: AUDIT LOGS ==================== -->
+                <div id="tab-audit" class="tab-content">
+                    <!-- Stats Cards -->
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-5">
+                        <div class="stat-card"><p class="text-xs text-gray-500">Total Logs</p><p class="text-2xl font-bold" style="color:#540863;">2,456</p><p class="text-xs">Last 30 days</p></div>
+                        <div class="stat-card"><p class="text-xs text-gray-500">Login Attempts</p><p class="text-2xl font-bold" style="color:#28a745;">1,892</p><p class="text-xs text-green-600">Successful</p></div>
+                        <div class="stat-card"><p class="text-xs text-gray-500">Failed Logins</p><p class="text-2xl font-bold" style="color:#dc3545;">23</p><p class="text-xs text-red-600">Suspicious</p></div>
+                        <div class="stat-card"><p class="text-xs text-gray-500">Data Changes</p><p class="text-2xl font-bold" style="color:#ffc107;">541</p><p class="text-xs">Create/Update/Delete</p></div>
+                    </div>
+                    
+                    <div class="section-card">
+                        <div class="flex justify-between items-center mb-4 flex-wrap gap-3">
+                            <h3 class="text-md font-semibold" style="color:#540863;">Audit Logs</h3>
+                            <div class="flex gap-2 flex-wrap">
+                                <select id="auditAction" class="w-40 text-sm" onchange="filterAuditLogs()">
+                                    <option value="all">All Actions</option>
+                                    <option value="Login">Login</option>
+                                    <option value="Create">Create</option>
+                                    <option value="Update">Update</option>
+                                    <option value="Delete">Delete</option>
+                                    <option value="Export">Export</option>
+                                </select>
+                                <select id="auditUser" class="w-48 text-sm" onchange="filterAuditLogs()">
+                                    <option value="all">All Users</option>
+                                    <option>Rajesh Kumar</option>
+                                    <option>Priya Sharma</option>
+                                    <option>Amit Mehta</option>
+                                </select>
+                                <input type="date" id="auditDate" class="w-40 text-sm" onchange="filterAuditLogs()">
+                                <button onclick="exportAuditLogs()" class="btn-outline text-sm"><i class="fas fa-download mr-1"></i>Export</button>
+                            </div>
+                        </div>
+                        
+                        <div class="overflow-x-auto">
+                            <table class="w-full">
+                                <thead>
+                                    <tr class="border-b" style="border-color:#5c003f;">
+                                        <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">Timestamp</th>
+                                        <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">User</th>
+                                        <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">Action</th>
+                                        <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">Module</th>
+                                        <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">Details</th>
+                                        <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">IP Address</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="auditLogsList">
+                                    <tr class="border-b data-row" style="border-color:#e5e7eb;">
+                                        <td class="py-3 text-sm" style="color:#540863;">2024-04-15 09:30:25</td>
+                                        <td class="py-3 text-sm" style="color:#92487A;">Rajesh Kumar</td>
+                                        <td class="py-3 text-sm"><span class="status-approved text-xs px-2 py-1 rounded-full">Login</span></td>
+                                        <td class="py-3 text-sm" style="color:#92487A;">Authentication</td>
+                                        <td class="py-3 text-sm" style="color:#92487A;">Successful login</td>
+                                        <td class="py-3 text-sm" style="color:#92487A;">192.168.1.100</td>
+                                    </tr>
+                                    <tr class="border-b data-row" style="border-color:#e5e7eb;">
+                                        <td class="py-3 text-sm" style="color:#540863;">2024-04-15 10:15:42</td>
+                                        <td class="py-3 text-sm" style="color:#92487A;">Priya Sharma</td>
+                                        <td class="py-3 text-sm"><span class="status-approved text-xs px-2 py-1 rounded-full">Create</span></td>
+                                        <td class="py-3 text-sm" style="color:#92487A;">Employee</td>
+                                        <td class="py-3 text-sm" style="color:#92487A;">Added new employee: Sarah Johnson</td>
+                                        <td class="py-3 text-sm" style="color:#92487A;">192.168.1.105</td>
+                                    </tr>
+                                    <tr class="border-b data-row" style="border-color:#e5e7eb;">
+                                        <td class="py-3 text-sm" style="color:#540863;">2024-04-15 11:20:18</td>
+                                        <td class="py-3 text-sm" style="color:#92487A;">Amit Mehta</td>
+                                        <td class="py-3 text-sm"><span class="status-approved text-xs px-2 py-1 rounded-full">Update</span></td>
+                                        <td class="py-3 text-sm" style="color:#92487A;">Leave</td>
+                                        <td class="py-3 text-sm" style="color:#92487A;">Approved leave request L-001</td>
+                                        <td class="py-3 text-sm" style="color:#92487A;">192.168.1.110</td>
+                                    </tr>
+                                    <tr class="border-b data-row" style="border-color:#e5e7eb;">
+                                        <td class="py-3 text-sm" style="color:#540863;">2024-04-15 14:05:33</td>
+                                        <td class="py-3 text-sm" style="color:#92487A;">Rajesh Kumar</td>
+                                        <td class="py-3 text-sm"><span class="status-warning text-xs px-2 py-1 rounded-full">Export</span></td>
+                                        <td class="py-3 text-sm" style="color:#92487A;">Reports</td>
+                                        <td class="py-3 text-sm" style="color:#92487A;">Exported employee report (Excel)</td>
+                                        <td class="py-3 text-sm" style="color:#92487A;">192.168.1.100</td>
+                                    </tr>
+                                    <tr class="border-b data-row" style="border-color:#e5e7eb;">
+                                        <td class="py-3 text-sm" style="color:#540863;">2024-04-15 16:45:12</td>
+                                        <td class="py-3 text-sm" style="color:#92487A;">Neha Gupta</td>
+                                        <td class="py-3 text-sm"><span class="status-danger text-xs px-2 py-1 rounded-full">Delete</span></td>
+                                        <td class="py-3 text-sm" style="color:#92487A;">Expense</td>
+                                        <td class="py-3 text-sm" style="color:#92487A;">Deleted expense claim EXP-005</td>
+                                        <td class="py-3 text-sm" style="color:#92487A;">192.168.1.115</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <!-- Pagination -->
+                        <div class="flex justify-between items-center mt-4 pt-3 border-t">
+                            <p class="text-xs text-gray-500">Showing 1-5 of 2,456 logs</p>
+                            <div class="flex gap-2"><button class="btn-outline text-xs px-3 py-1">Previous</button><button class="btn-primary text-xs px-3 py-1">1</button><button class="btn-outline text-xs px-3 py-1">2</button><button class="btn-outline text-xs px-3 py-1">3</button><button class="btn-outline text-xs px-3 py-1">Next</button></div>
+                        </div>
+                    </div>
+                    
+                    <!-- Activity Chart -->
+                    <div class="section-card">
+                        <h3 class="text-md font-semibold mb-3 text-center" style="color:#540863;">Activity Trend (Last 7 Days)</h3>
+                        <canvas id="activityChart" height="200"></canvas>
+                    </div>
+                </div>
+                
+            </main>
+        </div>
+    </div>
+    
+    <!-- Role Modal -->
+    <div id="roleModal" class="modal">
+        <div class="modal-content">
+            <div class="flex justify-between items-center mb-4"><h3 class="text-lg font-semibold" style="color:#540863;" id="roleModalTitle">Add New Role</h3><button onclick="closeRoleModal()" class="text-gray-500 text-xl">&times;</button></div>
+            <form id="roleForm"><div><label>Role Name</label><input type="text" id="role_name" required></div><div class="mt-2"><label>Description</label><textarea id="role_desc" rows="2"></textarea></div><div class="flex justify-end gap-3 mt-4"><button type="button" onclick="closeRoleModal()" class="btn-outline">Cancel</button><button type="submit" class="btn-primary">Save Role</button></div></form>
+        </div>
+    </div>
+    
+    <script src="/assets/js/common.js"></script>
+    <script src="/assets/js/sidebar.js"></script>
+    <script src="/assets/js/header.js"></script>
+    
+    <script>
+        let activityChart = null;
+        
+        // ==================== SUBMODULE NAVIGATION ====================
+        function initSubmoduleNavigation() {
+            const urlParams = new URLSearchParams(window.location.search);
+            let activeTab = urlParams.get('tab') || 'roles';
+            
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            document.getElementById(`tab-${activeTab}`).classList.add('active');
+            
+            document.querySelectorAll('.submodule-link').forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('data-tab') === activeTab) {
+                    link.classList.add('active');
+                }
+            });
+            
+            if (activeTab === 'audit') updateActivityChart();
+            if (activeTab === 'permissions') loadPermissions();
+        }
+        
+        // Handle link clicks
+        document.querySelectorAll('.submodule-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const tab = this.getAttribute('data-tab');
+                const newUrl = window.location.pathname + '?tab=' + tab;
+                window.history.pushState({ path: newUrl }, '', newUrl);
+                initSubmoduleNavigation();
+            });
+        });
+        
+        window.addEventListener('popstate', function() { initSubmoduleNavigation(); });
+        
+        // ==================== ROLE MANAGEMENT ====================
+        function openRoleModal() { document.getElementById('roleModal').classList.add('active'); document.getElementById('roleForm').reset(); document.getElementById('roleModalTitle').innerText = 'Add New Role'; }
+        function closeRoleModal() { document.getElementById('roleModal').classList.remove('active'); }
+        document.getElementById('roleForm')?.addEventListener('submit', function(e) { e.preventDefault(); showToast('Role saved successfully!', 'success'); closeRoleModal(); });
+        function editRole(btn) { openRoleModal(); document.getElementById('roleModalTitle').innerText = 'Edit Role'; showToast('Edit role feature', 'info'); }
+        function deleteRole(btn) { if(confirm('Delete this role?')) btn.closest('tr').remove(); showToast('Role deleted!', 'success'); }
+        document.getElementById('assignRoleForm')?.addEventListener('submit', function(e) { e.preventDefault(); showToast('Role assigned successfully!', 'success'); this.reset(); });
+        
+        // ==================== PERMISSIONS ====================
+        function loadPermissions() {
+            const role = document.getElementById('permissionRole').value;
+            // In production, load permissions from server
+            console.log('Loading permissions for:', role);
+        }
+        
+        function savePermissions() {
+            showToast('Permissions saved successfully!', 'success');
+        }
+        
+        // Toggle all permissions for a module
+        document.querySelectorAll('.perm-toggle').forEach(toggle => {
+            toggle.addEventListener('change', function() {
+                const moduleGroup = this.closest('.permission-group');
+                const checkboxes = moduleGroup.querySelectorAll('.perm-checkbox');
+                checkboxes.forEach(cb => cb.checked = this.checked);
+            });
+        });
+        
+        // ==================== AUDIT LOGS ====================
+        function filterAuditLogs() {
+            const action = document.getElementById('auditAction').value;
+            const user = document.getElementById('auditUser').value;
+            const date = document.getElementById('auditDate').value;
+            const rows = document.querySelectorAll('#auditLogsList tr');
+            rows.forEach(row => {
+                let show = true;
+                const rowAction = row.cells[2]?.innerText;
+                const rowUser = row.cells[1]?.innerText;
+                const rowDate = row.cells[0]?.innerText.split(' ')[0];
+                if(action !== 'all' && !rowAction.includes(action)) show = false;
+                if(user !== 'all' && rowUser !== user) show = false;
+                if(date && rowDate !== date) show = false;
+                row.style.display = show ? '' : 'none';
+            });
+        }
+        
+        function exportAuditLogs() { showToast('Audit logs exported!', 'success'); }
+        
+        function updateActivityChart() {
+            const ctx = document.getElementById('activityChart').getContext('2d');
+            if (activityChart) activityChart.destroy();
+            activityChart = new Chart(ctx, {
+                type: 'line',
+                data: { labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'], datasets: [{ label: 'Activities', data: [45, 52, 48, 61, 55, 32, 28], borderColor: '#540863', backgroundColor: 'rgba(84,8,99,0.1)', tension: 0.4, fill: true }] },
+                options: { responsive: true, maintainAspectRatio: true, plugins: { legend: { position: 'bottom' } } }
+            });
+        }
+        
+        // ==================== TOAST ====================
+        function showToast(message, type) { const toast = document.createElement('div'); toast.className = `toast ${type}`; toast.innerHTML = message; document.body.appendChild(toast); setTimeout(() => toast.remove(), 3000); }
+        
+        function setActiveMenu(module) { setTimeout(() => { document.querySelectorAll('.nav-link').forEach(link => { link.classList.remove('active'); if(link.getAttribute('data-module') === module) link.classList.add('active'); }); }, 500); }
+        
+        // ==================== INITIALIZATION ====================
+        document.addEventListener('DOMContentLoaded', function() { loadSidebar(); loadHeader(); setActiveMenu('security'); initSubmoduleNavigation(); });
+    </script>
+</body>
+</html>

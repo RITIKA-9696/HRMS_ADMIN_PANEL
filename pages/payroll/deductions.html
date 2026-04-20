@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deductions | Payroll | HRMS Admin</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        * { font-family: 'Inter', sans-serif; }
+        body { background-color: #f3eeef; }
+        
+        .section-card {
+            background: white;
+            border-radius: 12px;
+            border: 1px solid #5c003f;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .btn-primary {
+            background-color: #540863;
+            transition: all 0.3s ease;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            border: none;
+        }
+        .btn-primary:hover { background-color: #92487A; transform: translateY(-1px); }
+        
+        .btn-outline {
+            border: 1px solid #540863;
+            color: #540863;
+            padding: 8px 16px;
+            border-radius: 8px;
+            background: transparent;
+            cursor: pointer;
+        }
+        .btn-outline:hover { background-color: #540863; color: white; }
+        
+        input, select { border: 1px solid #5c003f; border-radius: 8px; padding: 8px 12px; width: 100%; }
+        input:focus, select:focus { outline: none; border-color: #540863; box-shadow: 0 0 0 2px rgba(84,8,99,0.1); }
+        
+        label { font-size: 13px; font-weight: 500; color: #540863; margin-bottom: 4px; display: block; }
+        
+        .submodule-nav {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 24px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #5c003f;
+            flex-wrap: wrap;
+        }
+        
+        .submodule-link {
+            padding: 8px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            background: transparent;
+            color: #92487A;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .submodule-link:hover { background-color: rgba(84, 8, 99, 0.1); color: #540863; }
+        .submodule-link.active { background-color: #540863; color: white; }
+        
+        .form-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin-bottom: 16px; }
+        table { width: 100%; border-collapse: collapse; }
+        
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 12px 20px;
+            border-radius: 8px;
+            color: white;
+            z-index: 1100;
+            animation: slideIn 0.3s ease;
+        }
+        .toast.success { background-color: #28a745; }
+        
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
+        .main-content { margin-top: 64px; }
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-track { background: #f3eeef; }
+        ::-webkit-scrollbar-thumb { background: #92487A; border-radius: 10px; }
+        
+        @media (max-width: 768px) {
+            .section-card { padding: 16px; }
+            .submodule-link { padding: 6px 12px; font-size: 12px; }
+        }
+    </style>
+</head>
+<body class="bg-[#f3eeef]">
+    
+    <div class="flex h-screen overflow-hidden">
+        <div id="sidebar-container"></div>
+        
+        <div class="flex-1 flex flex-col overflow-hidden">
+            <div id="header-container"></div>
+            
+            <main class="flex-1 overflow-y-auto p-5 main-content">
+                
+                <div class="mb-4">
+                    <h1 class="text-xl font-bold" style="color: #540863;">Payroll Management</h1>
+                    <p class="text-xs mt-0.5" style="color: #92487A;">Manage salary structure, deductions, run payroll and generate payslips</p>
+                </div>
+                
+                <div class="submodule-nav">
+                    <a href="/pages/payroll/structure.html" class="submodule-link">💰 Salary Structure</a>
+                    <a href="/pages/payroll/deductions.html" class="submodule-link active">📉 Deductions</a>
+                    <a href="/pages/payroll/run.html" class="submodule-link">⚙️ Run Payroll</a>
+                    <a href="/pages/payroll/payslips.html" class="submodule-link">📄 Payslips</a>
+                </div>
+                
+                <!-- Statutory Deductions -->
+                <div class="section-card">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-md font-semibold" style="color:#540863;">Statutory Deductions</h3>
+                        <button onclick="saveStatutoryDeductions()" class="btn-primary text-sm">Save Changes</button>
+                    </div>
+                    <div class="form-row">
+                        <div><label>PF (Employee) - 12%</label><input type="number" id="pf_employee" value="1800" placeholder="Amount"></div>
+                        <div><label>PF (Employer) - 12%</label><input type="number" id="pf_employer" value="1800" placeholder="Amount"></div>
+                        <div><label>ESI - 0.75%</label><input type="number" id="esi" value="1160" placeholder="Amount"></div>
+                        <div><label>Professional Tax</label><input type="number" id="professional_tax" value="200" placeholder="Amount"></div>
+                        <div><label>TDS (Income Tax)</label><input type="number" id="tds" value="2500" placeholder="Amount"></div>
+                        <div><label>Labour Welfare Fund</label><input type="number" id="lwf" value="50" placeholder="Amount"></div>
+                    </div>
+                </div>
+                
+                <!-- Other Deductions -->
+                <div class="section-card">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-md font-semibold" style="color:#540863;">Other Deductions</h3>
+                        <button onclick="openOtherDeductionModal()" class="btn-primary text-sm"><i class="fas fa-plus mr-1"></i>Add Deduction</button>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full">
+                            <thead><tr class="border-b" style="border-color:#5c003f;"><th class="text-left py-2 text-xs">Deduction Name</th><th class="text-left py-2 text-xs">Amount (₹)</th><th class="text-left py-2 text-xs">Applicable For</th><th class="text-left py-2 text-xs">Action</th></tr></thead>
+                            <tbody id="otherDeductionsList">
+                                <tr class="border-b"><td class="py-2 text-sm" style="color:#540863;">Loan Deduction</td><td class="py-2 text-sm">5,000</td><td class="py-2 text-sm">Rajesh Kumar</td><td class="py-2"><button onclick="deleteDeduction(this)" class="text-red-500"><i class="fas fa-trash"></i></button></td></tr>
+                                <tr class="border-b"><td class="py-2 text-sm" style="color:#540863;">Advance Salary</td><td class="py-2 text-sm">10,000</td><td class="py-2 text-sm">Amit Mehta</td><td class="py-2"><button onclick="deleteDeduction(this)" class="text-red-500"><i class="fas fa-trash"></i></button></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <!-- Deduction Summary -->
+                <div class="section-card">
+                    <h3 class="text-md font-semibold mb-3" style="color:#540863;">Deduction Summary</h3>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <div class="p-3 border rounded-lg"><p class="text-xs text-gray-500">Total Statutory</p><p class="text-xl font-bold" style="color:#dc3545;" id="totalStatutory">7,510</p></div>
+                        <div class="p-3 border rounded-lg"><p class="text-xs text-gray-500">Other Deductions</p><p class="text-xl font-bold" style="color:#dc3545;" id="totalOther">15,000</p></div>
+                        <div class="p-3 border rounded-lg"><p class="text-xs text-gray-500">Total Deductions</p><p class="text-xl font-bold" style="color:#dc3545;" id="totalAllDeductions">22,510</p></div>
+                        <div class="p-3 border rounded-lg"><p class="text-xs text-gray-500">Net Payable</p><p class="text-xl font-bold" style="color:#28a745;" id="netPayable">1,77,490</p></div>
+                    </div>
+                </div>
+                
+            </main>
+        </div>
+    </div>
+    
+    <!-- Other Deduction Modal -->
+    <div id="deductionModal" class="modal" style="display: none; position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:1000; justify-content:center; align-items:center;">
+        <div class="bg-white rounded-2xl p-6 w-full max-w-md"><div class="flex justify-between items-center mb-4"><h3 class="text-lg font-semibold" style="color:#540863;">Add Deduction</h3><button onclick="closeDeductionModal()" class="text-gray-500 text-xl">&times;</button></div>
+        <form id="deductionForm"><div><label>Deduction Name</label><input type="text" id="ded_name" required></div><div class="mt-2"><label>Amount (₹)</label><input type="number" id="ded_amount" required></div><div class="mt-2"><label>Applicable For</label><select id="ded_applicable"><option>All Employees</option><option>Rajesh Kumar</option><option>Amit Mehta</option></select></div>
+        <div class="flex justify-end gap-2 mt-4"><button type="button" onclick="closeDeductionModal()" class="btn-outline">Cancel</button><button type="submit" class="btn-primary">Add Deduction</button></div></form></div>
+    </div>
+    
+    <style>
+        .modal { display: none; }
+        .modal.active { display: flex; }
+    </style>
+    
+    <script src="/assets/js/common.js"></script>
+    <script src="/assets/js/sidebar.js"></script>
+    <script src="/assets/js/header.js"></script>
+    
+    <script>
+        function updateDeductionSummary() {
+            const pf = parseInt(document.getElementById('pf_employee')?.value) || 0;
+            const esi = parseInt(document.getElementById('esi')?.value) || 0;
+            const pt = parseInt(document.getElementById('professional_tax')?.value) || 0;
+            const tds = parseInt(document.getElementById('tds')?.value) || 0;
+            const lwf = parseInt(document.getElementById('lwf')?.value) || 0;
+            const totalStatutory = pf + esi + pt + tds + lwf;
+            
+            let totalOther = 0;
+            document.querySelectorAll('#otherDeductionsList tr').forEach(row => {
+                const amount = parseInt(row.cells[1]?.innerText.replace(/,/g, '')) || 0;
+                totalOther += amount;
+            });
+            
+            const totalAll = totalStatutory + totalOther;
+            const netPayable = 200000 - totalAll;
+            
+            document.getElementById('totalStatutory').innerText = totalStatutory.toLocaleString();
+            document.getElementById('totalOther').innerText = totalOther.toLocaleString();
+            document.getElementById('totalAllDeductions').innerText = totalAll.toLocaleString();
+            document.getElementById('netPayable').innerText = netPayable.toLocaleString();
+        }
+        
+        function saveStatutoryDeductions() { updateDeductionSummary(); showToast('Statutory deductions saved!', 'success'); }
+        
+        function openOtherDeductionModal() { document.getElementById('deductionModal').classList.add('active'); document.getElementById('deductionForm').reset(); }
+        function closeDeductionModal() { document.getElementById('deductionModal').classList.remove('active'); }
+        
+        document.getElementById('deductionForm')?.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const name = document.getElementById('ded_name').value;
+            const amount = document.getElementById('ded_amount').value;
+            const applicable = document.getElementById('ded_applicable').value;
+            const newRow = `<tr class="border-b"><td class="py-2 text-sm" style="color:#540863;">${name}</td><td class="py-2 text-sm">${parseInt(amount).toLocaleString()}</td><td class="py-2 text-sm">${applicable}</td><td class="py-2"><button onclick="deleteDeduction(this)" class="text-red-500"><i class="fas fa-trash"></i></button></td></tr>`;
+            document.getElementById('otherDeductionsList').insertAdjacentHTML('beforeend', newRow);
+            showToast(`${name} added!`, 'success');
+            closeDeductionModal();
+            updateDeductionSummary();
+        });
+        
+        function deleteDeduction(btn) { if(confirm('Delete this deduction?')) btn.closest('tr').remove(); updateDeductionSummary(); showToast('Deduction deleted!', 'success'); }
+        
+        function showToast(message, type) { const toast = document.createElement('div'); toast.className = `toast ${type}`; toast.innerHTML = message; document.body.appendChild(toast); setTimeout(() => toast.remove(), 3000); }
+        function setActiveMenu(module) { setTimeout(() => { document.querySelectorAll('.nav-link').forEach(link => { link.classList.remove('active'); if(link.getAttribute('data-module') === module) link.classList.add('active'); }); }, 500); }
+        
+        document.addEventListener('DOMContentLoaded', function() { loadSidebar(); loadHeader(); setActiveMenu('payroll'); updateDeductionSummary(); });
+    </script>
+</body>
+</html>

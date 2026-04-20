@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Company Management | HRMS Admin</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        * { font-family: 'Inter', sans-serif; }
+        body { background-color: #f3eeef; }
+        
+        .section-card {
+            background: white;
+            border-radius: 12px;
+            border: 1px solid #5c003f;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .btn-primary {
+            background-color: #540863;
+            transition: all 0.3s ease;
+            color: white;
+            padding: 10px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+        .btn-primary:hover { background-color: #92487A; transform: translateY(-1px); }
+        
+        .btn-secondary {
+            background-color: #92487A;
+            transition: all 0.3s ease;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        .btn-secondary:hover { background-color: #540863; transform: translateY(-1px); }
+        
+        .btn-outline {
+            border: 1px solid #540863;
+            color: #540863;
+            padding: 8px 16px;
+            border-radius: 8px;
+            background: transparent;
+            cursor: pointer;
+        }
+        .btn-outline:hover { background-color: #540863; color: white; }
+        
+        input, select, textarea {
+            border: 1px solid #5c003f;
+            border-radius: 8px;
+            padding: 10px 12px;
+            width: 100%;
+        }
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #540863;
+            box-shadow: 0 0 0 2px rgba(84, 8, 99, 0.1);
+        }
+        
+        label {
+            font-size: 13px;
+            font-weight: 500;
+            color: #540863;
+            margin-bottom: 4px;
+            display: block;
+        }
+        
+        /* Submodule Navigation Menu */
+        .submodule-nav {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 24px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #5c003f;
+            flex-wrap: wrap;
+        }
+        
+        .submodule-link {
+            padding: 8px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            background: transparent;
+            color: #92487A;
+            cursor: pointer;
+        }
+        
+        .submodule-link:hover {
+            background-color: rgba(84, 8, 99, 0.1);
+            color: #540863;
+        }
+        
+        .submodule-link.active {
+            background-color: #540863;
+            color: white;
+        }
+        
+        /* Switch Toggle */
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 46px;
+            height: 22px;
+        }
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: 0.3s;
+            border-radius: 22px;
+        }
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: 0.3s;
+            border-radius: 50%;
+        }
+        input:checked + .slider { background-color: #540863; }
+        input:checked + .slider:before { transform: translateX(24px); }
+        
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        .modal.active { display: flex; }
+        .modal-content {
+            background: white;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 500px;
+            max-height: 80vh;
+            overflow-y: auto;
+            padding: 24px;
+        }
+        
+        /* Table Styles */
+        .data-row:hover { background-color: rgba(84, 8, 99, 0.05); cursor: pointer; }
+        .dept-card { transition: all 0.3s ease; cursor: pointer; }
+        .dept-card:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(84,8,99,0.1); }
+        
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 12px 20px;
+            border-radius: 8px;
+            color: white;
+            z-index: 1100;
+            animation: slideIn 0.3s ease;
+        }
+        .toast.success { background-color: #28a745; }
+        .toast.error { background-color: #dc3545; }
+        .toast.info { background-color: #17a2b8; }
+        
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
+        .main-content { margin-top: 64px; }
+        
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-track { background: #f3eeef; }
+        ::-webkit-scrollbar-thumb { background: #92487A; border-radius: 10px; }
+        
+        .page-content { display: none; }
+        .page-content.active { display: block; }
+        
+        /* Form Row */
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .section-card { padding: 16px; }
+            .form-row { grid-template-columns: 1fr; gap: 15px; }
+            .btn-primary { padding: 8px 20px; }
+        }
+    </style>
+</head>
+<body class="bg-[#f3eeef]">
+    
+    <div class="flex h-screen overflow-hidden">
+        <div id="sidebar-container"></div>
+        
+        <div class="flex-1 flex flex-col overflow-hidden">
+            <div id="header-container"></div>
+            
+            <main class="flex-1 overflow-y-auto p-5 main-content">
+                
+                <!-- Page Header -->
+                <div class="mb-4">
+                    <h1 class="text-xl font-bold" style="color: #540863;">Company Management</h1>
+                    <p class="text-xs mt-0.5" style="color: #92487A;">Manage company profile, working days, holidays, departments and designations</p>
+                </div>
+                
+                <!-- Submodule Navigation Menu -->
+                <div class="submodule-nav">
+                    <div class="submodule-link active" data-page="profile">Company Profile</div>
+                    <div class="submodule-link" data-page="workingDays">Working Days</div>
+                    <div class="submodule-link" data-page="holidays">Holidays</div>
+                    <div class="submodule-link" data-page="departments"> Departments</div>
+                    <div class="submodule-link" data-page="designations">Designations</div>
+                </div>
+                
+                <!-- ==================== PAGE 1: COMPANY PROFILE (EMPTY FORM) ==================== -->
+                <div id="page-profile" class="page-content active">
+                    <!-- Company Information Form Card -->
+                    <div class="section-card">
+                        <h3 class="text-md font-semibold mb-4" style="color: #540863;">Company Information</h3>
+                        
+                        <form id="companyProfileForm" class="space-y-4">
+                            <div class="form-row ">
+                                <div>
+                                    <label>Company Name <span class="text-red-500">*</span></label>
+                                    <input type="text" id="comp_name" placeholder="Enter company name" required style="padding: 6px;">
+                                </div>
+                                <div>
+                                    <label>GST Number</label>
+                                    <input type="text" id="comp_gst" placeholder="Enter GST number" style="padding: 6px;">
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div>
+                                    <label>PAN Number</label>
+                                    <input type="text" id="comp_pan" placeholder="Enter PAN number" style="padding: 6px;">
+                                </div>
+                                <div>
+                                    <label>CIN Number</label>
+                                    <input type="text" id="comp_cin" placeholder="Enter CIN number" style="padding: 6px;">
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div>
+                                    <label>Email <span class="text-red-500">*</span></label>
+                                    <input type="email" id="comp_email" placeholder="Enter email address" required style="padding: 6px;">
+                                </div>
+                                <div>
+                                    <label>Phone <span class="text-red-500">*</span></label>
+                                    <input type="tel" id="comp_phone" placeholder="Enter phone number" required style="padding: 6px;">
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div>
+                                    <label>Website</label>
+                                    <input type="url" id="comp_website" placeholder="Enter website URL" style="padding: 6px;">
+                                </div>
+                                <div>
+                                    <label>Established Year</label>
+                                    <input type="number" id="comp_year" placeholder="Enter established year" min="1900" max="2024" style="padding: 6px;">
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="md:col-span-2">
+                                    <label>Address</label>
+                                    <textarea id="comp_address" rows="3" placeholder="Enter complete address" style="padding: 6px;"></textarea>
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="md:col-span-2">
+                                    <label>Description</label>
+                                    <textarea id="comp_desc" rows="2" placeholder="Enter company description" style="padding: 6px;"></textarea>
+                                </div>
+                            </div>
+                            
+                            <!-- Save Button -->
+                            <div class="flex justify-end pt-2">
+                                <button type="submit" class="btn-primary"><i class="fas fa-save mr-2"></i>Save Company Information</button>
+                            </div>
+                        </form>
+                    </div>
+                    
+                    <!-- Company Logo Card -->
+                    <div class="section-card">
+                        <h3 class="text-md font-semibold mb-4" style="color: #540863;">Company Logo</h3>
+                        <div class="flex items-center gap-6 flex-wrap">
+                            <div id="logoPreview" class="w-24 h-24 rounded-xl border-2 border-dashed flex items-center justify-center" style="border-color: #5c003f; background:#FFD3D5;">
+                                <i class="fas fa-building text-3xl" style="color: #92487A;"></i>
+                            </div>
+                            <div>
+                                <button onclick="document.getElementById('logoInput').click()" class="btn-secondary text-sm"><i class="fas fa-upload mr-1"></i>Upload Logo</button>
+                                <input type="file" id="logoInput" accept="image/*" style="display: none;" onchange="uploadLogo(this)">
+                                <p class="text-xs mt-2" style="color: #92487A;">Recommended size: 200x200px. Format: PNG, JPG</p>
+                                <p class="text-xs" style="color: #92487A;">Max file size: 2MB</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Company Details Display Card (Shows after save) -->
+                    <div id="companyDetailsCard" class="section-card" style="display: none;">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-md font-semibold" style="color: #540863;">Saved Company Details</h3>
+                            <button onclick="editCompanyDetails()" class="btn-outline text-sm"><i class="fas fa-edit mr-1"></i>Edit</button>
+                        </div>
+                        <div id="savedCompanyDetails">
+                            <!-- Saved details will appear here -->
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- ==================== PAGE 2: WORKING DAYS ==================== -->
+                <div id="page-workingDays" class="page-content">
+                    <div class="section-card">
+                        <h3 class="text-md font-semibold mb-4" style="color: #540863;">Weekly Working Hours</h3>
+                        <div class="space-y-3">
+                            <div class="flex items-center justify-between p-3 border-b flex-wrap gap-2" style="border-color:#5c003f;">
+                                <span style="color:#540863; width:100px; font-weight:500;">Monday</span>
+                                <input type="time" id="mon_start" value="09:00" class="w-32" style="padding: 4px;">
+                                <span>-</span>
+                                <input type="time" id="mon_end" value="18:00" class="w-32" style="padding: 4px;">
+                                <label class="switch"><input type="checkbox" id="mon_active" checked><span class="slider"></span></label>
+                            </div>
+                            <div class="flex items-center justify-between p-3 border-b flex-wrap gap-2" style="border-color:#5c003f;">
+                                <span style="color:#540863; width:100px; font-weight:500;">Tuesday</span>
+                                <input type="time" id="tue_start" value="09:00" class="w-32" style="padding: 4px;">
+                                <span>-</span>
+                                <input type="time" id="tue_end" value="18:00" class="w-32" style="padding: 4px;">
+                                <label class="switch"><input type="checkbox" id="tue_active" checked><span class="slider"></span></label>
+                            </div>
+                            <div class="flex items-center justify-between p-3 border-b flex-wrap gap-2" style="border-color:#5c003f;">
+                                <span style="color:#540863; width:100px; font-weight:500;">Wednesday</span>
+                                <input type="time" id="wed_start" value="09:00" class="w-32" style="padding: 4px;">
+                                <span>-</span>
+                                <input type="time" id="wed_end" value="18:00" class="w-32" style="padding: 4px;">
+                                <label class="switch"><input type="checkbox" id="wed_active" checked><span class="slider"></span></label>
+                            </div>
+                            <div class="flex items-center justify-between p-3 border-b flex-wrap gap-2" style="border-color:#5c003f;">
+                                <span style="color:#540863; width:100px; font-weight:500;">Thursday</span>
+                                <input type="time" id="thu_start" value="09:00" class="w-32" style="padding: 4px;">
+                                <span>-</span>
+                                <input type="time" id="thu_end" value="18:00" class="w-32" style="padding: 4px;">
+                                <label class="switch"><input type="checkbox" id="thu_active" checked><span class="slider"></span></label>
+                            </div>
+                            <div class="flex items-center justify-between p-3 border-b flex-wrap gap-2" style="border-color:#5c003f;">
+                                <span style="color:#540863; width:100px; font-weight:500;">Friday</span>
+                                <input type="time" id="fri_start" value="09:00" class="w-32" style="padding: 4px;">
+                                <span>-</span>
+                                <input type="time" id="fri_end" value="18:00" class="w-32" style="padding: 4px;">
+                                <label class="switch"><input type="checkbox" id="fri_active" checked><span class="slider"></span></label>
+                            </div>
+                            <div class="flex items-center justify-between p-3 border-b flex-wrap gap-2" style="border-color:#5c003f;">
+                                <span style="color:#540863; width:100px; font-weight:500;">Saturday</span>
+                                <input type="time" id="sat_start" value="10:00" class="w-32" style="padding: 4px;">
+                                <span>-</span>
+                                <input type="time" id="sat_end" value="14:00" class="w-32" style="padding: 4px;">
+                                <label class="switch"><input type="checkbox" id="sat_active" checked><span class="slider"></span></label>
+                            </div>
+                            <div class="flex items-center justify-between p-3 flex-wrap gap-2">
+                                <span style="color:#540863; width:100px; font-weight:500;">Sunday</span>
+                                <span class="text-sm" style="color:#92487A;">Weekly Off (Default)</span>
+                                <label class="switch"><input type="checkbox" id="sun_active"><span class="slider"></span></label>
+                            </div>
+                        </div>
+                        <div class="flex justify-end mt-4"><button onclick="saveWorkingDays()" class="btn-primary">Save Working Days</button></div>
+                    </div>
+                    
+                    <div class="section-card">
+                        <h3 class="text-md font-semibold mb-4" style="color: #540863;">Break Timings</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div><label class="text-sm font-medium" style="color:#540863;">Lunch Break Start</label><input type="time" id="lunch_start" value="13:00" class="w-full" style="padding: 4px;"></div>
+                            <div><label class="text-sm font-medium" style="color:#540863;">Lunch Break End</label><input type="time" id="lunch_end" value="14:00" class="w-full" style="padding: 4px;"></div>
+                            <div><label class="text-sm font-medium" style="color:#540863;">Evening Break Start</label><input type="time" id="evening_start" value="16:00" class="w-full" style="padding: 4px;"></div>
+                            <div><label class="text-sm font-medium" style="color:#540863;">Evening Break End</label><input type="time" id="evening_end" value="16:15" class="w-full" style="padding: 4px;"></div>
+                        </div>
+                        <div class="flex justify-end mt-4"><button onclick="saveBreakTimings()" class="btn-primary">Save Break Timings</button></div>
+                    </div>
+                </div>
+                
+                <!-- ==================== PAGE 3: HOLIDAYS ==================== -->
+                <div id="page-holidays" class="page-content">
+                    <div class="section-card">
+                        <div class="flex justify-between items-center mb-4 flex-wrap gap-3">
+                            <h3 class="text-md font-semibold" style="color:#540863;">Holiday Calendar</h3>
+                            <button onclick="openHolidayModal()" class="btn-primary text-sm"><i class="fas fa-plus mr-1"></i>Add Holiday</button>
+                        </div>
+                        
+                        <div class="flex flex-wrap gap-3 mb-4 pb-3 border-b" style="border-color:#5c003f;">
+                            <select id="holidayYearFilter" onchange="filterHolidays()" class="w-32" style="padding: 2px; ">
+                                <option value="2024">2024</option>
+                                <option value="2025">2025</option>
+                            </select>
+                            <select id="holidayTypeFilter" onchange="filterHolidays()" class="w-40" style="padding: 2px;">
+                                <option value="all">All Types</option>
+                                <option value="National">National</option>
+                                <option value="Festival">Festival</option>
+                                <option value="Optional">Optional</option>
+                            </select>
+                            <input type="text" id="holidaySearch" placeholder="Search holidays..." class="w-48" onkeyup="filterHolidays()" style="padding: 3px;">
+                        </div>
+                        
+                        <div class="overflow-x-auto">
+                            <table class="w-full">
+                                <thead>
+                                    <tr class="border-b" style="border-color:#5c003f;">
+                                        <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">Date</th>
+                                        <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">Holiday Name</th>
+                                        <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">Day</th>
+                                        <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">Type</th>
+                                        <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="holidaysList">
+                                    <tr class="border-b data-row" style="border-color:#5c003f;">
+                                        <td class="py-3 text-sm" style="color:#540863;">2024-01-26</td>
+                                        <td class="py-3 text-sm" style="color:#92487A;">Republic Day</td>
+                                        <td class="py-3 text-sm" style="color:#92487A;">Friday</td>
+                                        <td class="py-3"><span class="text-xs px-2 py-1 rounded-full" style="background:rgba(84,8,99,0.1);color:#540863;">National</span></td>
+                                        <td class="py-3"><button onclick="deleteHoliday(this)" class="text-[#92487A]"><i class="fas fa-trash"></i></button></td>
+                                    </tr>
+                                    <tr class="border-b data-row" style="border-color:#5c003f;">
+                                        <td class="py-3 text-sm" style="color:#540863;">2024-08-15</td>
+                                        <td class="py-3 text-sm" style="color:#92487A;">Independence Day</td>
+                                        <td class="py-3 text-sm" style="color:#92487A;">Thursday</td>
+                                        <td class="py-3"><span class="text-xs px-2 py-1 rounded-full" style="background:rgba(84,8,99,0.1);color:#540863;">National</span></td>
+                                        <td class="py-3"><button onclick="deleteHoliday(this)" class="text-[#92487A]"><i class="fas fa-trash"></i></button></td>
+                                    </tr>
+                                    <tr class="border-b data-row" style="border-color:#5c003f;">
+                                        <td class="py-3 text-sm" style="color:#540863;">2024-12-25</td>
+                                        <td class="py-3 text-sm" style="color:#92487A;">Christmas</td>
+                                        <td class="py-3 text-sm" style="color:#92487A;">Wednesday</td>
+                                        <td class="py-3"><span class="text-xs px-2 py-1 rounded-full" style="background:rgba(146,72,122,0.1);color:#92487A;">Festival</span></td>
+                                        <td class="py-3"><button onclick="deleteHoliday(this)" class="text-[#92487A]"><i class="fas fa-trash"></i></button></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- ==================== PAGE 4: DEPARTMENTS ==================== -->
+                <div id="page-departments" class="page-content">
+                    <div class="section-card">
+                        <div class="flex justify-between items-center mb-4 flex-wrap gap-3">
+                            <h3 class="text-md font-semibold" style="color:#540863;">All Departments</h3>
+                            <button onclick="openDepartmentModal()" class="btn-primary text-sm"><i class="fas fa-plus mr-1"></i>Add Department</button>
+                        </div>
+                        
+                        <div class="mb-4"><input type="text" id="deptSearch" placeholder="Search departments..." class="w-64" onkeyup="filterDepartments()" style="padding: 5px;"></div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="departmentsList">
+                            <!-- Departments will be added dynamically -->
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- ==================== PAGE 5: DESIGNATIONS ==================== -->
+                <div id="page-designations" class="page-content">
+                    <div class="section-card">
+                        <div class="flex justify-between items-center mb-4 flex-wrap gap-3">
+                            <h3 class="text-md font-semibold" style="color:#540863;">All Designations</h3>
+                            <button onclick="openDesignationModal()" class="btn-primary text-sm"><i class="fas fa-plus mr-1"></i>Add Designation</button>
+                        </div>
+                        
+                        <div class="flex flex-wrap gap-3 mb-4">
+                            <input type="text" id="desigSearch" style="padding: 4px;" placeholder="Search designations..." class="w-64" onkeyup="filterDesignations()">
+                            <select id="deptFilter" onchange="filterDesignations()" class="w-48">
+                                <option value="all">All Departments</option>
+                                <option>Information Technology</option>
+                                <option>Human Resources</option>
+                                <option>Sales & Marketing</option>
+                                <option>Finance & Accounts</option>
+                            </select>
+                        </div>
+                        
+                        <div class="overflow-x-auto">
+                            <table class="w-full">
+                                <thead>
+                                    <tr class="border-b" style="border-color:#5c003f;">
+                                        <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">Designation</th>
+                                        <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">Department</th>
+                                        <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">Level</th>
+                                        <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">Base Salary</th>
+                                        <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="designationsList">
+                                    <!-- Designations will be added dynamically -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                
+            </main>
+        </div>
+    </div>
+    
+    <!-- Holiday Modal -->
+    <div id="holidayModal" class="modal">
+        <div class="modal-content">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-lg font-semibold" style="color:#540863;">Add Holiday</h3>
+                <button onclick="closeHolidayModal()" class="text-gray-500 text-xl">&times;</button>
+            </div>
+            <form id="holidayForm">
+                <div class="space-y-3">
+                    <div><label class="text-sm font-medium" style="color:#540863;">Holiday Name*</label><input type="text" id="holidayName" required style="padding: 4px;"></div>
+                    <div><label class="text-sm font-medium" style="color:#540863;">Date*</label><input type="date" id="holidayDate" required style="padding: 4px;"></div>
+                    <div><label class="text-sm font-medium" style="color:#540863;">Type</label><select id="holidayType" style="padding: 4px;"><option value="National">National</option><option value="Festival">Festival</option><option value="Optional">Optional</option></select></div>
+                </div>
+                <div class="flex justify-end gap-3 mt-4">
+                    <button type="button" onclick="closeHolidayModal()" class="btn-outline">Cancel</button>
+                    <button type="submit" class="btn-primary">Add Holiday</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Department Modal -->
+    <div id="departmentModal" class="modal">
+        <div class="modal-content">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-lg font-semibold" style="color:#540863;" id="deptModalTitle">Add Department</h3>
+                <button onclick="closeDepartmentModal()" class="text-gray-500 text-xl">&times;</button>
+            </div>
+            <form id="departmentForm">
+                <div class="space-y-3">
+                    <div><label class="text-sm font-medium" style="color:#540863;">Department Name*</label><input type="text" id="deptName" required style="padding: 4px;"></div>
+                    <div><label class="text-sm font-medium" style="color:#540863;">Head of Department</label><select id="deptHead" style="padding: 4px;"><option value="">Select HOD</option><option>Rajesh Kumar</option><option>Priya Sharma</option><option>Amit Mehta</option></select></div>
+                </div>
+                <div class="flex justify-end gap-3 mt-4">
+                    <button type="button" onclick="closeDepartmentModal()" class="btn-outline">Cancel</button>
+                    <button type="submit" class="btn-primary">Save Department</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Designation Modal -->
+    <div id="designationModal" class="modal">
+        <div class="modal-content">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-lg font-semibold" style="color:#540863;" id="desigModalTitle">Add Designation</h3>
+                <button onclick="closeDesignationModal()" class="text-gray-500 text-xl">&times;</button>
+            </div>
+            <form id="designationForm">
+                <div class="space-y-3">
+                    <div><label class="text-sm font-medium" style="color:#540863;">Designation Name*</label><input type="text" id="desigName" required style="padding: 4px;"></div>
+                    <div><label class="text-sm font-medium" style="color:#540863;">Department*</label><select id="desigDept" required style="padding: 4px;"><option value="">Select Department</option><option>Information Technology</option><option>Human Resources</option><option>Sales & Marketing</option><option>Finance & Accounts</option></select></div>
+                    <div><label class="text-sm font-medium" style="color:#540863;">Level</label><select id="desigLevel" style="padding: 4px;"><option>Level 1</option><option>Level 2</option><option>Level 3</option><option>Level 4</option><option>Level 5</option></select></div>
+                    <div><label class="text-sm font-medium" style="color:#540863;">Base Salary</label><input type="number" id="desigSalary" placeholder="Enter salary" style="padding: 4px;"></div>
+                </div>
+                <div class="flex justify-end gap-3 mt-4">
+                    <button type="button" onclick="closeDesignationModal()" class="btn-outline">Cancel</button>
+                    <button type="submit" class="btn-primary">Save Designation</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <script src="/assets/js/common.js"></script>
+    <script src="/assets/js/sidebar.js"></script>
+    <script src="/assets/js/header.js"></script>
+    
+    <script>
+        // ==================== ROUTING FUNCTION ====================
+        function showPage(pageId) {
+            document.querySelectorAll('.page-content').forEach(page => page.classList.remove('active'));
+            document.getElementById(`page-${pageId}`).classList.add('active');
+            document.querySelectorAll('.submodule-link').forEach(link => {
+                link.classList.remove('active');
+                if(link.getAttribute('data-page') === pageId) link.classList.add('active');
+            });
+            localStorage.setItem('companyMgmtPage', pageId);
+        }
+        
+        function initRouting() {
+            const savedPage = localStorage.getItem('companyMgmtPage') || 'profile';
+            showPage(savedPage);
+            document.querySelectorAll('.submodule-link').forEach(link => {
+                link.addEventListener('click', function() {
+                    showPage(this.getAttribute('data-page'));
+                });
+            });
+        }
+        
+        // ==================== COMPANY PROFILE FUNCTIONS (EMPTY FORM) ====================
+        
+        // Load saved data from localStorage on page load
+        function loadSavedCompanyData() {
+            const savedData = localStorage.getItem('companyProfile');
+            if (savedData) {
+                const data = JSON.parse(savedData);
+                document.getElementById('comp_name').value = data.name || '';
+                document.getElementById('comp_gst').value = data.gst || '';
+                document.getElementById('comp_pan').value = data.pan || '';
+                document.getElementById('comp_cin').value = data.cin || '';
+                document.getElementById('comp_email').value = data.email || '';
+                document.getElementById('comp_phone').value = data.phone || '';
+                document.getElementById('comp_website').value = data.website || '';
+                document.getElementById('comp_year').value = data.year || '';
+                document.getElementById('comp_address').value = data.address || '';
+                document.getElementById('comp_desc').value = data.desc || '';
+                
+                // Show saved details card
+                if (data.name) {
+                    displaySavedDetails(data);
+                }
+            }
+        }
+        
+        // Display saved details in the view card
+        function displaySavedDetails(data) {
+            const detailsHtml = `
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div><label class="text-xs font-medium" style="color: #92487A;">Company Name</label><p class="text-sm font-medium mt-1" style="color: #540863;">${data.name || '-'}</p></div>
+                    <div><label class="text-xs font-medium" style="color: #92487A;">GST Number</label><p class="text-sm mt-1" style="color: #540863;">${data.gst || '-'}</p></div>
+                    <div><label class="text-xs font-medium" style="color: #92487A;">PAN Number</label><p class="text-sm mt-1" style="color: #540863;">${data.pan || '-'}</p></div>
+                    <div><label class="text-xs font-medium" style="color: #92487A;">CIN Number</label><p class="text-sm mt-1" style="color: #540863;">${data.cin || '-'}</p></div>
+                    <div><label class="text-xs font-medium" style="color: #92487A;">Email</label><p class="text-sm mt-1" style="color: #540863;">${data.email || '-'}</p></div>
+                    <div><label class="text-xs font-medium" style="color: #92487A;">Phone</label><p class="text-sm mt-1" style="color: #540863;">${data.phone || '-'}</p></div>
+                    <div><label class="text-xs font-medium" style="color: #92487A;">Website</label><p class="text-sm mt-1" style="color: #540863;">${data.website || '-'}</p></div>
+                    <div><label class="text-xs font-medium" style="color: #92487A;">Established Year</label><p class="text-sm mt-1" style="color: #540863;">${data.year || '-'}</p></div>
+                    <div class="md:col-span-2"><label class="text-xs font-medium" style="color: #92487A;">Address</label><p class="text-sm mt-1" style="color: #540863;">${data.address || '-'}</p></div>
+                    <div class="md:col-span-2"><label class="text-xs font-medium" style="color: #92487A;">Description</label><p class="text-sm mt-1" style="color: #540863;">${data.desc || '-'}</p></div>
+                </div>
+            `;
+            document.getElementById('savedCompanyDetails').innerHTML = detailsHtml;
+            document.getElementById('companyDetailsCard').style.display = 'block';
+        }
+        
+        // Save company profile form submission
+        document.getElementById('companyProfileForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const companyData = {
+                name: document.getElementById('comp_name').value,
+                gst: document.getElementById('comp_gst').value,
+                pan: document.getElementById('comp_pan').value,
+                cin: document.getElementById('comp_cin').value,
+                email: document.getElementById('comp_email').value,
+                phone: document.getElementById('comp_phone').value,
+                website: document.getElementById('comp_website').value,
+                year: document.getElementById('comp_year').value,
+                address: document.getElementById('comp_address').value,
+                desc: document.getElementById('comp_desc').value
+            };
+            
+            // Save to localStorage
+            localStorage.setItem('companyProfile', JSON.stringify(companyData));
+            
+            // Display saved details
+            displaySavedDetails(companyData);
+            
+            // Show success message
+            showToast('Company information saved successfully!', 'success');
+            
+            // Optionally clear form or keep as is
+            // this.reset(); // Uncomment if you want to clear form after save
+        });
+        
+        // Edit saved details
+        function editCompanyDetails() {
+            const savedData = localStorage.getItem('companyProfile');
+            if (savedData) {
+                const data = JSON.parse(savedData);
+                document.getElementById('comp_name').value = data.name || '';
+                document.getElementById('comp_gst').value = data.gst || '';
+                document.getElementById('comp_pan').value = data.pan || '';
+                document.getElementById('comp_cin').value = data.cin || '';
+                document.getElementById('comp_email').value = data.email || '';
+                document.getElementById('comp_phone').value = data.phone || '';
+                document.getElementById('comp_website').value = data.website || '';
+                document.getElementById('comp_year').value = data.year || '';
+                document.getElementById('comp_address').value = data.address || '';
+                document.getElementById('comp_desc').value = data.desc || '';
+            }
+            document.getElementById('companyDetailsCard').style.display = 'none';
+            document.getElementById('companyProfileForm').scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        // Logo upload
+        function uploadLogo(input) {
+            if (input.files && input.files[0]) {
+                const file = input.files[0];
+                if (file.size > 2 * 1024 * 1024) {
+                    showToast('File size should be less than 2MB', 'error');
+                    return;
+                }
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const logoDiv = document.getElementById('logoPreview');
+                    logoDiv.innerHTML = `<img src="${e.target.result}" class="w-full h-full object-cover rounded-xl">`;
+                    localStorage.setItem('companyLogo', e.target.result);
+                    showToast('Logo uploaded successfully!', 'success');
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+        
+        // Load saved logo on page load
+        function loadSavedLogo() {
+            const savedLogo = localStorage.getItem('companyLogo');
+            if (savedLogo) {
+                const logoDiv = document.getElementById('logoPreview');
+                logoDiv.innerHTML = `<img src="${savedLogo}" class="w-full h-full object-cover rounded-xl">`;
+            }
+        }
+        
+        // ==================== WORKING DAYS FUNCTIONS ====================
+        function saveWorkingDays() { 
+            const workingDays = {};
+            ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'].forEach(day => {
+                workingDays[day] = {
+                    active: document.getElementById(`${day}_active`).checked,
+                    start: document.getElementById(`${day}_start`)?.value || '09:00',
+                    end: document.getElementById(`${day}_end`)?.value || '18:00'
+                };
+            });
+            localStorage.setItem('workingDays', JSON.stringify(workingDays));
+            showToast('Working days timings saved successfully!', 'success'); 
+        }
+        
+        function saveBreakTimings() { 
+            const breakTimings = {
+                lunchStart: document.getElementById('lunch_start').value,
+                lunchEnd: document.getElementById('lunch_end').value,
+                eveningStart: document.getElementById('evening_start').value,
+                eveningEnd: document.getElementById('evening_end').value
+            };
+            localStorage.setItem('breakTimings', JSON.stringify(breakTimings));
+            showToast('Break timings saved successfully!', 'success'); 
+        }
+        
+        // Load saved working days
+        function loadWorkingDays() {
+            const saved = localStorage.getItem('workingDays');
+            if (saved) {
+                const data = JSON.parse(saved);
+                Object.keys(data).forEach(day => {
+                    const activeCheckbox = document.getElementById(`${day}_active`);
+                    if (activeCheckbox) activeCheckbox.checked = data[day].active;
+                    if (data[day].start && day !== 'sun') {
+                        const startInput = document.getElementById(`${day}_start`);
+                        if (startInput) startInput.value = data[day].start;
+                    }
+                    if (data[day].end && day !== 'sun') {
+                        const endInput = document.getElementById(`${day}_end`);
+                        if (endInput) endInput.value = data[day].end;
+                    }
+                });
+            }
+        }
+        
+        function loadBreakTimings() {
+            const saved = localStorage.getItem('breakTimings');
+            if (saved) {
+                const data = JSON.parse(saved);
+                if (data.lunchStart) document.getElementById('lunch_start').value = data.lunchStart;
+                if (data.lunchEnd) document.getElementById('lunch_end').value = data.lunchEnd;
+                if (data.eveningStart) document.getElementById('evening_start').value = data.eveningStart;
+                if (data.eveningEnd) document.getElementById('evening_end').value = data.eveningEnd;
+            }
+        }
+        
+        // ==================== HOLIDAY FUNCTIONS ====================
+        function openHolidayModal() { document.getElementById('holidayModal').classList.add('active'); document.getElementById('holidayForm').reset(); }
+        function closeHolidayModal() { document.getElementById('holidayModal').classList.remove('active'); }
+        
+        document.getElementById('holidayForm')?.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const name = document.getElementById('holidayName').value;
+            const date = document.getElementById('holidayDate').value;
+            const type = document.getElementById('holidayType').value;
+            const day = new Date(date).toLocaleDateString('en-US', { weekday: 'long' });
+            const statusClass = type === 'National' ? 'rgba(84,8,99,0.1)' : 'rgba(146,72,122,0.1)';
+            const statusColor = type === 'National' ? '#540863' : '#92487A';
+            
+            const newRow = `<tr class="border-b data-row" style="border-color:#5c003f;">
+                <td class="py-3 text-sm" style="color:#540863;">${date}</td>
+                <td class="py-3 text-sm" style="color:#92487A;">${name}</td>
+                <td class="py-3 text-sm" style="color:#92487A;">${day}</td>
+                <td class="py-3"><span class="text-xs px-2 py-1 rounded-full" style="background:${statusClass};color:${statusColor};">${type}</span></td>
+                <td class="py-3"><button onclick="deleteHoliday(this)" class="text-[#92487A]"><i class="fas fa-trash"></i></button></td>
+              </td>`;
+            document.getElementById('holidaysList').insertAdjacentHTML('beforeend', newRow);
+            showToast('Holiday added successfully!', 'success');
+            closeHolidayModal();
+        });
+        
+        function deleteHoliday(btn) { 
+            if(confirm('Delete this holiday?')) {
+                btn.closest('tr').remove(); 
+                showToast('Holiday deleted!', 'success'); 
+            }
+        }
+        
+        function filterHolidays() {
+            const year = document.getElementById('holidayYearFilter').value;
+            const type = document.getElementById('holidayTypeFilter').value;
+            const search = document.getElementById('holidaySearch').value.toLowerCase();
+            document.querySelectorAll('#holidaysList tr').forEach(row => {
+                let show = true;
+                const date = row.cells[0]?.innerText;
+                const holidayType = row.cells[3]?.innerText;
+                const name = row.cells[1]?.innerText.toLowerCase();
+                if(year && date && !date.includes(year)) show = false;
+                if(type !== 'all' && holidayType !== type) show = false;
+                if(search && !name.includes(search)) show = false;
+                row.style.display = show ? '' : 'none';
+            });
+        }
+        
+        // ==================== DEPARTMENT FUNCTIONS ====================
+        let editingDeptCard = null;
+        function openDepartmentModal() { 
+            document.getElementById('departmentModal').classList.add('active'); 
+            document.getElementById('departmentForm').reset(); 
+            document.getElementById('deptModalTitle').innerText = 'Add Department'; 
+            editingDeptCard = null; 
+        }
+        function closeDepartmentModal() { document.getElementById('departmentModal').classList.remove('active'); }
+        
+        document.getElementById('departmentForm')?.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const name = document.getElementById('deptName').value;
+            const hod = document.getElementById('deptHead').value;
+            const newCard = `<div class="dept-card p-4 rounded-lg border" style="border-color:#5c003f;" data-dept-name="${name}">
+                <div class="flex justify-between items-start">
+                    <div><div class="w-10 h-10 rounded-full flex items-center justify-center mb-2" style="background:rgba(84,8,99,0.1);"><i class="fas fa-building" style="color:#540863;"></i></div>
+                    <h4 class="font-semibold" style="color:#540863;">${name}</h4><p class="text-xs" style="color:#92487A;">0 employees</p><p class="text-xs mt-1" style="color:#92487A;">HOD: ${hod || 'Not Assigned'}</p></div>
+                    <div><button onclick="editDepartment(this)" class="text-[#540863] mr-2"><i class="fas fa-edit"></i></button><button onclick="deleteDepartment(this)" class="text-[#92487A]"><i class="fas fa-trash"></i></button></div>
+                </div>
+            </div>`;
+            if (editingDeptCard) { 
+                editingDeptCard.outerHTML = newCard; 
+                showToast('Department updated!', 'success'); 
+            } else { 
+                document.getElementById('departmentsList').insertAdjacentHTML('beforeend', newCard); 
+                showToast('Department added!', 'success'); 
+            }
+            closeDepartmentModal();
+        });
+        
+        function editDepartment(btn) { 
+            editingDeptCard = btn.closest('.dept-card'); 
+            const name = editingDeptCard.querySelector('h4').innerText; 
+            document.getElementById('deptModalTitle').innerText = 'Edit Department'; 
+            document.getElementById('deptName').value = name; 
+            openDepartmentModal(); 
+        }
+        
+        function deleteDepartment(btn) { 
+            if(confirm('Delete this department?')) {
+                btn.closest('.dept-card').remove(); 
+                showToast('Department deleted!', 'success'); 
+            }
+        }
+        
+        function filterDepartments() {
+            const search = document.getElementById('deptSearch').value.toLowerCase();
+            document.querySelectorAll('.dept-card').forEach(card => { 
+                card.style.display = card.getAttribute('data-dept-name').toLowerCase().includes(search) ? '' : 'none'; 
+            });
+        }
+        
+        // ==================== DESIGNATION FUNCTIONS ====================
+        let editingDesigRow = null;
+        function openDesignationModal() { 
+            document.getElementById('designationModal').classList.add('active'); 
+            document.getElementById('designationForm').reset(); 
+            document.getElementById('desigModalTitle').innerText = 'Add Designation'; 
+            editingDesigRow = null; 
+        }
+        function closeDesignationModal() { document.getElementById('designationModal').classList.remove('active'); }
+        
+        document.getElementById('designationForm')?.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const name = document.getElementById('desigName').value;
+            const dept = document.getElementById('desigDept').value;
+            const level = document.getElementById('desigLevel').value;
+            const salary = document.getElementById('desigSalary').value;
+            const newRow = `<tr class="border-b data-row" style="border-color:#5c003f;">
+                <td class="py-3 text-sm" style="color:#540863;">${name}</td>
+                <td class="py-3 text-sm" style="color:#92487A;">${dept}</td>
+                <td class="py-3 text-sm" style="color:#92487A;">${level}</td>
+                <td class="py-3 text-sm" style="color:#92487A;">₹${parseInt(salary).toLocaleString()}</td>
+                <td class="py-3"><button onclick="editDesignation(this)" class="text-[#540863] mr-2"><i class="fas fa-edit"></i></button><button onclick="deleteDesignation(this)" class="text-[#92487A]"><i class="fas fa-trash"></i></button></td>
+              </tr>`;
+            if (editingDesigRow) { 
+                editingDesigRow.outerHTML = newRow; 
+                showToast('Designation updated!', 'success'); 
+            } else { 
+                document.getElementById('designationsList').insertAdjacentHTML('beforeend', newRow); 
+                showToast('Designation added!', 'success'); 
+            }
+            closeDesignationModal();
+        });
+        
+        function editDesignation(btn) { 
+            editingDesigRow = btn.closest('tr'); 
+            const cells = editingDesigRow.cells; 
+            document.getElementById('desigModalTitle').innerText = 'Edit Designation'; 
+            document.getElementById('desigName').value = cells[0].innerText; 
+            document.getElementById('desigDept').value = cells[1].innerText; 
+            document.getElementById('desigLevel').value = cells[2].innerText; 
+            document.getElementById('desigSalary').value = cells[3].innerText.replace('₹', '').replace(/,/g, ''); 
+            openDesignationModal(); 
+        }
+        
+        function deleteDesignation(btn) { 
+            if(confirm('Delete this designation?')) {
+                btn.closest('tr').remove(); 
+                showToast('Designation deleted!', 'success'); 
+            }
+        }
+        
+        function filterDesignations() {
+            const search = document.getElementById('desigSearch').value.toLowerCase();
+            const dept = document.getElementById('deptFilter').value;
+            document.querySelectorAll('#designationsList tr').forEach(row => {
+                let show = true;
+                if(search && !row.cells[0]?.innerText.toLowerCase().includes(search)) show = false;
+                if(dept !== 'all' && row.cells[1]?.innerText !== dept) show = false;
+                row.style.display = show ? '' : 'none';
+            });
+        }
+        
+        // ==================== TOAST ====================
+        function showToast(message, type) { 
+            const toast = document.createElement('div'); 
+            toast.className = `toast ${type}`; 
+            toast.innerHTML = message; 
+            document.body.appendChild(toast); 
+            setTimeout(() => toast.remove(), 3000); 
+        }
+        
+        // ==================== INITIALIZATION ====================
+        function setActiveMenu(module) { 
+            setTimeout(() => { 
+                document.querySelectorAll('.nav-link').forEach(link => { 
+                    link.classList.remove('active'); 
+                    if(link.getAttribute('data-module') === module) link.classList.add('active'); 
+                }); 
+            }, 500); 
+        }
+        
+        document.addEventListener('DOMContentLoaded', function() { 
+            loadSidebar(); 
+            loadHeader(); 
+            setActiveMenu('company'); 
+            initRouting();
+            loadSavedCompanyData();
+            loadSavedLogo();
+            loadWorkingDays();
+            loadBreakTimings();
+        });
+    </script>
+</body>
+</html>

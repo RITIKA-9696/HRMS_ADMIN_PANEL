@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense Management | HRMS Admin</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    
+    <style>
+        * { font-family: 'Inter', sans-serif; }
+        body { background-color: #f3eeef; }
+        
+        .section-card {
+            background: white;
+            border-radius: 12px;
+            border: 1px solid #5c003f;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .stat-card {
+            background: white;
+            border-radius: 12px;
+            border: 1px solid #5c003f;
+            padding: 16px;
+            transition: all 0.3s ease;
+        }
+        .stat-card:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(84,8,99,0.1); }
+        
+        .btn-primary {
+            background-color: #540863;
+            transition: all 0.3s ease;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            border: none;
+        }
+        .btn-primary:hover { background-color: #92487A; transform: translateY(-1px); }
+        
+        .btn-success {
+            background-color: #28a745;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            cursor: pointer;
+            border: none;
+        }
+        .btn-success:hover { background-color: #218838; }
+        
+        .btn-danger {
+            background-color: #dc3545;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            cursor: pointer;
+            border: none;
+        }
+        .btn-danger:hover { background-color: #c82333; }
+        
+        .btn-warning {
+            background-color: #ffc107;
+            color: #333;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            cursor: pointer;
+            border: none;
+        }
+        .btn-warning:hover { background-color: #e0a800; }
+        
+        .btn-outline {
+            border: 1px solid #540863;
+            color: #540863;
+            padding: 8px 16px;
+            border-radius: 8px;
+            background: transparent;
+            cursor: pointer;
+        }
+        .btn-outline:hover { background-color: #540863; color: white; }
+        
+        input, select, textarea {
+            border: 1px solid #5c003f;
+            border-radius: 8px;
+            padding: 8px 12px;
+            width: 100%;
+        }
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #540863;
+            box-shadow: 0 0 0 2px rgba(84, 8, 99, 0.1);
+        }
+        
+        label {
+            font-size: 13px;
+            font-weight: 500;
+            color: #540863;
+            margin-bottom: 4px;
+            display: block;
+        }
+        
+        /* Tab Navigation */
+        .tab-nav {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 24px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #5c003f;
+            flex-wrap: wrap;
+        }
+        
+        .tab-btn {
+            padding: 8px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            background: transparent;
+            color: #92487A;
+            cursor: pointer;
+            border: none;
+        }
+        
+        .tab-btn:hover {
+            background-color: rgba(84, 8, 99, 0.1);
+            color: #540863;
+        }
+        
+        .tab-btn.active {
+            background-color: #540863;
+            color: white;
+        }
+        
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        
+        /* Status Badges */
+        .status-pending { background: rgba(255, 193, 7, 0.2); color: #856404; }
+        .status-approved { background: rgba(40, 167, 69, 0.2); color: #155724; }
+        .status-rejected { background: rgba(220, 53, 69, 0.2); color: #721c24; }
+        .status-paid { background: rgba(23, 162, 184, 0.2); color: #0c5460; }
+        
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        .modal.active { display: flex; }
+        .modal-content {
+            background: white;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 450px;
+            max-height: 85vh;
+            overflow-y: auto;
+            padding: 24px;
+        }
+        
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 12px 20px;
+            border-radius: 8px;
+            color: white;
+            z-index: 1100;
+            animation: slideIn 0.3s ease;
+        }
+        .toast.success { background-color: #28a745; }
+        .toast.error { background-color: #dc3545; }
+        .toast.info { background-color: #17a2b8; }
+        
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
+        .main-content { margin-top: 64px; }
+        
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-track { background: #f3eeef; }
+        ::-webkit-scrollbar-thumb { background: #92487A; border-radius: 10px; }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+        
+        .data-row:hover { background-color: rgba(84, 8, 99, 0.05); cursor: pointer; }
+        table { width: 100%; border-collapse: collapse; }
+        
+        /* Receipt Preview */
+        .receipt-preview {
+            max-width: 80px;
+            max-height: 80px;
+            object-fit: cover;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        
+        .pie-chart-container {
+            max-width: 200px;
+            margin: 0 auto;
+        }
+        
+        /* Reduced Budget Chart Container */
+        .budget-chart-container {
+            max-width: 100%;
+            height: 250px;
+        }
+        
+        @media (max-width: 768px) {
+            .section-card { padding: 16px; }
+            .tab-btn { padding: 6px 12px; font-size: 12px; }
+            .form-row { grid-template-columns: 1fr; }
+            .pie-chart-container { max-width: 150px; }
+            .budget-chart-container { height: 200px; }
+        }
+    </style>
+</head>
+<body class="bg-[#f3eeef]">
+    
+    <div class="flex h-screen overflow-hidden">
+        <div id="sidebar-container"></div>
+        
+        <div class="flex-1 flex flex-col overflow-hidden">
+            <div id="header-container"></div>
+            
+            <main class="flex-1 overflow-y-auto p-5 main-content">
+                
+                <!-- Page Header -->
+                <div class="mb-4">
+                    <h1 class="text-xl font-bold" style="color: #540863;">Expense Management</h1>
+                    <p class="text-xs mt-0.5" style="color: #92487A;">Manage employee expense claims, approvals, reimbursements, and budgets</p>
+                </div>
+                
+                <!-- Tab Navigation -->
+                <div class="tab-nav">
+                    <button class="tab-btn active" data-tab="claims">💰 Expense Claims</button>
+                    <button class="tab-btn" data-tab="approvals">⏳ Pending Approvals</button>
+                    <button class="tab-btn" data-tab="reimbursements">💸 Reimbursements</button>
+                    <button class="tab-btn" data-tab="budget">📊 Budget Management</button>
+                    <button class="tab-btn" data-tab="reports">📈 Reports</button>
+                </div>
+                
+                <!-- ==================== TAB 1: EXPENSE CLAIMS ==================== -->
+                <div id="tab-claims" class="tab-content active">
+                    <!-- Stats Cards -->
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-5">
+                        <div class="stat-card"><p class="text-xs text-gray-500">Total Claims</p><p class="text-2xl font-bold" style="color:#540863;" id="totalClaims">24</p><p class="text-xs text-gray-500">This month</p></div>
+                        <div class="stat-card"><p class="text-xs text-gray-500">Total Amount</p><p class="text-2xl font-bold" style="color:#540863;" id="totalAmount">₹1,85,000</p><p class="text-xs text-gray-500">This month</p></div>
+                        <div class="stat-card"><p class="text-xs text-gray-500">Pending Claims</p><p class="text-2xl font-bold" style="color:#ffc107;" id="pendingClaims">8</p><p class="text-xs text-yellow-600">Awaiting approval</p></div>
+                        <div class="stat-card"><p class="text-xs text-gray-500">Reimbursed</p><p class="text-2xl font-bold" style="color:#28a745;" id="reimbursedAmount">₹98,500</p><p class="text-xs text-green-600">This month</p></div>
+                    </div>
+                    
+                    <!-- Submit New Claim Form -->
+                    <div class="section-card">
+                        <h3 class="text-md font-semibold mb-4" style="color:#540863;">Submit New Expense Claim</h3>
+                        <form id="expenseForm">
+                            <div class="form-row">
+                                <div><label>Employee <span class="text-red-500">*</span></label>
+                                    <select id="exp_employee" required>
+                                        <option value="">Select Employee</option>
+                                        <option>Rajesh Kumar</option>
+                                        <option>Priya Sharma</option>
+                                        <option>Amit Mehta</option>
+                                        <option>Neha Gupta</option>
+                                        <option>Vikram Singh</option>
+                                    </select>
+                                </div>
+                                <div><label>Expense Type <span class="text-red-500">*</span></label>
+                                    <select id="exp_type" required>
+                                        <option value="">Select Type</option>
+                                        <option value="Travel">🚗 Travel</option>
+                                        <option value="Food">🍽️ Food</option>
+                                        <option value="Fuel">⛽ Fuel</option>
+                                        <option value="Stationery">📎 Stationery</option>
+                                        <option value="Medical">💊 Medical</option>
+                                        <option value="Others">📦 Others</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div><label>Expense Date <span class="text-red-500">*</span></label><input type="date" id="exp_date" required></div>
+                                <div><label>Amount (₹) <span class="text-red-500">*</span></label><input type="number" id="exp_amount" placeholder="Enter amount" required></div>
+                            </div>
+                            <div class="form-row">
+                                <div><label>Description</label><textarea id="exp_desc" rows="2" placeholder="Brief description of expense"></textarea></div>
+                            </div>
+                            <div class="form-row">
+                                <div><label>Upload Receipt</label><input type="file" id="exp_receipt" accept="image/*,.pdf"></div>
+                                <div><label>Bill/Invoice Number</label><input type="text" id="exp_bill_no" placeholder="Optional"></div>
+                            </div>
+                            <div class="flex justify-end mt-4"><button type="submit" class="btn-primary"><i class="fas fa-paper-plane mr-2"></i>Submit Claim</button></div>
+                        </form>
+                    </div>
+                    
+                    <!-- Recent Claims List -->
+                    <div class="section-card">
+                        <div class="flex justify-between items-center mb-4 flex-wrap gap-3">
+                            <h3 class="text-md font-semibold" style="color:#540863;">Recent Expense Claims</h3>
+                            <div class="flex gap-2 flex-wrap">
+                                <select id="claimTypeFilter" class="w-40 text-sm" onchange="filterClaims()">
+                                    <option value="all">All Types</option>
+                                    <option value="Travel">Travel</option>
+                                    <option value="Food">Food</option>
+                                    <option value="Fuel">Fuel</option>
+                                    <option value="Stationery">Stationery</option>
+                                </select>
+                                <input type="text" id="claimSearch" placeholder="Search..." class="w-48 text-sm" onkeyup="filterClaims()">
+                                <button onclick="exportClaims()" class="btn-outline text-sm"><i class="fas fa-download mr-1"></i>Export</button>
+                            </div>
+                        </div>
+                        
+                        <div class="overflow-x-auto">
+                            <table class="w-full">
+                                <thead>
+                                    <tr class="border-b" style="border-color:#5c003f;">
+                                        <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">Claim ID</th>
+                                        <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">Employee</th>
+                                        <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">Type</th>
+                                        <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">Date</th>
+                                        <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">Amount</th>
+                                        <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">Status</th>
+                                        <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">Receipt</th>
+                                        <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">Action</th>
+                                    </td>
+                                </thead>
+                                <tbody id="claimsList">
+                                    <tr class="border-b data-row" style="border-color:#e5e7eb;">
+                                        <td class="py-3 text-sm" style="color:#540863;">EXP-001</td>
+                                        <td class="py-3 text-sm" style="color:#540863;">Rajesh Kumar</td>
+                                        <td class="py-3 text-sm" style="color:#92487A;">Travel</td>
+                                        <td class="py-3 text-sm" style="color:#92487A;">2024-04-10</td>
+                                        <td class="py-3 text-sm" style="color:#92487A;">₹5,000</td>
+                                        <td class="py-3"><span class="status-pending text-xs px-2 py-1 rounded-full">Pending</span></td>
+                                        <td class="py-3"><i class="fas fa-paperclip text-[#92487A] cursor-pointer" onclick="viewReceipt(this)"></i></td>
+                                        <td class="py-3"><button onclick="editClaim(this)" class="text-[#540863] mr-2"><i class="fas fa-edit"></i></button><button onclick="openDeleteModal('EXP-001', this)" class="text-red-500"><i class="fas fa-trash"></i></button></td>
+                                    </tr>
+                                    <tr class="border-b data-row" style="border-color:#e5e7eb;">
+                                        <td class="py-3 text-sm" style="color:#540863;">EXP-002</td>
+                                        <td class="py-3 text-sm" style="color:#540863;">Priya Sharma</td>
+                                        <td class="py-3 text-sm" style="color:#92487A;">Food</td>
+                                        <td class="py-3 text-sm" style="color:#92487A;">2024-04-09</td>
+                                        <td class="py-3 text-sm" style="color:#92487A;">₹2,500</td>
+                                        <td class="py-3"><span class="status-approved text-xs px-2 py-1 rounded-full">Approved</span></td>
+                                        <td class="py-3"><i class="fas fa-paperclip text-[#92487A] cursor-pointer" onclick="viewReceipt(this)"></i></td>
+                                        <td class="py-3"><button onclick="editClaim(this)" class="text-[#540863] mr-2"><i class="fas fa-edit"></i></button><button onclick="openDeleteModal('EXP-002', this)" class="text-red-500"><i class="fas fa-trash"></i></button></td>
+                                    </tr>
+                                    <tr class="border-b data-row" style="border-color:#e5e7eb;">
+                                        <td class="py-3 text-sm" style="color:#540863;">EXP-003</td>
+                                        <td class="py-3 text-sm" style="color:#540863;">Amit Mehta</td>
+                                        <td class="py-3 text-sm" style="color:#92487A;">Fuel</td>
+                                        <td class="py-3 text-sm" style="color:#92487A;">2024-04-08</td>
+                                        <td class="py-3 text-sm" style="color:#92487A;">₹3,200</td>
+                                        <td class="py-3"><span class="status-pending text-xs px-2 py-1 rounded-full">Pending</span></td>
+                                        <td class="py-3"><i class="fas fa-paperclip text-[#92487A] cursor-pointer" onclick="viewReceipt(this)"></i></td>
+                                        <td class="py-3"><button onclick="editClaim(this)" class="text-[#540863] mr-2"><i class="fas fa-edit"></i></button><button onclick="openDeleteModal('EXP-003', this)" class="text-red-500"><i class="fas fa-trash"></i></button></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- ==================== TAB 2: PENDING APPROVALS ==================== -->
+                <div id="tab-approvals" class="tab-content">
+                    <div class="section-card">
+                        <div class="flex justify-between items-center mb-4 flex-wrap gap-3">
+                            <h3 class="text-md font-semibold" style="color:#540863;">Pending Approvals</h3>
+                            <div class="flex gap-2">
+                                <select id="approvalTypeFilter" class="w-40 text-sm" onchange="filterApprovals()">
+                                    <option value="all">All Types</option>
+                                    <option value="Travel">Travel</option>
+                                    <option value="Food">Food</option>
+                                    <option value="Fuel">Fuel</option>
+                                </select>
+                                <input type="text" id="approvalSearch" placeholder="Search employee..." class="w-48 text-sm" onkeyup="filterApprovals()">
+                            </div>
+                        </div>
+                        
+                        <div class="overflow-x-auto">
+                            <table class="w-full">
+                                <thead>
+                                    <tr class="border-b" style="border-color:#5c003f;">
+                                        <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">Claim ID</th>
+                                        <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">Employee</th>
+                                        <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">Department</th>
+                                        <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">Type</th>
+                                        <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">Amount</th>
+                                        <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">Submitted On</th>
+                                        <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="approvalsList">
+                                    <tr class="border-b data-row" style="border-color:#e5e7eb;">
+                                        <td class="py-3 text-sm" style="color:#540863;">EXP-001</td>
+                                        <td class="py-3 text-sm" style="color:#540863;">Rajesh Kumar</td>
+                                        <td class="py-3 text-sm" style="color:#92487A;">IT</td>
+                                        <td class="py-3 text-sm" style="color:#92487A;">Travel</td>
+                                        <td class="py-3 text-sm" style="color:#92487A;">₹5,000</td>
+                                        <td class="py-3 text-sm" style="color:#92487A;">2024-04-10</td>
+                                        <td class="py-3"><button onclick="approveExpense(this)" class="btn-success text-xs mr-1"><i class="fas fa-check"></i> Approve</button><button onclick="rejectExpense(this)" class="btn-danger text-xs"><i class="fas fa-times"></i> Reject</button></td>
+                                     </tr>
+                                    <tr class="border-b data-row" style="border-color:#e5e7eb;">
+                                        <td class="py-3 text-sm" style="color:#540863;">EXP-003</td>
+                                        <td class="py-3 text-sm" style="color:#540863;">Amit Mehta</td>
+                                        <td class="py-3 text-sm" style="color:#92487A;">Sales</td>
+                                        <td class="py-3 text-sm" style="color:#92487A;">Fuel</td>
+                                        <td class="py-3 text-sm" style="color:#92487A;">₹3,200</td>
+                                        <td class="py-3 text-sm" style="color:#92487A;">2024-04-08</td>
+                                        <td class="py-3"><button onclick="approveExpense(this)" class="btn-success text-xs mr-1"><i class="fas fa-check"></i> Approve</button><button onclick="rejectExpense(this)" class="btn-danger text-xs"><i class="fas fa-times"></i> Reject</button></td>
+                                     </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- ==================== TAB 3: REIMBURSEMENTS ==================== -->
+                <div id="tab-reimbursements" class="tab-content">
+                    <div class="section-card">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-md font-semibold" style="color:#540863;">Reimbursements</h3>
+                            <button onclick="processBulkReimbursement()" class="btn-primary text-sm"><i class="fas fa-money-bill-wave mr-1"></i>Process Bulk</button>
+                        </div>
+                        
+                        <div class="overflow-x-auto">
+                            <table class="w-full">
+                                <thead>
+                                    <tr class="border-b" style="border-color:#5c003f;">
+                                        <th class="text-left py-3 text-xs font-medium" style="color:#92487A;"><input type="checkbox" id="selectAll" onchange="toggleSelectAll()"></th>
+                                        <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">Claim ID</th>
+                                        <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">Employee</th>
+                                        <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">Amount</th>
+                                        <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">Approved Date</th>
+                                        <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">Payment Status</th>
+                                        <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">Action</th>
+                                     </tr>
+                                </thead>
+                                <tbody id="reimbursementsList">
+                                    <tr class="border-b data-row" style="border-color:#e5e7eb;">
+                                        <td class="py-3 text-center"><input type="checkbox" class="reimbursement-checkbox"></td>
+                                        <td class="py-3 text-sm" style="color:#540863;">EXP-002</td>
+                                        <td class="py-3 text-sm" style="color:#540863;">Priya Sharma</td>
+                                        <td class="py-3 text-sm" style="color:#92487A;">₹2,500</td>
+                                        <td class="py-3 text-sm" style="color:#92487A;">2024-04-09</td>
+                                        <td class="py-3"><span class="status-pending text-xs px-2 py-1 rounded-full">Pending</span></td>
+                                        <td class="py-3"><button onclick="processReimbursement(this)" class="btn-success text-xs"><i class="fas fa-rupee-sign mr-1"></i>Pay Now</button></td>
+                                     </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <!-- Reimbursement Summary -->
+                    <div class="section-card">
+                        <h3 class="text-md font-semibold mb-3" style="color:#540863;">Reimbursement Summary</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div class="p-3 border rounded-lg text-center"><p class="text-xs text-gray-500">Pending Amount</p><p class="text-2xl font-bold" style="color:#ffc107;" id="pendingReimburse">₹2,500</p></div>
+                            <div class="p-3 border rounded-lg text-center"><p class="text-xs text-gray-500">Processed This Month</p><p class="text-2xl font-bold" style="color:#28a745;" id="processedReimburse">₹96,000</p></div>
+                            <div class="p-3 border rounded-lg text-center"><p class="text-xs text-gray-500">Total Reimbursed</p><p class="text-2xl font-bold" style="color:#540863;" id="totalReimburse">₹3,86,000</p></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- ==================== TAB 4: BUDGET MANAGEMENT ==================== -->
+                <div id="tab-budget" class="tab-content">
+                    <div class="section-card">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-md font-semibold" style="color:#540863;">Department Budgets</h3>
+                            <button onclick="openBudgetModal()" class="btn-primary text-sm"><i class="fas fa-plus mr-1"></i>Set Budget</button>
+                        </div>
+                        
+                        <div class="overflow-x-auto">
+                            <table class="w-full">
+                                <thead>
+                                    <tr class="border-b" style="border-color:#5c003f;">
+                                        <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">Department</th>
+                                        <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">Monthly Budget</th>
+                                        <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">Spent</th>
+                                        <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">Remaining</th>
+                                        <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">Utilization</th>
+                                        <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">Action</th>
+                                     </tr>
+                                </thead>
+                                <tbody id="budgetList">
+                                    <tr class="border-b" style="border-color:#e5e7eb;"><td class="py-2 text-sm" style="color:#540863;">IT</td><td class="py-2 text-sm">₹50,000</td><td class="py-2 text-sm">₹32,500</td><td class="py-2 text-sm">₹17,500</td><td class="py-2"><div class="w-24"><div class="progress-bar"><div class="progress-fill" style="width: 65%; background:#ffc107;"></div></div><span class="text-xs">65%</span></div></td><td class="py-2"><button onclick="editBudget(this)" class="text-[#540863]"><i class="fas fa-edit"></i></button></td></tr>
+                                    <tr class="border-b" style="border-color:#e5e7eb;"><td class="py-2 text-sm" style="color:#540863;">HR</td><td class="py-2 text-sm">₹30,000</td><td class="py-2 text-sm">₹18,000</td><td class="py-2 text-sm">₹12,000</td><td class="py-2"><div class="w-24"><div class="progress-bar"><div class="progress-fill" style="width: 60%; background:#28a745;"></div></div><span class="text-xs">60%</span></div></td><td class="py-2"><button onclick="editBudget(this)" class="text-[#540863]"><i class="fas fa-edit"></i></button></td></tr>
+                                    <tr class="border-b" style="border-color:#e5e7eb;"><td class="py-2 text-sm" style="color:#540863;">Sales</td><td class="py-2 text-sm">₹80,000</td><td class="py-2 text-sm">₹65,000</td><td class="py-2 text-sm">₹15,000</td><td class="py-2"><div class="w-24"><div class="progress-bar"><div class="progress-fill" style="width: 81%; background:#dc3545;"></div></div><span class="text-xs">81%</span></div></td><td class="py-2"><button onclick="editBudget(this)" class="text-[#540863]"><i class="fas fa-edit"></i></button></td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <!-- Budget Utilization Chart - REDUCED SIZE -->
+                    <div class="section-card">
+                        <h3 class="text-md font-semibold mb-3 text-center" style="color:#540863;">Budget Utilization</h3>
+                        <div class="budget-chart-container">
+                            <canvas id="budgetChart" height="220"></canvas>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- ==================== TAB 5: REPORTS ==================== -->
+                <div id="tab-reports" class="tab-content">
+                    <div class="section-card">
+                        <h3 class="text-md font-semibold mb-4" style="color:#540863;">Expense Reports</h3>
+                        <div class="form-row">
+                            <div><label>Report Type</label><select id="expReportType"><option>Expense Summary</option><option>Department-wise</option><option>Category-wise</option></select></div>
+                            <div><label>Department</label><select id="expReportDept"><option>All Departments</option><option>IT</option><option>HR</option><option>Sales</option></select></div>
+                            <div><label>Date Range</label><select id="expReportDate"><option>This Month</option><option>Last Month</option><option>This Quarter</option><option>This Year</option></select></div>
+                            <div class="flex items-end"><button onclick="generateExpenseReport()" class="btn-primary w-full">Generate Report</button></div>
+                        </div>
+                        <div id="expenseReportPreview" class="mt-4 p-4 bg-gray-50 rounded-lg text-center text-gray-500">Select filters and click Generate</div>
+                    </div>
+                    
+                    <!-- Expense Distribution Chart -->
+                    <div class="section-card">
+                        <h3 class="text-md font-semibold mb-3 text-center" style="color:#540863;">Expense Distribution by Category</h3>
+                        <div class="pie-chart-container">
+                            <canvas id="expensePieChart" height="180" width="180"></canvas>
+                        </div>
+                        <div class="flex justify-center gap-3 mt-3 flex-wrap">
+                            <div class="flex items-center gap-1"><div class="w-3 h-3 rounded-full" style="background:#540863;"></div><span class="text-xs">Travel (45%)</span></div>
+                            <div class="flex items-center gap-1"><div class="w-3 h-3 rounded-full" style="background:#92487A;"></div><span class="text-xs">Food (25%)</span></div>
+                            <div class="flex items-center gap-1"><div class="w-3 h-3 rounded-full" style="background:#E49BA6;"></div><span class="text-xs">Fuel (18%)</span></div>
+                            <div class="flex items-center gap-1"><div class="w-3 h-3 rounded-full" style="background:#FFD3D5;"></div><span class="text-xs">Others (12%)</span></div>
+                        </div>
+                    </div>
+                </div>
+                
+            </main>
+        </div>
+    </div>
+    
+    <!-- Budget Modal -->
+    <div id="budgetModal" class="modal">
+        <div class="modal-content"><div class="flex justify-between items-center mb-4"><h3 class="text-lg font-semibold" style="color:#540863;">Set Department Budget</h3><button onclick="closeBudgetModal()" class="text-gray-500 text-xl">&times;</button></div>
+        <form id="budgetForm"><div><label>Department</label><select required><option>IT</option><option>HR</option><option>Sales</option><option>Finance</option></select></div><div class="mt-2"><label>Monthly Budget (₹)</label><input type="number" required></div><div class="mt-2"><label>Quarterly Budget (₹)</label><input type="number"></div><div class="flex justify-end gap-3 mt-4"><button type="button" onclick="closeBudgetModal()" class="btn-outline">Cancel</button><button type="submit" class="btn-primary">Set Budget</button></div></form></div>
+    </div>
+    
+    <!-- Receipt Modal -->
+    <div id="receiptModal" class="modal">
+        <div class="modal-content text-center"><div class="flex justify-between items-center mb-4"><h3 class="text-lg font-semibold" style="color:#540863;">Receipt Preview</h3><button onclick="closeReceiptModal()" class="text-gray-500 text-xl">&times;</button></div>
+        <div class="p-4 bg-gray-100 rounded-lg"><i class="fas fa-receipt text-6xl text-gray-400"></i><p class="mt-2 text-sm text-gray-500">Receipt image will be displayed here</p></div>
+        <div class="flex justify-end mt-4"><button onclick="closeReceiptModal()" class="btn-primary">Close</button></div></div>
+    </div>
+    
+    <!-- Delete Confirmation Modal -->
+    <div id="deleteModal" class="modal">
+        <div class="modal-content text-center">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-lg font-semibold" style="color:#dc3545;">Confirm Delete</h3>
+                <button onclick="closeDeleteModal()" class="text-gray-500 text-xl hover:text-gray-700">&times;</button>
+            </div>
+            <div class="py-4">
+                <i class="fas fa-exclamation-triangle text-5xl text-red-500 mb-3"></i>
+                <p class="text-gray-700 mb-2">Are you sure you want to delete this expense claim?</p>
+                <p class="text-sm text-gray-500" id="deleteItemId"></p>
+            </div>
+            <div class="flex justify-center gap-3 mt-4">
+                <button onclick="closeDeleteModal()" class="btn-outline px-6">Cancel</button>
+                <button onclick="confirmDelete()" class="btn-danger px-6">Delete</button>
+            </div>
+        </div>
+    </div>
+    
+    <script src="/assets/js/common.js"></script>
+    <script src="/assets/js/sidebar.js"></script>
+    <script src="/assets/js/header.js"></script>
+    
+    <script>
+        let expensePieChart = null;
+        let budgetChart = null;
+        let deleteTargetRow = null;
+        let deleteTargetId = null;
+        
+        // Tab Navigation
+        function initTabs() {
+            const tabs = document.querySelectorAll('.tab-btn');
+            const contents = document.querySelectorAll('.tab-content');
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const tabId = this.getAttribute('data-tab');
+                    tabs.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    contents.forEach(content => content.classList.remove('active'));
+                    document.getElementById(`tab-${tabId}`).classList.add('active');
+                    localStorage.setItem('expenseActiveTab', tabId);
+                    if (tabId === 'reports') updateExpenseChart();
+                    if (tabId === 'budget') updateBudgetChart();
+                });
+            });
+            const savedTab = localStorage.getItem('expenseActiveTab');
+            if (savedTab) { const savedTabBtn = document.querySelector(`.tab-btn[data-tab="${savedTab}"]`); if (savedTabBtn) savedTabBtn.click(); }
+        }
+        
+        // Submit Expense Claim
+        document.getElementById('expenseForm')?.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const employee = document.getElementById('exp_employee').value;
+            const amount = document.getElementById('exp_amount').value;
+            showToast(`Expense claim submitted for ${employee} - ₹${amount}`, 'success');
+            this.reset();
+        });
+        
+        // Claims Functions
+        function filterClaims() {
+            const search = document.getElementById('claimSearch').value.toLowerCase();
+            const type = document.getElementById('claimTypeFilter').value;
+            const rows = document.querySelectorAll('#claimsList tr');
+            rows.forEach(row => {
+                let show = true;
+                const name = row.cells[1]?.innerText.toLowerCase();
+                const rowType = row.cells[2]?.innerText;
+                if(search && !name.includes(search)) show = false;
+                if(type !== 'all' && rowType !== type) show = false;
+                row.style.display = show ? '' : 'none';
+            });
+        }
+        
+        function exportClaims() { showToast('Claims exported!', 'success'); }
+        function editClaim(btn) { showToast('Edit claim feature coming soon', 'info'); }
+        
+        // Delete Modal Functions
+        function openDeleteModal(claimId, btn) {
+            deleteTargetRow = btn.closest('tr');
+            deleteTargetId = claimId;
+            document.getElementById('deleteItemId').innerHTML = `Claim ID: <strong>${claimId}</strong>`;
+            document.getElementById('deleteModal').classList.add('active');
+        }
+        
+        function closeDeleteModal() {
+            document.getElementById('deleteModal').classList.remove('active');
+            deleteTargetRow = null;
+            deleteTargetId = null;
+        }
+        
+        function confirmDelete() {
+            if (deleteTargetRow) {
+                deleteTargetRow.remove();
+                showToast(`Claim ${deleteTargetId} deleted successfully!`, 'success');
+                updateClaimStats();
+            }
+            closeDeleteModal();
+        }
+        
+        function updateClaimStats() {
+            const rows = document.querySelectorAll('#claimsList tr');
+            const total = rows.length;
+            const pending = document.querySelectorAll('#claimsList tr .status-pending').length;
+            document.getElementById('totalClaims').innerText = total;
+            document.getElementById('pendingClaims').innerText = pending;
+        }
+        
+        function viewReceipt(btn) { document.getElementById('receiptModal').classList.add('active'); }
+        function closeReceiptModal() { document.getElementById('receiptModal').classList.remove('active'); }
+        
+        // Approval Functions
+        function filterApprovals() {
+            const search = document.getElementById('approvalSearch').value.toLowerCase();
+            const type = document.getElementById('approvalTypeFilter').value;
+            const rows = document.querySelectorAll('#approvalsList tr');
+            rows.forEach(row => {
+                let show = true;
+                const name = row.cells[1]?.innerText.toLowerCase();
+                const rowType = row.cells[3]?.innerText;
+                if(search && !name.includes(search)) show = false;
+                if(type !== 'all' && rowType !== type) show = false;
+                row.style.display = show ? '' : 'none';
+            });
+        }
+        
+        function approveExpense(btn) {
+            const row = btn.closest('tr');
+            const amount = row.cells[4]?.innerText;
+            btn.parentElement.innerHTML = '<span class="text-green-600 text-xs font-medium">Approved</span>';
+            showToast(`Expense of ${amount} approved!`, 'success');
+        }
+        
+        function rejectExpense(btn) {
+            const row = btn.closest('tr');
+            const amount = row.cells[4]?.innerText;
+            btn.parentElement.innerHTML = '<span class="text-red-600 text-xs font-medium">Rejected</span>';
+            showToast(`Expense of ${amount} rejected!`, 'warning');
+        }
+        
+        // Reimbursement Functions
+        let selectAllChecked = false;
+        function toggleSelectAll() {
+            selectAllChecked = !selectAllChecked;
+            document.querySelectorAll('.reimbursement-checkbox').forEach(cb => cb.checked = selectAllChecked);
+        }
+        
+        function processReimbursement(btn) {
+            const row = btn.closest('tr');
+            row.cells[5].innerHTML = '<span class="status-paid text-xs px-2 py-1 rounded-full">Paid</span>';
+            btn.remove();
+            showToast('Reimbursement processed!', 'success');
+        }
+        
+        function processBulkReimbursement() {
+            const selected = document.querySelectorAll('.reimbursement-checkbox:checked');
+            if(selected.length === 0) { showToast('Select at least one claim', 'error'); return; }
+            selected.forEach(cb => { const row = cb.closest('tr'); row.cells[5].innerHTML = '<span class="status-paid text-xs px-2 py-1 rounded-full">Paid</span>'; });
+            showToast(`${selected.length} reimbursements processed!`, 'success');
+        }
+        
+        // Budget Functions
+        function openBudgetModal() { document.getElementById('budgetModal').classList.add('active'); }
+        function closeBudgetModal() { document.getElementById('budgetModal').classList.remove('active'); }
+        document.getElementById('budgetForm')?.addEventListener('submit', function(e) { e.preventDefault(); showToast('Budget set!', 'success'); closeBudgetModal(); });
+        function editBudget(btn) { showToast('Edit budget feature coming soon', 'info'); }
+        
+        function updateBudgetChart() {
+            const ctx = document.getElementById('budgetChart').getContext('2d');
+            if (budgetChart) budgetChart.destroy();
+            budgetChart = new Chart(ctx, {
+                type: 'bar',
+                data: { 
+                    labels: ['IT', 'HR', 'Sales', 'Finance'], 
+                    datasets: [
+                        { label: 'Budget', data: [50000, 30000, 80000, 40000], backgroundColor: '#540863', borderRadius: 6 },
+                        { label: 'Spent', data: [32500, 18000, 65000, 25000], backgroundColor: '#92487A', borderRadius: 6 }
+                    ] 
+                },
+                options: { 
+                    responsive: true, 
+                    maintainAspectRatio: true, 
+                    plugins: { legend: { position: 'bottom', labels: { boxWidth: 10, font: { size: 10 } } } },
+                    scales: { y: { ticks: { callback: function(value) { return '₹' + value.toLocaleString(); }, font: { size: 10 } }, grid: { color: '#e5e7eb' } } }
+                }
+            });
+        }
+        
+        // Report Functions
+        function generateExpenseReport() { document.getElementById('expenseReportPreview').innerHTML = '<div class="text-center"><i class="fas fa-chart-line text-3xl text-gray-400 mb-2"></i><p>Report generated successfully!</p></div>'; showToast('Report generated!', 'success'); }
+        
+        function updateExpenseChart() {
+            const ctx = document.getElementById('expensePieChart').getContext('2d');
+            if (expensePieChart) expensePieChart.destroy();
+            expensePieChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: { labels: ['Travel', 'Food', 'Fuel', 'Others'], datasets: [{ data: [45, 25, 18, 12], backgroundColor: ['#540863', '#92487A', '#E49BA6', '#FFD3D5'], borderWidth: 0 }] },
+                options: { responsive: true, maintainAspectRatio: true, plugins: { legend: { display: false } }, cutout: '60%' }
+            });
+        }
+        
+        function showToast(message, type) { const toast = document.createElement('div'); toast.className = `toast ${type}`; toast.innerHTML = message; document.body.appendChild(toast); setTimeout(() => toast.remove(), 3000); }
+        
+        function setActiveMenu(module) { setTimeout(() => { document.querySelectorAll('.nav-link').forEach(link => { link.classList.remove('active'); if(link.getAttribute('data-module') === module) link.classList.add('active'); }); }, 500); }
+        
+        document.addEventListener('DOMContentLoaded', function() { loadSidebar(); loadHeader(); setActiveMenu('expense'); initTabs(); updateExpenseChart(); updateBudgetChart(); });
+    </script>
+</body>
+</html>

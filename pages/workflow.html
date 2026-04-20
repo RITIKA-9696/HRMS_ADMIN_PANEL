@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Workflow & Approval | HRMS Admin</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    
+    <style>
+        * { font-family: 'Inter', sans-serif; }
+        body { background-color: #f3eeef; }
+        
+        .section-card {
+            background: white;
+            border-radius: 12px;
+            border: 1px solid #5c003f;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .stat-card {
+            background: white;
+            border-radius: 12px;
+            border: 1px solid #5c003f;
+            padding: 16px;
+            transition: all 0.3s ease;
+        }
+        .stat-card:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(84,8,99,0.1); }
+        
+        .btn-primary {
+            background-color: #540863;
+            transition: all 0.3s ease;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            border: none;
+        }
+        .btn-primary:hover { background-color: #92487A; transform: translateY(-1px); }
+        
+        .btn-success {
+            background-color: #28a745;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            cursor: pointer;
+            border: none;
+        }
+        .btn-success:hover { background-color: #218838; }
+        
+        .btn-danger {
+            background-color: #dc3545;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            cursor: pointer;
+            border: none;
+        }
+        .btn-danger:hover { background-color: #c82333; }
+        
+        .btn-warning {
+            background-color: #ffc107;
+            color: #333;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            cursor: pointer;
+            border: none;
+        }
+        .btn-warning:hover { background-color: #e0a800; }
+        
+        .btn-outline {
+            border: 1px solid #540863;
+            color: #540863;
+            padding: 8px 16px;
+            border-radius: 8px;
+            background: transparent;
+            cursor: pointer;
+        }
+        .btn-outline:hover { background-color: #540863; color: white; }
+        
+        input, select, textarea {
+            border: 1px solid #5c003f;
+            border-radius: 8px;
+            padding: 8px 12px;
+            width: 100%;
+        }
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #540863;
+            box-shadow: 0 0 0 2px rgba(84, 8, 99, 0.1);
+        }
+        
+        label {
+            font-size: 13px;
+            font-weight: 500;
+            color: #540863;
+            margin-bottom: 4px;
+            display: block;
+        }
+        
+        /* Tab Navigation */
+        .tab-nav {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 24px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #5c003f;
+            flex-wrap: wrap;
+        }
+        
+        .tab-btn {
+            padding: 8px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            background: transparent;
+            color: #92487A;
+            cursor: pointer;
+            border: none;
+        }
+        
+        .tab-btn:hover {
+            background-color: rgba(84, 8, 99, 0.1);
+            color: #540863;
+        }
+        
+        .tab-btn.active {
+            background-color: #540863;
+            color: white;
+        }
+        
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        
+        /* Status Badges */
+        .status-pending { background: rgba(255, 193, 7, 0.2); color: #856404; }
+        .status-approved { background: rgba(40, 167, 69, 0.2); color: #155724; }
+        .status-rejected { background: rgba(220, 53, 69, 0.2); color: #721c24; }
+        .status-escalated { background: rgba(23, 162, 184, 0.2); color: #0c5460; }
+        
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        .modal.active { display: flex; }
+        .modal-content {
+            background: white;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 85vh;
+            overflow-y: auto;
+            padding: 24px;
+        }
+        
+        /* Approval Flow Card */
+        .flow-card {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 12px;
+            border-left: 4px solid #540863;
+        }
+        
+        .flow-step {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        .flow-step:last-child { border-bottom: none; }
+        .step-number {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: #540863;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        
+        /* Rule Card */
+        .rule-card {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 10px;
+            padding: 12px;
+            margin-bottom: 10px;
+            transition: all 0.3s ease;
+        }
+        .rule-card:hover { border-color: #540863; box-shadow: 0 2px 8px rgba(84,8,99,0.1); }
+        
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 12px 20px;
+            border-radius: 8px;
+            color: white;
+            z-index: 1100;
+            animation: slideIn 0.3s ease;
+        }
+        .toast.success { background-color: #28a745; }
+        .toast.error { background-color: #dc3545; }
+        .toast.info { background-color: #17a2b8; }
+        
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
+        .main-content { margin-top: 64px; }
+        
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-track { background: #f3eeef; }
+        ::-webkit-scrollbar-thumb { background: #92487A; border-radius: 10px; }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+        
+        .data-row:hover { background-color: rgba(84, 8, 99, 0.05); cursor: pointer; }
+        table { width: 100%; border-collapse: collapse; }
+        
+        @media (max-width: 768px) {
+            .section-card { padding: 16px; }
+            .tab-btn { padding: 6px 12px; font-size: 12px; }
+            .form-row { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body class="bg-[#f3eeef]">
+    
+    <div class="flex h-screen overflow-hidden">
+        <div id="sidebar-container"></div>
+        
+        <div class="flex-1 flex flex-col overflow-hidden">
+            <div id="header-container"></div>
+            
+            <main class="flex-1 overflow-y-auto p-5 main-content">
+                
+                <!-- Page Header -->
+                <div class="mb-4">
+                    <h1 class="text-xl font-bold" style="color: #540863;">Workflow & Approval</h1>
+                    <p class="text-xs mt-0.5" style="color: #92487A;">Manage approval hierarchies, rules, and track pending approvals</p>
+                </div>
+                
+                <!-- Tab Navigation -->
+                <div class="tab-nav">
+                    <button class="tab-btn active" data-tab="pending">⏳ Pending Approvals</button>
+                    <button class="tab-btn" data-tab="history">📋 Approval History</button>
+                    <button class="tab-btn" data-tab="hierarchy">🏛️ Approval Hierarchy</button>
+                    <button class="tab-btn" data-tab="rules">⚙️ Approval Rules</button>
+                    <button class="tab-btn" data-tab="escalation">📢 Escalation</button>
+                </div>
+                
+                <!-- ==================== TAB 1: PENDING APPROVALS ==================== -->
+                <div id="tab-pending" class="tab-content active">
+                    <!-- Stats Cards -->
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-5">
+                        <div class="stat-card"><p class="text-xs text-gray-500">Total Pending</p><p class="text-2xl font-bold" style="color:#540863;" id="totalPending">12</p><p class="text-xs text-yellow-600">Awaiting action</p></div>
+                        <div class="stat-card"><p class="text-xs text-gray-500">Leave Requests</p><p class="text-2xl font-bold" style="color:#540863;" id="leavePending">5</p><p class="text-xs text-yellow-600">Pending approval</p></div>
+                        <div class="stat-card"><p class="text-xs text-gray-500">Expense Claims</p><p class="text-2xl font-bold" style="color:#540863;" id="expensePending">3</p><p class="text-xs text-yellow-600">Pending approval</p></div>
+                        <div class="stat-card"><p class="text-xs text-gray-500">Overdue Approvals</p><p class="text-2xl font-bold" style="color:#dc3545;" id="overduePending">2</p><p class="text-xs text-red-600">Escalate now</p></div>
+                    </div>
+                    
+                    <!-- Pending Approvals List -->
+                    <div class="section-card">
+                        <div class="flex justify-between items-center mb-4 flex-wrap gap-3">
+                            <h3 class="text-md font-semibold" style="color:#540863;">Pending Approvals</h3>
+                            <div class="flex gap-2 flex-wrap">
+                                <select id="approvalType" class="w-40 text-sm" onchange="filterApprovals()">
+                                    <option value="all">All Types</option>
+                                    <option value="leave">Leave Requests</option>
+                                    <option value="expense">Expense Claims</option>
+                                    <option value="asset">Asset Requests</option>
+                                    <option value="onboarding">Onboarding Tasks</option>
+                                </select>
+                                <input type="text" id="searchApproval" placeholder="Search..." class="w-48 text-sm" onkeyup="filterApprovals()">
+                            </div>
+                        </div>
+                        
+                        <div class="overflow-x-auto">
+                            <table class="w-full">
+                                <thead>
+                                    <tr class="border-b" style="border-color:#5c003f;">
+                                        <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">Request ID</th>
+                                        <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">Type</th>
+                                        <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">Requestor</th>
+                                        <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">Department</th>
+                                        <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">Request Date</th>
+                                        <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">Priority</th>
+                                        <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="pendingApprovalsList">
+                                    <tr class="border-b data-row" style="border-color:#e5e7eb;">
+                                        <td class="py-3 text-sm" style="color:#540863;">L-001</td>
+                                        <td class="py-3 text-sm"><span class="text-xs px-2 py-1 rounded-full" style="background:rgba(84,8,99,0.1);color:#540863;">Leave</span></td>
+                                        <td class="py-3 text-sm" style="color:#540863;">Priya Sharma</td>
+                                        <td class="py-3 text-sm" style="color:#92487A;">HR</td>
+                                        <td class="py-3 text-sm" style="color:#92487A;">2024-04-10</td>
+                                        <td class="py-3"><span class="text-xs px-2 py-1 rounded-full" style="background:#ffc107;color:#856404;">Medium</span></td>
+                                        <td class="py-3"><button onclick="showApprovalModal('leave', 'L-001', 'Priya Sharma')" class="btn-success text-xs mr-1"><i class="fas fa-check"></i> Approve</button><button onclick="rejectRequest(this)" class="btn-danger text-xs"><i class="fas fa-times"></i> Reject</button></td>
+                                    </tr>
+                                    <tr class="border-b data-row" style="border-color:#e5e7eb;">
+                                        <td class="py-3 text-sm" style="color:#540863;">E-001</td>
+                                        <td class="py-3 text-sm"><span class="text-xs px-2 py-1 rounded-full" style="background:rgba(146,72,122,0.1);color:#92487A;">Expense</span></td>
+                                        <td class="py-3 text-sm" style="color:#540863;">Amit Mehta</td>
+                                        <td class="py-3 text-sm" style="color:#92487A;">Sales</td>
+                                        <td class="py-3 text-sm" style="color:#92487A;">2024-04-09</td>
+                                        <td class="py-3"><span class="text-xs px-2 py-1 rounded-full" style="background:#dc3545;color:white;">High</span></td>
+                                        <td class="py-3"><button onclick="showApprovalModal('expense', 'E-001', 'Amit Mehta')" class="btn-success text-xs mr-1"><i class="fas fa-check"></i> Approve</button><button onclick="rejectRequest(this)" class="btn-danger text-xs"><i class="fas fa-times"></i> Reject</button></td>
+                                    </tr>
+                                    <tr class="border-b data-row" style="border-color:#e5e7eb;">
+                                        <td class="py-3 text-sm" style="color:#540863;">A-001</td>
+                                        <td class="py-3 text-sm"><span class="text-xs px-2 py-1 rounded-full" style="background:rgba(84,8,99,0.1);color:#540863;">Asset</span></td>
+                                        <td class="py-3 text-sm" style="color:#540863;">Neha Gupta</td>
+                                        <td class="py-3 text-sm" style="color:#92487A;">Finance</td>
+                                        <td class="py-3 text-sm" style="color:#92487A;">2024-04-08</td>
+                                        <td class="py-3"><span class="text-xs px-2 py-1 rounded-full" style="background:#28a745;color:white;">Low</span></td>
+                                        <td class="py-3"><button onclick="showApprovalModal('asset', 'A-001', 'Neha Gupta')" class="btn-success text-xs mr-1"><i class="fas fa-check"></i> Approve</button><button onclick="rejectRequest(this)" class="btn-danger text-xs"><i class="fas fa-times"></i> Reject</button></td>
+                                    </tr>
+                                    <tr class="border-b data-row" style="border-color:#e5e7eb;">
+                                        <td class="py-3 text-sm" style="color:#540863;">L-002</td>
+                                        <td class="py-3 text-sm"><span class="text-xs px-2 py-1 rounded-full" style="background:rgba(84,8,99,0.1);color:#540863;">Leave</span></td>
+                                        <td class="py-3 text-sm" style="color:#540863;">Rajesh Kumar</td>
+                                        <td class="py-3 text-sm" style="color:#92487A;">IT</td>
+                                        <td class="py-3 text-sm" style="color:#92487A;">2024-04-07</td>
+                                        <td class="py-3"><span class="text-xs px-2 py-1 rounded-full" style="background:#ffc107;color:#856404;">Medium</span></td>
+                                        <td class="py-3"><button onclick="showApprovalModal('leave', 'L-002', 'Rajesh Kumar')" class="btn-success text-xs mr-1"><i class="fas fa-check"></i> Approve</button><button onclick="rejectRequest(this)" class="btn-danger text-xs"><i class="fas fa-times"></i> Reject</button></td>
+                                    </tr>
+                                    <tr class="border-b data-row" style="border-color:#e5e7eb;">
+                                        <td class="py-3 text-sm" style="color:#540863;">O-001</td>
+                                        <td class="py-3 text-sm"><span class="text-xs px-2 py-1 rounded-full" style="background:rgba(146,72,122,0.1);color:#92487A;">Onboarding</span></td>
+                                        <td class="py-3 text-sm" style="color:#540863;">Sarah Johnson</td>
+                                        <td class="py-3 text-sm" style="color:#92487A;">Design</td>
+                                        <td class="py-3 text-sm" style="color:#92487A;">2024-04-05</td>
+                                        <td class="py-3"><span class="text-xs px-2 py-1 rounded-full" style="background:#28a745;color:white;">Low</span></td>
+                                        <td class="py-3"><button onclick="showApprovalModal('onboarding', 'O-001', 'Sarah Johnson')" class="btn-success text-xs mr-1"><i class="fas fa-check"></i> Approve</button><button onclick="rejectRequest(this)" class="btn-danger text-xs"><i class="fas fa-times"></i> Reject</button></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- ==================== TAB 2: APPROVAL HISTORY ==================== -->
+                <div id="tab-history" class="tab-content">
+                    <div class="section-card">
+                        <div class="flex justify-between items-center mb-4 flex-wrap gap-3">
+                            <h3 class="text-md font-semibold" style="color:#540863;">Approval History</h3>
+                            <div class="flex gap-2 flex-wrap">
+                                <select id="historyStatus" class="w-36 text-sm" onchange="filterHistory()">
+                                    <option value="all">All Status</option>
+                                    <option value="approved">Approved</option>
+                                    <option value="rejected">Rejected</option>
+                                </select>
+                                <select id="historyType" class="w-36 text-sm" onchange="filterHistory()">
+                                    <option value="all">All Types</option>
+                                    <option value="leave">Leave</option>
+                                    <option value="expense">Expense</option>
+                                    <option value="asset">Asset</option>
+                                </select>
+                                <input type="text" id="searchHistory" placeholder="Search..." class="w-48 text-sm" onkeyup="filterHistory()">
+                                <button onclick="exportHistory()" class="btn-outline text-sm"><i class="fas fa-download mr-1"></i>Export</button>
+                            </div>
+                        </div>
+                        
+                        <div class="overflow-x-auto">
+                            <table class="w-full">
+                                <thead>
+                                    <tr class="border-b" style="border-color:#5c003f;">
+                                        <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">Request ID</th>
+                                        <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">Type</th>
+                                        <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">Requestor</th>
+                                        <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">Approved By</th>
+                                        <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">Date</th>
+                                        <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">Status</th>
+                                        <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">Remarks</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="historyList">
+                                    <tr class="border-b" style="border-color:#e5e7eb;">
+                                        <td class="py-3 text-sm" style="color:#540863;">L-003</td>
+                                        <td class="py-3 text-sm">Leave</td>
+                                        <td class="py-3 text-sm" style="color:#540863;">Vikram Singh</td>
+                                        <td class="py-3 text-sm" style="color:#92487A;">Rajesh Kumar</td>
+                                        <td class="py-3 text-sm" style="color:#92487A;">2024-04-01</td>
+                                        <td class="py-3"><span class="status-approved text-xs px-2 py-1 rounded-full">Approved</span></td>
+                                        <td class="py-3 text-sm" style="color:#92487A;">Approved</td>
+                                    </tr>
+                                    <tr class="border-b" style="border-color:#e5e7eb;">
+                                        <td class="py-3 text-sm" style="color:#540863;">E-002</td>
+                                        <td class="py-3 text-sm">Expense</td>
+                                        <td class="py-3 text-sm" style="color:#540863;">Priya Sharma</td>
+                                        <td class="py-3 text-sm" style="color:#92487A;">Admin</td>
+                                        <td class="py-3 text-sm" style="color:#92487A;">2024-03-28</td>
+                                        <td class="py-3"><span class="status-rejected text-xs px-2 py-1 rounded-full">Rejected</span></td>
+                                        <td class="py-3 text-sm" style="color:#92487A;">Insufficient bills</td>
+                                    </tr>
+                                    <tr class="border-b" style="border-color:#e5e7eb;">
+                                        <td class="py-3 text-sm" style="color:#540863;">A-002</td>
+                                        <td class="py-3 text-sm">Asset</td>
+                                        <td class="py-3 text-sm" style="color:#540863;">Amit Mehta</td>
+                                        <td class="py-3 text-sm" style="color:#92487A;">IT Head</td>
+                                        <td class="py-3 text-sm" style="color:#92487A;">2024-03-25</td>
+                                        <td class="py-3"><span class="status-approved text-xs px-2 py-1 rounded-full">Approved</span></td>
+                                        <td class="py-3 text-sm" style="color:#92487A;">Asset allocated</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <!-- Approval Analytics Chart -->
+                    <div class="section-card">
+                        <h3 class="text-md font-semibold mb-3" style="color:#540863;">Approval Analytics</h3>
+                        <canvas id="approvalChart" height="200"></canvas>
+                    </div>
+                </div>
+                
+                <!-- ==================== TAB 3: APPROVAL HIERARCHY ==================== -->
+                <div id="tab-hierarchy" class="tab-content">
+                    <div class="section-card">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-md font-semibold" style="color:#540863;">Approval Flow Configuration</h3>
+                            <button onclick="openAddLevelModal()" class="btn-primary text-sm"><i class="fas fa-plus mr-1"></i>Add Level</button>
+                        </div>
+                        
+                        <!-- Leave Approval Flow -->
+                        <div class="flow-card mb-4">
+                            <h4 class="font-semibold mb-2" style="color:#540863;"><i class="fas fa-calendar-alt mr-2"></i>Leave Approval Flow</h4>
+                            <div id="leaveFlow">
+                                <div class="flow-step"><div class="step-number">1</div><div>Employee submits leave request</div><i class="fas fa-arrow-right ml-auto text-gray-400"></i></div>
+                                <div class="flow-step"><div class="step-number">2</div><div>Team Lead / Manager approves</div><i class="fas fa-arrow-right ml-auto text-gray-400"></i></div>
+                                <div class="flow-step"><div class="step-number">3</div><div>HR reviews and approves</div><i class="fas fa-arrow-right ml-auto text-gray-400"></i></div>
+                                <div class="flow-step"><div class="step-number">4</div><div>Final approval (if needed)</div></div>
+                            </div>
+                        </div>
+                        
+                        <!-- Expense Approval Flow -->
+                        <div class="flow-card mb-4">
+                            <h4 class="font-semibold mb-2" style="color:#540863;"><i class="fas fa-wallet mr-2"></i>Expense Approval Flow</h4>
+                            <div id="expenseFlow">
+                                <div class="flow-step"><div class="step-number">1</div><div>Employee submits expense claim</div><i class="fas fa-arrow-right ml-auto text-gray-400"></i></div>
+                                <div class="flow-step"><div class="step-number">2</div><div>Department Head approves</div><i class="fas fa-arrow-right ml-auto text-gray-400"></i></div>
+                                <div class="flow-step"><div class="step-number">3</div><div>Finance team verifies</div><i class="fas fa-arrow-right ml-auto text-gray-400"></i></div>
+                                <div class="flow-step"><div class="step-number">4</div><div>Final approval for reimbursement</div></div>
+                            </div>
+                        </div>
+                        
+                        <!-- Asset Approval Flow -->
+                        <div class="flow-card">
+                            <h4 class="font-semibold mb-2" style="color:#540863;"><i class="fas fa-laptop mr-2"></i>Asset Request Flow</h4>
+                            <div id="assetFlow">
+                                <div class="flow-step"><div class="step-number">1</div><div>Employee requests asset</div><i class="fas fa-arrow-right ml-auto text-gray-400"></i></div>
+                                <div class="flow-step"><div class="step-number">2</div><div>IT/Admin approves</div><i class="fas fa-arrow-right ml-auto text-gray-400"></i></div>
+                                <div class="flow-step"><div class="step-number">3</div><div>Asset allocation</div></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Approvers List -->
+                    <div class="section-card">
+                        <h3 class="text-md font-semibold mb-3" style="color:#540863;">Approvers by Department</h3>
+                        <div class="overflow-x-auto">
+                            <table class="w-full">
+                                <thead>
+                                    <tr class="border-b" style="border-color:#5c003f;">
+                                        <th class="text-left py-2 text-xs font-medium" style="color:#92487A;">Department</th>
+                                        <th class="text-left py-2 text-xs font-medium" style="color:#92487A;">Level 1 Approver</th>
+                                        <th class="text-left py-2 text-xs font-medium" style="color:#92487A;">Level 2 Approver</th>
+                                        <th class="text-left py-2 text-xs font-medium" style="color:#92487A;">Level 3 Approver</th>
+                                        <th class="text-left py-2 text-xs font-medium" style="color:#92487A;">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="approversList">
+                                    <tr class="border-b"><td class="py-2 text-sm" style="color:#540863;">IT</td><td class="py-2 text-sm">Team Lead</td><td class="py-2 text-sm">IT Head</td><td class="py-2 text-sm">CTO</td><td class="py-2"><button onclick="editApprover(this)" class="text-[#540863]"><i class="fas fa-edit"></i></button></td></tr>
+                                    <tr class="border-b"><td class="py-2 text-sm" style="color:#540863;">HR</td><td class="py-2 text-sm">HR Executive</td><td class="py-2 text-sm">HR Manager</td><td class="py-2 text-sm">HR Head</td><td class="py-2"><button onclick="editApprover(this)" class="text-[#540863]"><i class="fas fa-edit"></i></button></td></tr>
+                                    <tr class="border-b"><td class="py-2 text-sm" style="color:#540863;">Sales</td><td class="py-2 text-sm">Sales Lead</td><td class="py-2 text-sm">Sales Manager</td><td class="py-2 text-sm">Sales Director</td><td class="py-2"><button onclick="editApprover(this)" class="text-[#540863]"><i class="fas fa-edit"></i></button></td></tr>
+                                    <tr><td class="py-2 text-sm" style="color:#540863;">Finance</td><td class="py-2 text-sm">Finance Executive</td><td class="py-2 text-sm">Finance Manager</td><td class="py-2 text-sm">CFO</td><td class="py-2"><button onclick="editApprover(this)" class="text-[#540863]"><i class="fas fa-edit"></i></button></td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- ==================== TAB 4: APPROVAL RULES ==================== -->
+                <div id="tab-rules" class="tab-content">
+                    <div class="section-card">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-md font-semibold" style="color:#540863;">Auto-Approval Rules</h3>
+                            <button onclick="openAddRuleModal()" class="btn-primary text-sm"><i class="fas fa-plus mr-1"></i>Add Rule</button>
+                        </div>
+                        
+                        <div id="rulesList">
+                            <div class="rule-card">
+                                <div class="flex justify-between items-start">
+                                    <div><i class="fas fa-check-circle text-green-500 mr-2"></i><span class="font-medium" style="color:#540863;">Leave less than 3 days</span><p class="text-xs text-gray-500 mt-1">Casual leave requests for 3 days or less are auto-approved</p></div>
+                                    <div><button onclick="editRule(this)" class="text-[#540863] mr-2"><i class="fas fa-edit"></i></button><button onclick="deleteRule(this)" class="text-red-500"><i class="fas fa-trash"></i></button></div>
+                                </div>
+                                <div class="mt-2"><span class="text-xs px-2 py-1 rounded-full" style="background:rgba(40,167,69,0.1);color:#28a745;">Active</span></div>
+                            </div>
+                            <div class="rule-card">
+                                <div class="flex justify-between items-start">
+                                    <div><i class="fas fa-check-circle text-green-500 mr-2"></i><span class="font-medium" style="color:#540863;">Expense less than ₹5,000</span><p class="text-xs text-gray-500 mt-1">Expense claims under ₹5,000 auto-approved by department head</p></div>
+                                    <div><button onclick="editRule(this)" class="text-[#540863] mr-2"><i class="fas fa-edit"></i></button><button onclick="deleteRule(this)" class="text-red-500"><i class="fas fa-trash"></i></button></div>
+                                </div>
+                                <div class="mt-2"><span class="text-xs px-2 py-1 rounded-full" style="background:rgba(40,167,69,0.1);color:#28a745;">Active</span></div>
+                            </div>
+                            <div class="rule-card">
+                                <div class="flex justify-between items-start">
+                                    <div><i class="fas fa-check-circle text-green-500 mr-2"></i><span class="font-medium" style="color:#540863;">Weekend auto-approval</span><p class="text-xs text-gray-500 mt-1">Leave requests on weekends auto-approved</p></div>
+                                    <div><button onclick="editRule(this)" class="text-[#540863] mr-2"><i class="fas fa-edit"></i></button><button onclick="deleteRule(this)" class="text-red-500"><i class="fas fa-trash"></i></button></div>
+                                </div>
+                                <div class="mt-2"><span class="text-xs px-2 py-1 rounded-full" style="background:rgba(23,162,184,0.1);color:#17a2b8;">Inactive</span></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Multi-Level Approval Settings -->
+                    <div class="section-card">
+                        <h3 class="text-md font-semibold mb-3" style="color:#540863;">Multi-Level Approval Settings</h3>
+                        <form id="multiLevelForm">
+                            <div class="form-row">
+                                <div><label>Leave Approval Levels</label><select><option>2 Levels (Manager + HR)</option><option>3 Levels (Lead + Manager + HR)</option></select></div>
+                                <div><label>Expense Approval Levels</label><select><option>2 Levels (Manager + Finance)</option><option>3 Levels (Lead + Manager + Finance)</option></select></div>
+                                <div><label>Asset Approval Levels</label><select><option>2 Levels (Manager + IT)</option><option>3 Levels (Lead + Manager + IT)</option></select></div>
+                            </div>
+                            <div class="flex justify-end"><button type="submit" class="btn-primary">Save Settings</button></div>
+                        </form>
+                    </div>
+                </div>
+                
+                <!-- ==================== TAB 5: ESCALATION ==================== -->
+                <div id="tab-escalation" class="tab-content">
+                    <div class="section-card">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-md font-semibold" style="color:#540863;">Escalation Rules</h3>
+                            <button onclick="openEscalationModal()" class="btn-primary text-sm"><i class="fas fa-plus mr-1"></i>Add Escalation Rule</button>
+                        </div>
+                        
+                        <div id="escalationRulesList">
+                            <div class="rule-card">
+                                <div class="flex justify-between items-start">
+                                    <div><i class="fas fa-hourglass-half text-warning mr-2"></i><span class="font-medium" style="color:#540863;">Pending > 3 days → Escalate to Manager</span><p class="text-xs text-gray-500 mt-1">If leave request pending for more than 3 days, escalate to department manager</p></div>
+                                    <div><button onclick="editEscalation(this)" class="text-[#540863] mr-2"><i class="fas fa-edit"></i></button><button onclick="deleteEscalation(this)" class="text-red-500"><i class="fas fa-trash"></i></button></div>
+                                </div>
+                                <div class="mt-2"><span class="text-xs px-2 py-1 rounded-full" style="background:rgba(40,167,69,0.1);color:#28a745;">Active</span></div>
+                            </div>
+                            <div class="rule-card">
+                                <div class="flex justify-between items-start">
+                                    <div><i class="fas fa-hourglass-half text-warning mr-2"></i><span class="font-medium" style="color:#540863;">Pending > 5 days → Escalate to HR</span><p class="text-xs text-gray-500 mt-1">If approval pending for more than 5 days, escalate to HR department</p></div>
+                                    <div><button onclick="editEscalation(this)" class="text-[#540863] mr-2"><i class="fas fa-edit"></i></button><button onclick="deleteEscalation(this)" class="text-red-500"><i class="fas fa-trash"></i></button></div>
+                                </div>
+                                <div class="mt-2"><span class="text-xs px-2 py-1 rounded-full" style="background:rgba(40,167,69,0.1);color:#28a745;">Active</span></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Escalation History -->
+                    <div class="section-card">
+                        <h3 class="text-md font-semibold mb-3" style="color:#540863;">Escalation History</h3>
+                        <div class="overflow-x-auto">
+                            <table class="w-full">
+                                <thead>
+                                    <tr class="border-b" style="border-color:#5c003f;">
+                                        <th class="text-left py-2 text-xs">Request ID</th>
+                                        <th class="text-left py-2 text-xs">Type</th>
+                                        <th class="text-left py-2 text-xs">Original Approver</th>
+                                        <th class="text-left py-2 text-xs">Escalated To</th>
+                                        <th class="text-left py-2 text-xs">Escalation Date</th>
+                                        <th class="text-left py-2 text-xs">Reason</th>
+                                        <th class="text-left py-2 text-xs">Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="border-b"><td class="py-2 text-sm">L-001</td><td class="py-2 text-sm">Leave</td><td class="py-2 text-sm">Team Lead</td><td class="py-2 text-sm">HR Manager</td><td class="py-2 text-sm">2024-04-10</td><td class="py-2 text-sm">No response for 3 days</td><td class="py-2"><span class="status-escalated text-xs px-2 py-1 rounded-full">Escalated</span></td></tr>
+                                    <tr class="border-b"><td class="py-2 text-sm">E-001</td><td class="py-2 text-sm">Expense</td><td class="py-2 text-sm">Finance</td><td class="py-2 text-sm">CFO</td><td class="py-2 text-sm">2024-04-08</td><td class="py-2 text-sm">Pending > 5 days</td><td class="py-2"><span class="status-approved text-xs px-2 py-1 rounded-full">Resolved</span></td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                
+            </main>
+        </div>
+    </div>
+    
+    <!-- Approval Modal -->
+    <div id="approvalModal" class="modal">
+        <div class="modal-content">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-lg font-semibold" style="color:#540863;" id="approvalModalTitle">Approve Request</h3>
+                <button onclick="closeApprovalModal()" class="text-gray-500 text-xl">&times;</button>
+            </div>
+            <form id="approvalForm">
+                <input type="hidden" id="approvalRequestId">
+                <input type="hidden" id="approvalType">
+                <input type="hidden" id="approvalRequestor">
+                <div class="mb-3"><p class="text-sm">Request ID: <span id="displayReqId" class="font-medium" style="color:#540863;"></span></p></div>
+                <div class="mb-3"><p class="text-sm">Requestor: <span id="displayReqName" class="font-medium" style="color:#540863;"></span></p></div>
+                <div class="mb-3"><p class="text-sm">Type: <span id="displayReqType" class="font-medium" style="color:#540863;"></span></p></div>
+                <div><label>Remarks</label><textarea id="approvalRemarks" rows="3" placeholder="Enter remarks..."></textarea></div>
+                <div class="flex justify-end gap-3 mt-4">
+                    <button type="button" onclick="closeApprovalModal()" class="btn-outline">Cancel</button>
+                    <button type="submit" class="btn-primary">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Add Level Modal -->
+    <div id="addLevelModal" class="modal">
+        <div class="modal-content"><div class="flex justify-between items-center mb-4"><h3 class="text-lg font-semibold" style="color:#540863;">Add Approval Level</h3><button onclick="closeAddLevelModal()" class="text-gray-500 text-xl">&times;</button></div>
+        <form id="addLevelForm"><div><label>Process Type</label><select><option>Leave Approval</option><option>Expense Approval</option><option>Asset Approval</option></select></div><div class="mt-2"><label>Level Number</label><input type="number" min="1" max="10"></div><div class="mt-2"><label>Approver Role</label><input type="text" placeholder="e.g., Department Head"></div><div class="flex justify-end gap-3 mt-4"><button type="button" onclick="closeAddLevelModal()" class="btn-outline">Cancel</button><button type="submit" class="btn-primary">Add Level</button></div></form></div>
+    </div>
+    
+    <!-- Add Rule Modal -->
+    <div id="addRuleModal" class="modal">
+        <div class="modal-content"><div class="flex justify-between items-center mb-4"><h3 class="text-lg font-semibold" style="color:#540863;">Add Auto-Approval Rule</h3><button onclick="closeAddRuleModal()" class="text-gray-500 text-xl">&times;</button></div>
+        <form id="addRuleForm"><div><label>Rule Name</label><input type="text" required></div><div class="mt-2"><label>Condition</label><select><option>Leave days &lt; 3</option><option>Expense amount &lt; 5000</option><option>Request type is Casual Leave</option></select></div><div class="mt-2"><label>Action</label><select><option>Auto-approve</option><option>Skip level</option></select></div><div class="mt-2"><label>Status</label><select><option>Active</option><option>Inactive</option></select></div><div class="flex justify-end gap-3 mt-4"><button type="button" onclick="closeAddRuleModal()" class="btn-outline">Cancel</button><button type="submit" class="btn-primary">Save Rule</button></div></form></div>
+    </div>
+    
+    <!-- Escalation Modal -->
+    <div id="escalationModal" class="modal">
+        <div class="modal-content"><div class="flex justify-between items-center mb-4"><h3 class="text-lg font-semibold" style="color:#540863;">Add Escalation Rule</h3><button onclick="closeEscalationModal()" class="text-gray-500 text-xl">&times;</button></div>
+        <form id="escalationForm"><div><label>Process Type</label><select><option>Leave Approval</option><option>Expense Approval</option><option>Asset Approval</option></select></div><div class="mt-2"><label>Pending Days</label><input type="number" min="1" max="30" value="3"></div><div class="mt-2"><label>Escalate To</label><input type="text" placeholder="Role name"></div><div class="flex justify-end gap-3 mt-4"><button type="button" onclick="closeEscalationModal()" class="btn-outline">Cancel</button><button type="submit" class="btn-primary">Save Rule</button></div></form></div>
+    </div>
+    
+    <script src="/assets/js/common.js"></script>
+    <script src="/assets/js/sidebar.js"></script>
+    <script src="/assets/js/header.js"></script>
+    
+    <script>
+        let approvalChart = null;
+        
+        // Tab Navigation
+        function initTabs() {
+            const tabs = document.querySelectorAll('.tab-btn');
+            const contents = document.querySelectorAll('.tab-content');
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const tabId = this.getAttribute('data-tab');
+                    tabs.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    contents.forEach(content => content.classList.remove('active'));
+                    document.getElementById(`tab-${tabId}`).classList.add('active');
+                    localStorage.setItem('workflowActiveTab', tabId);
+                    if (tabId === 'history') updateApprovalChart();
+                });
+            });
+            const savedTab = localStorage.getItem('workflowActiveTab');
+            if (savedTab) { const savedTabBtn = document.querySelector(`.tab-btn[data-tab="${savedTab}"]`); if (savedTabBtn) savedTabBtn.click(); }
+        }
+        
+        // Pending Approvals Functions
+        function filterApprovals() {
+            const search = document.getElementById('searchApproval').value.toLowerCase();
+            const type = document.getElementById('approvalType').value;
+            const rows = document.querySelectorAll('#pendingApprovalsList tr');
+            rows.forEach(row => {
+                let show = true;
+                const requestor = row.cells[2]?.innerText.toLowerCase();
+                const rowType = row.cells[1]?.innerText.toLowerCase();
+                if(search && !requestor.includes(search)) show = false;
+                if(type !== 'all' && !rowType.includes(type)) show = false;
+                row.style.display = show ? '' : 'none';
+            });
+        }
+        
+        function showApprovalModal(type, reqId, requestor) {
+            document.getElementById('approvalModalTitle').innerText = `Approve ${type.charAt(0).toUpperCase() + type.slice(1)} Request`;
+            document.getElementById('displayReqId').innerText = reqId;
+            document.getElementById('displayReqName').innerText = requestor;
+            document.getElementById('displayReqType').innerText = type.charAt(0).toUpperCase() + type.slice(1);
+            document.getElementById('approvalRequestId').value = reqId;
+            document.getElementById('approvalType').value = type;
+            document.getElementById('approvalRequestor').value = requestor;
+            document.getElementById('approvalRemarks').value = '';
+            document.getElementById('approvalModal').classList.add('active');
+        }
+        
+        document.getElementById('approvalForm')?.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const reqId = document.getElementById('approvalRequestId').value;
+            const remarks = document.getElementById('approvalRemarks').value;
+            showToast(`Request ${reqId} approved successfully!`, 'success');
+            closeApprovalModal();
+            // Remove row from pending list
+            const rows = document.querySelectorAll('#pendingApprovalsList tr');
+            for (let row of rows) {
+                if (row.cells[0]?.innerText === reqId) {
+                    row.remove();
+                    break;
+                }
+            }
+            updatePendingCounts();
+        });
+        
+        function rejectRequest(btn) {
+            const row = btn.closest('tr');
+            const reqId = row.cells[0]?.innerText;
+            if(confirm(`Reject request ${reqId}?`)) {
+                row.remove();
+                updatePendingCounts();
+                showToast(`Request ${reqId} rejected!`, 'warning');
+            }
+        }
+        
+        function updatePendingCounts() {
+            const rows = document.querySelectorAll('#pendingApprovalsList tr');
+            document.getElementById('totalPending').innerText = rows.length;
+        }
+        
+        // History Functions
+        function filterHistory() {
+            const search = document.getElementById('searchHistory').value.toLowerCase();
+            const status = document.getElementById('historyStatus').value;
+            const type = document.getElementById('historyType').value;
+            const rows = document.querySelectorAll('#historyList tr');
+            rows.forEach(row => {
+                let show = true;
+                const requestor = row.cells[2]?.innerText.toLowerCase();
+                const rowStatus = row.cells[5]?.innerText.toLowerCase();
+                const rowType = row.cells[1]?.innerText.toLowerCase();
+                if(search && !requestor.includes(search)) show = false;
+                if(status !== 'all' && !rowStatus.includes(status)) show = false;
+                if(type !== 'all' && !rowType.includes(type)) show = false;
+                row.style.display = show ? '' : 'none';
+            });
+        }
+        
+        function exportHistory() { showToast('History exported!', 'success'); }
+        
+        function updateApprovalChart() {
+            const ctx = document.getElementById('approvalChart').getContext('2d');
+            if (approvalChart) approvalChart.destroy();
+            approvalChart = new Chart(ctx, {
+                type: 'bar',
+                data: { labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'], datasets: [
+                    { label: 'Approved', data: [25, 30, 28, 35, 32, 28], backgroundColor: '#28a745', borderRadius: 6 },
+                    { label: 'Rejected', data: [5, 3, 4, 6, 4, 3], backgroundColor: '#dc3545', borderRadius: 6 },
+                    { label: 'Escalated', data: [2, 1, 3, 2, 1, 2], backgroundColor: '#ffc107', borderRadius: 6 }
+                ] },
+                options: { responsive: true, maintainAspectRatio: true, plugins: { legend: { position: 'bottom' } } }
+            });
+        }
+        
+        // Hierarchy Functions
+        function openAddLevelModal() { document.getElementById('addLevelModal').classList.add('active'); }
+        function closeAddLevelModal() { document.getElementById('addLevelModal').classList.remove('active'); }
+        document.getElementById('addLevelForm')?.addEventListener('submit', function(e) { e.preventDefault(); showToast('Approval level added!', 'success'); closeAddLevelModal(); });
+        function editApprover(btn) { showToast('Edit approver functionality', 'info'); }
+        
+        // Rules Functions
+        function openAddRuleModal() { document.getElementById('addRuleModal').classList.add('active'); }
+        function closeAddRuleModal() { document.getElementById('addRuleModal').classList.remove('active'); }
+        document.getElementById('addRuleForm')?.addEventListener('submit', function(e) { e.preventDefault(); showToast('Rule added!', 'success'); closeAddRuleModal(); });
+        function editRule(btn) { showToast('Edit rule', 'info'); }
+        function deleteRule(btn) { if(confirm('Delete this rule?')) btn.closest('.rule-card').remove(); showToast('Rule deleted!', 'success'); }
+        document.getElementById('multiLevelForm')?.addEventListener('submit', function(e) { e.preventDefault(); showToast('Multi-level settings saved!', 'success'); });
+        
+        // Escalation Functions
+        function openEscalationModal() { document.getElementById('escalationModal').classList.add('active'); }
+        function closeEscalationModal() { document.getElementById('escalationModal').classList.remove('active'); }
+        document.getElementById('escalationForm')?.addEventListener('submit', function(e) { e.preventDefault(); showToast('Escalation rule added!', 'success'); closeEscalationModal(); });
+        function editEscalation(btn) { showToast('Edit escalation', 'info'); }
+        function deleteEscalation(btn) { if(confirm('Delete this escalation rule?')) btn.closest('.rule-card').remove(); showToast('Escalation rule deleted!', 'success'); }
+        
+        // Modal Close Functions
+        function closeApprovalModal() { document.getElementById('approvalModal').classList.remove('active'); }
+        
+        function showToast(message, type) { const toast = document.createElement('div'); toast.className = `toast ${type}`; toast.innerHTML = message; document.body.appendChild(toast); setTimeout(() => toast.remove(), 3000); }
+        
+        function setActiveMenu(module) { setTimeout(() => { document.querySelectorAll('.nav-link').forEach(link => { link.classList.remove('active'); if(link.getAttribute('data-module') === module) link.classList.add('active'); }); }, 500); }
+        
+        document.addEventListener('DOMContentLoaded', function() { loadSidebar(); loadHeader(); setActiveMenu('workflow'); initTabs(); updateApprovalChart(); });
+    </script>
+</body>
+</html>
