@@ -46,7 +46,7 @@
         .section-card {
             background: white;
             border-radius: 12px;
-            border: 1px solid #5c003f;
+            border: 1px solid #c99ebb;
             padding: 20px;
             margin-bottom: 20px;
         }
@@ -105,14 +105,14 @@
         .btn-sm { padding: 6px 12px; font-size: 12px; }
         
         input, select, textarea {
-            border: 1px solid #5c003f;
+            border: 1px solid #c99ebb;
             border-radius: 8px;
             padding: 8px 12px;
             width: 100%;
         }
         input:focus, select:focus, textarea:focus {
             outline: none;
-            border-color: #540863;
+            border-color: #c372d3;
             box-shadow: 0 0 0 2px rgba(84, 8, 99, 0.1);
         }
         
@@ -205,7 +205,7 @@
         
         .wz.cur .wz-dot {
             background: #540863;
-            border-color: #540863;
+            border-color: #c99ebb;
             color: white;
         }
         
@@ -273,7 +273,7 @@
         }
         .rpill.active {
             background: #540863;
-            border-color: #540863;
+            border-color: #c99ebb;
             color: white;
         }
         
@@ -355,7 +355,7 @@
             justify-content: space-between;
             align-items: center;
         }
-        .custom-field-card:hover { background: white; border-color: #540863; }
+        .custom-field-card:hover { background: white; border-color: #c99ebb; }
         
         .toast {
             position: fixed;
@@ -402,11 +402,11 @@
                 </div>
                 
                 <!-- Tab Navigation -->
-                <div class="border-b mb-5 flex flex-wrap gap-6" style="border-color: #5c003f;">
-                    <a href="javascript:void(0)" class="tab-btn pb-2 text-sm font-medium transition-all" data-tab="all" style="color: #540863;">👥 All Employees</a>
-                    <a href="javascript:void(0)" class="tab-btn pb-2 text-sm font-medium transition-all" data-tab="add" style="color: #92487A;">➕ Add Employee</a>
-                    <a href="javascript:void(0)" class="tab-btn pb-2 text-sm font-medium transition-all" data-tab="documents" style="color: #92487A;">📄 Documents</a>
-                    <a href="javascript:void(0)" class="tab-btn pb-2 text-sm font-medium transition-all" data-tab="history" style="color: #92487A;">📜 History</a>
+                <div class="border-b mb-5 flex flex-wrap gap-6" style="border-color: #c99ebb;">
+                    <a href="javascript:void(0)" class="tab-btn pb-2 text-sm font-medium transition-all" data-tab="all" style="color: #540863;">All Employees</a>
+                    <a href="javascript:void(0)" class="tab-btn pb-2 text-sm font-medium transition-all" data-tab="add" style="color: #92487A;"> Add Employee</a>
+                    <a href="javascript:void(0)" class="tab-btn pb-2 text-sm font-medium transition-all" data-tab="documents" style="color: #92487A;">Documents</a>
+                    <!-- <a href="javascript:void(0)" class="tab-btn pb-2 text-sm font-medium transition-all" data-tab="history" style="color: #92487A;">📜 History</a> -->
                 </div>
                 
                 <!-- ==================== TAB 1: ALL EMPLOYEES ==================== -->
@@ -415,7 +415,7 @@
                         <div class="flex justify-between items-center mb-4 flex-wrap gap-3">
                             <h3 class="text-md font-semibold" style="color:#540863;">Employee List</h3>
                             <div class="flex gap-2">
-                                <input type="text" id="searchEmployee" placeholder="Search employees..." class="w-64 text-sm" onkeyup="filterEmployees()">
+                                <input type="text" id="searchEmployee" placeholder="Search employees..." class="w-64 text-sm" style="padding: 3px;" onkeyup="filterEmployees()">
                                 <button onclick="exportEmployees()" class="btn-outline text-sm"><i class="fas fa-download mr-1"></i>Export</button>
                             </div>
                         </div>
@@ -423,7 +423,7 @@
                         <div class="overflow-x-auto">
                             <table class="w-full">
                                 <thead>
-                                    <tr class="border-b" style="border-color:#5c003f;">
+                                    <tr class="border-b" style="border-color:#c99ebb;">
                                         <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">Employee</th>
                                         <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">ID</th>
                                         <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">Department</th>
@@ -1069,7 +1069,7 @@
             const emp = document.getElementById('historyEmployeeSelect').value; 
             const historyDiv = document.getElementById('historyList'); 
             if(!emp) { historyDiv.innerHTML = '<p class="text-center text-gray-500 py-4">Select an employee to view history</p>'; return; } 
-            historyDiv.innerHTML = `<div class="border-l-4 pl-4" style="border-color:#540863;"><p class="font-medium text-sm" style="color:#540863;">Joined the company</p><p class="text-xs" style="color:#92487A;">${new Date().toLocaleDateString()}</p></div>`; 
+            historyDiv.innerHTML = `<div class="border-l-4 pl-4" style="border-color:#c99ebb;"><p class="font-medium text-sm" style="color:#540863;">Joined the company</p><p class="text-xs" style="color:#92487A;">${new Date().toLocaleDateString()}</p></div>`; 
         }
         
         function populateDropdowns() { 

@@ -16,6 +16,10 @@ function initSidebar() {
             isSidebarCollapsed = !isSidebarCollapsed;
             sidebar.classList.toggle('collapsed');
             localStorage.setItem('sidebarCollapsed', isSidebarCollapsed);
+            
+            // Dispatch custom event for header to listen
+            const event = new CustomEvent('sidebarToggled', { detail: { collapsed: isSidebarCollapsed } });
+            window.dispatchEvent(event);
 
             const icon = this.querySelector('i');
             if (isSidebarCollapsed) {
@@ -41,6 +45,11 @@ function initSidebar() {
                 icon.classList.add('fa-chevron-right');
             }
         }
+        // Dispatch event to update header on load
+        setTimeout(() => {
+            const event = new CustomEvent('sidebarToggled', { detail: { collapsed: true } });
+            window.dispatchEvent(event);
+        }, 100);
     }
 
     // Handle submenu toggle for items that have submenus

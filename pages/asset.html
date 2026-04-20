@@ -19,7 +19,7 @@
         .section-card {
             background: white;
             border-radius: 12px;
-            border: 1px solid #5c003f;
+            border: 1px solid #c99ebb;
             padding: 20px;
             margin-bottom: 20px;
         }
@@ -27,7 +27,7 @@
         .stat-card {
             background: white;
             border-radius: 12px;
-            border: 1px solid #5c003f;
+            border: 1px solid #c99ebb;
             padding: 16px;
             transition: all 0.3s ease;
         }
@@ -89,7 +89,7 @@
         .btn-warning:hover { background-color: #e0a800; }
         
         .btn-outline {
-            border: 1px solid #540863;
+            border: 1px solid #c99ebb;
             color: #540863;
             padding: 8px 16px;
             border-radius: 8px;
@@ -99,14 +99,14 @@
         .btn-outline:hover { background-color: #540863; color: white; }
         
         input, select, textarea {
-            border: 1px solid #5c003f;
+            border: 1px solid #c99ebb;
             border-radius: 8px;
             padding: 8px 12px;
             width: 100%;
         }
         input:focus, select:focus, textarea:focus {
             outline: none;
-            border-color: #540863;
+            border-color: #c99ebb;
             box-shadow: 0 0 0 2px rgba(84, 8, 99, 0.1);
         }
         
@@ -124,7 +124,7 @@
             gap: 8px;
             margin-bottom: 24px;
             padding-bottom: 12px;
-            border-bottom: 1px solid #5c003f;
+            border-bottom: 1px solid #c99ebb;
             flex-wrap: wrap;
         }
         
@@ -223,7 +223,7 @@
         
         .asset-card {
             background: white;
-            border: 1px solid #5c003f;
+            border: 1px solid #c99ebb;
             border-radius: 12px;
             padding: 16px;
             transition: all 0.3s ease;
@@ -262,11 +262,10 @@
                 
                 <!-- Tab Navigation -->
                 <div class="tab-nav">
-                    <button class="tab-btn active" data-tab="inventory">📦 Asset Inventory</button>
-                    <button class="tab-btn" data-tab="assign">👥 Assign Asset</button>
-                    <button class="tab-btn" data-tab="requests">📋 Requests</button>
-                    <button class="tab-btn" data-tab="maintenance">🔧 Maintenance</button>
-                    <button class="tab-btn" data-tab="reports">📊 Reports</button>
+                    <button class="tab-btn active" data-tab="inventory">Asset Inventory</button>
+                    <button class="tab-btn" data-tab="assign">Assign Asset</button>
+                    <button class="tab-btn" data-tab="requests"> Requests</button>
+                    <button class="tab-btn" data-tab="maintenance"> Maintenance</button>
                 </div>
                 
                 <!-- ==================== TAB 1: ASSET INVENTORY ==================== -->
@@ -284,7 +283,7 @@
                         <div class="flex justify-between items-center mb-4 flex-wrap gap-3">
                             <h3 class="text-md font-semibold" style="color:#540863;">Asset Inventory</h3>
                             <div class="flex gap-2 flex-wrap">
-                                <select id="assetCategory" class="w-40 text-sm" onchange="filterAssets()">
+                                <select id="assetCategory" class="w-40 text-sm pl-2 " onchange="filterAssets()">
                                     <option value="all">All Categories</option>
                                     <option value="Laptop">Laptop</option>
                                     <option value="Desktop">Desktop</option>
@@ -292,14 +291,14 @@
                                     <option value="Mobile">Mobile</option>
                                     <option value="Accessories">Accessories</option>
                                 </select>
-                                <select id="assetStatus" class="w-40 text-sm" onchange="filterAssets()">
+                                <select id="assetStatus" class="w-40 text-sm pl-2" onchange="filterAssets()">
                                     <option value="all">All Status</option>
                                     <option value="Assigned">Assigned</option>
                                     <option value="Available">Available</option>
                                     <option value="Maintenance">Maintenance</option>
                                     <option value="Damaged">Damaged</option>
                                 </select>
-                                <input type="text" id="assetSearch" placeholder="Search asset..." class="w-48 text-sm" onkeyup="filterAssets()">
+                                <input type="text" id="assetSearch" placeholder="Search asset..." class="w-48 text-sm pl-2" onkeyup="filterAssets()">
                                 <button onclick="openAddAssetModal()" class="btn-primary text-sm"><i class="fas fa-plus mr-1"></i>Add Asset</button>
                             </div>
                         </div>
@@ -344,7 +343,7 @@
                                         <td class="py-3 text-sm" style="color:#92487A;">-</td>
                                         <td class="py-3"><span class="status-available text-xs px-2 py-1 rounded-full">Available</span></td>
                                         <td class="py-3"><button onclick="editAsset(this)" class="text-[#540863] mr-2"><i class="fas fa-edit"></i></button><button onclick="deleteAsset(this)" class="text-red-500"><i class="fas fa-trash"></i></button></td>
-                                    </tr>
+                                     </tr>
                                     <tr class="border-b data-row" style="border-color:#e5e7eb;">
                                         <td class="py-3 text-sm" style="color:#540863;">AST-004</td>
                                         <td class="py-3 text-sm" style="color:#540863;">iPhone 14</td>
@@ -353,9 +352,27 @@
                                         <td class="py-3 text-sm" style="color:#92487A;">Amit Mehta</td>
                                         <td class="py-3"><span class="status-maintenance text-xs px-2 py-1 rounded-full">Maintenance</span></td>
                                         <td class="py-3"><button onclick="editAsset(this)" class="text-[#540863] mr-2"><i class="fas fa-edit"></i></button><button onclick="deleteAsset(this)" class="text-red-500"><i class="fas fa-trash"></i></button></td>
-                                    </tr>
+                                     </tr>
                                 </tbody>
-                            </table>
+                             </table>
+                        </div>
+                    </div>
+                    
+                    <!-- Asset Distribution Chart -->
+                    <div class="section-card">
+                        <div class="text-center mb-2">
+                            <h3 class="text-md font-semibold" style="color:#540863;">Asset Distribution by Category</h3>
+                        </div>
+                        <div class="pie-chart-container">
+                            <canvas id="assetChart" height="200" width="200"></canvas>
+                        </div>
+                        <!-- Legend -->
+                        <div class="flex justify-center gap-4 mt-3 flex-wrap">
+                            <div class="flex items-center gap-1"><div class="w-3 h-3 rounded-full" style="background:#540863;"></div><span class="text-xs text-gray-600">Laptop (65)</span></div>
+                            <div class="flex items-center gap-1"><div class="w-3 h-3 rounded-full" style="background:#92487A;"></div><span class="text-xs text-gray-600">Desktop (28)</span></div>
+                            <div class="flex items-center gap-1"><div class="w-3 h-3 rounded-full" style="background:#E49BA6;"></div><span class="text-xs text-gray-600">Monitor (32)</span></div>
+                            <div class="flex items-center gap-1"><div class="w-3 h-3 rounded-full" style="background:#FFD3D5;"></div><span class="text-xs text-gray-600">Mobile (18)</span></div>
+                            <div class="flex items-center gap-1"><div class="w-3 h-3 rounded-full" style="background:#8a3a6a;"></div><span class="text-xs text-gray-600">Accessories (13)</span></div>
                         </div>
                     </div>
                 </div>
@@ -367,7 +384,7 @@
                         <form id="assignAssetForm">
                             <div class="form-row">
                                 <div><label>Select Asset <span class="text-red-500">*</span></label>
-                                    <select id="assign_asset" required>
+                                    <select id="assign_asset" required style="padding: 4px;">
                                         <option value="">Select Asset</option>
                                         <option value="AST-003">MacBook Pro (SN: SNMBP12345)</option>
                                         <option value="AST-005">Lenovo ThinkPad (SN: SNLTP98765)</option>
@@ -375,7 +392,7 @@
                                     </select>
                                 </div>
                                 <div><label>Select Employee <span class="text-red-500">*</span></label>
-                                    <select id="assign_employee" required>
+                                    <select id="assign_employee" required style="padding: 4px;">
                                         <option value="">Select Employee</option>
                                         <option>Rajesh Kumar (IT)</option>
                                         <option>Priya Sharma (HR)</option>
@@ -386,10 +403,10 @@
                                 </div>
                             </div>
                             <div class="form-row">
-                                <div><label>Issue Date <span class="text-red-500">*</span></label><input type="date" id="assign_date" required></div>
-                                <div><label>Expected Return Date</label><input type="date" id="assign_return_date"></div>
+                                <div><label>Issue Date <span class="text-red-500">*</span></label><input type="date" id="assign_date" required style="padding: 4px;"></div>
+                                <div><label>Expected Return Date</label><input type="date" id="assign_return_date" style="padding: 4px;"></div>
                                 <div><label>Condition</label>
-                                    <select id="assign_condition">
+                                    <select id="assign_condition" style="padding: 4px;">
                                         <option>Excellent</option>
                                         <option>Good</option>
                                         <option>Fair</option>
@@ -397,7 +414,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <div><label>Remarks</label><textarea id="assign_remarks" rows="2" placeholder="Any additional remarks"></textarea></div>
+                            <div><label>Remarks</label><textarea id="assign_remarks" rows="2" placeholder="Any additional remarks" style="padding: 4px;"></textarea></div>
                             <div class="flex justify-end mt-4"><button type="submit" class="btn-primary"><i class="fas fa-check-circle mr-2"></i>Assign Asset</button></div>
                         </form>
                     </div>
@@ -415,13 +432,13 @@
                                         <th class="text-left py-2 text-xs">Return Date</th>
                                         <th class="text-left py-2 text-xs">Status</th>
                                         <th class="text-left py-2 text-xs">Action</th>
-                                    </tr>
+                                     </tr>
                                 </thead>
                                 <tbody id="recentAssignments">
                                     <tr class="border-b"><td class="py-2 text-sm">Dell XPS 15</td><td class="py-2 text-sm">Rajesh Kumar</td><td class="py-2 text-sm">2024-04-01</td><td class="py-2 text-sm">-</td><td class="py-2"><span class="status-assigned text-xs px-2 py-1 rounded-full">Active</span></td><td class="py-2"><button onclick="returnAsset(this)" class="btn-warning text-xs">Return</button></td></tr>
                                     <tr class="border-b"><td class="py-2 text-sm">HP Monitor</td><td class="py-2 text-sm">Priya Sharma</td><td class="py-2 text-sm">2024-03-28</td><td class="py-2 text-sm">-</td><td class="py-2"><span class="status-assigned text-xs px-2 py-1 rounded-full">Active</span></td><td class="py-2"><button onclick="returnAsset(this)" class="btn-warning text-xs">Return</button></td></tr>
                                 </tbody>
-                            </table>
+                             </table>
                         </div>
                     </div>
                 </div>
@@ -432,7 +449,7 @@
                         <div class="flex justify-between items-center mb-4">
                             <h3 class="text-md font-semibold" style="color:#540863;">Asset Requests</h3>
                             <div class="flex gap-2">
-                                <select id="requestStatus" class="w-36 text-sm" onchange="filterRequests()">
+                                <select id="requestStatus" class="w-36 text-sm" onchange="filterRequests()" style="padding: 4px;">
                                     <option value="all">All Status</option>
                                     <option value="pending">Pending</option>
                                     <option value="approved">Approved</option>
@@ -452,14 +469,14 @@
                                         <th class="text-left py-2 text-xs">Priority</th>
                                         <th class="text-left py-2 text-xs">Status</th>
                                         <th class="text-left py-2 text-xs">Action</th>
-                                    </tr>
+                                     </tr>
                                 </thead>
                                 <tbody id="requestsList">
                                     <tr class="border-b"><td class="py-2 text-sm">REQ-001</td><td class="py-2 text-sm">Sarah Johnson</td><td class="py-2 text-sm">Laptop</td><td class="py-2 text-sm">2024-04-10</td><td class="py-2"><span class="text-xs px-2 py-1 rounded-full bg-red-100 text-red-600">High</span></td><td class="py-2"><span class="status-pending text-xs px-2 py-1 rounded-full">Pending</span></td><td class="py-2"><button onclick="approveRequest(this)" class="btn-success text-xs mr-1">Approve</button><button onclick="rejectRequest(this)" class="btn-danger text-xs">Reject</button></td></tr>
                                     <tr class="border-b"><td class="py-2 text-sm">REQ-002</td><td class="py-2 text-sm">Michael Brown</td><td class="py-2 text-sm">Monitor</td><td class="py-2 text-sm">2024-04-09</td><td class="py-2"><span class="text-xs px-2 py-1 rounded-full bg-yellow-100 text-yellow-600">Medium</span></td><td class="py-2"><span class="status-pending text-xs px-2 py-1 rounded-full">Pending</span></td><td class="py-2"><button onclick="approveRequest(this)" class="btn-success text-xs mr-1">Approve</button><button onclick="rejectRequest(this)" class="btn-danger text-xs">Reject</button></td></tr>
                                     <tr class="border-b"><td class="py-2 text-sm">REQ-003</td><td class="py-2 text-sm">Emma Davis</td><td class="py-2 text-sm">Mobile</td><td class="py-2 text-sm">2024-04-08</td><td class="py-2"><span class="text-xs px-2 py-1 rounded-full bg-green-100 text-green-600">Low</span></td><td class="py-2"><span class="status-approved text-xs px-2 py-1 rounded-full">Approved</span></td><td class="py-2"><button class="btn-primary text-xs">Assign</button></td></tr>
                                 </tbody>
-                            </table>
+                             </table>
                         </div>
                     </div>
                 </div>
@@ -483,13 +500,13 @@
                                         <th class="text-left py-2 text-xs">Vendor</th>
                                         <th class="text-left py-2 text-xs">Status</th>
                                         <th class="text-left py-2 text-xs">Action</th>
-                                    </tr>
+                                     </tr>
                                 </thead>
                                 <tbody id="maintenanceList">
                                     <tr class="border-b"><td class="py-2 text-sm">iPhone 14 (AST-004)</td><td class="py-2 text-sm">2024-04-05</td><td class="py-2 text-sm">Screen Repair</td><td class="py-2 text-sm">₹8,500</td><td class="py-2 text-sm">Apple Care</td><td class="py-2"><span class="status-maintenance text-xs px-2 py-1 rounded-full">In Progress</span></td><td class="py-2"><button onclick="editMaintenance(this)" class="text-[#540863] mr-2"><i class="fas fa-edit"></i></button><button onclick="deleteMaintenance(this)" class="text-red-500"><i class="fas fa-trash"></i></button></td></tr>
                                     <tr class="border-b"><td class="py-2 text-sm">Dell XPS 15</td><td class="py-2 text-sm">2024-03-20</td><td class="py-2 text-sm">Battery Replacement</td><td class="py-2 text-sm">₹5,000</td><td class="py-2 text-sm">Dell Service</td><td class="py-2"><span class="status-assigned text-xs px-2 py-1 rounded-full">Completed</span></td><td class="py-2"><button onclick="editMaintenance(this)" class="text-[#540863] mr-2"><i class="fas fa-edit"></i></button><button onclick="deleteMaintenance(this)" class="text-red-500"><i class="fas fa-trash"></i></button></td></tr>
                                 </tbody>
-                            </table>
+                             </table>
                         </div>
                     </div>
                     
@@ -503,38 +520,6 @@
                     </div>
                 </div>
                 
-                <!-- ==================== TAB 5: REPORTS ==================== -->
-                <div id="tab-reports" class="tab-content">
-                    <div class="section-card">
-                        <h3 class="text-md font-semibold mb-4" style="color:#540863;">Asset Reports</h3>
-                        <div class="form-row">
-                            <div><label>Report Type</label><select id="reportType"><option>Asset Summary</option><option>Assignment History</option><option>Maintenance Report</option></select></div>
-                            <div><label>Category</label><select id="reportCategory"><option>All</option><option>Laptop</option><option>Desktop</option><option>Monitor</option></select></div>
-                            <div><label>Date Range</label><select id="reportDate"><option>This Month</option><option>Last Month</option><option>This Quarter</option></select></div>
-                            <div class="flex items-end"><button onclick="generateReport()" class="btn-primary w-full">Generate Report</button></div>
-                        </div>
-                        <div id="reportPreview" class="mt-4 p-4 bg-gray-50 rounded-lg text-center text-gray-500">Select filters and click Generate</div>
-                    </div>
-                    
-                    <!-- Asset Distribution Chart - REDUCED SIZE -->
-                    <div class="section-card">
-                        <div class="text-center mb-2">
-                            <h3 class="text-md font-semibold" style="color:#540863;">Asset Distribution by Category</h3>
-                        </div>
-                        <div class="pie-chart-container">
-                            <canvas id="assetChart" height="200" width="200"></canvas>
-                        </div>
-                        <!-- Legend -->
-                        <div class="flex justify-center gap-4 mt-3 flex-wrap">
-                            <div class="flex items-center gap-1"><div class="w-3 h-3 rounded-full" style="background:#540863;"></div><span class="text-xs text-gray-600">Laptop (65)</span></div>
-                            <div class="flex items-center gap-1"><div class="w-3 h-3 rounded-full" style="background:#92487A;"></div><span class="text-xs text-gray-600">Desktop (28)</span></div>
-                            <div class="flex items-center gap-1"><div class="w-3 h-3 rounded-full" style="background:#E49BA6;"></div><span class="text-xs text-gray-600">Monitor (32)</span></div>
-                            <div class="flex items-center gap-1"><div class="w-3 h-3 rounded-full" style="background:#FFD3D5;"></div><span class="text-xs text-gray-600">Mobile (18)</span></div>
-                            <div class="flex items-center gap-1"><div class="w-3 h-3 rounded-full" style="background:#8a3a6a;"></div><span class="text-xs text-gray-600">Accessories (13)</span></div>
-                        </div>
-                    </div>
-                </div>
-                
             </main>
         </div>
     </div>
@@ -544,10 +529,10 @@
         <div class="modal-content">
             <div class="flex justify-between items-center mb-4"><h3 class="text-lg font-semibold" style="color:#540863;">Add New Asset</h3><button onclick="closeAddAssetModal()" class="text-gray-500 text-xl">&times;</button></div>
             <form id="addAssetForm">
-                <div class="form-row"><div><label>Asset Name *</label><input type="text" id="asset_name" required></div><div><label>Category *</label><select id="asset_category" required><option>Laptop</option><option>Desktop</option><option>Monitor</option><option>Mobile</option><option>Accessories</option></select></div></div>
-                <div class="form-row"><div><label>Serial Number *</label><input type="text" id="asset_serial" required></div><div><label>Model Number</label><input type="text" id="asset_model"></div></div>
-                <div class="form-row"><div><label>Purchase Date</label><input type="date" id="asset_purchase_date"></div><div><label>Warranty Expiry</label><input type="date" id="asset_warranty"></div></div>
-                <div class="form-row"><div><label>Purchase Cost (₹)</label><input type="number" id="asset_cost"></div><div><label>Status</label><select id="asset_status"><option>Available</option><option>Assigned</option><option>Maintenance</option><option>Damaged</option></select></div></div>
+                <div class="form-row"><div><label>Asset Name *</label><input type="text" id="asset_name" required style="padding: 2px;"></div><div><label>Category *</label><select id="asset_category" required><option>Laptop</option><option>Desktop</option><option>Monitor</option><option>Mobile</option><option>Accessories</option></select></div></div>
+                <div class="form-row"><div><label>Serial Number *</label><input type="text" id="asset_serial" required style="padding: 2px;"></div><div><label>Model Number</label><input type="text" id="asset_model" style="padding: 2px;"></div></div>
+                <div class="form-row"><div><label>Purchase Date</label><input type="date" id="asset_purchase_date" style="padding: 2px;"></div><div><label>Warranty Expiry</label><input type="date" id="asset_warranty" style="padding: 2px;"></div></div>
+                <div class="form-row"><div><label>Purchase Cost (₹)</label><input type="number" id="asset_cost" style="padding: 2px;"></div><div><label>Status</label><select id="asset_status" style="padding: 2px;"><option>Available</option><option>Assigned</option><option>Maintenance</option><option>Damaged</option></select></div></div>
                 <div class="flex justify-end gap-3 mt-4"><button type="button" onclick="closeAddAssetModal()" class="btn-outline">Cancel</button><button type="submit" class="btn-primary">Add Asset</button></div>
             </form>
         </div>
@@ -558,12 +543,12 @@
         <div class="modal-content">
             <div class="flex justify-between items-center mb-4"><h3 class="text-lg font-semibold" style="color:#540863;">Add Maintenance Record</h3><button onclick="closeMaintenanceModal()" class="text-gray-500 text-xl">&times;</button></div>
             <form id="maintenanceForm">
-                <div><label>Select Asset</label><select required><option>iPhone 14</option><option>Dell XPS 15</option><option>HP Monitor</option></select></div>
-                <div class="mt-2"><label>Maintenance Type</label><select><option>Preventive</option><option>Repair</option><option>Replacement</option></select></div>
-                <div class="mt-2"><label>Maintenance Date</label><input type="date" required></div>
-                <div class="mt-2"><label>Cost (₹)</label><input type="number" placeholder="Enter cost"></div>
-                <div class="mt-2"><label>Vendor Name</label><input type="text" placeholder="Vendor name"></div>
-                <div class="mt-2"><label>Remarks</label><textarea rows="2"></textarea></div>
+                <div><label>Select Asset</label><select required style="padding: 2px;"><option>iPhone 14</option><option>Dell XPS 15</option><option>HP Monitor</option></select></div>
+                <div class="mt-2"><label>Maintenance Type</label><select style="padding: 2px;"><option>Preventive</option><option>Repair</option><option>Replacement</option></select></div>
+                <div class="mt-2"><label>Maintenance Date</label><input type="date" required style="padding: 2px;"></div>
+                <div class="mt-2"><label>Cost (₹)</label><input type="number" placeholder="Enter cost" style="padding: 2px;"></div>
+                <div class="mt-2"><label>Vendor Name</label><input type="text" placeholder="Vendor name" style="padding: 2px;"></div>
+                <div class="mt-2"><label>Remarks</label><textarea rows="2" style="padding: 2px;"></textarea></div>
                 <div class="flex justify-end gap-3 mt-4"><button type="button" onclick="closeMaintenanceModal()" class="btn-outline">Cancel</button><button type="submit" class="btn-primary">Save Record</button></div>
             </form>
         </div>
@@ -588,7 +573,7 @@
                     contents.forEach(content => content.classList.remove('active'));
                     document.getElementById(`tab-${tabId}`).classList.add('active');
                     localStorage.setItem('assetActiveTab', tabId);
-                    if (tabId === 'reports') updateAssetChart();
+                    if (tabId === 'inventory') updateAssetChart();
                 });
             });
             const savedTab = localStorage.getItem('assetActiveTab');
@@ -675,10 +660,7 @@
         function editMaintenance(btn) { showToast('Edit maintenance', 'info'); }
         function deleteMaintenance(btn) { if(confirm('Delete this record?')) btn.closest('tr').remove(); showToast('Record deleted!', 'success'); }
         
-        // Report Functions
-        function generateReport() { document.getElementById('reportPreview').innerHTML = '<div class="text-center"><i class="fas fa-chart-line text-3xl text-gray-400 mb-2"></i><p>Report generated successfully!</p></div>'; showToast('Report generated!', 'success'); }
-        
-        // Asset Distribution Chart - REDUCED SIZE
+        // Asset Distribution Chart
         function updateAssetChart() {
             const ctx = document.getElementById('assetChart').getContext('2d');
             if (assetChart) assetChart.destroy();

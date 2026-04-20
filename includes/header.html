@@ -1,5 +1,5 @@
 <!-- Common Header with New Color Theme -->
-<header class="main-header h-14 flex items-center justify-between px-6 fixed top-0 right-0 left-0 z-40 bg-white shadow-sm" style="left: 256px; border-bottom: 1px solid #92487A;">
+<header class="main-header h-14 flex items-center justify-between px-6 fixed top-0 right-0 left-0 z-40 bg-white shadow-sm" style="left: 256px; border-bottom: 1px solid #92487A; transition: left 0.3s ease;">
     <!-- Left Side -->
     <div class="flex items-center gap-4">
         
@@ -10,7 +10,7 @@
     <div class="flex items-center gap-4">
         <!-- Notification -->
         <div class="relative">
-            <button id="notificationBtn" class="transition-all relative" style="color: #540863;">
+            <button id="notificationBtn" class="transition-all relative" style="color: #c99ebb;">
                 <i class="fas fa-bell text-xl"></i>
                 <span class="absolute -top-1 -right-2 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center" style="background-color: #540863;">3</span>
             </button>
@@ -46,12 +46,12 @@
                 </div>
                 <i class="fas fa-chevron-down text-xs hidden md:block" style="color: #540863;"></i>
             </button>
-            <div id="userMenu" class="dropdown-menu hidden absolute right-0 mt-2 w-56 bg-white rounded-xl shadow-lg border z-50" style="border-color: #92487A;">
-                <div class="p-3 border-b" style="border-color: #92487A;">
+            <div id="userMenu" class="dropdown-menu hidden absolute right-0 mt-2 w-56 bg-white rounded-xl shadow-lg border z-50" style="border-color: #c99ebb;">
+                <div class="p-3 border-b" style="border-color: #c99ebb">
                     <p class="text-sm font-semibold" style="color: #540863;">Rajesh Kumar</p>
                     <p class="text-xs" style="color: #92487A;">rajesh@hrms.com</p>
                 </div>
-                <div class="py-2">
+                <!-- <div class="py-2">
                     <a href="#" class="flex items-center gap-3 px-4 py-2 text-sm transition-all hover:bg-[#FFD3D5]" style="color: #540863;">
                         <i class="fas fa-user w-4" style="color: #540863;"></i> My Profile
                     </a>
@@ -61,8 +61,8 @@
                     <a href="#" class="flex items-center gap-3 px-4 py-2 text-sm transition-all hover:bg-[#FFD3D5]" style="color: #540863;">
                         <i class="fas fa-shield-alt w-4" style="color: #540863;"></i> Change Password
                     </a>
-                </div>
-                <div class="border-t pt-2" style="border-color: #92487A;">
+                </div> -->
+                <div class="border-t pt-2" style="border-color: #c99ebb">
                     <a href="#" id="logoutBtn" class="flex items-center gap-3 px-4 py-2 text-sm transition-all hover:bg-[#FFD3D5]" style="color: #e74c3c;">
                         <i class="fas fa-sign-out-alt w-4"></i> Logout
                     </a>
@@ -100,8 +100,9 @@
     }
     
     /* Adjust header when sidebar is collapsed */
+    .main-sidebar.collapsed ~ .flex-1 .main-header,
     .main-sidebar.collapsed ~ .flex-1 header {
-        left: 70px;
+        left: 70px !important;
     }
     
     header {
@@ -173,6 +174,19 @@
 </style>
 
 <script>
+    // Function to update header position based on sidebar state
+    function updateHeaderPosition() {
+        const sidebar = document.querySelector('.main-sidebar');
+        const header = document.querySelector('.main-header');
+        if (sidebar && header) {
+            if (sidebar.classList.contains('collapsed')) {
+                header.style.left = '70px';
+            } else {
+                header.style.left = '256px';
+            }
+        }
+    }
+    
     // Dropdown toggle functionality
     document.addEventListener('DOMContentLoaded', function() {
         const notificationBtn = document.getElementById('notificationBtn');
@@ -247,5 +261,30 @@
                 window.location.href = '/index.html';
             });
         }
+        
+        // Listen for sidebar collapse events
+        const observer = new MutationObserver(function(mutations) {
+            mutations.forEach(function(mutation) {
+                if (mutation.attributeName === 'class') {
+                    updateHeaderPosition();
+                }
+            });
+        });
+        
+        const sidebar = document.querySelector('.main-sidebar');
+        if (sidebar) {
+            observer.observe(sidebar, { attributes: true });
+            updateHeaderPosition();
+        }
+        
+        // Also listen for storage events (in case sidebar state changes from another tab)
+        window.addEventListener('storage', function(e) {
+            if (e.key === 'sidebarCollapsed') {
+                updateHeaderPosition();
+            }
+        });
+        
+        // Initial position update
+        updateHeaderPosition();
     });
 </script>

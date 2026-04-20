@@ -88,6 +88,45 @@ function initHeader() {
             if (logoutModal) logoutModal.style.display = 'none';
         });
     }
+    
+    // ========== UPDATE HEADER POSITION ON SIDEBAR TOGGLE ==========
+    function updateHeaderPosition() {
+        const sidebar = document.querySelector('.main-sidebar');
+        const header = document.querySelector('.main-header');
+        if (sidebar && header) {
+            if (sidebar.classList.contains('collapsed')) {
+                header.style.left = '70px';
+            } else {
+                header.style.left = '256px';
+            }
+        }
+    }
+    
+    // Listen for custom event from sidebar
+    window.addEventListener('sidebarToggled', function() {
+        updateHeaderPosition();
+    });
+    
+    // Also listen for storage events
+    window.addEventListener('storage', function(e) {
+        if (e.key === 'sidebarCollapsed') {
+            updateHeaderPosition();
+        }
+    });
+    
+    // Mutation observer for sidebar class changes
+    const sidebar = document.querySelector('.main-sidebar');
+    if (sidebar) {
+        const observer = new MutationObserver(function(mutations) {
+            mutations.forEach(function(mutation) {
+                if (mutation.attributeName === 'class') {
+                    updateHeaderPosition();
+                }
+            });
+        });
+        observer.observe(sidebar, { attributes: true });
+        updateHeaderPosition();
+    }
 }
 
 // Initialize header when DOM is ready

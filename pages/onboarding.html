@@ -16,7 +16,7 @@
         .section-card {
             background: white;
             border-radius: 12px;
-            border: 1px solid #5c003f;
+            border: 1px solid #c99ebb;
             padding: 20px;
             margin-bottom: 20px;
         }
@@ -95,7 +95,7 @@
         }
         input:focus, select:focus, textarea:focus {
             outline: none;
-            border-color: #540863;
+            border-color: #c99ebb;
             box-shadow: 0 0 0 2px rgba(84, 8, 99, 0.1);
         }
         
@@ -113,7 +113,7 @@
             gap: 8px;
             margin-bottom: 24px;
             padding-bottom: 12px;
-            border-bottom: 1px solid #5c003f;
+            border-bottom: 1px solid #c99ebb;
             flex-wrap: wrap;
         }
         
@@ -180,18 +180,6 @@
             overflow-y: auto;
             padding: 24px;
         }
-        
-        /* Task Item */
-        .task-item {
-            border: 1px solid #e5e7eb;
-            border-radius: 10px;
-            padding: 12px;
-            margin-bottom: 10px;
-            transition: all 0.3s ease;
-        }
-        .task-item:hover { background: #f9f9f9; }
-        .task-checkbox { width: 18px; height: 18px; cursor: pointer; accent-color: #540863; }
-        .task-completed { opacity: 0.7; background: #f0fdf4; border-color: #28a745; text-decoration: line-through; }
         
         /* Document Item */
         .doc-item {
@@ -286,139 +274,17 @@
                 <!-- Page Header -->
                 <div class="mb-4 fade-in">
                     <h1 class="text-xl font-bold" style="color: #540863;">Onboarding Management</h1>
-                    <p class="text-xs mt-0.5" style="color: #92487A;">Manage new employee onboarding process, documents, and task assignment</p>
+                    <p class="text-xs mt-0.5" style="color: #92487A;">Manage new employee onboarding process and document verification</p>
                 </div>
                 
                 <!-- Tab Navigation -->
                 <div class="tab-nav">
-                    <button class="tab-btn active" data-tab="new-joiners">New Joiners</button>
-                    <button class="tab-btn" data-tab="onboarding-list">Onboarding List</button>
-                    <button class="tab-btn" data-tab="tasks">Task Assignment</button>
+                    <button class="tab-btn active" data-tab="onboarding-list">Onboarding List</button>
                     <button class="tab-btn" data-tab="documents">Documents</button>
-                    <button class="tab-btn" data-tab="templates"> Templates</button>
-                    <button class="tab-btn" data-tab="settings"> Settings</button>
                 </div>
                 
-                <!-- ==================== TAB 1: NEW JOINERS ==================== -->
-                <div id="tab-new-joiners" class="tab-content active">
-                    <!-- Add New Joiner Form -->
-                    <div class="section-card fade-in">
-                        <h3 class="text-md font-semibold mb-4" style="color: #540863;">Add New Joiner</h3>
-                        <form id="newJoinerForm">
-                            <div class="form-row">
-                                <div><label>Full Name <span class="text-red-500">*</span></label><input type="text" id="joiner_name" placeholder="Enter full name" required style="padding: 4px;"></div>
-                                <div><label>Email <span class="text-red-500">*</span></label><input type="email" id="joiner_email" placeholder="Enter email address" required style="padding: 4px;"></div>
-                                <div><label>Phone</label><input type="tel" id="joiner_phone" placeholder="Enter phone number" style="padding: 4px;"></div>
-                            </div>
-                            <div class="form-row">
-                                <div><label>Department</label>
-                                    <select id="joiner_dept" style="padding: 4px;">
-                                        <option value="">Select Department</option>
-                                        <option>Information Technology</option>
-                                        <option>Human Resources</option>
-                                        <option>Sales & Marketing</option>
-                                        <option>Finance & Accounts</option>
-                                        <option>Operations</option>
-                                        <option>Research & Development</option>
-                                    </select>
-                                </div>
-                                <div><label>Designation</label><input type="text" id="joiner_designation" placeholder="Enter designation" style="padding: 4px;"></div>
-                                <div><label>Joining Date <span class="text-red-500">*</span></label><input type="date" id="joiner_date" required style="padding: 4px;"></div>
-                            </div>
-                            <div class="form-row">
-                                <div><label>Reporting Manager</label>
-                                    <select id="joiner_manager" style="padding: 4px;">
-                                        <option value="">Select Manager</option>
-                                        <option>Rajesh Kumar (CEO)</option>
-                                        <option>Priya Sharma (HR Head)</option>
-                                        <option>Amit Mehta (IT Head)</option>
-                                        <option>Neha Gupta (Finance Head)</option>
-                                        <option>Vikram Singh (Operations Head)</option>
-                                    </select>
-                                </div>
-                                <div><label>Employee Type</label>
-                                    <select id="joiner_type" style="padding: 4px;">
-                                        <option value="Permanent">Permanent</option>
-                                        <option value="Contract">Contract</option>
-                                        <option value="Intern">Intern</option>
-                                        <option value="Probation">Probation</option>
-                                    </select>
-                                </div>
-                                <div><label>Offer Status</label>
-                                    <select id="joiner_offer_status" style="padding: 4px;">
-                                        <option value="Offer Sent">Offer Sent</option>
-                                        <option value="Offer Accepted">Offer Accepted</option>
-                                        <option value="Offer Signed">Offer Signed</option>
-                                        <option value="Pending">Pending</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="flex justify-end mt-4">
-                                <button type="submit" class="btn-primary"><i class="fas fa-user-plus mr-2"></i>Add New Joiner</button>
-                            </div>
-                        </form>
-                    </div>
-                    
-                    <!-- Upcoming Joiners -->
-                    <div class="section-card fade-in">
-                        <div class="flex justify-between items-center mb-4 flex-wrap gap-3">
-                            <h3 class="text-md font-semibold" style="color: #540863;">Upcoming Joiners</h3>
-                            <div class="flex gap-2">
-                                <input type="text" id="searchUpcoming" placeholder="Search..." class="w-48 text-sm" onkeyup="filterUpcomingJoiners()">
-                                <select id="filterUpcomingStatus" onchange="filterUpcomingJoiners()" class="w-36 text-sm">
-                                    <option value="all">All Status</option>
-                                    <option value="Offer Sent">Offer Sent</option>
-                                    <option value="Offer Accepted">Offer Accepted</option>
-                                    <option value="Offer Signed">Offer Signed</option>
-                                    <option value="Pending">Pending</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="overflow-x-auto">
-                            <table class="w-full">
-                                <thead>
-                                    <tr class="border-b" style="border-color:#5c003f;">
-                                        <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">Employee</th>
-                                        <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">Department</th>
-                                        <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">Designation</th>
-                                        <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">Joining Date</th>
-                                        <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">Offer Status</th>
-                                        <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="upcomingJoinersList">
-                                    <tr class="border-b data-row" style="border-color:#5c003f;">
-                                        <td class="py-3"><div><p class="text-sm font-medium" style="color:#540863;">Sarah Johnson</p><p class="text-xs" style="color:#92487A;">sarah.johnson@email.com</p></div></td>
-                                        <td class="py-3 text-sm" style="color:#92487A;">Design</td>
-                                        <td class="py-3 text-sm" style="color:#92487A;">UI/UX Designer</td>
-                                        <td class="py-3 text-sm" style="color:#92487A;">2024-04-20</td>
-                                        <td class="py-3"><span class="status-badge status-offer-sent">Offer Sent</span></td>
-                                        <td class="py-3"><button onclick="startOnboarding(this)" class="btn-success text-xs"><i class="fas fa-play mr-1"></i>Start Onboarding</button></td>
-                                    </tr>
-                                    <tr class="border-b data-row" style="border-color:#5c003f;">
-                                        <td class="py-3"><div><p class="text-sm font-medium" style="color:#540863;">Michael Brown</p><p class="text-xs" style="color:#92487A;">michael.brown@email.com</p></div></td>
-                                        <td class="py-3 text-sm" style="color:#92487A;">IT</td>
-                                        <td class="py-3 text-sm" style="color:#92487A;">Senior Developer</td>
-                                        <td class="py-3 text-sm" style="color:#92487A;">2024-04-25</td>
-                                        <td class="py-3"><span class="status-badge status-offer-accepted">Offer Accepted</span></td>
-                                        <td class="py-3"><button onclick="startOnboarding(this)" class="btn-success text-xs"><i class="fas fa-play mr-1"></i>Start Onboarding</button></td>
-                                    </tr>
-                                    <tr class="border-b data-row" style="border-color:#5c003f;">
-                                        <td class="py-3"><div><p class="text-sm font-medium" style="color:#540863;">Emma Davis</p><p class="text-xs" style="color:#92487A;">emma.davis@email.com</p></div></td>
-                                        <td class="py-3 text-sm" style="color:#92487A;">HR</td>
-                                        <td class="py-3 text-sm" style="color:#92487A;">HR Executive</td>
-                                        <td class="py-3 text-sm" style="color:#92487A;">2024-05-01</td>
-                                        <td class="py-3"><span class="status-badge status-offer-sent">Offer Sent</span></td>
-                                        <td class="py-3"><button onclick="startOnboarding(this)" class="btn-success text-xs"><i class="fas fa-play mr-1"></i>Start Onboarding</button></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- ==================== TAB 2: ONBOARDING LIST ==================== -->
-                <div id="tab-onboarding-list" class="tab-content">
+                <!-- ==================== TAB 1: ONBOARDING LIST ==================== -->
+                <div id="tab-onboarding-list" class="tab-content active">
                     <div class="section-card fade-in">
                         <div class="flex justify-between items-center mb-4 flex-wrap gap-3">
                             <h3 class="text-md font-semibold" style="color:#540863;">Active Onboarding</h3>
@@ -437,9 +303,10 @@
                         <div class="overflow-x-auto">
                             <table class="w-full">
                                 <thead>
-                                    <tr class="border-b" style="border-color:#5c003f;">
+                                    <tr class="border-b" style="border-color:#c99ebb;">
                                         <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">Employee</th>
                                         <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">Department</th>
+                                        <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">Designation</th>
                                         <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">Joining Date</th>
                                         <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">Progress</th>
                                         <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">Status</th>
@@ -447,149 +314,85 @@
                                     </tr>
                                 </thead>
                                 <tbody id="onboardingList">
-                                    <tr class="border-b data-row" style="border-color:#5c003f;">
+                                    <tr class="border-b data-row" style="border-color:#c99ebb;">
                                         <td class="py-3"><div><p class="text-sm font-medium" style="color:#540863;">Emily Davis</p><p class="text-xs" style="color:#92487A;">emily.davis@email.com</p></div></td>
                                         <td class="py-3 text-sm" style="color:#92487A;">HR</td>
+                                        <td class="py-3 text-sm" style="color:#92487A;">HR Executive</td>
                                         <td class="py-3 text-sm" style="color:#92487A;">2024-04-15</td>
                                         <td class="py-3"><div class="w-32"><div class="progress-bar"><div class="progress-fill" style="width: 60%"></div></div><span class="text-xs" style="color:#92487A;">60%</span></div></td>
                                         <td class="py-3"><span class="status-badge status-in-progress">In Progress</span></td>
                                         <td class="py-3"><button onclick="viewOnboardingDetails(this)" class="text-[#540863] mr-2" title="View Details"><i class="fas fa-eye"></i></button><button onclick="editOnboarding(this)" class="text-[#92487A] mr-2" title="Edit"><i class="fas fa-edit"></i></button><button onclick="deleteOnboarding(this)" class="text-red-500" title="Delete"><i class="fas fa-trash"></i></button></td>
                                     </tr>
-                                    <tr class="border-b data-row" style="border-color:#5c003f;">
+                                    <tr class="border-b data-row" style="border-color:#c99ebb;">
                                         <td class="py-3"><div><p class="text-sm font-medium" style="color:#540863;">James Wilson</p><p class="text-xs" style="color:#92487A;">james.wilson@email.com</p></div></td>
                                         <td class="py-3 text-sm" style="color:#92487A;">IT</td>
+                                        <td class="py-3 text-sm" style="color:#92487A;">Senior Developer</td>
                                         <td class="py-3 text-sm" style="color:#92487A;">2024-04-10</td>
                                         <td class="py-3"><div class="w-32"><div class="progress-bar"><div class="progress-fill" style="width: 100%"></div></div><span class="text-xs" style="color:#92487A;">100%</span></div></td>
                                         <td class="py-3"><span class="status-badge status-completed">Completed</span></td>
                                         <td class="py-3"><button onclick="viewOnboardingDetails(this)" class="text-[#540863] mr-2" title="View Details"><i class="fas fa-eye"></i></button><button onclick="editOnboarding(this)" class="text-[#92487A] mr-2" title="Edit"><i class="fas fa-edit"></i></button><button onclick="deleteOnboarding(this)" class="text-red-500" title="Delete"><i class="fas fa-trash"></i></button></td>
                                     </tr>
-                                    <tr class="border-b data-row" style="border-color:#5c003f;">
+                                    <tr class="border-b data-row" style="border-color:#c99ebb;">
                                         <td class="py-3"><div><p class="text-sm font-medium" style="color:#540863;">Lisa Anderson</p><p class="text-xs" style="color:#92487A;">lisa.anderson@email.com</p></div></td>
                                         <td class="py-3 text-sm" style="color:#92487A;">Marketing</td>
+                                        <td class="py-3 text-sm" style="color:#92487A;">Marketing Manager</td>
                                         <td class="py-3 text-sm" style="color:#92487A;">2024-04-18</td>
                                         <td class="py-3"><div class="w-32"><div class="progress-bar"><div class="progress-fill" style="width: 30%"></div></div><span class="text-xs" style="color:#92487A;">30%</span></div></td>
                                         <td class="py-3"><span class="status-badge status-pending">Pending</span></td>
                                         <td class="py-3"><button onclick="viewOnboardingDetails(this)" class="text-[#540863] mr-2" title="View Details"><i class="fas fa-eye"></i></button><button onclick="editOnboarding(this)" class="text-[#92487A] mr-2" title="Edit"><i class="fas fa-edit"></i></button><button onclick="deleteOnboarding(this)" class="text-red-500" title="Delete"><i class="fas fa-trash"></i></button></td>
                                     </tr>
+                                    <tr class="border-b data-row" style="border-color:#c99ebb;">
+                                        <td class="py-3"><div><p class="text-sm font-medium" style="color:#540863;">Sarah Johnson</p><p class="text-xs" style="color:#92487A;">sarah.johnson@email.com</p></div></td>
+                                        <td class="py-3 text-sm" style="color:#92487A;">Design</td>
+                                        <td class="py-3 text-sm" style="color:#92487A;">UI/UX Designer</td>
+                                        <td class="py-3 text-sm" style="color:#92487A;">2024-04-20</td>
+                                        <td class="py-3"><div class="w-32"><div class="progress-bar"><div class="progress-fill" style="width: 45%"></div></div><span class="text-xs" style="color:#92487A;">45%</span></div></td>
+                                        <td class="py-3"><span class="status-badge status-in-progress">In Progress</span></td>
+                                        <td class="py-3"><button onclick="viewOnboardingDetails(this)" class="text-[#540863] mr-2" title="View Details"><i class="fas fa-eye"></i></button><button onclick="editOnboarding(this)" class="text-[#92487A] mr-2" title="Edit"><i class="fas fa-edit"></i></button><button onclick="deleteOnboarding(this)" class="text-red-500" title="Delete"><i class="fas fa-trash"></i></button></td>
+                                    </tr>
+                                    <tr class="border-b data-row" style="border-color:#c99ebb;">
+                                        <td class="py-3"><div><p class="text-sm font-medium" style="color:#540863;">Michael Brown</p><p class="text-xs" style="color:#92487A;">michael.brown@email.com</p></div></td>
+                                        <td class="py-3 text-sm" style="color:#92487A;">IT</td>
+                                        <td class="py-3 text-sm" style="color:#92487A;">System Admin</td>
+                                        <td class="py-3 text-sm" style="color:#92487A;">2024-04-25</td>
+                                        <td class="py-3"><div class="w-32"><div class="progress-bar"><div class="progress-fill" style="width: 15%"></div></div><span class="text-xs" style="color:#92487A;">15%</span></div></td>
+                                        <td class="py-3"><span class="status-badge status-pending">Pending</span></td>
+                                        <td class="py-3"><button onclick="viewOnboardingDetails(this)" class="text-[#540863] mr-2" title="View Details"><i class="fas fa-eye"></i></button><button onclick="editOnboarding(this)" class="text-[#92487A] mr-2" title="Edit"><i class="fas fa-edit"></i></button><button onclick="deleteOnboarding(this)" class="text-red-500" title="Delete"><i class="fas fa-trash"></i></button></td>
+                                     </tr>
                                 </tbody>
                             </table>
                         </div>
                     </div>
-                </div>
-                
-                <!-- ==================== TAB 3: TASK ASSIGNMENT ==================== -->
-                <div id="tab-tasks" class="tab-content">
-                    <!-- Task Assignment Form -->
-                    <div class="section-card fade-in">
-                        <h3 class="text-md font-semibold mb-4" style="color: #540863;">Assign Task to Employee</h3>
-                        <form id="taskAssignForm">
-                            <div class="form-row">
-                                <div><label>Select Employee <span class="text-red-500">*</span></label>
-                                    <select id="task_employee" required>
-                                        <option value="">Select Employee</option>
-                                        <option>Emily Davis (HR)</option>
-                                        <option>James Wilson (IT)</option>
-                                        <option>Lisa Anderson (Marketing)</option>
-                                        <option>Sarah Johnson (Design)</option>
-                                        <option>Michael Brown (IT)</option>
-                                        <option>Emma Davis (HR)</option>
-                                    </select>
-                                </div>
-                                <div><label>Task Title <span class="text-red-500">*</span></label><input type="text" id="task_title" placeholder="Enter task title" required></div>
-                                <div><label>Assigned By Department</label>
-                                    <select id="task_department">
-                                        <option value="HR">HR</option>
-                                        <option value="IT">IT</option>
-                                        <option value="Admin">Admin</option>
-                                        <option value="Finance">Finance</option>
-                                        <option value="Facilities">Facilities</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-row">
-                                <div><label>Due Date</label><input type="date" id="task_due_date"></div>
-                                <div><label>Priority</label>
-                                    <select id="task_priority">
-                                        <option value="High">🔴 High</option>
-                                        <option value="Medium" selected>🟡 Medium</option>
-                                        <option value="Low">🟢 Low</option>
-                                    </select>
-                                </div>
-                                <div><label>Status</label>
-                                    <select id="task_status">
-                                        <option value="Pending">Pending</option>
-                                        <option value="In Progress">In Progress</option>
-                                        <option value="Completed">Completed</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div><label>Description</label><textarea id="task_desc" rows="2" placeholder="Enter task description"></textarea></div>
-                            <div class="flex justify-end mt-4"><button type="submit" class="btn-primary"><i class="fas fa-plus mr-2"></i>Assign Task</button></div>
-                        </form>
-                    </div>
                     
-                    <!-- Task List with Filters -->
+                    <!-- Onboarding Statistics -->
                     <div class="section-card fade-in">
-                        <div class="flex justify-between items-center mb-4 flex-wrap gap-3">
-                            <h3 class="text-md font-semibold" style="color: #540863;">Task List</h3>
-                            <div class="flex gap-2">
-                                <input type="text" id="searchTask" placeholder="Search tasks..." class="w-48 text-sm" onkeyup="filterTasks()">
-                                <select id="filterTaskPriority" onchange="filterTasks()" class="w-32 text-sm">
-                                    <option value="all">All Priority</option>
-                                    <option value="High">High</option>
-                                    <option value="Medium">Medium</option>
-                                    <option value="Low">Low</option>
-                                </select>
-                                <select id="filterTaskStatus" onchange="filterTasks()" class="w-32 text-sm">
-                                    <option value="all">All Status</option>
-                                    <option value="Pending">Pending</option>
-                                    <option value="In Progress">In Progress</option>
-                                    <option value="Completed">Completed</option>
-                                </select>
+                        <h3 class="text-md font-semibold mb-4" style="color: #540863;">Onboarding Statistics</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                            <div class="p-3 border rounded-lg text-center" style="border-color:#c99ebb;">
+                                <i class="fas fa-users text-2xl mb-2" style="color:#540863;"></i>
+                                <p class="text-2xl font-bold" style="color:#540863;" id="totalOnboarding">5</p>
+                                <p class="text-xs" style="color:#92487A;">Total Onboarding</p>
                             </div>
-                        </div>
-                        <div id="tasksList">
-                            <div class="task-item" data-priority="High" data-status="Pending">
-                                <div class="flex items-center justify-between flex-wrap gap-2">
-                                    <div class="flex items-center gap-3">
-                                        <input type="checkbox" class="task-checkbox" onchange="toggleTaskComplete(this)">
-                                        <div>
-                                            <p class="font-medium" style="color:#540863;">Complete documentation and KYC verification</p>
-                                            <p class="text-xs" style="color:#92487A;">Assigned to: Emily Davis • Due: 2024-04-20 • Priority: <span class="text-red-500">High</span></p>
-                                        </div>
-                                    </div>
-                                    <div><span class="status-badge status-pending text-xs">Pending</span><button onclick="deleteTask(this)" class="text-[#92487A] ml-2"><i class="fas fa-trash"></i></button></div>
-                                </div>
+                            <div class="p-3 border rounded-lg text-center" style="border-color:#c99ebb;">
+                                <i class="fas fa-spinner fa-pulse text-2xl mb-2" style="color:#ffc107;"></i>
+                                <p class="text-2xl font-bold" style="color:#540863;" id="inProgressCount">3</p>
+                                <p class="text-xs" style="color:#92487A;">In Progress</p>
                             </div>
-                            <div class="task-item" data-priority="Medium" data-status="In Progress">
-                                <div class="flex items-center justify-between flex-wrap gap-2">
-                                    <div class="flex items-center gap-3">
-                                        <input type="checkbox" class="task-checkbox" onchange="toggleTaskComplete(this)">
-                                        <div>
-                                            <p class="font-medium" style="color:#540863;">IT asset setup (Laptop, Monitor, Accessories)</p>
-                                            <p class="text-xs" style="color:#92487A;">Assigned to: James Wilson • Due: 2024-04-18 • Priority: <span class="text-yellow-600">Medium</span></p>
-                                        </div>
-                                    </div>
-                                    <div><span class="status-badge status-in-progress text-xs">In Progress</span><button onclick="deleteTask(this)" class="text-[#92487A] ml-2"><i class="fas fa-trash"></i></button></div>
-                                </div>
+                            <div class="p-3 border rounded-lg text-center" style="border-color:#c99ebb;">
+                                <i class="fas fa-check-circle text-2xl mb-2" style="color:#28a745;"></i>
+                                <p class="text-2xl font-bold" style="color:#540863;" id="completedCount">1</p>
+                                <p class="text-xs" style="color:#92487A;">Completed</p>
                             </div>
-                            <div class="task-item" data-priority="Low" data-status="Pending">
-                                <div class="flex items-center justify-between flex-wrap gap-2">
-                                    <div class="flex items-center gap-3">
-                                        <input type="checkbox" class="task-checkbox" onchange="toggleTaskComplete(this)">
-                                        <div>
-                                            <p class="font-medium" style="color:#540863;">Email and system access creation</p>
-                                            <p class="text-xs" style="color:#92487A;">Assigned to: Lisa Anderson • Due: 2024-04-22 • Priority: <span class="text-green-600">Low</span></p>
-                                        </div>
-                                    </div>
-                                    <div><span class="status-badge status-pending text-xs">Pending</span><button onclick="deleteTask(this)" class="text-[#92487A] ml-2"><i class="fas fa-trash"></i></button></div>
-                                </div>
+                            <div class="p-3 border rounded-lg text-center" style="border-color:#c99ebb;">
+                                <i class="fas fa-clock text-2xl mb-2" style="color:#17a2b8;"></i>
+                                <p class="text-2xl font-bold" style="color:#540863;" id="pendingCount">1</p>
+                                <p class="text-xs" style="color:#92487A;">Pending</p>
                             </div>
                         </div>
                     </div>
                 </div>
                 
-                <!-- ==================== TAB 4: DOCUMENTS ==================== -->
+                <!-- ==================== TAB 2: DOCUMENTS ==================== -->
                 <div id="tab-documents" class="tab-content">
                     <div class="section-card fade-in">
                         <div class="flex justify-between items-center mb-4">
@@ -625,6 +428,14 @@
                                 <div><i class="fas fa-file-signature mr-2" style="color:#540863;"></i><span style="color:#540863;">Previous Experience Letters</span></div>
                                 <div><button onclick="uploadDocument(this, 'Previous Experience Letters')" class="btn-outline text-xs">Upload</button><span class="status-badge status-pending text-xs ml-2" id="doc-exp-status">Pending</span></div>
                             </div>
+                            <div class="doc-item">
+                                <div><i class="fas fa-medical-alt mr-2" style="color:#540863;"></i><span style="color:#540863;">Medical Certificate</span></div>
+                                <div><button onclick="uploadDocument(this, 'Medical Certificate')" class="btn-outline text-xs">Upload</button><span class="status-badge status-pending text-xs ml-2" id="doc-medical-status">Pending</span></div>
+                            </div>
+                            <div class="doc-item">
+                                <div><i class="fas fa-handshake mr-2" style="color:#540863;"></i><span style="color:#540863;">Signed Contract</span></div>
+                                <div><button onclick="uploadDocument(this, 'Signed Contract')" class="btn-outline text-xs">Upload</button><span class="status-badge status-pending text-xs ml-2" id="doc-contract-status">Pending</span></div>
+                            </div>
                         </div>
                     </div>
                     
@@ -632,125 +443,40 @@
                     <div class="section-card fade-in">
                         <h3 class="text-md font-semibold mb-4" style="color: #540863;">Verification Status</h3>
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                            <div class="p-3 border rounded-lg" style="border-color:#5c003f;">
-                                <div class="flex justify-between"><span style="color:#540863;">Total Documents</span><span class="font-bold" style="color:#540863;" id="totalDocs">7</span></div>
-                                <div class="progress-bar mt-2"><div class="progress-fill" id="totalProgressFill" style="width: 28%"></div></div>
-                                <p class="text-xs mt-1" style="color:#92487A;"><span id="uploadedDocs">2</span> out of 7 uploaded</p>
+                            <div class="p-3 border rounded-lg" style="border-color:#c99ebb;">
+                                <div class="flex justify-between"><span style="color:#540863;">Total Documents</span><span class="font-bold" style="color:#540863;" id="totalDocs">9</span></div>
+                                <div class="progress-bar mt-2"><div class="progress-fill" id="totalProgressFill" style="width: 22%"></div></div>
+                                <p class="text-xs mt-1" style="color:#92487A;"><span id="uploadedDocs">2</span> out of 9 uploaded</p>
                             </div>
-                            <div class="p-3 border rounded-lg" style="border-color:#5c003f;">
-                                <div class="flex justify-between"><span style="color:#540863;">Pending Verification</span><span class="font-bold" style="color:#540863;" id="pendingDocs">5</span></div>
-                                <div class="progress-bar mt-2"><div class="progress-fill" id="pendingProgressFill" style="width: 71%; background:#ffc107;"></div></div>
-                                <p class="text-xs mt-1" style="color:#92487A;"><span id="pendingCount">5</span> documents pending</p>
+                            <div class="p-3 border rounded-lg" style="border-color:#c99ebb;">
+                                <div class="flex justify-between"><span style="color:#540863;">Pending Verification</span><span class="font-bold" style="color:#540863;" id="pendingDocsCount">7</span></div>
+                                <div class="progress-bar mt-2"><div class="progress-fill" id="pendingProgressFill" style="width: 78%; background:#ffc107;"></div></div>
+                                <p class="text-xs mt-1" style="color:#92487A;"><span id="pendingDocsCountText">7</span> documents pending</p>
                             </div>
-                            <div class="p-3 border rounded-lg" style="border-color:#5c003f;">
-                                <div class="flex justify-between"><span style="color:#540863;">Verification Rate</span><span class="font-bold" style="color:#540863;" id="verificationRate">29%</span></div>
-                                <div class="progress-bar mt-2"><div class="progress-fill" id="verificationFill" style="width: 29%"></div></div>
+                            <div class="p-3 border rounded-lg" style="border-color:#c99ebb;">
+                                <div class="flex justify-between"><span style="color:#540863;">Verification Rate</span><span class="font-bold" style="color:#540863;" id="verificationRate">22%</span></div>
+                                <div class="progress-bar mt-2"><div class="progress-fill" id="verificationFill" style="width: 22%"></div></div>
                                 <p class="text-xs mt-1" style="color:#92487A;">Documents verified</p>
                             </div>
                         </div>
                     </div>
-                </div>
-                
-                <!-- ==================== TAB 5: TEMPLATES ==================== -->
-                <div id="tab-templates" class="tab-content">
-                    <div class="section-card fade-in">
-                        <h3 class="text-md font-semibold mb-4" style="color: #540863;">Email Templates</h3>
-                        <div class="space-y-4">
-                            <div class="p-3 border rounded-lg" style="border-color:#5c003f;">
-                                <div class="flex justify-between items-center flex-wrap gap-2">
-                                    <div><i class="fas fa-envelope mr-2" style="color:#540863;"></i><span class="font-medium" style="color:#540863;">Welcome Email</span><p class="text-xs text-gray-500 mt-1">Sent to new employees on joining day</p></div>
-                                    <div><button onclick="editTemplate('welcome')" class="btn-outline text-xs">Edit</button><button onclick="previewTemplate('welcome')" class="btn-outline text-xs ml-2">Preview</button><button onclick="sendTestEmail('welcome')" class="btn-primary text-xs ml-2">Send Test</button></div>
-                                </div>
-                            </div>
-                            <div class="p-3 border rounded-lg" style="border-color:#5c003f;">
-                                <div class="flex justify-between items-center flex-wrap gap-2">
-                                    <div><i class="fas fa-file-signature mr-2" style="color:#540863;"></i><span class="font-medium" style="color:#540863;">Offer Letter Template</span><p class="text-xs text-gray-500 mt-1">Offer letter template for new hires</p></div>
-                                    <div><button onclick="editTemplate('offer')" class="btn-outline text-xs">Edit</button><button onclick="previewTemplate('offer')" class="btn-outline text-xs ml-2">Preview</button><button onclick="generateOfferLetter()" class="btn-primary text-xs ml-2">Generate</button></div>
-                                </div>
-                            </div>
-                            <div class="p-3 border rounded-lg" style="border-color:#5c003f;">
-                                <div class="flex justify-between items-center flex-wrap gap-2">
-                                    <div><i class="fas fa-paperclip mr-2" style="color:#540863;"></i><span class="font-medium" style="color:#540863;">Document Request Email</span><p class="text-xs text-gray-500 mt-1">Request documents from new employee</p></div>
-                                    <div><button onclick="editTemplate('document')" class="btn-outline text-xs">Edit</button><button onclick="previewTemplate('document')" class="btn-outline text-xs ml-2">Preview</button><button onclick="sendDocumentRequest()" class="btn-primary text-xs ml-2">Send Request</button></div>
-                                </div>
-                            </div>
-                            <div class="p-3 border rounded-lg" style="border-color:#5c003f;">
-                                <div class="flex justify-between items-center flex-wrap gap-2">
-                                    <div><i class="fas fa-check-circle mr-2" style="color:#540863;"></i><span class="font-medium" style="color:#540863;">Onboarding Complete</span><p class="text-xs text-gray-500 mt-1">Sent when onboarding is completed</p></div>
-                                    <div><button onclick="editTemplate('complete')" class="btn-outline text-xs">Edit</button><button onclick="previewTemplate('complete')" class="btn-outline text-xs ml-2">Preview</button></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                     
-                    <!-- Onboarding Checklist Template -->
+                    <!-- Recently Uploaded Documents -->
                     <div class="section-card fade-in">
-                        <div class="flex justify-between items-center mb-4 flex-wrap gap-2">
-                            <h3 class="text-md font-semibold" style="color: #540863;">Onboarding Checklist Template</h3>
-                            <button onclick="editChecklist()" class="btn-outline text-sm"><i class="fas fa-edit mr-1"></i>Edit Checklist</button>
-                        </div>
-                        <div id="checklistItems">
-                            <div class="flex items-center gap-2 p-2 border-b" style="border-color:#e5e7eb;">
-                                <input type="checkbox" checked disabled class="w-4 h-4"><span style="color:#540863;">Complete personal information form</span>
-                            </div>
-                            <div class="flex items-center gap-2 p-2 border-b" style="border-color:#e5e7eb;">
-                                <input type="checkbox" checked disabled class="w-4 h-4"><span style="color:#540863;">Upload required documents (PAN, Aadhar, etc.)</span>
-                            </div>
-                            <div class="flex items-center gap-2 p-2 border-b" style="border-color:#e5e7eb;">
-                                <input type="checkbox" disabled class="w-4 h-4"><span style="color:#540863;">IT asset allocation (Laptop, Monitor, etc.)</span>
-                            </div>
-                            <div class="flex items-center gap-2 p-2 border-b" style="border-color:#e5e7eb;">
-                                <input type="checkbox" disabled class="w-4 h-4"><span style="color:#540863;">Email and system access setup</span>
-                            </div>
-                            <div class="flex items-center gap-2 p-2 border-b" style="border-color:#e5e7eb;">
-                                <input type="checkbox" disabled class="w-4 h-4"><span style="color:#540863;">HR induction meeting</span>
-                            </div>
-                            <div class="flex items-center gap-2 p-2 border-b" style="border-color:#e5e7eb;">
-                                <input type="checkbox" disabled class="w-4 h-4"><span style="color:#540863;">Team introduction and department orientation</span>
-                            </div>
-                            <div class="flex items-center gap-2 p-2">
-                                <input type="checkbox" disabled class="w-4 h-4"><span style="color:#540863;">Policy acknowledgment and signing</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- ==================== TAB 6: SETTINGS ==================== -->
-                <div id="tab-settings" class="tab-content">
-                    <div class="section-card fade-in">
-                        <h3 class="text-md font-semibold mb-4" style="color: #540863;">Onboarding Settings</h3>
-                        <form id="onboardingSettingsForm">
-                            <div class="form-row">
-                                <div><label>Default Onboarding Duration (Days)</label><input type="number" id="default_duration" value="15" min="1" max="90"></div>
-                                <div><label>Auto-assign Tasks</label>
-                                    <select id="auto_assign"><option value="yes">Yes</option><option value="no">No</option></select>
-                                </div>
-                                <div><label>Send Welcome Email Automatically</label>
-                                    <select id="auto_email"><option value="yes">Yes</option><option value="no">No</option></select>
-                                </div>
-                            </div>
-                            <div class="form-row">
-                                <div><label>Default Reporting Manager</label>
-                                    <select id="default_manager"><option>Rajesh Kumar (CEO)</option><option>Priya Sharma (HR Head)</option><option>Amit Mehta (IT Head)</option></select>
-                                </div>
-                                <div><label>Document Verification Required</label>
-                                    <select id="doc_verification"><option value="yes">Yes</option><option value="no">No</option></select>
-                                </div>
-                                <div><label>Task Approval Required</label>
-                                    <select id="task_approval"><option value="yes">Yes</option><option value="no">No</option></select>
-                                </div>
-                            </div>
-                            <div class="flex justify-end mt-4"><button type="submit" class="btn-primary"><i class="fas fa-save mr-2"></i>Save Settings</button></div>
-                        </form>
-                    </div>
-                    
-                    <div class="section-card fade-in">
-                        <h3 class="text-md font-semibold mb-4" style="color: #540863;">Default Task Templates</h3>
+                        <h3 class="text-md font-semibold mb-4" style="color: #540863;">Recently Uploaded Documents</h3>
                         <div class="space-y-2">
-                            <div class="flex justify-between items-center p-2 border-b"><span style="color:#540863;">Complete KYC documentation</span><button onclick="addDefaultTask(this)" class="btn-outline text-xs">Add to Template</button></div>
-                            <div class="flex justify-between items-center p-2 border-b"><span style="color:#540863;">IT asset setup request</span><button onclick="addDefaultTask(this)" class="btn-outline text-xs">Add to Template</button></div>
-                            <div class="flex justify-between items-center p-2 border-b"><span style="color:#540863;">Email ID creation</span><button onclick="addDefaultTask(this)" class="btn-outline text-xs">Add to Template</button></div>
-                            <div class="flex justify-between items-center p-2"><span style="color:#540863;">HR policy acknowledgment</span><button onclick="addDefaultTask(this)" class="btn-outline text-xs">Add to Template</button></div>
+                            <div class="flex justify-between items-center p-2 border-b" style="border-color:#c99ebb;">
+                                <div><i class="fas fa-file-pdf mr-2" style="color:#dc3545;"></i><span style="color:#540863;">Emily Davis - PAN Card.pdf</span></div>
+                                <span class="text-xs" style="color:#92487A;">2024-04-15 10:30 AM</span>
+                            </div>
+                            <div class="flex justify-between items-center p-2 border-b" style="border-color:#c99ebb;">
+                                <div><i class="fas fa-file-pdf mr-2" style="color:#dc3545;"></i><span style="color:#540863;">James Wilson - Offer Letter.pdf</span></div>
+                                <span class="text-xs" style="color:#92487A;">2024-04-14 02:15 PM</span>
+                            </div>
+                            <div class="flex justify-between items-center p-2">
+                                <div><i class="fas fa-file-image mr-2" style="color:#17a2b8;"></i><span style="color:#540863;">Sarah Johnson - Passport Photo.jpg</span></div>
+                                <span class="text-xs" style="color:#92487A;">2024-04-13 11:45 AM</span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -779,29 +505,21 @@
             </div>
             <form id="documentUploadForm">
                 <div><label>Document Name</label><input type="text" id="doc_name" readonly class="bg-gray-100"></div>
+                <div class="mt-3"><label>Select Employee</label>
+                    <select id="doc_employee" required>
+                        <option value="">Select Employee</option>
+                        <option>Emily Davis</option>
+                        <option>James Wilson</option>
+                        <option>Lisa Anderson</option>
+                        <option>Sarah Johnson</option>
+                        <option>Michael Brown</option>
+                    </select>
+                </div>
                 <div class="mt-3"><label>Select File</label><input type="file" id="doc_file" accept=".pdf,.jpg,.png,.jpeg" required></div>
                 <div class="mt-2"><label>Remarks (Optional)</label><textarea id="doc_remarks" rows="2" placeholder="Enter any remarks"></textarea></div>
                 <div class="flex justify-end gap-3 mt-4">
                     <button type="button" onclick="closeDocumentModal()" class="btn-outline">Cancel</button>
                     <button type="submit" class="btn-primary">Upload Document</button>
-                </div>
-            </form>
-        </div>
-    </div>
-    
-    <!-- Template Edit Modal -->
-    <div id="templateModal" class="modal">
-        <div class="modal-content">
-            <div class="flex justify-between items-center mb-4">
-                <h3 class="text-lg font-semibold" style="color:#540863;" id="templateModalTitle">Edit Template</h3>
-                <button onclick="closeTemplateModal()" class="text-gray-500 text-xl hover:text-gray-700">&times;</button>
-            </div>
-            <form id="templateForm">
-                <div><label>Subject</label><input type="text" id="template_subject" required></div>
-                <div class="mt-3"><label>Body</label><textarea id="template_body" rows="8" required></textarea></div>
-                <div class="flex justify-end gap-3 mt-4">
-                    <button type="button" onclick="closeTemplateModal()" class="btn-outline">Cancel</button>
-                    <button type="submit" class="btn-primary">Save Template</button>
                 </div>
             </form>
         </div>
@@ -838,97 +556,33 @@
             }
         }
         
-        // ==================== NEW JOINER FUNCTIONS ====================
-        let upcomingJoinersData = [
-            { name: 'Sarah Johnson', email: 'sarah.johnson@email.com', dept: 'Design', designation: 'UI/UX Designer', date: '2024-04-20', status: 'Offer Sent' },
-            { name: 'Michael Brown', email: 'michael.brown@email.com', dept: 'IT', designation: 'Senior Developer', date: '2024-04-25', status: 'Offer Accepted' },
-            { name: 'Emma Davis', email: 'emma.davis@email.com', dept: 'HR', designation: 'HR Executive', date: '2024-05-01', status: 'Offer Sent' }
-        ];
-        
-        document.getElementById('newJoinerForm')?.addEventListener('submit', function(e) {
-            e.preventDefault();
-            const name = document.getElementById('joiner_name').value;
-            const email = document.getElementById('joiner_email').value;
-            const phone = document.getElementById('joiner_phone').value;
-            const dept = document.getElementById('joiner_dept').value || 'TBD';
-            const designation = document.getElementById('joiner_designation').value || 'TBD';
-            const date = document.getElementById('joiner_date').value;
-            const manager = document.getElementById('joiner_manager').value;
-            const empType = document.getElementById('joiner_type').value;
-            const offerStatus = document.getElementById('joiner_offer_status').value;
-            
-            let statusClass = 'status-offer-sent';
-            if (offerStatus === 'Offer Accepted') statusClass = 'status-offer-accepted';
-            else if (offerStatus === 'Offer Signed') statusClass = 'status-completed';
-            else if (offerStatus === 'Pending') statusClass = 'status-pending';
-            
-            const newRow = `<tr class="border-b data-row" style="border-color:#5c003f;">
-                <td class="py-3"><div><p class="text-sm font-medium" style="color:#540863;">${name}</p><p class="text-xs" style="color:#92487A;">${email}</p></div></td>
-                <td class="py-3 text-sm" style="color:#92487A;">${dept}</td>
-                <td class="py-3 text-sm" style="color:#92487A;">${designation}</td>
-                <td class="py-3 text-sm" style="color:#92487A;">${date}</td>
-                <td class="py-3"><span class="status-badge ${statusClass}">${offerStatus}</span></td>
-                <td class="py-3"><button onclick="startOnboarding(this)" class="btn-success text-xs"><i class="fas fa-play mr-1"></i>Start Onboarding</button></td>
-            </td>`;
-            document.getElementById('upcomingJoinersList').insertAdjacentHTML('beforeend', newRow);
-            showToast(`${name} added to upcoming joiners!`, 'success');
-            this.reset();
-        });
-        
-        function filterUpcomingJoiners() {
-            const search = document.getElementById('searchUpcoming').value.toLowerCase();
-            const status = document.getElementById('filterUpcomingStatus').value;
-            const rows = document.querySelectorAll('#upcomingJoinersList tr');
-            rows.forEach(row => {
-                let show = true;
-                const name = row.cells[0]?.innerText.toLowerCase();
-                const rowStatus = row.cells[4]?.innerText;
-                if(search && !name.includes(search)) show = false;
-                if(status !== 'all' && rowStatus !== status) show = false;
-                row.style.display = show ? '' : 'none';
-            });
-        }
-        
-        function startOnboarding(btn) {
-            const row = btn.closest('tr');
-            const name = row.cells[0]?.querySelector('p')?.innerText || 'Employee';
-            const email = row.cells[0]?.querySelector('.text-xs')?.innerText || '';
-            const dept = row.cells[1]?.innerText;
-            const date = row.cells[3]?.innerText;
-            
-            // Add to onboarding list
-            const newOnboardingRow = `<tr class="border-b data-row" style="border-color:#5c003f;">
-                <td class="py-3"><div><p class="text-sm font-medium" style="color:#540863;">${name}</p><p class="text-xs" style="color:#92487A;">${email}</p></div></td>
-                <td class="py-3 text-sm" style="color:#92487A;">${dept}</td>
-                <td class="py-3 text-sm" style="color:#92487A;">${date}</td>
-                <td class="py-3"><div class="w-32"><div class="progress-bar"><div class="progress-fill" style="width: 0%"></div></div><span class="text-xs" style="color:#92487A;">0%</span></div></td>
-                <td class="py-3"><span class="status-badge status-pending">Pending</span></td>
-                <td class="py-3"><button onclick="viewOnboardingDetails(this)" class="text-[#540863] mr-2" title="View Details"><i class="fas fa-eye"></i></button><button onclick="editOnboarding(this)" class="text-[#92487A] mr-2" title="Edit"><i class="fas fa-edit"></i></button><button onclick="deleteOnboarding(this)" class="text-red-500" title="Delete"><i class="fas fa-trash"></i></button></td>
-            </tr>`;
-            document.getElementById('onboardingList').insertAdjacentHTML('afterbegin', newOnboardingRow);
-            
-            // Remove from upcoming list
-            row.remove();
-            
-            showToast(`Onboarding started for ${name}!`, 'success');
-            
-            // Send welcome email notification
-            showToast(`Welcome email sent to ${email}`, 'info');
-        }
-        
         // ==================== ONBOARDING LIST FUNCTIONS ====================
         function filterOnboardingList() {
             const search = document.getElementById('searchOnboarding').value.toLowerCase();
             const status = document.getElementById('filterOnboardingStatus').value;
             const rows = document.querySelectorAll('#onboardingList tr');
+            let inProgress = 0, completed = 0, pending = 0;
+            
             rows.forEach(row => {
                 let show = true;
                 const name = row.cells[0]?.innerText.toLowerCase();
-                const rowStatus = row.cells[4]?.innerText.toLowerCase();
+                const rowStatus = row.cells[5]?.innerText.toLowerCase();
                 if(search && !name.includes(search)) show = false;
                 if(status !== 'all' && !rowStatus.includes(status)) show = false;
                 row.style.display = show ? '' : 'none';
+                
+                // Count statistics for visible rows
+                if(show) {
+                    if(rowStatus === 'in progress') inProgress++;
+                    else if(rowStatus === 'completed') completed++;
+                    else if(rowStatus === 'pending') pending++;
+                }
             });
+            
+            // Update statistics
+            document.getElementById('inProgressCount').innerText = inProgress;
+            document.getElementById('completedCount').innerText = completed;
+            document.getElementById('pendingCount').innerText = pending;
         }
         
         function viewOnboardingDetails(btn) {
@@ -936,9 +590,10 @@
             const name = row.cells[0]?.querySelector('p')?.innerText;
             const email = row.cells[0]?.querySelector('.text-xs')?.innerText;
             const dept = row.cells[1]?.innerText;
-            const date = row.cells[2]?.innerText;
-            const progress = row.cells[3]?.querySelector('.progress-fill')?.style.width || '0%';
-            const status = row.cells[4]?.innerText;
+            const designation = row.cells[2]?.innerText;
+            const date = row.cells[3]?.innerText;
+            const progress = row.cells[4]?.querySelector('.progress-fill')?.style.width || '0%';
+            const status = row.cells[5]?.innerText;
             
             const modalContent = `
                 <div class="space-y-4">
@@ -953,15 +608,20 @@
                     </div>
                     <div class="grid grid-cols-2 gap-3">
                         <div><label class="text-xs font-medium" style="color:#92487A;">Department</label><p class="text-sm" style="color:#540863;">${dept}</p></div>
+                        <div><label class="text-xs font-medium" style="color:#92487A;">Designation</label><p class="text-sm" style="color:#540863;">${designation}</p></div>
                         <div><label class="text-xs font-medium" style="color:#92487A;">Joining Date</label><p class="text-sm" style="color:#540863;">${date}</p></div>
                         <div><label class="text-xs font-medium" style="color:#92487A;">Current Status</label><p class="text-sm" style="color:#540863;">${status}</p></div>
-                        <div><label class="text-xs font-medium" style="color:#92487A;">Overall Progress</label><p class="text-sm" style="color:#540863;">${progress}</p></div>
                     </div>
-                    <div><label class="text-xs font-medium" style="color:#92487A;">Assigned Tasks</label>
+                    <div><label class="text-xs font-medium" style="color:#92487A;">Overall Progress</label>
+                        <div class="progress-bar mt-1"><div class="progress-fill" style="width: ${progress};"></div></div>
+                        <p class="text-xs mt-1" style="color:#92487A;">${progress} complete</p>
+                    </div>
+                    <div><label class="text-xs font-medium" style="color:#92487A;">Documents Status</label>
                         <ul class="list-disc pl-4 mt-1 space-y-1">
-                            <li class="text-sm" style="color:#540863;">Complete documentation - <span class="text-green-600">Completed</span></li>
-                            <li class="text-sm" style="color:#540863;">IT asset setup - <span class="text-yellow-600">In Progress</span></li>
-                            <li class="text-sm" style="color:#540863;">Email creation - <span class="text-red-500">Pending</span></li>
+                            <li class="text-sm" style="color:#540863;">PAN Card - <span class="text-green-600">Uploaded</span></li>
+                            <li class="text-sm" style="color:#540863;">Aadhar Card - <span class="text-yellow-600">Pending</span></li>
+                            <li class="text-sm" style="color:#540863;">Offer Letter - <span class="text-green-600">Uploaded</span></li>
+                            <li class="text-sm" style="color:#540863;">Degree Certificate - <span class="text-yellow-600">Pending</span></li>
                         </ul>
                     </div>
                     <div class="flex justify-end pt-3"><button onclick="closeOnboardingModal()" class="btn-primary">Close</button></div>
@@ -980,8 +640,27 @@
         function deleteOnboarding(btn) {
             if(confirm('Are you sure you want to delete this onboarding record?')) {
                 btn.closest('tr').remove();
+                updateOnboardingStats();
                 showToast('Onboarding record deleted!', 'success');
             }
+        }
+        
+        function updateOnboardingStats() {
+            const rows = document.querySelectorAll('#onboardingList tr');
+            const total = rows.length;
+            let inProgress = 0, completed = 0, pending = 0;
+            
+            rows.forEach(row => {
+                const status = row.cells[5]?.innerText.toLowerCase();
+                if(status === 'in progress') inProgress++;
+                else if(status === 'completed') completed++;
+                else if(status === 'pending') pending++;
+            });
+            
+            document.getElementById('totalOnboarding').innerText = total;
+            document.getElementById('inProgressCount').innerText = inProgress;
+            document.getElementById('completedCount').innerText = completed;
+            document.getElementById('pendingCount').innerText = pending;
         }
         
         function exportOnboardingList() {
@@ -992,8 +671,9 @@
                     data.push({
                         Employee: row.cells[0]?.querySelector('p')?.innerText,
                         Department: row.cells[1]?.innerText,
-                        JoiningDate: row.cells[2]?.innerText,
-                        Status: row.cells[4]?.innerText
+                        Designation: row.cells[2]?.innerText,
+                        JoiningDate: row.cells[3]?.innerText,
+                        Status: row.cells[5]?.innerText
                     });
                 }
             });
@@ -1003,87 +683,6 @@
         
         function closeOnboardingModal() {
             document.getElementById('onboardingModal').classList.remove('active');
-        }
-        
-        // ==================== TASK FUNCTIONS ====================
-        document.getElementById('taskAssignForm')?.addEventListener('submit', function(e) {
-            e.preventDefault();
-            const employee = document.getElementById('task_employee').value;
-            const title = document.getElementById('task_title').value;
-            const dept = document.getElementById('task_department').value;
-            const dueDate = document.getElementById('task_due_date').value || 'Not set';
-            const priority = document.getElementById('task_priority').value;
-            const status = document.getElementById('task_status').value;
-            const desc = document.getElementById('task_desc').value;
-            
-            let priorityColor = '';
-            if (priority === 'High') priorityColor = 'text-red-500';
-            else if (priority === 'Medium') priorityColor = 'text-yellow-600';
-            else priorityColor = 'text-green-600';
-            
-            let statusClass = 'status-pending';
-            if (status === 'In Progress') statusClass = 'status-in-progress';
-            else if (status === 'Completed') statusClass = 'status-completed';
-            
-            const newTask = `<div class="task-item" data-priority="${priority}" data-status="${status}">
-                <div class="flex items-center justify-between flex-wrap gap-2">
-                    <div class="flex items-center gap-3">
-                        <input type="checkbox" class="task-checkbox" onchange="toggleTaskComplete(this)">
-                        <div>
-                            <p class="font-medium" style="color:#540863;">${title}</p>
-                            <p class="text-xs" style="color:#92487A;">Assigned to: ${employee} • Due: ${dueDate} • Priority: <span class="${priorityColor}">${priority}</span></p>
-                            ${desc ? `<p class="text-xs text-gray-500 mt-1">${desc}</p>` : ''}
-                        </div>
-                    </div>
-                    <div><span class="status-badge ${statusClass} text-xs">${status}</span><button onclick="deleteTask(this)" class="text-[#92487A] ml-2"><i class="fas fa-trash"></i></button></div>
-                </div>
-            </div>`;
-            document.getElementById('tasksList').insertAdjacentHTML('afterbegin', newTask);
-            showToast(`Task "${title}" assigned to ${employee}!`, 'success');
-            this.reset();
-        });
-        
-        function toggleTaskComplete(checkbox) {
-            const taskDiv = checkbox.closest('.task-item');
-            const statusSpan = taskDiv.querySelector('.status-badge');
-            if (checkbox.checked) {
-                taskDiv.classList.add('task-completed');
-                if (statusSpan) {
-                    statusSpan.className = 'status-badge status-completed text-xs';
-                    statusSpan.innerText = 'Completed';
-                }
-                showToast('Task marked as completed!', 'success');
-            } else {
-                taskDiv.classList.remove('task-completed');
-                if (statusSpan) {
-                    statusSpan.className = 'status-badge status-pending text-xs';
-                    statusSpan.innerText = 'Pending';
-                }
-            }
-        }
-        
-        function deleteTask(btn) {
-            if(confirm('Delete this task?')) {
-                btn.closest('.task-item').remove();
-                showToast('Task deleted!', 'success');
-            }
-        }
-        
-        function filterTasks() {
-            const search = document.getElementById('searchTask').value.toLowerCase();
-            const priority = document.getElementById('filterTaskPriority').value;
-            const status = document.getElementById('filterTaskStatus').value;
-            const tasks = document.querySelectorAll('#tasksList .task-item');
-            tasks.forEach(task => {
-                let show = true;
-                const title = task.querySelector('.font-medium')?.innerText.toLowerCase();
-                const taskPriority = task.getAttribute('data-priority');
-                const taskStatus = task.getAttribute('data-status');
-                if(search && !title.includes(search)) show = false;
-                if(priority !== 'all' && taskPriority !== priority) show = false;
-                if(status !== 'all' && taskStatus !== status) show = false;
-                task.style.display = show ? '' : 'none';
-            });
         }
         
         // ==================== DOCUMENT FUNCTIONS ====================
@@ -1099,11 +698,12 @@
         document.getElementById('documentUploadForm')?.addEventListener('submit', function(e) {
             e.preventDefault();
             const file = document.getElementById('doc_file').files[0];
+            const employee = document.getElementById('doc_employee').value;
             const remarks = document.getElementById('doc_remarks').value;
             
-            if (file) {
+            if (file && employee) {
                 const fileSize = (file.size / 1024).toFixed(2);
-                showToast(`${currentDocument} uploaded successfully! (${fileSize} KB)`, 'success');
+                showToast(`${currentDocument} uploaded successfully for ${employee}! (${fileSize} KB)`, 'success');
                 
                 // Update status
                 const statusSpan = document.getElementById(`doc-${currentDocument.toLowerCase().replace(/ /g, '-')}-status`);
@@ -1125,6 +725,10 @@
                     }
                 }
                 updateDocumentStats();
+            } else if (!employee) {
+                showToast('Please select an employee!', 'error');
+            } else {
+                showToast('Please select a file to upload!', 'error');
             }
             closeDocumentModal();
         });
@@ -1132,13 +736,13 @@
         function updateDocumentStats() {
             const uploadedSpans = document.querySelectorAll('.status-badge.status-completed');
             const uploadedCount = uploadedSpans.length;
-            const totalDocs = 7;
+            const totalDocs = 9;
             const pendingCount = totalDocs - uploadedCount;
             const percentage = Math.round((uploadedCount / totalDocs) * 100);
             
             document.getElementById('uploadedDocs').innerText = uploadedCount;
-            document.getElementById('pendingDocs').innerText = pendingCount;
-            document.getElementById('pendingCount').innerText = pendingCount;
+            document.getElementById('pendingDocsCount').innerText = pendingCount;
+            document.getElementById('pendingDocsCountText').innerText = pendingCount;
             document.getElementById('verificationRate').innerText = `${percentage}%`;
             document.getElementById('totalProgressFill').style.width = `${percentage}%`;
             document.getElementById('pendingProgressFill').style.width = `${(pendingCount / totalDocs) * 100}%`;
@@ -1153,93 +757,6 @@
         function closeDocumentModal() {
             document.getElementById('documentModal').classList.remove('active');
             document.getElementById('documentUploadForm').reset();
-        }
-        
-        // ==================== TEMPLATE FUNCTIONS ====================
-        let currentTemplateType = '';
-        
-        const templates = {
-            welcome: { subject: 'Welcome to the Team!', body: 'Dear {{name}},\n\nWelcome to Sovereign HR! We are excited to have you onboard.\n\nYour joining date is {{date}}.\n\nBest regards,\nHR Team' },
-            offer: { subject: 'Offer Letter from Sovereign HR', body: 'Dear {{name}},\n\nWe are pleased to offer you the position of {{designation}} at Sovereign HR.\n\nPlease review the attached offer letter.\n\nBest regards,\nHR Team' },
-            document: { subject: 'Document Request - Onboarding', body: 'Dear {{name}},\n\nPlease submit the following documents for verification:\n- PAN Card\n- Aadhar Card\n- Degree Certificate\n\nBest regards,\nHR Team' },
-            complete: { subject: 'Onboarding Completed!', body: 'Dear {{name}},\n\nCongratulations! Your onboarding process is now complete.\n\nWelcome aboard!\n\nBest regards,\nHR Team' }
-        };
-        
-        function editTemplate(type) {
-            currentTemplateType = type;
-            const template = templates[type];
-            document.getElementById('templateModalTitle').innerText = `Edit ${type.charAt(0).toUpperCase() + type.slice(1)} Template`;
-            document.getElementById('template_subject').value = template.subject;
-            document.getElementById('template_body').value = template.body;
-            document.getElementById('templateModal').classList.add('active');
-        }
-        
-        document.getElementById('templateForm')?.addEventListener('submit', function(e) {
-            e.preventDefault();
-            templates[currentTemplateType] = {
-                subject: document.getElementById('template_subject').value,
-                body: document.getElementById('template_body').value
-            };
-            showToast(`${currentTemplateType} template saved successfully!`, 'success');
-            closeTemplateModal();
-        });
-        
-        function previewTemplate(type) {
-            const template = templates[type];
-            alert(`Subject: ${template.subject}\n\nBody:\n${template.body}`);
-        }
-        
-        function sendTestEmail(type) {
-            showToast(`Test email sent for ${type} template!`, 'success');
-        }
-        
-        function generateOfferLetter() {
-            showToast('Offer letter generated successfully!', 'success');
-        }
-        
-        function sendDocumentRequest() {
-            showToast('Document request email sent to employee!', 'success');
-        }
-        
-        function closeTemplateModal() {
-            document.getElementById('templateModal').classList.remove('active');
-        }
-        
-        function editChecklist() {
-            showToast('Checklist editor coming soon!', 'info');
-        }
-        
-        function addDefaultTask(btn) {
-            const taskName = btn.closest('.flex')?.querySelector('span')?.innerText || 'Task';
-            showToast(`"${taskName}" added to task templates!`, 'success');
-        }
-        
-        // ==================== SETTINGS FUNCTIONS ====================
-        document.getElementById('onboardingSettingsForm')?.addEventListener('submit', function(e) {
-            e.preventDefault();
-            const settings = {
-                duration: document.getElementById('default_duration').value,
-                autoAssign: document.getElementById('auto_assign').value,
-                autoEmail: document.getElementById('auto_email').value,
-                defaultManager: document.getElementById('default_manager').value,
-                docVerification: document.getElementById('doc_verification').value,
-                taskApproval: document.getElementById('task_approval').value
-            };
-            localStorage.setItem('onboardingSettings', JSON.stringify(settings));
-            showToast('Onboarding settings saved successfully!', 'success');
-        });
-        
-        function loadSettings() {
-            const savedSettings = localStorage.getItem('onboardingSettings');
-            if (savedSettings) {
-                const settings = JSON.parse(savedSettings);
-                if (settings.duration) document.getElementById('default_duration').value = settings.duration;
-                if (settings.autoAssign) document.getElementById('auto_assign').value = settings.autoAssign;
-                if (settings.autoEmail) document.getElementById('auto_email').value = settings.autoEmail;
-                if (settings.defaultManager) document.getElementById('default_manager').value = settings.defaultManager;
-                if (settings.docVerification) document.getElementById('doc_verification').value = settings.docVerification;
-                if (settings.taskApproval) document.getElementById('task_approval').value = settings.taskApproval;
-            }
         }
         
         // ==================== TOAST ====================
@@ -1268,7 +785,7 @@
             setActiveMenu('onboarding');
             initTabs();
             updateDocumentStats();
-            loadSettings();
+            updateOnboardingStats();
         });
     </script>
 </body>

@@ -19,7 +19,7 @@
         .section-card {
             background: white;
             border-radius: 12px;
-            border: 1px solid #5c003f;
+            border: 1px solid #c99ebb;
             padding: 20px;
             margin-bottom: 20px;
         }
@@ -27,7 +27,7 @@
         .stat-card {
             background: white;
             border-radius: 12px;
-            border: 1px solid #5c003f;
+            border: 1px solid #c99ebb;
             padding: 16px;
             transition: all 0.3s ease;
         }
@@ -88,14 +88,14 @@
         .btn-outline:hover { background-color: #540863; color: white; }
         
         input, select, textarea {
-            border: 1px solid #5c003f;
+            border: 1px solid #c99ebb;
             border-radius: 8px;
             padding: 8px 12px;
             width: 100%;
         }
         input:focus, select:focus, textarea:focus {
             outline: none;
-            border-color: #540863;
+            border-color: #c99ebb;
             box-shadow: 0 0 0 2px rgba(84, 8, 99, 0.1);
         }
         
@@ -113,7 +113,7 @@
             gap: 8px;
             margin-bottom: 24px;
             padding-bottom: 12px;
-            border-bottom: 1px solid #5c003f;
+            border-bottom: 1px solid #c99ebb;
             flex-wrap: wrap;
         }
         
@@ -266,11 +266,11 @@
                 
                 <!-- Tab Navigation -->
                 <div class="tab-nav">
-                    <button class="tab-btn active" data-tab="resignations">📝 Resignations</button>
-                    <button class="tab-btn" data-tab="clearance">✅ Clearance Tasks</button>
-                    <button class="tab-btn" data-tab="settlements">💰 Final Settlements</button>
-                    <button class="tab-btn" data-tab="exit-interview">🎤 Exit Interviews</button>
-                    <button class="tab-btn" data-tab="reports">📊 Reports</button>
+                    <button class="tab-btn active" data-tab="resignations"> Resignations</button>
+                    <button class="tab-btn" data-tab="clearance"> Clearance Tasks</button>
+                    <!-- <button class="tab-btn" data-tab="settlements"> Final Settlements</button>
+                    <button class="tab-btn" data-tab="exit-interview"> Exit Interviews</button> -->
+                    <!-- <button class="tab-btn" data-tab="reports">📊 Reports</button> -->
                 </div>
                 
                 <!-- ==================== TAB 1: RESIGNATIONS ==================== -->
@@ -283,46 +283,7 @@
                         <div class="stat-card"><p class="text-xs text-gray-500">Attrition Rate</p><p class="text-2xl font-bold" style="color:#540863;" id="attritionRate">8.5%</p><p class="text-xs text-gray-500">This quarter</p></div>
                     </div>
                     
-                    <!-- Submit Resignation Form -->
-                    <div class="section-card">
-                        <h3 class="text-md font-semibold mb-4" style="color:#540863;">Submit Resignation</h3>
-                        <form id="resignationForm">
-                            <div class="form-row">
-                                <div><label>Employee <span class="text-red-500">*</span></label>
-                                    <select id="res_employee" required>
-                                        <option value="">Select Employee</option>
-                                        <option>Rajesh Kumar</option>
-                                        <option>Priya Sharma</option>
-                                        <option>Amit Mehta</option>
-                                        <option>Neha Gupta</option>
-                                        <option>Vikram Singh</option>
-                                    </select>
-                                </div>
-                                <div><label>Resignation Date <span class="text-red-500">*</span></label><input type="date" id="res_date" required></div>
-                                <div><label>Last Working Day <span class="text-red-500">*</span></label><input type="date" id="res_last_day" required></div>
-                            </div>
-                            <div class="form-row">
-                                <div><label>Reason for Leaving <span class="text-red-500">*</span></label>
-                                    <select id="res_reason" required>
-                                        <option value="">Select Reason</option>
-                                        <option value="Better Opportunity">Better Career Opportunity</option>
-                                        <option value="Higher Studies">Higher Studies</option>
-                                        <option value="Relocation">Relocation</option>
-                                        <option value="Personal Reasons">Personal Reasons</option>
-                                        <option value="Health Issues">Health Issues</option>
-                                        <option value="Work-Life Balance">Work-Life Balance</option>
-                                        <option value="Salary">Salary/Compensation</option>
-                                        <option value="Other">Other</option>
-                                    </select>
-                                </div>
-                                <div><label>Notice Period (Days)</label><input type="number" id="res_notice" placeholder="30" value="30"></div>
-                            </div>
-                            <div class="form-row">
-                                <div><label>Comments/Remarks</label><textarea id="res_comments" rows="2" placeholder="Additional comments..."></textarea></div>
-                            </div>
-                            <div class="flex justify-end mt-4"><button type="submit" class="btn-primary"><i class="fas fa-paper-plane mr-2"></i>Submit Resignation</button></div>
-                        </form>
-                    </div>
+                   
                     
                     <!-- Active Resignations List -->
                     <div class="section-card">
@@ -330,13 +291,13 @@
                             <h3 class="text-md font-semibold" style="color:#540863;">Active Resignations</h3>
                             <div class="flex gap-2 flex-wrap">
                                 <select id="resignationStatusFilter" class="w-40 text-sm" onchange="filterResignations()">
-                                    <option value="all">All Status</option>
+                                    <option value="all" style="padding: 2px;">All Status</option>
                                     <option value="Pending">Pending</option>
                                     <option value="Approved">Approved</option>
                                     <option value="Notice Period">Notice Period</option>
                                     <option value="Completed">Completed</option>
                                 </select>
-                                <input type="text" id="resignationSearch" placeholder="Search employee..." class="w-48 text-sm" onkeyup="filterResignations()">
+                                <input type="text" id="resignationSearch" style="padding: 4px;" placeholder="Search employee..." class="w-48 text-sm" onkeyup="filterResignations()">
                                 <button onclick="exportResignations()" class="btn-outline text-sm"><i class="fas fa-download mr-1"></i>Export</button>
                             </div>
                         </div>
@@ -393,8 +354,8 @@
                     <div class="section-card">
                         <div class="flex justify-between items-center mb-4">
                             <h3 class="text-md font-semibold" style="color:#540863;">Clearance Tasks by Department</h3>
-                            <select id="clearanceEmployee" class="w-56 text-sm" onchange="loadClearanceTasks()">
-                                <option value="">Select Employee</option>
+                            <select id="clearanceEmployee" class="w-56 text-sm" style="padding: 4px;" onchange="loadClearanceTasks()">
+                                <option value="" >Select Employee</option>
                                 <option value="Rajesh Kumar">Rajesh Kumar (IT)</option>
                                 <option value="Priya Sharma">Priya Sharma (HR)</option>
                                 <option value="Amit Mehta">Amit Mehta (Sales)</option>
