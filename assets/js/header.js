@@ -1,5 +1,6 @@
 // Header JS - Dropdown and Notification Logic with Logout Modal
 
+
 function initHeader() {
     // Notification dropdown
     const notificationBtn = document.getElementById('notificationBtn');
