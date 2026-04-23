@@ -821,5 +821,26 @@
             refreshDashboardData();
         }, 30000);
     </script>
+
+    <script>
+   // Authentication Check for Dashboard
+(function() {
+    const isLoggedIn = localStorage.getItem('hrms_logged_in');
+    
+    console.log('Dashboard Auth Check:');
+    console.log('  hrms_logged_in:', isLoggedIn);
+    console.log('  hrms_firstName:', localStorage.getItem('hrms_firstName'));
+    console.log('  hrms_lastName:', localStorage.getItem('hrms_lastName'));
+    console.log('  hrms_role:', localStorage.getItem('hrms_role'));
+    
+    if (isLoggedIn !== 'true') {
+        console.warn('Not logged in - redirecting to login');
+        window.location.href = 'index.html';
+        return;
+    }
+    
+    console.log('✅ User is logged in, proceeding to dashboard');
+})();
+</script>
 </body>
 </html>

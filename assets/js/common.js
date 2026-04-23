@@ -1,30 +1,100 @@
-// Common JS - Global Functions
+// Common JS - Global Functions & Session Management
 
-// Get base path dynamically based on current page location
+// ========== CONFIGURATION ==========
+const API_BASE_URL = 'http://localhost:8086';
+
+// ========== UTILITY FUNCTIONS ==========
+
+/**
+ * Get base path dynamically based on current page location
+ */
 function getBasePath() {
     const path = window.location.pathname;
     
-    // Check for deep nested pages (pages/reports/)
-    if (path.includes('/pages/reports/')) {
-        return '../../';
-    }
-    // Check for payroll folder
-    else if (path.includes('/pages/payroll/')) {
-        return '../../';
-    }
-    // Check for company-mgmt folder
-    else if (path.includes('/company-mgmt/')) {
-        return '../../';
-    }
-    // Check for pages folder
-    else if (path.includes('/pages/')) {
-        return '../';
-    }
-    // Root level
+    if (path.includes('/pages/reports/')) return '../../';
+    else if (path.includes('/pages/payroll/')) return '../../';
+    else if (path.includes('/company-mgmt/')) return '../../';
+    else if (path.includes('/pages/')) return '../';
     return './';
 }
 
-// Load sidebar from includes folder
+/**
+ * Check if user is logged in
+ */
+function isUserLoggedIn() {
+    const isLoggedIn = localStorage.getItem('hrms_logged_in') === 'true';
+    const hasSessionCookie = document.cookie.split(';').some(cookie => 
+       cookie.trim().startsWith('admin_token=')
+    );
+    return isLoggedIn || hasSessionCookie;
+}
+
+/**
+ * Redirect to login if not authenticated
+ */
+function checkAuthentication() {
+    if (!isUserLoggedIn()) {
+        console.warn('User not authenticated - Redirecting to login');
+        window.location.href = '/index.html';
+        return false;
+    }
+    return true;
+}
+
+/**
+ * Get current user data from localStorage
+ */
+function getCurrentUser() {
+    try {
+        const userDataStr = localStorage.getItem('hrms_user');
+        if (userDataStr) {
+            return JSON.parse(userDataStr);
+        }
+        return null;
+    } catch (error) {
+        console.error('Error parsing user data:', error);
+        return null;
+    }
+}
+
+/**
+ * Make API request with automatic auth handling
+ */
+async function apiRequest(endpoint, options = {}) {
+    const defaultOptions = {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        credentials: 'include' // ✅ Always include cookies
+    };
+    
+    const finalOptions = { ...defaultOptions, ...options };
+    
+    try {
+        const url = endpoint.startsWith('http') ? endpoint : `${API_BASE_URL}${endpoint}`;
+        const response = await fetch(url, finalOptions);
+        
+        // If 401 (unauthorized), redirect to login
+        if (response.status === 401) {
+            console.warn('Unauthorized - Redirecting to login');
+            localStorage.clear();
+            window.location.href = '/index.html';
+            return null;
+        }
+        
+        return response;
+    } catch (error) {
+        console.error('API request error:', error);
+        throw error;
+    }
+}
+
+// ========== SIDEBAR & HEADER LOADING ==========
+
+/**
+ * Load sidebar from includes folder
+ */
 function loadSidebar() {
     const basePath = getBasePath();
     const sidebarPath = basePath + 'includes/sidebar.html';
@@ -32,29 +102,25 @@ function loadSidebar() {
     
     fetch(sidebarPath)
         .then(response => {
-            if (!response.ok) {
-                throw new Error('Sidebar not found at: ' + sidebarPath);
-            }
+            if (!response.ok) throw new Error('Sidebar not found at: ' + sidebarPath);
             return response.text();
         })
         .then(data => {
             document.getElementById('sidebar-container').innerHTML = data;
-            // Re-initialize sidebar after loading
             setTimeout(() => {
-                if (typeof initSidebar === 'function') {
-                    initSidebar();
-                }
+                if (typeof initSidebar === 'function') initSidebar();
             }, 150);
         })
         .catch(error => {
             console.error('Error loading sidebar:', error);
-            // Fallback: try alternative paths
             const altPaths = ['../includes/sidebar.html', './includes/sidebar.html', '/includes/sidebar.html'];
             tryAlternativePaths(altPaths, 0, 'sidebar-container', 'initSidebar');
         });
 }
 
-// Load header from includes folder
+/**
+ * Load header from includes folder
+ */
 function loadHeader() {
     const basePath = getBasePath();
     const headerPath = basePath + 'includes/header.html';
@@ -82,11 +148,16 @@ function loadHeader() {
         });
 }
 
-// Try alternative paths for loading
+/**
+ * Try alternative paths for loading components
+ */
 function tryAlternativePaths(paths, index, containerId, initFunction) {
     if (index >= paths.length) {
         console.error('All paths failed for:', containerId);
-        document.getElementById(containerId).innerHTML = '<div class="text-red-500 p-4 text-center">Failed to load component. Please refresh the page.</div>';
+        const container = document.getElementById(containerId);
+        if (container) {
+            container.innerHTML = '<div class="text-red-500 p-4 text-center">Failed to load component. Please refresh the page.</div>';
+        }
         return;
     }
     
@@ -96,19 +167,24 @@ function tryAlternativePaths(paths, index, containerId, initFunction) {
             return response.text();
         })
         .then(data => {
-            document.getElementById(containerId).innerHTML = data;
-            setTimeout(() => {
-                if (typeof window[initFunction] === 'function') {
-                    window[initFunction]();
-                }
-            }, 150);
+            const container = document.getElementById(containerId);
+            if (container) {
+                container.innerHTML = data;
+                setTimeout(() => {
+                    if (typeof window[initFunction] === 'function') window[initFunction]();
+                }, 150);
+            }
         })
         .catch(() => {
             tryAlternativePaths(paths, index + 1, containerId, initFunction);
         });
 }
 
-// Show notification toast
+// ========== NOTIFICATIONS & UI ==========
+
+/**
+ * Show notification toast
+ */
 function showNotification(message, type = 'success') {
     const colors = {
         success: '#28a745',
@@ -133,19 +209,59 @@ function showNotification(message, type = 'success') {
     setTimeout(() => {
         toast.style.opacity = '0';
         toast.style.transform = 'translateX(100px)';
-        setTimeout(() => {
-            toast.remove();
-        }, 300);
+        setTimeout(() => toast.remove(), 300);
     }, 3000);
 }
 
-// Format date
+/**
+ * Show confirmation dialog
+ */
+function showConfirmDialog(message, onConfirm, onCancel) {
+    const dialog = document.createElement('div');
+    dialog.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
+    dialog.innerHTML = `
+        <div class="bg-white rounded-lg p-6 max-w-sm">
+            <p class="text-gray-700 mb-6">${message}</p>
+            <div class="flex justify-end gap-3">
+                <button id="cancel-btn" class="px-4 py-2 rounded border border-gray-300 hover:bg-gray-50">Cancel</button>
+                <button id="confirm-btn" class="px-4 py-2 rounded bg-blue-600 text-white hover:bg-blue-700">Confirm</button>
+            </div>
+        </div>
+    `;
+    
+    document.body.appendChild(dialog);
+    
+    document.getElementById('confirm-btn').addEventListener('click', () => {
+        dialog.remove();
+        if (onConfirm) onConfirm();
+    });
+    
+    document.getElementById('cancel-btn').addEventListener('click', () => {
+        dialog.remove();
+        if (onCancel) onCancel();
+    });
+    
+    dialog.addEventListener('click', (e) => {
+        if (e.target === dialog) {
+            dialog.remove();
+            if (onCancel) onCancel();
+        }
+    });
+}
+
+// ========== FORMATTING FUNCTIONS ==========
+
+/**
+ * Format date string to DD/MM/YYYY
+ */
 function formatDate(dateString) {
     const date = new Date(dateString);
     return `${date.getDate().toString().padStart(2, '0')}/${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getFullYear()}`;
 }
 
-// Format currency
+/**
+ * Format currency to INR
+ */
 function formatCurrency(amount) {
     return new Intl.NumberFormat('en-IN', {
         style: 'currency',
@@ -154,13 +270,30 @@ function formatCurrency(amount) {
     }).format(amount);
 }
 
-// Get current time
+/**
+ * Get current time in HH:MM format
+ */
 function getCurrentTime() {
     const now = new Date();
     return now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
 }
 
-// Set active menu based on current page
+/**
+ * Format phone number
+ */
+function formatPhoneNumber(phone) {
+    const cleaned = phone.replace(/\D/g, '');
+    if (cleaned.length === 10) {
+        return `${cleaned.substring(0, 3)}-${cleaned.substring(3, 6)}-${cleaned.substring(6)}`;
+    }
+    return phone;
+}
+
+// ========== MENU MANAGEMENT ==========
+
+/**
+ * Set active menu based on module name
+ */
 function setActiveMenu(moduleName) {
     setTimeout(() => {
         const allNavLinks = document.querySelectorAll('.nav-link');
@@ -172,3 +305,51 @@ function setActiveMenu(moduleName) {
         });
     }, 300);
 }
+
+/**
+ * Highlight active menu item
+ */
+function highlightActiveMenu() {
+    const currentPath = window.location.pathname;
+    const links = document.querySelectorAll('a[href]');
+    
+    links.forEach(link => {
+        const href = link.getAttribute('href');
+        if (href && currentPath.includes(href)) {
+            link.classList.add('active');
+        } else {
+            link.classList.remove('active');
+        }
+    });
+}
+
+// ========== AUTO-INITIALIZATION ==========
+
+/**
+ * Initialize authentication on page load
+ */
+document.addEventListener('DOMContentLoaded', () => {
+    console.log('=== Common.js Initialized ===');
+    
+    // Check if user is logged in (except on login page)
+    if (!window.location.pathname.includes('index.html') && !window.location.pathname.includes('login')) {
+        checkAuthentication();
+    }
+});
+
+// ========== EXPORTS FOR OTHER SCRIPTS ==========
+window.hrmsCommon = {
+    getBasePath,
+    isUserLoggedIn,
+    checkAuthentication,
+    getCurrentUser,
+    apiRequest,
+    loadSidebar,
+    loadHeader,
+    showNotification,
+    showConfirmDialog,
+    formatDate,
+    formatCurrency,
+    getCurrentTime,
+    setActiveMenu
+};
