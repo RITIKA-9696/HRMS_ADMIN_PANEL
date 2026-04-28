@@ -11,18 +11,18 @@
     
     <style>
         * { font-family: 'Inter', sans-serif; }
-        body { background-color: #f3eeef; }
+        
         
         .section-card {
             background: white;
             border-radius: 12px;
-            border: 1px solid #c99ebb;
+            border: 1px solid #1B738C;
             padding: 20px;
             margin-bottom: 20px;
         }
         
         .btn-primary {
-            background-color: #540863;
+            background-color: #1B738C;
             transition: all 0.3s ease;
             color: white;
             padding: 8px 16px;
@@ -30,11 +30,11 @@
             cursor: pointer;
             border: none;
         }
-        .btn-primary:hover { background-color: #92487A; transform: translateY(-1px); }
+        .btn-primary:hover { background-color: #1B738C; transform: translateY(-1px); }
         .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
         
         .btn-secondary {
-            background-color: #92487A;
+            background-color: #1B738C;
             transition: all 0.3s ease;
             color: white;
             padding: 8px 16px;
@@ -42,17 +42,17 @@
             cursor: pointer;
             border: none;
         }
-        .btn-secondary:hover { background-color: #540863; transform: translateY(-1px); }
+        .btn-secondary:hover { background-color: #186a81; transform: translateY(-1px); }
         
         .btn-outline {
-            border: 1px solid #540863;
-            color: #540863;
+            border: 1px solid #6bd1ed;
+            color: #1B738C;
             padding: 8px 16px;
             border-radius: 8px;
             background: transparent;
             cursor: pointer;
         }
-        .btn-outline:hover { background-color: #540863; color: white; }
+        .btn-outline:hover { background-color: #1B738C; color: white; }
         
         .btn-success {
             background-color: #28a745;
@@ -88,21 +88,21 @@
         .btn-warning:hover { background-color: #e0a800; }
         
         input, select, textarea {
-            border: 1px solid #5c003f;
+            border: 1px solid #66b5cb;
             border-radius: 8px;
             padding: 8px 12px;
             width: 100%;
         }
         input:focus, select:focus, textarea:focus {
             outline: none;
-            border-color: #c99ebb;
-            box-shadow: 0 0 0 2px rgba(84, 8, 99, 0.1);
+            border-color: #66b5cb;
+            box-shadow: 0 0 0 2px #1B738C;
         }
         
         label {
             font-size: 13px;
             font-weight: 500;
-            color: #540863;
+            color: #1B738C;
             margin-bottom: 4px;
             display: block;
         }
@@ -113,7 +113,7 @@
             gap: 8px;
             margin-bottom: 24px;
             padding-bottom: 12px;
-            border-bottom: 1px solid #c99ebb;
+            border-bottom: 1px solid #1B738C;
             flex-wrap: wrap;
         }
         
@@ -124,18 +124,18 @@
             font-weight: 500;
             transition: all 0.3s ease;
             background: transparent;
-            color: #92487A;
+            color: #176b82;
             cursor: pointer;
             border: none;
         }
         
         .tab-btn:hover {
-            background-color: rgba(84, 8, 99, 0.1);
-            color: #540863;
+            background-color: #83dbf439;
+            color: #1B738C;
         }
         
         .tab-btn.active {
-            background-color: #540863;
+            background-color: #17657b;
             color: white;
         }
         
@@ -200,7 +200,7 @@
         }
         .progress-fill {
             height: 100%;
-            background: #540863;
+            background: #1B738C;
             border-radius: 10px;
             transition: width 0.5s ease;
         }
@@ -230,7 +230,7 @@
         
         ::-webkit-scrollbar { width: 5px; }
         ::-webkit-scrollbar-track { background: #f3eeef; }
-        ::-webkit-scrollbar-thumb { background: #92487A; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb { background: #3aadcd9c; border-radius: 10px; }
         
         .form-row {
             display: grid;
@@ -261,7 +261,7 @@
         .fade-in { animation: fadeIn 0.3s ease; }
     </style>
 </head>
-<body class="bg-[#f3eeef]">
+<body class="bg-[#EBF4F6]">
     
     <div class="flex h-screen overflow-hidden">
         <div id="sidebar-container"></div>
@@ -270,11 +270,11 @@
             <div id="header-container"></div>
             
             <main class="flex-1 overflow-y-auto p-5 main-content">
-                
+               
                 <!-- Page Header -->
                 <div class="mb-4 fade-in">
-                    <h1 class="text-xl font-bold" style="color: #540863;">Onboarding Management</h1>
-                    <p class="text-xs mt-0.5" style="color: #92487A;">Manage new employee onboarding process and document verification</p>
+                    <h1 class="text-xl font-bold" style="color: #1B738C;">Onboarding Management</h1>
+                    <p class="text-xs mt-0.5" style="color: #1B738C;">Manage new employee onboarding process and document verification</p>
                 </div>
                 
                 <!-- Tab Navigation -->
@@ -287,77 +287,77 @@
                 <div id="tab-onboarding-list" class="tab-content active">
                     <div class="section-card fade-in">
                         <div class="flex justify-between items-center mb-4 flex-wrap gap-3">
-                            <h3 class="text-md font-semibold" style="color:#540863;">Active Onboarding</h3>
+                            <h3 class="text-md font-semibold" style="color:#1B738C;">Active Onboarding</h3>
                             <div class="flex gap-2 flex-wrap">
-                                <input type="text" id="searchOnboarding" placeholder="Search employee..." class="w-56 text-sm" onkeyup="filterOnboardingList()">
-                                <select id="filterOnboardingStatus" onchange="filterOnboardingList()" class="w-36 text-sm">
+                                <input type="text" id="searchOnboarding" placeholder="Search employee..." class="w-56 text-sm p-2 border border-[#1B738C]" onkeyup="filterOnboardingList()">
+                                <select id="filterOnboardingStatus" onchange="filterOnboardingList()" class="w-36 text-sm p-2 border border-[#1B738C]">
                                     <option value="all">All Status</option>
                                     <option value="pending">Pending</option>
                                     <option value="in-progress">In Progress</option>
                                     <option value="completed">Completed</option>
                                 </select>
-                                <button onclick="exportOnboardingList()" class="btn-outline text-sm"><i class="fas fa-download mr-1"></i>Export</button>
+                                <button onclick="exportOnboardingList()" class="btn-outline text-sm border border-[#1B738C] text-[#1B738C]"><i class="fas fa-download mr-1 "></i>Export</button>
                             </div>
                         </div>
                         
                         <div class="overflow-x-auto">
                             <table class="w-full">
                                 <thead>
-                                    <tr class="border-b" style="border-color:#c99ebb;">
-                                        <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">Employee</th>
-                                        <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">Department</th>
-                                        <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">Designation</th>
-                                        <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">Joining Date</th>
-                                        <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">Progress</th>
-                                        <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">Status</th>
-                                        <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">Action</th>
+                                    <tr class="border-b" style="border-color:#1B738C;">
+                                        <th class="text-left py-3 text-xs font-medium" style="color:#1B738C;">Employee</th>
+                                        <th class="text-left py-3 text-xs font-medium" style="color:#1B738C;">Department</th>
+                                        <th class="text-left py-3 text-xs font-medium" style="color:#1B738C;">Designation</th>
+                                        <th class="text-left py-3 text-xs font-medium" style="color:#1B738C;">Joining Date</th>
+                                        <!-- <th class="text-left py-3 text-xs font-medium" style="color:#1B738C;">Progress</th> -->
+                                        <th class="text-left py-3 text-xs font-medium" style="color:#1B738C;">Status</th>
+                                        <th class="text-left py-3 text-xs font-medium" style="color:#1B738C;">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody id="onboardingList">
-                                    <tr class="border-b data-row" style="border-color:#c99ebb;">
-                                        <td class="py-3"><div><p class="text-sm font-medium" style="color:#540863;">Emily Davis</p><p class="text-xs" style="color:#92487A;">emily.davis@email.com</p></div></td>
-                                        <td class="py-3 text-sm" style="color:#92487A;">HR</td>
-                                        <td class="py-3 text-sm" style="color:#92487A;">HR Executive</td>
-                                        <td class="py-3 text-sm" style="color:#92487A;">2024-04-15</td>
-                                        <td class="py-3"><div class="w-32"><div class="progress-bar"><div class="progress-fill" style="width: 60%"></div></div><span class="text-xs" style="color:#92487A;">60%</span></div></td>
+                                    <tr class="border-b data-row" style="border-color:#1B738C;">
+                                        <td class="py-3"><div><p class="text-sm font-medium" style="color:#1B738C;">Emily Davis</p><p class="text-xs" style="color:#1B738C;">emily.davis@email.com</p></div></td>
+                                        <td class="py-3 text-sm" style="color:#1B738C;">HR</td>
+                                        <td class="py-3 text-sm" style="color:#1B738C;">HR Executive</td>
+                                        <td class="py-3 text-sm" style="color:#1B738C;">2024-04-15</td>
+                                        <!-- <td class="py-3"><div class="w-32"><div class="progress-bar"><div class="progress-fill" style="width: 60%"></div></div><span class="text-xs" style="color:#92487A;">60%</span></div></td> -->
                                         <td class="py-3"><span class="status-badge status-in-progress">In Progress</span></td>
-                                        <td class="py-3"><button onclick="viewOnboardingDetails(this)" class="text-[#540863] mr-2" title="View Details"><i class="fas fa-eye"></i></button><button onclick="editOnboarding(this)" class="text-[#92487A] mr-2" title="Edit"><i class="fas fa-edit"></i></button><button onclick="deleteOnboarding(this)" class="text-red-500" title="Delete"><i class="fas fa-trash"></i></button></td>
+                                        <td class="py-3"><button onclick="viewOnboardingDetails(this)" class="text-[#1B738C] mr-2" title="View Details"><i class="fas fa-eye"></i></button><button onclick="editOnboarding(this)" class="text-[#1B738C] mr-2" title="Edit"><i class="fas fa-edit"></i></button><button onclick="deleteOnboarding(this)" class="text-red-500" title="Delete"><i class="fas fa-trash"></i></button></td>
                                     </tr>
-                                    <tr class="border-b data-row" style="border-color:#c99ebb;">
-                                        <td class="py-3"><div><p class="text-sm font-medium" style="color:#540863;">James Wilson</p><p class="text-xs" style="color:#92487A;">james.wilson@email.com</p></div></td>
-                                        <td class="py-3 text-sm" style="color:#92487A;">IT</td>
-                                        <td class="py-3 text-sm" style="color:#92487A;">Senior Developer</td>
-                                        <td class="py-3 text-sm" style="color:#92487A;">2024-04-10</td>
-                                        <td class="py-3"><div class="w-32"><div class="progress-bar"><div class="progress-fill" style="width: 100%"></div></div><span class="text-xs" style="color:#92487A;">100%</span></div></td>
+                                    <tr class="border-b data-row" style="border-color:#1B738C;">
+                                        <td class="py-3"><div><p class="text-sm font-medium" style="color:#1B738C;">James Wilson</p><p class="text-xs" style="color:#1B738C;">james.wilson@email.com</p></div></td>
+                                        <td class="py-3 text-sm" style="color:#1B738C;">IT</td>
+                                        <td class="py-3 text-sm" style="color:#1B738C;">Senior Developer</td>
+                                        <td class="py-3 text-sm" style="color:#1B738C;">2024-04-10</td>
+                                        <!-- <td class="py-3"><div class="w-32"><div class="progress-bar"><div class="progress-fill" style="width: 100%"></div></div><span class="text-xs" style="color:#1B738C;">100%</span></div></td> -->
                                         <td class="py-3"><span class="status-badge status-completed">Completed</span></td>
-                                        <td class="py-3"><button onclick="viewOnboardingDetails(this)" class="text-[#540863] mr-2" title="View Details"><i class="fas fa-eye"></i></button><button onclick="editOnboarding(this)" class="text-[#92487A] mr-2" title="Edit"><i class="fas fa-edit"></i></button><button onclick="deleteOnboarding(this)" class="text-red-500" title="Delete"><i class="fas fa-trash"></i></button></td>
+                                        <td class="py-3"><button onclick="viewOnboardingDetails(this)" class="text-[#1B738C] mr-2" title="View Details"><i class="fas fa-eye"></i></button><button onclick="editOnboarding(this)" class="text-[#1B738C] mr-2" title="Edit"><i class="fas fa-edit"></i></button><button onclick="deleteOnboarding(this)" class="text-red-500" title="Delete"><i class="fas fa-trash"></i></button></td>
                                     </tr>
-                                    <tr class="border-b data-row" style="border-color:#c99ebb;">
-                                        <td class="py-3"><div><p class="text-sm font-medium" style="color:#540863;">Lisa Anderson</p><p class="text-xs" style="color:#92487A;">lisa.anderson@email.com</p></div></td>
-                                        <td class="py-3 text-sm" style="color:#92487A;">Marketing</td>
-                                        <td class="py-3 text-sm" style="color:#92487A;">Marketing Manager</td>
-                                        <td class="py-3 text-sm" style="color:#92487A;">2024-04-18</td>
-                                        <td class="py-3"><div class="w-32"><div class="progress-bar"><div class="progress-fill" style="width: 30%"></div></div><span class="text-xs" style="color:#92487A;">30%</span></div></td>
+                                    <tr class="border-b data-row" style="border-color:#1B738C;">
+                                        <td class="py-3"><div><p class="text-sm font-medium" style="color:#1B738C;">Lisa Anderson</p><p class="text-xs" style="color:#1B738C;">lisa.anderson@email.com</p></div></td>
+                                        <td class="py-3 text-sm" style="color:#1B738C;">Marketing</td>
+                                        <td class="py-3 text-sm" style="color:#1B738C;">Marketing Manager</td>
+                                        <td class="py-3 text-sm" style="color:#1B738C;">2024-04-18</td>
+                                        <!-- <td class="py-3"><div class="w-32"><div class="progress-bar"><div class="progress-fill" style="width: 30%"></div></div><span class="text-xs" style="color:#1B738C;">30%</span></div></td> -->
                                         <td class="py-3"><span class="status-badge status-pending">Pending</span></td>
-                                        <td class="py-3"><button onclick="viewOnboardingDetails(this)" class="text-[#540863] mr-2" title="View Details"><i class="fas fa-eye"></i></button><button onclick="editOnboarding(this)" class="text-[#92487A] mr-2" title="Edit"><i class="fas fa-edit"></i></button><button onclick="deleteOnboarding(this)" class="text-red-500" title="Delete"><i class="fas fa-trash"></i></button></td>
+                                        <td class="py-3"><button onclick="viewOnboardingDetails(this)" class="text-[#1B738C] mr-2" title="View Details"><i class="fas fa-eye"></i></button><button onclick="editOnboarding(this)" class="text-[#1B738C] mr-2" title="Edit"><i class="fas fa-edit"></i></button><button onclick="deleteOnboarding(this)" class="text-red-500" title="Delete"><i class="fas fa-trash"></i></button></td>
                                     </tr>
-                                    <tr class="border-b data-row" style="border-color:#c99ebb;">
-                                        <td class="py-3"><div><p class="text-sm font-medium" style="color:#540863;">Sarah Johnson</p><p class="text-xs" style="color:#92487A;">sarah.johnson@email.com</p></div></td>
-                                        <td class="py-3 text-sm" style="color:#92487A;">Design</td>
-                                        <td class="py-3 text-sm" style="color:#92487A;">UI/UX Designer</td>
-                                        <td class="py-3 text-sm" style="color:#92487A;">2024-04-20</td>
-                                        <td class="py-3"><div class="w-32"><div class="progress-bar"><div class="progress-fill" style="width: 45%"></div></div><span class="text-xs" style="color:#92487A;">45%</span></div></td>
+                                    <tr class="border-b data-row" style="border-color:#1B738C;">
+                                        <td class="py-3"><div><p class="text-sm font-medium" style="color:#1B738C;">Sarah Johnson</p><p class="text-xs" style="color:#1B738C;">sarah.johnson@email.com</p></div></td>
+                                        <td class="py-3 text-sm" style="color:#1B738C;">Design</td>
+                                        <td class="py-3 text-sm" style="color:#1B738C;">UI/UX Designer</td>
+                                        <td class="py-3 text-sm" style="color:#1B738C;">2024-04-20</td>
+                                        <!-- <td class="py-3"><div class="w-32"><div class="progress-bar"><div class="progress-fill" style="width: 45%"></div></div><span class="text-xs" style="color:#1B738C;">45%</span></div></td> -->
                                         <td class="py-3"><span class="status-badge status-in-progress">In Progress</span></td>
-                                        <td class="py-3"><button onclick="viewOnboardingDetails(this)" class="text-[#540863] mr-2" title="View Details"><i class="fas fa-eye"></i></button><button onclick="editOnboarding(this)" class="text-[#92487A] mr-2" title="Edit"><i class="fas fa-edit"></i></button><button onclick="deleteOnboarding(this)" class="text-red-500" title="Delete"><i class="fas fa-trash"></i></button></td>
+                                        <td class="py-3"><button onclick="viewOnboardingDetails(this)" class="text-[#1B738C] mr-2" title="View Details"><i class="fas fa-eye"></i></button><button onclick="editOnboarding(this)" class="text-[#1B738C] mr-2" title="Edit"><i class="fas fa-edit"></i></button><button onclick="deleteOnboarding(this)" class="text-red-500" title="Delete"><i class="fas fa-trash"></i></button></td>
                                     </tr>
-                                    <tr class="border-b data-row" style="border-color:#c99ebb;">
-                                        <td class="py-3"><div><p class="text-sm font-medium" style="color:#540863;">Michael Brown</p><p class="text-xs" style="color:#92487A;">michael.brown@email.com</p></div></td>
-                                        <td class="py-3 text-sm" style="color:#92487A;">IT</td>
-                                        <td class="py-3 text-sm" style="color:#92487A;">System Admin</td>
-                                        <td class="py-3 text-sm" style="color:#92487A;">2024-04-25</td>
-                                        <td class="py-3"><div class="w-32"><div class="progress-bar"><div class="progress-fill" style="width: 15%"></div></div><span class="text-xs" style="color:#92487A;">15%</span></div></td>
+                                    <tr class="border-b data-row" style="border-color:#1B738C;">
+                                        <td class="py-3"><div><p class="text-sm font-medium" style="color:#1B738C;">Michael Brown</p><p class="text-xs" style="color:#1B738C;">michael.brown@email.com</p></div></td>
+                                        <td class="py-3 text-sm" style="color:#1B738C;">IT</td>
+                                        <td class="py-3 text-sm" style="color:#1B738C;">System Admin</td>
+                                        <td class="py-3 text-sm" style="color:#1B738C;">2024-04-25</td>
+                                        <!-- <td class="py-3"><div class="w-32"><div class="progress-bar"><div class="progress-fill" style="width: 15%"></div></div><span class="text-xs" style="color:#1B738C;">15%</span></div></td> -->
                                         <td class="py-3"><span class="status-badge status-pending">Pending</span></td>
-                                        <td class="py-3"><button onclick="viewOnboardingDetails(this)" class="text-[#540863] mr-2" title="View Details"><i class="fas fa-eye"></i></button><button onclick="editOnboarding(this)" class="text-[#92487A] mr-2" title="Edit"><i class="fas fa-edit"></i></button><button onclick="deleteOnboarding(this)" class="text-red-500" title="Delete"><i class="fas fa-trash"></i></button></td>
+                                        <td class="py-3"><button onclick="viewOnboardingDetails(this)" class="text-[#1B738C] mr-2" title="View Details"><i class="fas fa-eye"></i></button><button onclick="editOnboarding(this)" class="text-[#1B738C] mr-2" title="Edit"><i class="fas fa-edit"></i></button><button onclick="deleteOnboarding(this)" class="text-red-500" title="Delete"><i class="fas fa-trash"></i></button></td>
                                      </tr>
                                 </tbody>
                             </table>
@@ -366,27 +366,27 @@
                     
                     <!-- Onboarding Statistics -->
                     <div class="section-card fade-in">
-                        <h3 class="text-md font-semibold mb-4" style="color: #540863;">Onboarding Statistics</h3>
+                        <h3 class="text-md font-semibold mb-4" style="color: #1B738C;">Onboarding Statistics</h3>
                         <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-                            <div class="p-3 border rounded-lg text-center" style="border-color:#c99ebb;">
-                                <i class="fas fa-users text-2xl mb-2" style="color:#540863;"></i>
-                                <p class="text-2xl font-bold" style="color:#540863;" id="totalOnboarding">5</p>
-                                <p class="text-xs" style="color:#92487A;">Total Onboarding</p>
+                            <div class="p-3 border rounded-lg text-center" style="border-color:#1B738C;">
+                                <i class="fas fa-users text-2xl mb-2" style="color:#1B738C;"></i>
+                                <p class="text-2xl font-bold" style="color:#1B738C;" id="totalOnboarding">5</p>
+                                <p class="text-xs" style="color:#1B738C;">Total Onboarding</p>
                             </div>
-                            <div class="p-3 border rounded-lg text-center" style="border-color:#c99ebb;">
+                            <div class="p-3 border rounded-lg text-center" style="border-color:#1B738C;">
                                 <i class="fas fa-spinner fa-pulse text-2xl mb-2" style="color:#ffc107;"></i>
-                                <p class="text-2xl font-bold" style="color:#540863;" id="inProgressCount">3</p>
-                                <p class="text-xs" style="color:#92487A;">In Progress</p>
+                                <p class="text-2xl font-bold" style="color:#1B738C;" id="inProgressCount">3</p>
+                                <p class="text-xs" style="color:#1B738C;">In Progress</p>
                             </div>
-                            <div class="p-3 border rounded-lg text-center" style="border-color:#c99ebb;">
+                            <div class="p-3 border rounded-lg text-center" style="border-color:#1B738C;">
                                 <i class="fas fa-check-circle text-2xl mb-2" style="color:#28a745;"></i>
-                                <p class="text-2xl font-bold" style="color:#540863;" id="completedCount">1</p>
-                                <p class="text-xs" style="color:#92487A;">Completed</p>
+                                <p class="text-2xl font-bold" style="color:#1B738C;" id="completedCount">1</p>
+                                <p class="text-xs" style="color:#1B738C;">Completed</p>
                             </div>
-                            <div class="p-3 border rounded-lg text-center" style="border-color:#c99ebb;">
+                            <div class="p-3 border rounded-lg text-center" style="border-color:#1B738C;">
                                 <i class="fas fa-clock text-2xl mb-2" style="color:#17a2b8;"></i>
-                                <p class="text-2xl font-bold" style="color:#540863;" id="pendingCount">1</p>
-                                <p class="text-xs" style="color:#92487A;">Pending</p>
+                                <p class="text-2xl font-bold" style="color:#1B738C;" id="pendingCount">1</p>
+                                <p class="text-xs" style="color:#1B738C;">Pending</p>
                             </div>
                         </div>
                     </div>
@@ -396,44 +396,44 @@
                 <div id="tab-documents" class="tab-content">
                     <div class="section-card fade-in">
                         <div class="flex justify-between items-center mb-4">
-                            <h3 class="text-md font-semibold" style="color: #540863;">Required Documents</h3>
+                            <h3 class="text-md font-semibold" style="color: #1B738C;">Required Documents</h3>
                             <button onclick="refreshDocumentStatus()" class="btn-outline text-sm"><i class="fas fa-sync-alt mr-1"></i>Refresh</button>
                         </div>
                         <div id="documentsList">
                             <div class="doc-item">
-                                <div><i class="fas fa-id-card mr-2" style="color:#540863;"></i><span style="color:#540863;">PAN Card</span></div>
+                                <div><i class="fas fa-id-card mr-2" style="color:#1B738C;;"></i><span style="color:#1B738C;">PAN Card</span></div>
                                 <div><button onclick="uploadDocument(this, 'PAN Card')" class="btn-outline text-xs">Upload</button><span class="status-badge status-completed text-xs ml-2" id="doc-pan-status">Uploaded</span></div>
                             </div>
                             <div class="doc-item">
-                                <div><i class="fas fa-address-card mr-2" style="color:#540863;"></i><span style="color:#540863;">Aadhar Card</span></div>
+                                <div><i class="fas fa-address-card mr-2" style="color:#1B738C;"></i><span style="color:#1B738C;">Aadhar Card</span></div>
                                 <div><button onclick="uploadDocument(this, 'Aadhar Card')" class="btn-outline text-xs">Upload</button><span class="status-badge status-pending text-xs ml-2" id="doc-aadhar-status">Pending</span></div>
                             </div>
                             <div class="doc-item">
-                                <div><i class="fas fa-file-alt mr-2" style="color:#540863;"></i><span style="color:#540863;">Offer Letter</span></div>
+                                <div><i class="fas fa-file-alt mr-2" style="color:#1B738C;"></i><span style="color:#1B738C;">Offer Letter</span></div>
                                 <div><button onclick="uploadDocument(this, 'Offer Letter')" class="btn-outline text-xs">Upload</button><span class="status-badge status-completed text-xs ml-2" id="doc-offer-status">Uploaded</span></div>
                             </div>
                             <div class="doc-item">
-                                <div><i class="fas fa-graduation-cap mr-2" style="color:#540863;"></i><span style="color:#540863;">Degree Certificate</span></div>
+                                <div><i class="fas fa-graduation-cap mr-2" style="color:#1B738C;"></i><span style="color:#1B738C;">Degree Certificate</span></div>
                                 <div><button onclick="uploadDocument(this, 'Degree Certificate')" class="btn-outline text-xs">Upload</button><span class="status-badge status-pending text-xs ml-2" id="doc-degree-status">Pending</span></div>
                             </div>
                             <div class="doc-item">
-                                <div><i class="fas fa-passport mr-2" style="color:#540863;"></i><span style="color:#540863;">Passport Size Photo</span></div>
+                                <div><i class="fas fa-passport mr-2" style="color:#1B738C;"></i><span style="color:#1B738C;">Passport Size Photo</span></div>
                                 <div><button onclick="uploadDocument(this, 'Passport Size Photo')" class="btn-outline text-xs">Upload</button><span class="status-badge status-pending text-xs ml-2" id="doc-photo-status">Pending</span></div>
                             </div>
                             <div class="doc-item">
-                                <div><i class="fas fa-bank mr-2" style="color:#540863;"></i><span style="color:#540863;">Bank Account Details</span></div>
+                                <div><i class="fas fa-bank mr-2" style="color:#1B738C;"></i><span style="color:#1B738C;">Bank Account Details</span></div>
                                 <div><button onclick="uploadDocument(this, 'Bank Account Details')" class="btn-outline text-xs">Upload</button><span class="status-badge status-pending text-xs ml-2" id="doc-bank-status">Pending</span></div>
                             </div>
                             <div class="doc-item">
-                                <div><i class="fas fa-file-signature mr-2" style="color:#540863;"></i><span style="color:#540863;">Previous Experience Letters</span></div>
+                                <div><i class="fas fa-file-signature mr-2" style="color:#1B738C;"></i><span style="color:#1B738C;">Previous Experience Letters</span></div>
                                 <div><button onclick="uploadDocument(this, 'Previous Experience Letters')" class="btn-outline text-xs">Upload</button><span class="status-badge status-pending text-xs ml-2" id="doc-exp-status">Pending</span></div>
                             </div>
                             <div class="doc-item">
-                                <div><i class="fas fa-medical-alt mr-2" style="color:#540863;"></i><span style="color:#540863;">Medical Certificate</span></div>
+                                <div><i class="fas fa-medical-alt mr-2" style="color:#1B738C;"></i><span style="color:#1B738C;">Medical Certificate</span></div>
                                 <div><button onclick="uploadDocument(this, 'Medical Certificate')" class="btn-outline text-xs">Upload</button><span class="status-badge status-pending text-xs ml-2" id="doc-medical-status">Pending</span></div>
                             </div>
                             <div class="doc-item">
-                                <div><i class="fas fa-handshake mr-2" style="color:#540863;"></i><span style="color:#540863;">Signed Contract</span></div>
+                                <div><i class="fas fa-handshake mr-2" style="color:#1B738C;"></i><span style="color:#1B738C;">Signed Contract</span></div>
                                 <div><button onclick="uploadDocument(this, 'Signed Contract')" class="btn-outline text-xs">Upload</button><span class="status-badge status-pending text-xs ml-2" id="doc-contract-status">Pending</span></div>
                             </div>
                         </div>
@@ -441,41 +441,41 @@
                     
                     <!-- Document Verification Status -->
                     <div class="section-card fade-in">
-                        <h3 class="text-md font-semibold mb-4" style="color: #540863;">Verification Status</h3>
+                        <h3 class="text-md font-semibold mb-4" style="color: #1B738C;">Verification Status</h3>
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                            <div class="p-3 border rounded-lg" style="border-color:#c99ebb;">
-                                <div class="flex justify-between"><span style="color:#540863;">Total Documents</span><span class="font-bold" style="color:#540863;" id="totalDocs">9</span></div>
+                            <div class="p-3 border rounded-lg" style="border-color:#1B738C;">
+                                <div class="flex justify-between"><span style="color:#1B738C;">Total Documents</span><span class="font-bold" style="color:#1B738C;" id="totalDocs">9</span></div>
                                 <div class="progress-bar mt-2"><div class="progress-fill" id="totalProgressFill" style="width: 22%"></div></div>
-                                <p class="text-xs mt-1" style="color:#92487A;"><span id="uploadedDocs">2</span> out of 9 uploaded</p>
+                                <p class="text-xs mt-1" style="color:#1B738C;"><span id="uploadedDocs">2</span> out of 9 uploaded</p>
                             </div>
-                            <div class="p-3 border rounded-lg" style="border-color:#c99ebb;">
-                                <div class="flex justify-between"><span style="color:#540863;">Pending Verification</span><span class="font-bold" style="color:#540863;" id="pendingDocsCount">7</span></div>
+                            <div class="p-3 border rounded-lg" style="border-color:#1B738C;">
+                                <div class="flex justify-between"><span style="color:#1B738C;">Pending Verification</span><span class="font-bold" style="color:#1B738C;" id="pendingDocsCount">7</span></div>
                                 <div class="progress-bar mt-2"><div class="progress-fill" id="pendingProgressFill" style="width: 78%; background:#ffc107;"></div></div>
-                                <p class="text-xs mt-1" style="color:#92487A;"><span id="pendingDocsCountText">7</span> documents pending</p>
+                                <p class="text-xs mt-1" style="color:#1B738C;"><span id="pendingDocsCountText">7</span> documents pending</p>
                             </div>
-                            <div class="p-3 border rounded-lg" style="border-color:#c99ebb;">
-                                <div class="flex justify-between"><span style="color:#540863;">Verification Rate</span><span class="font-bold" style="color:#540863;" id="verificationRate">22%</span></div>
+                            <div class="p-3 border rounded-lg" style="border-color:#1B738C;">
+                                <div class="flex justify-between"><span style="color:#1B738C;">Verification Rate</span><span class="font-bold" style="color:#1B738C;" id="verificationRate">22%</span></div>
                                 <div class="progress-bar mt-2"><div class="progress-fill" id="verificationFill" style="width: 22%"></div></div>
-                                <p class="text-xs mt-1" style="color:#92487A;">Documents verified</p>
+                                <p class="text-xs mt-1" style="color:#1B738C;">Documents verified</p>
                             </div>
                         </div>
                     </div>
                     
                     <!-- Recently Uploaded Documents -->
                     <div class="section-card fade-in">
-                        <h3 class="text-md font-semibold mb-4" style="color: #540863;">Recently Uploaded Documents</h3>
+                        <h3 class="text-md font-semibold mb-4" style="color: #1B738C;">Recently Uploaded Documents</h3>
                         <div class="space-y-2">
-                            <div class="flex justify-between items-center p-2 border-b" style="border-color:#c99ebb;">
-                                <div><i class="fas fa-file-pdf mr-2" style="color:#dc3545;"></i><span style="color:#540863;">Emily Davis - PAN Card.pdf</span></div>
-                                <span class="text-xs" style="color:#92487A;">2024-04-15 10:30 AM</span>
+                            <div class="flex justify-between items-center p-2 border-b" style="border-color:#1B738C;">
+                                <div><i class="fas fa-file-pdf mr-2" style="color:#dc3545;"></i><span style="color:#1B738C;">Emily Davis - PAN Card.pdf</span></div>
+                                <span class="text-xs" style="color:#1B738C;">2024-04-15 10:30 AM</span>
                             </div>
-                            <div class="flex justify-between items-center p-2 border-b" style="border-color:#c99ebb;">
-                                <div><i class="fas fa-file-pdf mr-2" style="color:#dc3545;"></i><span style="color:#540863;">James Wilson - Offer Letter.pdf</span></div>
-                                <span class="text-xs" style="color:#92487A;">2024-04-14 02:15 PM</span>
+                            <div class="flex justify-between items-center p-2 border-b" style="border-color:#1B738C;">
+                                <div><i class="fas fa-file-pdf mr-2" style="color:#dc3545;"></i><span style="color:#1B738C;">James Wilson - Offer Letter.pdf</span></div>
+                                <span class="text-xs" style="color:#1B738C;">2024-04-14 02:15 PM</span>
                             </div>
                             <div class="flex justify-between items-center p-2">
-                                <div><i class="fas fa-file-image mr-2" style="color:#17a2b8;"></i><span style="color:#540863;">Sarah Johnson - Passport Photo.jpg</span></div>
-                                <span class="text-xs" style="color:#92487A;">2024-04-13 11:45 AM</span>
+                                <div><i class="fas fa-file-image mr-2" style="color:#17a2b8;"></i><span style="color:#1B738C;">Sarah Johnson - Passport Photo.jpg</span></div>
+                                <span class="text-xs" style="color:#1B738C;">2024-04-13 11:45 AM</span>
                             </div>
                         </div>
                     </div>
@@ -489,7 +489,7 @@
     <div id="onboardingModal" class="modal">
         <div class="modal-content">
             <div class="flex justify-between items-center mb-4">
-                <h3 class="text-lg font-semibold" style="color:#540863;">Onboarding Details</h3>
+                <h3 class="text-lg font-semibold" style="color:#1B738C;">Onboarding Details</h3>
                 <button onclick="closeOnboardingModal()" class="text-gray-500 text-xl hover:text-gray-700">&times;</button>
             </div>
             <div id="onboardingDetailsContent"></div>
@@ -500,11 +500,11 @@
     <div id="documentModal" class="modal">
         <div class="modal-content">
             <div class="flex justify-between items-center mb-4">
-                <h3 class="text-lg font-semibold" style="color:#540863;">Upload Document</h3>
+                <h3 class="text-lg font-semibold" style="color:#1B738C;">Upload Document</h3>
                 <button onclick="closeDocumentModal()" class="text-gray-500 text-xl hover:text-gray-700">&times;</button>
             </div>
             <form id="documentUploadForm">
-                <div><label>Document Name</label><input type="text" id="doc_name" readonly class="bg-gray-100"></div>
+                <div><label>Document Name</label><input type="text" id="doc_name" readonly class="bg-gray-100 p-2 color"></div>
                 <div class="mt-3"><label>Select Employee</label>
                     <select id="doc_employee" required>
                         <option value="">Select Employee</option>
@@ -598,30 +598,30 @@
             const modalContent = `
                 <div class="space-y-4">
                     <div class="flex items-center gap-3 pb-3 border-b">
-                        <div class="w-12 h-12 rounded-full bg-[#540863] flex items-center justify-center">
+                        <div class="w-12 h-12 rounded-full bg-[#1B738C] flex items-center justify-center">
                             <i class="fas fa-user text-white text-xl"></i>
                         </div>
                         <div>
-                            <h4 class="font-bold text-lg" style="color:#540863;">${name}</h4>
-                            <p class="text-sm" style="color:#92487A;">${email}</p>
+                            <h4 class="font-bold text-lg" style="color:#1B738C;">${name}</h4>
+                            <p class="text-sm" style="color:#1B738C;">${email}</p>
                         </div>
                     </div>
                     <div class="grid grid-cols-2 gap-3">
-                        <div><label class="text-xs font-medium" style="color:#92487A;">Department</label><p class="text-sm" style="color:#540863;">${dept}</p></div>
-                        <div><label class="text-xs font-medium" style="color:#92487A;">Designation</label><p class="text-sm" style="color:#540863;">${designation}</p></div>
-                        <div><label class="text-xs font-medium" style="color:#92487A;">Joining Date</label><p class="text-sm" style="color:#540863;">${date}</p></div>
-                        <div><label class="text-xs font-medium" style="color:#92487A;">Current Status</label><p class="text-sm" style="color:#540863;">${status}</p></div>
+                        <div><label class="text-xs font-medium" style="color:#1B738C;">Department</label><p class="text-sm" style="color:#1B738C;">${dept}</p></div>
+                        <div><label class="text-xs font-medium" style="color:#1B738C;">Designation</label><p class="text-sm" style="color:#1B738C;">${designation}</p></div>
+                        <div><label class="text-xs font-medium" style="color:#1B738C;">Joining Date</label><p class="text-sm" style="color:#1B738C;">${date}</p></div>
+                        <div><label class="text-xs font-medium" style="color:#1B738C;">Current Status</label><p class="text-sm" style="color:#1B738C;">${status}</p></div>
                     </div>
-                    <div><label class="text-xs font-medium" style="color:#92487A;">Overall Progress</label>
+                    <div><label class="text-xs font-medium" style="color:#1B738C;">Overall Progress</label>
                         <div class="progress-bar mt-1"><div class="progress-fill" style="width: ${progress};"></div></div>
-                        <p class="text-xs mt-1" style="color:#92487A;">${progress} complete</p>
+                        <p class="text-xs mt-1" style="color:#1B738C;">${progress} complete</p>
                     </div>
-                    <div><label class="text-xs font-medium" style="color:#92487A;">Documents Status</label>
+                    <div><label class="text-xs font-medium" style="color:#1B738C;">Documents Status</label>
                         <ul class="list-disc pl-4 mt-1 space-y-1">
-                            <li class="text-sm" style="color:#540863;">PAN Card - <span class="text-green-600">Uploaded</span></li>
-                            <li class="text-sm" style="color:#540863;">Aadhar Card - <span class="text-yellow-600">Pending</span></li>
-                            <li class="text-sm" style="color:#540863;">Offer Letter - <span class="text-green-600">Uploaded</span></li>
-                            <li class="text-sm" style="color:#540863;">Degree Certificate - <span class="text-yellow-600">Pending</span></li>
+                            <li class="text-sm" style="color:#1B738C;">PAN Card - <span class="text-green-600">Uploaded</span></li>
+                            <li class="text-sm" style="color:#1B738C;">Aadhar Card - <span class="text-yellow-600">Pending</span></li>
+                            <li class="text-sm" style="color:#1B738C;">Offer Letter - <span class="text-green-600">Uploaded</span></li>
+                            <li class="text-sm" style="color:#1B738C;">Degree Certificate - <span class="text-yellow-600">Pending</span></li>
                         </ul>
                     </div>
                     <div class="flex justify-end pt-3"><button onclick="closeOnboardingModal()" class="btn-primary">Close</button></div>

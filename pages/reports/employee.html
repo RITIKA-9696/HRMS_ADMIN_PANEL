@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Employee Report | Reports | HRMS Admin</title>
+    <title>Employee Management | HRMS Admin</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -13,10 +13,40 @@
         * { font-family: 'Inter', sans-serif; }
         body { background-color: #f3eeef; }
         
+        :root {
+            --brand-50: #faf0f5;
+            --brand-100: #f0e0eb;
+            --brand-200: #e0c0d6;
+            --brand-300: #cfa0c2;
+            --brand-400: #b070a4;
+            --brand-500: #540863;
+            --brand-600: #430750;
+            --teal-50: #e6f7f5;
+            --teal-100: #cceeea;
+            --teal-400: #2d9c8a;
+            --teal-500: #1a7a6b;
+            --teal-600: #135e52;
+            --purple-600: #6a1b9a;
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-300: #d1d5db;
+            --gray-400: #9ca3af;
+            --gray-500: #6b7280;
+            --gray-600: #4b5563;
+            --text-primary: #1f2937;
+            --text-muted: #6b7280;
+            --border: #e5e7eb;
+            --white: #ffffff;
+            --r-sm: 6px;
+            --r-md: 10px;
+            --r-lg: 14px;
+        }
+        
         .section-card {
             background: white;
             border-radius: 12px;
-            border: 1px solid #5c003f;
+            border: 1px solid #c99ebb;
             padding: 20px;
             margin-bottom: 20px;
         }
@@ -32,6 +62,27 @@
         }
         .btn-primary:hover { background-color: #92487A; transform: translateY(-1px); }
         
+        .btn-success {
+            background-color: #28a745;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            border: none;
+        }
+        .btn-success:hover { background-color: #218838; }
+        
+        .btn-danger {
+            background-color: #dc3545;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            cursor: pointer;
+            border: none;
+        }
+        .btn-danger:hover { background-color: #c82333; }
+        
         .btn-outline {
             border: 1px solid #540863;
             color: #540863;
@@ -42,15 +93,26 @@
         }
         .btn-outline:hover { background-color: #540863; color: white; }
         
-        input, select {
-            border: 1px solid #5c003f;
+        .btn-ghost {
+            background: transparent;
+            border: 1px solid var(--gray-300);
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        .btn-ghost:hover { background: var(--gray-50); }
+        
+        .btn-sm { padding: 6px 12px; font-size: 12px; }
+        
+        input, select, textarea {
+            border: 1px solid #c99ebb;
             border-radius: 8px;
             padding: 8px 12px;
             width: 100%;
         }
-        input:focus, select:focus {
+        input:focus, select:focus, textarea:focus {
             outline: none;
-            border-color: #540863;
+            border-color: #c372d3;
             box-shadow: 0 0 0 2px rgba(84, 8, 99, 0.1);
         }
         
@@ -62,62 +124,238 @@
             display: block;
         }
         
-        /* Submodule Navigation */
-        .submodule-nav {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 24px;
-            padding-bottom: 12px;
-            border-bottom: 1px solid #5c003f;
-            flex-wrap: wrap;
-        }
+        .req { color: #dc3545; font-size: 12px; }
         
-        .submodule-link {
-            padding: 8px 20px;
-            border-radius: 8px;
-            font-size: 14px;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            background: transparent;
-            color: #92487A;
-            cursor: pointer;
-            text-decoration: none;
-            display: inline-block;
-        }
-        
-        .submodule-link:hover {
-            background-color: rgba(84, 8, 99, 0.1);
+        .tab-btn.active {
             color: #540863;
+            border-bottom: 2px solid #540863;
         }
         
-        .submodule-link.active {
-            background-color: #540863;
-            color: white;
-        }
+        .main-content { margin-top: 64px; }
         
-        .report-table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 13px;
-        }
-        .report-table th, .report-table td {
-            padding: 10px;
-            text-align: left;
-            border-bottom: 1px solid #e5e7eb;
-        }
-        .report-table th {
-            background-color: #f8f0f2;
-            color: #540863;
-            font-weight: 600;
-        }
-        .report-table tr:hover { background-color: rgba(84, 8, 99, 0.05); }
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-track { background: #f3eeef; }
+        ::-webkit-scrollbar-thumb { background: #92487A; border-radius: 10px; }
+        
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
         
         .form-row {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 16px;
             margin-bottom: 16px;
         }
+        
+        .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+        .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+        
+        .data-row:hover { background-color: rgba(84, 8, 99, 0.05); cursor: pointer; }
+        table { width: 100%; border-collapse: collapse; }
+        
+        .avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-color: #540863;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        /* Wizard Styles */
+        .wizard {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            background: var(--gray-50);
+            padding: 16px 20px;
+            border-radius: 14px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+        
+        .wz {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex: 1;
+            position: relative;
+            cursor: pointer;
+        }
+        
+        .wz-dot {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: white;
+            border: 2px solid var(--gray-300);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 14px;
+            color: var(--gray-500);
+            transition: all 0.3s;
+        }
+        
+        .wz.cur .wz-dot {
+            background: #540863;
+            border-color: #c99ebb;
+            color: white;
+        }
+        
+        .wz.done .wz-dot {
+            background: #28a745;
+            border-color: #28a745;
+            color: white;
+        }
+        
+        .wz-info { flex: 1; }
+        .wz-step-lbl { font-size: 11px; color: var(--text-muted); }
+        .wz-step-name { font-size: 13px; font-weight: 600; color: var(--text-primary); }
+        
+        .wz-line {
+            flex: 1;
+            height: 2px;
+            background: var(--gray-300);
+            margin-left: 10px;
+        }
+        
+        .sec-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: #540863;
+            margin: 20px 0 16px 0;
+            padding-bottom: 8px;
+            border-bottom: 2px solid var(--brand-100);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .sec-title:first-child { margin-top: 0; }
+        
+        .fi-icon-wrap { position: relative; }
+        .fi-icon {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray-400);
+            font-size: 14px;
+        }
+        .fi-has-icon { padding-left: 36px; }
+        
+        .mono { font-family: monospace; letter-spacing: 0.5px; }
+        
+        .badge { padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 500; }
+        .b-teal { background: var(--teal-50); color: var(--teal-600); }
+        
+        .fhint { font-size: 11px; color: var(--text-muted); margin-top: 4px; }
+        
+        .radio-pill-group {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .rpill {
+            padding: 6px 14px;
+            border-radius: 30px;
+            background: white;
+            border: 1px solid var(--gray-300);
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .rpill.active {
+            background: #540863;
+            border-color: #c99ebb;
+            color: white;
+        }
+        
+        .toggle-switch-wrap {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 44px;
+            height: 22px;
+        }
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .toggle-thumb {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: 0.3s;
+            border-radius: 22px;
+        }
+        .toggle-thumb:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: 0.3s;
+            border-radius: 50%;
+        }
+        input:checked + .toggle-thumb { background-color: #540863; }
+        input:checked + .toggle-thumb:before { transform: translateX(22px); }
+        
+        .pwd-block {
+            margin-top: 20px;
+            padding: 16px;
+            background: var(--gray-50);
+            border-radius: var(--r-lg);
+            border: 1px solid var(--gray-200);
+        }
+        .pwd-toggle-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        
+        .doc-list { margin-top: 12px; }
+        .doc-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            background: var(--gray-50);
+            border-radius: 8px;
+            margin-bottom: 8px;
+        }
+        
+        /* Custom Field Styles */
+        .custom-field-card {
+            background: var(--gray-50);
+            border: 1px solid var(--gray-200);
+            border-radius: 10px;
+            padding: 12px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .custom-field-card:hover { background: white; border-color: #c99ebb; }
         
         .toast {
             position: fixed;
@@ -130,24 +368,18 @@
             animation: slideIn 0.3s ease;
         }
         .toast.success { background-color: #28a745; }
+        .toast.error { background-color: #dc3545; }
+        .toast.info { background-color: #17a2b8; }
         
         @keyframes slideIn {
             from { transform: translateX(100%); opacity: 0; }
             to { transform: translateX(0); opacity: 1; }
         }
         
-        .main-content { margin-top: 64px; }
-        
-        ::-webkit-scrollbar { width: 5px; }
-        ::-webkit-scrollbar-track { background: #f3eeef; }
-        ::-webkit-scrollbar-thumb { background: #92487A; border-radius: 10px; }
-        
         @media (max-width: 768px) {
-            .section-card { padding: 16px; }
-            .submodule-link { padding: 6px 12px; font-size: 12px; }
-            .form-row { grid-template-columns: 1fr; }
-            .report-table { font-size: 11px; }
-            .report-table th, .report-table td { padding: 6px; }
+            .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+            .wizard { flex-direction: column; gap: 12px; }
+            .wz-line { display: none; }
         }
     </style>
 </head>
@@ -163,117 +395,1891 @@
                 
                 <!-- Page Header -->
                 <div class="mb-4">
-                    <h1 class="text-xl font-bold" style="color: #540863;">Reports & Analytics</h1>
-                    <p class="text-xs mt-0.5" style="color: #92487A;">Generate and export comprehensive reports</p>
+                    <h1 class="text-xl font-bold" style="color: #540863;">Employee Management</h1>
+                    <p class="text-xs mt-0.5" style="color: #92487A;">Manage all employee information, documents, and history</p>
                 </div>
                 
-                <!-- Submodule Navigation -->
-                <div class="submodule-nav">
-                    <a href="/pages/reports/employee.html" class="submodule-link active">📊 Employee Report</a>
-                    <a href="/pages/reports/attendance.html" class="submodule-link">⏱️ Attendance Report</a>
-                    <a href="/pages/reports/leave.html" class="submodule-link">🌴 Leave Report</a>
-                    <a href="/pages/reports/salary.html" class="submodule-link">💰 Salary Report</a>
+                <!-- Tab Navigation -->
+                <div class="border-b mb-5 flex flex-wrap gap-6" style="border-color: #c99ebb;">
+                    <a href="javascript:void(0)" class="tab-btn pb-2 text-sm font-medium transition-all" data-tab="all" style="color: #540863;">All Employees</a>
+                    <a href="javascript:void(0)" class="tab-btn pb-2 text-sm font-medium transition-all" data-tab="add" style="color: #92487A;"> Add Employee</a>
+                    <a href="javascript:void(0)" class="tab-btn pb-2 text-sm font-medium transition-all" data-tab="documents" style="color: #92487A;">Documents</a>
+                    <!-- <a href="javascript:void(0)" class="tab-btn pb-2 text-sm font-medium transition-all" data-tab="history" style="color: #92487A;">📜 History</a> -->
                 </div>
                 
-                <!-- Employee Report Content -->
-                <div class="section-card">
-                    <h3 class="text-md font-semibold mb-4" style="color:#540863;">Employee Report</h3>
-                    <div class="form-row">
-                        <div><label>Department</label>
-                            <select id="empDept">
-                                <option value="all">All Departments</option>
-                                <option>Information Technology</option>
-                                <option>Human Resources</option>
-                                <option>Sales & Marketing</option>
-                                <option>Finance & Accounts</option>
-                                <option>Operations</option>
-                            </select>
+                <!-- ==================== TAB 1: ALL EMPLOYEES ==================== -->
+                <div id="all" class="tab-content active">
+                    <div class="section-card">
+                        <div class="flex justify-between items-center mb-4 flex-wrap gap-3">
+                            <h3 class="text-md font-semibold" style="color:#540863;">Employee List</h3>
+                            <div class="flex gap-2">
+                                <input type="text" id="searchEmployee" placeholder="Search employees..." class="w-64 text-sm" style="padding: 3px;" onkeyup="filterEmployees()">
+                                <button onclick="exportEmployees()" class="btn-outline text-sm"><i class="fas fa-download mr-1"></i>Export</button>
+                            </div>
                         </div>
-                        <div><label>Employment Type</label>
-                            <select id="empType">
-                                <option value="all">All Types</option>
-                                <option>Permanent</option>
-                                <option>Contract</option>
-                                <option>Intern</option>
-                                <option>Probation</option>
-                            </select>
+                        
+                        <div class="overflow-x-auto">
+                            <table class="w-full">
+                                <thead>
+                                    <tr class="border-b" style="border-color:#c99ebb;">
+                                        <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">Employee</th>
+                                        <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">ID</th>
+                                        <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">Department</th>
+                                        <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">Designation</th>
+                                        <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">Email</th>
+                                        <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">Phone</th>
+                                        <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">Status</th>
+                                        <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="employeesList"></tbody>
+                            </table>
                         </div>
-                        <div><label>Status</label>
-                            <select id="empStatus">
-                                <option value="all">All Status</option>
-                                <option>Active</option>
-                                <option>Inactive</option>
-                                <option>On Leave</option>
-                                <option>Notice Period</option>
-                            </select>
+                        
+                        <div class="flex justify-between items-center mt-4 pt-3 border-t">
+                            <p class="text-xs text-gray-500" id="employeeCount">Showing 0 employees</p>
+                            <div class="flex gap-2" id="pagination"></div>
                         </div>
-                        <div><label>Sort By</label>
-                            <select id="empSort">
-                                <option>Name</option>
-                                <option>Joining Date</option>
-                                <option>Department</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="flex justify-end gap-3">
-                        <button onclick="generateReport()" class="btn-primary"><i class="fas fa-chart-line mr-2"></i>Generate Report</button>
-                        <button onclick="exportReport()" class="btn-outline"><i class="fas fa-download mr-2"></i>Export Excel</button>
-                        <button onclick="printReport()" class="btn-outline"><i class="fas fa-print mr-2"></i>Print</button>
                     </div>
                 </div>
                 
-                <!-- Report Preview -->
-                <div id="reportPreview" class="section-card" style="display: none;">
-                    <h3 class="text-md font-semibold mb-3" style="color:#540863;">Employee Report Preview</h3>
-                    <div id="reportContent"></div>
+                <!-- ==================== TAB 2: ADD EMPLOYEE (WITH ALL FIELDS + CUSTOM FIELDS) ==================== -->
+                <div id="add" class="tab-content">
+                    <div class="section-card">
+                        <!-- Wizard -->
+                        <div class="wizard" id="wiz">
+                            <div class="wz cur" id="wz0"><div class="wz-dot">1</div><div class="wz-info"><div class="wz-step-lbl">Step 1</div><div class="wz-step-name">Personal Info</div></div><div class="wz-line"></div></div>
+                            <div class="wz" id="wz1"><div class="wz-dot">2</div><div class="wz-info"><div class="wz-step-lbl">Step 2</div><div class="wz-step-name">Job Details</div></div><div class="wz-line"></div></div>
+                            <div class="wz" id="wz2"><div class="wz-dot">3</div><div class="wz-info"><div class="wz-step-lbl">Step 3</div><div class="wz-step-name">Contact & Address</div></div><div class="wz-line"></div></div>
+                            <div class="wz" id="wz3"><div class="wz-dot">4</div><div class="wz-info"><div class="wz-step-lbl">Step 4</div><div class="wz-step-name">Education & Family</div></div><div class="wz-line"></div></div>
+                            <div class="wz" id="wz4"><div class="wz-dot">5</div><div class="wz-info"><div class="wz-step-lbl">Step 5</div><div class="wz-step-name">Documents & Custom</div></div></div>
+                        </div>
+
+                        <form id="addEmployeeForm">
+                            <!-- STEP 0: Personal Info -->
+                            <div id="st0">
+                                <div class="sec-title"><i class="fas fa-id-card"></i> Personal Information</div>
+                                <div class="grid-4 mb-4">
+                                    <div class="fg"><label class="fl">First Name <span class="req">*</span></label><input class="fi" id="fFN" placeholder="e.g. Arjun" required style="padding: 4px;"></div>
+                                    <div class="fg"><label class="fl">Middle Name</label><input class="fi" id="fMN" placeholder="e.g. Kumar" style="padding: 4px;"></div>
+                                    <div class="fg"><label class="fl">Last Name <span class="req">*</span></label><input class="fi" id="fLN" placeholder="e.g. Sharma" required style="padding: 4px;"></div>
+                                    <div class="fg"><label class="fl">Employee ID</label><input class="fi mono" id="fEID" readonly style="background:var(--gray-50);color:var(--brand-400);font-weight:700;padding: 4px;"></div>
+                                </div>
+                                
+                                <div class="grid-4 mb-4">
+                                    <div class="fg"><label class="fl">Date of Birth</label><input type="date" class="fi" id="fDOB" style="padding: 4px;"></div>
+                                    <div class="fg"><label class="fl">Gender <span class="req" style="padding: 4px;">*</span></label>
+                                        <div class="radio-pill-group" id="genderGroup">
+                                            <button type="button" class="rpill" onclick="setPill('genderGroup','Male',this)"><i class="fas fa-mars"></i> Male</button>
+                                            <button type="button" class="rpill" onclick="setPill('genderGroup','Female',this)"><i class="fas fa-venus"></i> Female</button>
+                                            <button type="button" class="rpill" onclick="setPill('genderGroup','Other',this)"><i class="fas fa-genderless"></i> Other</button>
+                                        </div>
+                                        <input type="hidden" id="fGender">
+                                    </div>
+                                    <div class="fg"><label class="fl">Marital Status</label><select class="fi" id="fMarital" style="padding: 4px;"><option value="">Select</option><option>Single</option><option>Married</option><option>Divorced</option><option>Widowed</option></select></div>
+                                    <div class="fg"><label class="fl">Blood Group</label><select class="fi" id="fBlood" style="padding: 4px;"><option value="">Select</option><option>A+</option><option>A-</option><option>B+</option><option>B-</option><option>O+</option><option>O-</option><option>AB+</option><option>AB-</option></select></div>
+                                </div>
+                                
+                                <div class="grid-3 mb-4">
+                                    <div class="fg"><label class="fl" >PAN Number</label><input class="fi mono" id="fPAN" placeholder="ABCDE1234F" maxlength="10" style="text-transform:uppercase ;padding: 4px;"></div>
+                                    <div class="fg"><label class="fl">Aadhaar Number</label><input class="fi mono" id="fAAD" placeholder="XXXX XXXX XXXX" maxlength="14" style="padding: 4px;"></div>
+                                    <div class="fg"><label class="fl">Nationality</label><input class="fi" id="fNat" value="Indian" style="padding: 4px;"></div>
+                                </div>
+                    
+                                <div class="grid-3">
+                                    <div class="fg"><label class="fl">Religion</label><input class="fi" id="fRel" placeholder="Optional" style="padding: 4px;"></div>
+                                    <div class="fg"><label class="fl">LinkedIn Profile</label><input class="fi" id="fLI" placeholder="linkedin.com/in/username" style="padding: 4px;"></div>
+                                    <div class="fg"><label class="fl">Father's / Spouse Name</label><input class="fi" id="fFatherName" placeholder="Ramesh Sharma" style="padding: 4px;"></div>
+                                </div>
+
+                                <!-- Physically Challenged Block -->
+                                <div class="pwd-block">
+                                    <div class="pwd-toggle-row">
+                                        <div><div style="font-weight:700;font-size:13px;">Physically Challenged (PwD)</div><div style="font-size:12px;color:var(--text-muted);">Person with Disability as per PWD Act 1995</div></div>
+                                        <div class="toggle-switch-wrap">
+                                            <span id="pwdToggleLabel" style="font-size:12px;font-weight:600;">No</span>
+                                            <label class="toggle-switch"><input type="checkbox" id="fPWDToggle" onchange="togglePWD(this)"><span class="toggle-thumb"></span></label>
+                                        </div>
+                                    </div>
+                                    <div id="pwdDetails" style="display:none;margin-top:16px;padding:16px;background:var(--brand-50);border-radius:var(--r-md);">
+                                        <div style="font-size:12px;font-weight:700;margin-bottom:14px;"><i class="fas fa-wheelchair"></i> PwD Details</div>
+                                        <div class="grid-3 mb-4">
+                                            <div class="fg"><label class="fl" >Type of Disability</label><select class="fi" id="fPWDType" style="padding: 4px;"><option>Locomotor Disability</option><option>Visual Impairment</option><option>Hearing Impairment</option></select></div>
+                                            <div class="fg"><label class="fl">Disability Percentage (%)</label><input type="number" class="fi" id="fPWDPct" placeholder="e.g. 40" style="padding: 4px;"></div>
+                                            <div class="fg"><label class="fl">Certificate Number</label><input class="fi" id="fPWDCert" placeholder="PWD/2024/XXXXX" style="padding: 4px;"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- STEP 1: Job Details -->
+                            <div id="st1" style="display:none;">
+                                <div class="sec-title"><i class="fas fa-briefcase"></i> Job Details</div>
+                                <div class="grid-3 mb-4">
+                                    <div class="fg"><label class="fl">Department <span class="req">*</span></label><select class="fi" id="fDept" style="padding: 4px;"><option value="">Select</option><option>Information Technology</option><option>Human Resources</option><option>Sales & Marketing</option><option>Finance & Accounts</option><option>Operations</option></select></div>
+                                    <div class="fg"><label class="fl">Sub-Department</label><input class="fi" id="fSubDept" placeholder="Optional" style="padding: 4px;"></div>
+                                    <div class="fg"><label class="fl">Designation <span class="req">*</span></label><input class="fi" id="fDesig" placeholder="e.g. Senior Developer" style="padding: 4px;"></div>
+                                </div>
+                                <div class="grid-4 mb-4">
+                                    <div class="fg"><label class="fl">Employee Grade</label><select class="fi" id="fGrade" style="padding: 4px;"><option>L1</option><option>L2</option><option>L3</option><option>L4</option><option>L5</option><option>M1</option><option>M2</option></select></div>
+                                    <div class="fg"><label class="fl">Employment Type</label><select class="fi" id="fEmpType" style="padding: 4px;"><option>Full-Time</option><option>Part-Time</option><option>Contract</option><option>Intern</option></select></div>
+                                    <div class="fg"><label class="fl">Joining Date <span class="req">*</span></label><input type="date" class="fi" id="fJD" style="padding: 4px;"></div>
+                                    <div class="fg"><label class="fl">Probation End Date</label><input type="date" class="fi" id="fProbEnd" style="padding: 4px;"></div>
+                                </div>
+                                <div class="grid-3 mb-4">
+                                    <div class="fg"><label class="fl">Reporting Manager</label><input class="fi" id="fMgr" placeholder="e.g. Rajesh Kumar" style="padding: 4px;"></div>
+                                    <div class="fg"><label class="fl">HR Business Partner</label><input class="fi" id="fHRBP" placeholder="e.g. Priya Sharma" style="padding: 4px;"></div>
+                                    <div class="fg"><label class="fl">Work Location</label><select class="fi" id="fWL" style="padding: 4px;"><option>Mumbai HQ</option><option>Delhi Branch</option><option>Remote</option><option>Hybrid</option></select></div>
+                                </div>
+                                <div class="grid-3  mb-4">
+                                    <div class="fg"><label class="fl">Basic Salary (₹) <span class="req">*</span></label><input type="number" class="fi mono" id="fBasic" placeholder="35000" style="padding: 4px;"></div>
+                                    <div class="fg"><label class="fl">Shift</label><select class="fi" id="fShift" style="padding: 4px;"><option>General (9AM-6PM)</option><option>Morning (7AM-4PM)</option><option>Evening (2PM-11PM)</option><option>Night (10PM-7AM)</option></select></div>
+                                    <div class="fg"><label class="fl">Cost Centre</label><input class="fi" id="fCC" placeholder="CC-001" style="padding: 4px;"></div>
+                                </div>
+                                
+                                <div class="sec-title"><i class="fas fa-building"></i> Bank Details</div>
+                                <div class="grid-3 mb-4">
+                                    <div class="fg"><label class="fl">Bank Name</label><input class="fi" id="fBank" placeholder="HDFC Bank" style="padding: 4px;"></div>
+                                    <div class="fg"><label class="fl">Account Number</label><input class="fi mono" id="fAccNo" placeholder="XXXXXXXXXXXX" style="padding: 4px;"></div>
+                                    <div class="fg"><label class="fl">IFSC Code</label><input class="fi mono" id="fIFSC" placeholder="HDFC0001234" style="padding: 4px;"></div>
+                                </div>
+                            </div>
+
+                            <!-- STEP 2: Contact & Address -->
+                            <div id="st2" style="display:none;">
+                                <div class="sec-title"><i class="fas fa-address-book"></i> Contact Information</div>
+                                <div class="grid-2 mb-4">
+                                    <div class="fg"><label class="fl">Personal Email <span class="req">*</span></label><input type="email" class="fi" id="fPEmail" placeholder="arjun@gmail.com" style="padding: 4px;"></div>
+                                    <div class="fg"><label class="fl">Work Email</label><input type="email" class="fi" id="fWEmail" placeholder="arjun@company.com" style="padding: 4px;"></div>
+                                    <div class="fg"><label class="fl">Mobile <span class="req">*</span></label><input class="fi mono" id="fMob" placeholder="+91 98765 43210" style="padding: 4px;"></div>
+                                    <div class="fg"><label class="fl">Alternate Phone</label><input class="fi mono" id="fAlt" placeholder="+91 88765 43210" style="padding: 4px;"></div>
+                                </div>
+                                
+                                <div class="sec-title"><i class="fas fa-location-dot"></i> Address Details</div>
+                                <div style="padding:16px;background:var(--gray-50);border-radius:var(--r-lg);margin-bottom:16px;">
+                                    <div style="font-size:12px;font-weight:700;margin-bottom:12px;"><i class="fas fa-home"></i> Current / Local Address</div>
+                                    <div class="fg"><label class="fl">Street Address</label><textarea class="fi" id="fCAddr" rows="2" placeholder="Flat 101, XYZ Apartments" style="padding: 4px;"></textarea></div>
+                                    <div class="grid-4">
+                                        <div class="fg"><label class="fl">City</label><input class="fi" id="fCity" placeholder="Mumbai" style="padding: 4px;"></div>
+                                        <div class="fg"><label class="fl">State</label><input class="fi" id="fState" placeholder="Maharashtra" style="padding: 4px;"></div>
+                                        <div class="fg"><label class="fl">PIN Code</label><input class="fi mono" id="fPIN" placeholder="400058" style="padding: 4px;"></div>
+                                        <div class="fg"><label class="fl">Country</label><input class="fi" id="fCountry" value="India" style="padding: 4px;"></div>
+                                    </div>
+                                </div>
+                                
+                                <div style="padding:16px;background:var(--gray-50);border-radius:var(--r-lg);margin-bottom:16px;">
+                                    <div style="font-size:12px;font-weight:700;margin-bottom:12px;"><i class="fas fa-map-pin"></i> Permanent Address</div>
+                                    <div class="fg"><label class="fl">Street Address</label><textarea class="fi" id="fPAddr" rows="2" placeholder="123 Main Street" style="padding: 4px;"></textarea></div>
+                                    <div class="grid-4">
+                                        <div class="fg"><label class="fl">City</label><input class="fi" id="fPCity" placeholder="Jaipur" style="padding: 4px;"></div>
+                                        <div class="fg"><label class="fl">State</label><input class="fi" id="fPState" placeholder="Rajasthan" style="padding: 4px;"></div>
+                                        <div class="fg"><label class="fl">PIN Code</label><input class="fi mono" id="fPPIN" placeholder="302001" style="padding: 4px;"></div>
+                                        <div class="fg"><label class="fl">Country</label><input class="fi" id="fPCountry" value="India" style="padding: 4px;"></div>
+                                    </div>
+                                </div>
+                                
+                                <div class="sec-title"><i class="fas fa-phone-volume"></i> Emergency Contact</div>
+                                <div class="grid-3">
+                                    <div class="fg"><label class="fl">Name <span class="req">*</span></label><input class="fi" id="fECName" placeholder="Ramesh Sharma" style="padding: 4px;"></div>
+                                    <div class="fg"><label class="fl">Relationship</label><select class="fi" id="fECRel" style="padding: 4px;"><option>Spouse</option><option>Father</option><option>Mother</option><option>Sibling</option></select></div>
+                                    <div class="fg"><label class="fl">Phone <span class="req">*</span></label><input class="fi mono" id="fECPhone" placeholder="+91 99999 88888" style="padding: 4px;"></div>
+                                </div>
+                            </div>
+
+                            <!-- STEP 3: Education & Family -->
+                            <div id="st3" style="display:none;">
+                                <div class="sec-title"><i class="fas fa-graduation-cap"></i> Education Details</div>
+                                <div id="eduList"></div>
+                                <button type="button" class="btn-outline btn-sm" onclick="addEduRow()"><i class="fas fa-plus"></i> Add Education</button>
+
+                                <div class="sec-title"><i class="fas fa-users"></i> Family Details</div>
+                                <div id="famList"></div>
+                                <button type="button" class="btn-outline btn-sm" onclick="addFamRow()"><i class="fas fa-plus"></i> Add Family Member</button>
+
+                                <div class="sec-title"><i class="fas fa-briefcase"></i> Work Experience</div>
+                                <div id="expList"></div>
+                                <button type="button" class="btn-outline btn-sm" onclick="addExpRow()"><i class="fas fa-plus"></i> Add Experience</button>
+                            </div>
+
+                            <!-- STEP 4: Documents + Custom Fields -->
+                            <div id="st4" style="display:none;">
+                                <div class="sec-title"><i class="fas fa-folder"></i> Upload Documents</div>
+                                <div class="grid-2 mb-4">
+                                    <div class="fg"><label class="fl">Aadhaar Card</label><input type="file" class="fi" accept=".pdf,.jpg,.png" onchange="addDocRow(this,'Aadhaar Card')"></div>
+                                    <div class="fg"><label class="fl">PAN Card</label><input type="file" class="fi" accept=".pdf,.jpg,.png" onchange="addDocRow(this,'PAN Card')"></div>
+                                    <div class="fg"><label class="fl">Degree Certificate</label><input type="file" class="fi" accept=".pdf,.jpg,.png" onchange="addDocRow(this,'Degree Certificate')"></div>
+                                    <div class="fg"><label class="fl">Experience Letter</label><input type="file" class="fi" accept=".pdf,.jpg,.png" onchange="addDocRow(this,'Experience Letter')"></div>
+                                </div>
+                                <div id="uploadedDocList" class="doc-list"></div>
+
+                                <!-- ==================== CUSTOM FIELDS BUILDER ==================== -->
+                                <div class="sec-title" style="margin-top:28px;"><i class="fas fa-sliders"></i> Custom Fields <span style="font-size:11px;font-weight:400;color:var(--text-muted);text-transform:none;letter-spacing:0;margin-left:6px;">Add extra fields specific to this employee</span></div>
+
+                                <div id="customFieldsList" style="display:flex;flex-direction:column;gap:10px;margin-bottom:16px;"></div>
+
+                                <!-- Add custom field trigger -->
+                                <div style="border:2px dashed var(--border);border-radius:var(--r-lg);padding:16px 20px;display:flex;align-items:center;gap:14px;cursor:pointer;transition:.2s;" id="addCFBtn" onclick="showCFBuilder()" onmouseenter="this.style.borderColor='var(--brand-400)';this.style.background='var(--brand-50)'" onmouseleave="this.style.borderColor='var(--border)';this.style.background='transparent'">
+                                    <div style="width:36px;height:36px;border-radius:10px;background:var(--brand-50);color:var(--brand-400);display:flex;align-items:center;justify-content:center;font-size:16px;"><i class="fas fa-plus"></i></div>
+                                    <div>
+                                        <div style="font-weight:700;font-size:13px;">Add Custom Field</div>
+                                        <div style="font-size:12px;color:var(--text-muted);">Text, Number, Dropdown, Date, Textarea, Checkbox</div>
+                                    </div>
+                                </div>
+
+                                <!-- Custom Field Builder Panel -->
+                                <div id="cfBuilderPanel" style="display:none;padding:18px;background:var(--gray-50);border:1px solid var(--gray-200);border-radius:var(--r-lg);margin-top:12px;">
+                                    <div style="font-size:13px;font-weight:700;margin-bottom:14px;color:var(--text-primary);">🛠 Configure New Field</div>
+                                    <div class="grid-3" style="margin-bottom:14px;">
+                                        <div class="fg">
+                                            <label class="fl">Field Label <span class="req">*</span></label>
+                                            <input class="fi" id="cfLabel" placeholder="e.g. Employee Category" style="padding: 4px;">
+                                        </div>
+                                        <div class="fg">
+                                            <label class="fl">Field Type</label>
+                                            <select class="fi" id="cfType" onchange="toggleCFOptions()" style="padding: 4px;">
+                                                <option value="text">Text Input</option>
+                                                <option value="number">Number Input</option>
+                                                <option value="dropdown">Dropdown (Select)</option>
+                                                <option value="date">Date Picker</option>
+                                                <option value="textarea">Textarea</option>
+                                                <option value="checkbox">Yes / No Toggle</option>
+                                            </select>
+                                        </div>
+                                        <div class="fg">
+                                            <label class="fl">Section</label>
+                                            <select class="fi" id="cfSection" style="padding: 4px;">
+                                                <option value="personal">Personal Info</option>
+                                                <option value="job">Job Details</option>
+                                                <option value="contact">Contact</option>
+                                                <option value="education">Education</option>
+                                                <option value="other">Other</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <!-- Dropdown options — shown only when type=dropdown -->
+                                    <div id="cfDropdownOptions" style="display:none;margin-bottom:14px;">
+                                        <div class="fg">
+                                            <label class="fl">Dropdown Options <span style="font-size:10px;font-weight:400;color:var(--text-muted);text-transform:none;">(comma separated)</span></label>
+                                            <input class="fi" id="cfOptions" placeholder="Option 1, Option 2, Option 3">
+                                            <div class="fhint">Each comma-separated value becomes a dropdown option</div>
+                                        </div>
+                                    </div>
+                                    <div class="grid-2" style="padding: 4px;">
+                                        <div class="fg">
+                                            <label class="fl">Placeholder / Help Text</label>
+                                            <input class="fi" id="cfPlaceholder" placeholder="e.g. Enter employee category" style="padding: 4px;">
+                                        </div>
+                                        <div class="fg" style="justify-content:flex-end;padding-top:22px;display:flex;align-items:center;gap:8px;">
+                                            <label style="display:flex;align-items:center;gap:7px;font-size:13px;cursor:pointer;"><input type="checkbox" id="cfRequired" style="accent-color:var(--brand-400);"> Required field</label>
+                                        </div>
+                                    </div>
+                                    <div style="display:flex;gap:8px;">
+                                        <button type="button" class="btn-primary btn-sm" onclick="addCustomField()"><i class="fas fa-plus"></i> Add Field</button>
+                                        <button type="button" class="btn-ghost btn-sm" onclick="closeCFBuilder()">Cancel</button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Navigation Buttons -->
+                            <div class="flex justify-between items-center mt-6 pt-4 border-t">
+                                <button type="button" id="prevBtn" class="btn-outline" style="display: none;" onclick="prevStep()"><i class="fas fa-arrow-left"></i> Previous</button>
+                                <div class="flex gap-3 ml-auto">
+                                    <button type="reset" class="btn-outline">Reset</button>
+                                    <button type="button" id="nextBtn" class="btn-primary" onclick="nextStep()">Next <i class="fas fa-arrow-right"></i></button>
+                                    <button type="submit" id="saveBtn" class="btn-success" style="display: none;"><i class="fas fa-save"></i> Save Employee</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                
+                <!-- ==================== TAB 3: DOCUMENTS ==================== -->
+                <div id="documents" class="tab-content">
+                    <div class="section-card">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-md font-semibold" style="color:#540863;">Employee Documents</h3>
+                            <select id="docEmployeeSelect" class="w-64 text-sm" onchange="loadEmployeeDocuments()" style="padding: 4px;">
+                                <option value="">Select Employee</option>
+                            </select>
+                        </div>
+                        <div id="documentsList">
+                            <div class="flex justify-between items-center p-3 border-b"><div><i class="fas fa-id-card mr-2"></i><span>PAN Card</span></div><div><button onclick="uploadDocument('PAN Card')" class="btn-outline text-xs">Upload</button><span class="text-xs ml-2" id="doc-pan-status">Not Uploaded</span></div></div>
+                            <div class="flex justify-between items-center p-3 border-b"><div><i class="fas fa-address-card mr-2"></i><span>Aadhar Card</span></div><div><button onclick="uploadDocument('Aadhar Card')" class="btn-outline text-xs">Upload</button><span class="text-xs ml-2" id="doc-aadhar-status">Not Uploaded</span></div></div>
+                            <div class="flex justify-between items-center p-3 border-b"><div><i class="fas fa-file-alt mr-2"></i><span>Offer Letter</span></div><div><button onclick="uploadDocument('Offer Letter')" class="btn-outline text-xs">Upload</button><span class="text-xs ml-2" id="doc-offer-status">Not Uploaded</span></div></div>
+                            <div class="flex justify-between items-center p-3"><div><i class="fas fa-graduation-cap mr-2"></i><span>Degree Certificate</span></div><div><button onclick="uploadDocument('Degree Certificate')" class="btn-outline text-xs">Upload</button><span class="text-xs ml-2" id="doc-degree-status">Not Uploaded</span></div></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- ==================== TAB 4: HISTORY ==================== -->
+                <div id="history" class="tab-content">
+                    <div class="section-card" >
+                        <h3 class="text-md font-semibold mb-4" style="color:#540863;">Employee History</h3>
+                        <select id="historyEmployeeSelect" class="w-64 text-sm mb-4" onchange="loadEmployeeHistory()" style="padding: 4px;">
+                            <option value="" >Select Employee</option>
+                        </select>
+                        <div id="historyList"><p class="text-center text-gray-500 py-4">Select an employee to view history</p></div>
+                    </div>
                 </div>
                 
             </main>
         </div>
     </div>
     
-    <script src="../../assets/js/common.js"></script>
-    <script src="../../assets/js/sidebar.js"></script>
-    <script src="../../assets/js/header.js"></script>
+    <!-- Delete Confirmation Modal -->
+    <div id="deleteModal" class="overlay" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);z-index:2000;justify-content:center;align-items:center;">
+        <div class="bg-white rounded-2xl p-6 max-w-md w-full text-center">
+            <div class="flex justify-between items-center mb-4"><h3 class="text-lg font-semibold" style="color:#dc3545;">Confirm Delete</h3><button onclick="closeDeleteModal()" class="text-gray-500 text-xl">&times;</button></div>
+            <div class="py-4"><i class="fas fa-exclamation-triangle text-5xl text-red-500 mb-3"></i><p class="text-gray-700 mb-2">Are you sure you want to delete this employee?</p><p class="text-sm text-gray-500" id="deleteEmployeeName"></p></div>
+            <div class="flex justify-center gap-3 mt-4"><button onclick="closeDeleteModal()" class="btn-outline px-6">Cancel</button><button onclick="confirmDeleteEmployee()" class="btn-danger px-6">Delete</button></div>
+        </div>
+    </div>
     
+    <script src="/assets/js/common.js"></script>
+    <script src="/assets/js/sidebar.js"></script>
+    <script src="/assets/js/header.js"></script>
+    
+
     <script>
-        function generateReport() {
-            const dept = document.getElementById('empDept').value;
-            const type = document.getElementById('empType').value;
-            const status = document.getElementById('empStatus').value;
-            
-            const employeeData = [
-                { name: 'Rajesh Kumar', dept: 'Information Technology', designation: 'Senior Developer', joining: '2020-01-15', status: 'Active', type: 'Permanent', email: 'rajesh@hrms.com', phone: '+91 98765 43210' },
-                { name: 'Priya Sharma', dept: 'Human Resources', designation: 'HR Manager', joining: '2019-06-10', status: 'Active', type: 'Permanent', email: 'priya@hrms.com', phone: '+91 98765 43211' },
-                { name: 'Amit Mehta', dept: 'Sales & Marketing', designation: 'Sales Manager', joining: '2018-03-20', status: 'Active', type: 'Permanent', email: 'amit@hrms.com', phone: '+91 98765 43212' },
-                { name: 'Neha Gupta', dept: 'Finance & Accounts', designation: 'Finance Head', joining: '2021-01-05', status: 'Active', type: 'Permanent', email: 'neha@hrms.com', phone: '+91 98765 43213' },
-                { name: 'Vikram Singh', dept: 'Operations', designation: 'Operations Head', joining: '2017-11-12', status: 'Active', type: 'Permanent', email: 'vikram@hrms.com', phone: '+91 98765 43214' }
-            ];
-            
-            let filteredData = employeeData;
-            if (dept !== 'all') filteredData = filteredData.filter(e => e.dept === dept);
-            if (type !== 'all') filteredData = filteredData.filter(e => e.type === type);
-            if (status !== 'all') filteredData = filteredData.filter(e => e.status === status);
-            
-            let tableHtml = `<table class="report-table"><thead><tr><th>Employee Name</th><th>Department</th><th>Designation</th><th>Joining Date</th><th>Status</th><th>Email</th><th>Phone</th></tr></thead><tbody>`;
-            filteredData.forEach(emp => {
-                tableHtml += `<tr><td>${emp.name}</td><td>${emp.dept}</td><td>${emp.designation}</td><td>${emp.joining}</td><td><span class="text-xs px-2 py-1 rounded-full" style="background:rgba(40,167,69,0.2);color:#155724;">${emp.status}</span></td><td>${emp.email}</td><td>${emp.phone}</td></tr>`;
-            });
-            tableHtml += `</tbody></table><div class="mt-3 text-right"><p class="text-sm text-gray-500">Total Employees: ${filteredData.length}</p></div>`;
-            
-            document.getElementById('reportContent').innerHTML = tableHtml;
-            document.getElementById('reportPreview').style.display = 'block';
-            showToast('Employee report generated!', 'success');
+        
+
+
+// ==================== CONFIG ====================
+const API_BASE = 'http://localhost:8086/api/employees';
+
+// ==================== GLOBAL VARIABLES ====================
+let currentPage = 0;           // Backend is 0-indexed
+const rowsPerPage = 10;
+let totalPages = 0;
+let totalElements = 0;
+
+let deleteTargetId = null;     // stores employeePrimeId (Long)
+let deleteTargetName = null;
+let uploadedDocs = [];
+let customFieldsList = [];
+
+// ==================== WIZARD VARIABLES ====================
+let currentStep = 0;
+const totalSteps = 5;
+
+// ==================== API HELPER ====================
+async function apiFetch(url, options = {}) {
+    try {
+        const res = await fetch(url, options);
+        const data = await res.json();
+        return { ok: res.ok, status: res.status, data };
+    } catch (err) {
+        console.error('API Error:', err);
+        return { ok: false, status: 0, data: { message: 'Network error. Please check your connection.' } };
+    }
+}
+
+// ==================== FETCH & RENDER EMPLOYEES TABLE ====================
+async function fetchAndRenderEmployees() {
+    const tbody = document.getElementById('employeesList');
+    if (!tbody) return;
+
+    tbody.innerHTML = `<tr><td colspan="8" class="py-8 text-center text-gray-400"><i class="fas fa-spinner fa-spin mr-2"></i>Loading employees...</td></tr>`;
+
+    const result = await apiFetch(`${API_BASE}/get-all-employees?page=${currentPage}&size=${rowsPerPage}`);
+
+    if (!result.ok) {
+        tbody.innerHTML = `<tr><td colspan="8" class="py-8 text-center text-red-400">Failed to load employees. ${result.data.message || ''}</td></tr>`;
+        return;
+    }
+
+    const { data: employees, totalPages: tp, totalElements: te } = result.data;
+    totalPages = tp || 0;
+    totalElements = te || 0;
+
+    if (!employees || employees.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="8" class="py-8 text-center text-gray-500">No employees found</td></tr>`;
+        document.getElementById('employeeCount').innerHTML = 'Showing 0 employees';
+        document.getElementById('pagination').innerHTML = '';
+        return;
+    }
+
+    let html = '';
+    employees.forEach(emp => {
+        const name = emp.fullName || `${emp.firstName || ''} ${emp.lastName || ''}`.trim();
+        const initial = name.charAt(0).toUpperCase();
+        const statusColor = (emp.status || '').toLowerCase() === 'active'
+            ? 'background:rgba(40,167,69,0.2);color:#155724;'
+            : 'background:rgba(220,53,69,0.2);color:#721c24;';
+
+        html += `<tr class="border-b data-row">
+            <td class="py-3">
+                <div class="flex items-center gap-2">
+                    <div class="avatar">${initial}</div>
+                    <div>
+                        <p class="text-sm font-medium" style="color:#540863;">${name}</p>
+                        <p class="text-xs" style="color:#92487A;">${emp.employeeId || ''}</p>
+                    </div>
+                </div>
+            </td>
+            <td class="py-3 text-sm" style="color:#92487A;">${emp.employeeId || '-'}</td>
+            <td class="py-3 text-sm" style="color:#92487A;">${emp.department || '-'}</td>
+            <td class="py-3 text-sm" style="color:#92487A;">${emp.designation || '-'}</td>
+            <td class="py-3 text-sm" style="color:#92487A;">${emp.personalEmail || emp.workEmail || '-'}</td>
+            <td class="py-3 text-sm" style="color:#92487A;">${emp.mobileNumber || '-'}</td>
+            <td class="py-3">
+                <span class="text-xs px-2 py-1 rounded-full" style="${statusColor}">${emp.status || 'Active'}</span>
+            </td>
+            <td class="py-3">
+                <button onclick="viewEmployee(${emp.employeePrimeId})" class="text-[#1a7a6b] mr-2" title="View" style="background:rgba(26,122,107,0.1);border:none;padding:4px 8px;border-radius:6px;cursor:pointer;font-size:12px;">
+                    <i class="fas fa-eye"></i>
+                </button>
+                <button onclick="editEmployee(${emp.employeePrimeId})" class="text-[#540863] mr-2" title="Edit" style="background:rgba(84,8,99,0.1);border:none;padding:4px 8px;border-radius:6px;cursor:pointer;font-size:12px;">
+                    <i class="fas fa-edit"></i>
+                </button>
+                <button onclick="openDeleteModal(${emp.employeePrimeId}, '${name.replace(/'/g, "\\'")}')" class="text-red-500" title="Delete" style="background:rgba(220,53,69,0.1);border:none;padding:4px 8px;border-radius:6px;cursor:pointer;font-size:12px;">
+                    <i class="fas fa-trash"></i>
+                </button>
+            </td>
+        </tr>`;
+    });
+
+    tbody.innerHTML = html;
+
+    // Pagination (backend is 0-indexed, display is 1-indexed)
+    let paginationHtml = '';
+    for (let i = 0; i < totalPages; i++) {
+        paginationHtml += `<button onclick="goToPage(${i})" class="px-3 py-1 rounded-lg text-xs ${i === currentPage ? 'btn-primary' : 'btn-outline'}">${i + 1}</button>`;
+    }
+    document.getElementById('pagination').innerHTML = paginationHtml;
+    document.getElementById('employeeCount').innerHTML = `Showing ${totalElements} employees`;
+
+    await populateDropdowns();
+}
+
+// ==================== SEARCH (debounced, uses summary endpoint) ====================
+let searchDebounce = null;
+function filterEmployees() {
+    clearTimeout(searchDebounce);
+    searchDebounce = setTimeout(async () => {
+        const searchTerm = document.getElementById('searchEmployee')?.value.toLowerCase().trim() || '';
+        if (!searchTerm) {
+            currentPage = 0;
+            await fetchAndRenderEmployees();
+            return;
         }
-        
-        function exportReport() { showToast('Report exported!', 'success'); }
-        function printReport() { window.print(); }
-        
-        function showToast(message, type) { const toast = document.createElement('div'); toast.className = `toast ${type}`; toast.innerHTML = message; document.body.appendChild(toast); setTimeout(() => toast.remove(), 3000); }
-        
-        function setActiveMenu(module) { setTimeout(() => { document.querySelectorAll('.nav-link').forEach(link => { link.classList.remove('active'); if(link.getAttribute('data-module') === module) link.classList.add('active'); }); }, 500); }
-        
-        document.addEventListener('DOMContentLoaded', function() { loadSidebar(); loadHeader(); setActiveMenu('reports'); });
+
+        const result = await apiFetch(`${API_BASE}/all-employees`);
+        if (!result.ok) return;
+
+        const all = result.data || [];
+        const filtered = all.filter(emp => {
+            const name = `${emp.firstName || ''} ${emp.lastName || ''}`.toLowerCase();
+            return name.includes(searchTerm) || (emp.employeeId || '').toLowerCase().includes(searchTerm);
+        });
+
+        const tbody = document.getElementById('employeesList');
+        if (!filtered.length) {
+            tbody.innerHTML = `<tr><td colspan="8" class="py-8 text-center text-gray-500">No employees found</td></tr>`;
+            document.getElementById('employeeCount').innerHTML = 'Showing 0 employees';
+            document.getElementById('pagination').innerHTML = '';
+            return;
+        }
+
+        let html = '';
+        filtered.forEach(emp => {
+            const name = `${emp.firstName || ''} ${emp.lastName || ''}`.trim();
+            html += `<tr class="border-b data-row">
+                <td class="py-3">
+                    <div class="flex items-center gap-2">
+                        <div class="avatar">${name.charAt(0)}</div>
+                        <div>
+                            <p class="text-sm font-medium" style="color:#540863;">${name}</p>
+                            <p class="text-xs" style="color:#92487A;">${emp.employeeId || ''}</p>
+                        </div>
+                    </div>
+                </td>
+                <td class="py-3 text-sm" style="color:#92487A;">${emp.employeeId || '-'}</td>
+                <td class="py-3 text-sm" style="color:#92487A;">${emp.department || '-'}</td>
+                <td class="py-3 text-sm" style="color:#92487A;">-</td>
+                <td class="py-3 text-sm" style="color:#92487A;">-</td>
+                <td class="py-3 text-sm" style="color:#92487A;">-</td>
+                <td class="py-3"><span class="text-xs px-2 py-1 rounded-full" style="background:rgba(40,167,69,0.2);color:#155724;">Active</span></td>
+                <td class="py-3">
+                    <button onclick="viewEmployee(${emp.employeePrimeId})" class="text-[#1a7a6b] mr-2" title="View" style="background:rgba(26,122,107,0.1);border:none;padding:4px 8px;border-radius:6px;cursor:pointer;font-size:12px;"><i class="fas fa-eye"></i></button>
+                    <button onclick="editEmployee(${emp.employeePrimeId})" class="text-[#540863] mr-2" title="Edit" style="background:rgba(84,8,99,0.1);border:none;padding:4px 8px;border-radius:6px;cursor:pointer;font-size:12px;"><i class="fas fa-edit"></i></button>
+                </td>
+            </tr>`;
+        });
+        tbody.innerHTML = html;
+        document.getElementById('pagination').innerHTML = '';
+        document.getElementById('employeeCount').innerHTML = `Showing ${filtered.length} employees`;
+    }, 350);
+}
+
+function goToPage(page) { currentPage = page; fetchAndRenderEmployees(); }
+
+// ==================== EXPORT ====================
+async function exportEmployees() {
+    showToast('Preparing export...', 'info');
+    const result = await apiFetch(`${API_BASE}/export-employees`);
+    if (!result.ok) { showToast('Export failed!', 'error'); return; }
+
+    const employees = result.data.data || [];
+    if (!employees.length) { showToast('No data to export', 'info'); return; }
+
+    const headers = ['Employee ID', 'Full Name', 'Department', 'Designation', 'Email', 'Mobile', 'Status', 'Joining Date'];
+    const rows = employees.map(e => [
+        e.employeeId, e.fullName, e.department, e.designation,
+        e.personalEmail, e.mobileNumber, e.status, e.joiningDate
+    ]);
+
+    const csvContent = [headers, ...rows]
+        .map(row => row.map(cell => `"${cell || ''}"`).join(','))
+        .join('\n');
+
+    const blob = new Blob([csvContent], { type: 'text/csv' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `employees_${new Date().toISOString().slice(0, 10)}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+    showToast(`Exported ${employees.length} employees!`, 'success');
+}
+
+// ==================== VIEW EMPLOYEE OVERLAY ====================
+async function viewEmployee(employeePrimeId) {
+    // Show loading overlay immediately
+    showViewOverlay(null, true);
+
+    const result = await apiFetch(`${API_BASE}/get-employee-by-id/${employeePrimeId}`);
+    if (!result.ok || !result.data?.data) {
+        closeViewOverlay();
+        showToast('Could not load employee details', 'error');
+        return;
+    }
+
+    const emp = result.data.data;
+    showViewOverlay(emp, false);
+}
+
+function showViewOverlay(emp, loading) {
+    let overlay = document.getElementById('viewEmployeeOverlay');
+    if (!overlay) {
+        overlay = document.createElement('div');
+        overlay.id = 'viewEmployeeOverlay';
+        document.body.appendChild(overlay);
+    }
+
+    overlay.style.cssText = `
+        position:fixed;top:0;left:0;width:100%;height:100%;
+        background:rgba(0,0,0,0.55);z-index:3000;
+        display:flex;justify-content:center;align-items:flex-start;
+        padding:20px;overflow-y:auto;backdrop-filter:blur(3px);
+    `;
+
+    if (loading) {
+        overlay.innerHTML = `
+            <div style="background:white;border-radius:16px;padding:60px;margin:auto;text-align:center;min-width:300px;">
+                <i class="fas fa-spinner fa-spin" style="font-size:32px;color:#540863;"></i>
+                <p style="margin-top:12px;color:#92487A;font-size:14px;">Loading employee details...</p>
+            </div>`;
+        return;
+    }
+
+    const fmt = d => d ? new Date(d).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' }) : '—';
+    const val = v => v || '—';
+    const name = emp.fullName || `${emp.firstName || ''} ${emp.lastName || ''}`.trim();
+    const initial = name.charAt(0).toUpperCase();
+    const statusColor = (emp.status || '').toLowerCase() === 'active' ? '#28a745' : '#dc3545';
+
+    // Parse education, family, experience if stored as JSON strings
+    let eduRows = '', famRows = '', expRows = '';
+    try {
+        const edu = emp.education ? JSON.parse(emp.education) : [];
+        eduRows = edu.map(e => `<tr style="border-bottom:1px solid #f3eeef;"><td style="padding:6px 10px;font-size:12px;color:#540863;">${e.degree||'—'}</td><td style="padding:6px 10px;font-size:12px;color:#555;">${e.institution||'—'}</td><td style="padding:6px 10px;font-size:12px;color:#555;">${e.year||'—'}</td></tr>`).join('');
+    } catch(e) {}
+    try {
+        const fam = emp.family ? JSON.parse(emp.family) : [];
+        famRows = fam.map(f => `<tr style="border-bottom:1px solid #f3eeef;"><td style="padding:6px 10px;font-size:12px;color:#540863;">${f.name||'—'}</td><td style="padding:6px 10px;font-size:12px;color:#555;">${f.relationship||'—'}</td><td style="padding:6px 10px;font-size:12px;color:#555;">${f.occupation||'—'}</td></tr>`).join('');
+    } catch(e) {}
+    try {
+        const exp = emp.workExperience ? JSON.parse(emp.workExperience) : [];
+        expRows = exp.map(x => `<tr style="border-bottom:1px solid #f3eeef;"><td style="padding:6px 10px;font-size:12px;color:#540863;">${x.company||'—'}</td><td style="padding:6px 10px;font-size:12px;color:#555;">${x.designation||'—'}</td><td style="padding:6px 10px;font-size:12px;color:#555;">${x.years||'—'}</td></tr>`).join('');
+    } catch(e) {}
+
+    // Use backend image-serving endpoints (controller endpoints) instead of raw stored URLs
+    // emp.employeeId = string like "EMP001", emp.employeePrimeId = numeric Long id
+    const empId = emp.employeeId || '';
+    const docLinks = [
+        { label: 'Aadhaar',      icon: 'fa-id-card',             endpoint: `${API_BASE}/${empId}/aadhaar-image`,    hasDoc: !!(emp.aadhaarDocumentUrl   || emp.aadhaarDocumentImage) },
+        { label: 'PAN Card',     icon: 'fa-address-card',        endpoint: `${API_BASE}/${empId}/pan-image`,        hasDoc: !!(emp.panDocumentUrl        || emp.panDocumentImage) },
+        { label: 'Degree',       icon: 'fa-graduation-cap',      endpoint: `${API_BASE}/${empId}/degree-image`,     hasDoc: !!(emp.degreeDocumentUrl     || emp.degreeDocumentImage) },
+        { label: 'Experience',   icon: 'fa-file-alt',            endpoint: `${API_BASE}/${empId}/experience-image`, hasDoc: !!(emp.experienceDocumentUrl || emp.experienceDocumentImage) },
+        { label: 'Offer Letter', icon: 'fa-envelope-open-text',  endpoint: `${API_BASE}/${empId}/offer-letter`,     hasDoc: !!(emp.offerLetterUrl        || emp.offerLetterImage) },
+        { label: 'Profile Photo',icon: 'fa-user-circle',         endpoint: `${API_BASE}/${empId}/profile-photo`,    hasDoc: !!(emp.profilePhotoUrl       || emp.profilePhotoImage) },
+    ];
+    const docHtml = docLinks.map(d => `
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 10px;background:#faf0f5;border-radius:8px;margin-bottom:6px;">
+            <span style="font-size:12px;color:#540863;"><i class="fas ${d.icon} mr-2"></i>${d.label}</span>
+            ${d.hasDoc
+                ? `<a href="${d.endpoint}" target="_blank" style="font-size:11px;color:#1a7a6b;font-weight:600;text-decoration:none;"><i class="fas fa-eye mr-1"></i>View</a>`
+                : `<span style="font-size:11px;color:#dc3545;">Not Uploaded</span>`
+            }
+        </div>`).join('');
+
+    overlay.innerHTML = `
+        <div style="background:white;border-radius:16px;width:100%;max-width:860px;margin:auto;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.2);">
+
+            <!-- Header Bar -->
+            <div style="background:linear-gradient(135deg,#540863,#92487A);padding:20px 24px;display:flex;justify-content:space-between;align-items:center;">
+                <div style="display:flex;align-items:center;gap:16px;">
+                    <div style="width:56px;height:56px;border-radius:50%;background:rgba(255,255,255,0.2);border:2px solid rgba(255,255,255,0.5);display:flex;align-items:center;justify-content:center;color:white;font-size:22px;font-weight:700;">${initial}</div>
+                    <div>
+                        <div style="font-size:18px;font-weight:700;color:white;">${val(name)}</div>
+                        <div style="font-size:13px;color:rgba(255,255,255,0.75);">${val(emp.designation)} &nbsp;·&nbsp; ${val(emp.department)}</div>
+                        <div style="margin-top:4px;"><span style="font-size:11px;padding:2px 10px;border-radius:20px;background:rgba(255,255,255,0.2);color:white;">${val(emp.employeeId)}</span></div>
+                    </div>
+                </div>
+                <div style="display:flex;align-items:center;gap:10px;">
+                    <span style="font-size:11px;padding:4px 12px;border-radius:20px;background:${statusColor};color:white;font-weight:600;">${val(emp.status)}</span>
+                    <button onclick="closeViewOverlay()" style="background:rgba(255,255,255,0.2);border:none;color:white;width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;">&times;</button>
+                </div>
+            </div>
+
+            <!-- Body -->
+            <div style="padding:24px;overflow-y:auto;max-height:calc(100vh - 180px);">
+
+                <!-- Row 1: Personal + Job -->
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
+
+                    <!-- Personal Info -->
+                    <div style="background:#faf0f5;border-radius:12px;padding:16px;border:1px solid #f0e0eb;">
+                        <div style="font-size:12px;font-weight:700;color:#540863;margin-bottom:12px;display:flex;align-items:center;gap:6px;"><i class="fas fa-id-card"></i> Personal Information</div>
+                        ${viewRow('Full Name', val(name))}
+                        ${viewRow('Date of Birth', fmt(emp.dateOfBirth))}
+                        ${viewRow('Gender', val(emp.gender))}
+                        ${viewRow('Marital Status', val(emp.maritalStatus))}
+                        ${viewRow('Blood Group', val(emp.bloodGroup))}
+                        ${viewRow('Nationality', val(emp.nationality))}
+                        ${viewRow('PAN Number', val(emp.panNumber))}
+                        ${viewRow('Aadhaar', val(emp.aadhaarNumber))}
+                        ${viewRow('Religion', val(emp.religion))}
+                        ${viewRow("Father's / Spouse Name", val(emp.fatherSpouseName))}
+                        ${viewRow('LinkedIn', emp.linkedinProfile ? `<a href="${emp.linkedinProfile}" target="_blank" style="color:#1a7a6b;">${emp.linkedinProfile}</a>` : '—')}
+                        ${emp.isPhysicallyChallenged ? viewRow('PwD', `<span style="color:#e67e22;font-weight:600;">Yes — ${val(emp.disabilityType)} (${val(emp.disabilityPercentage)}%)</span>`) : ''}
+                    </div>
+
+                    <!-- Job Details -->
+                    <div style="background:#faf0f5;border-radius:12px;padding:16px;border:1px solid #f0e0eb;">
+                        <div style="font-size:12px;font-weight:700;color:#540863;margin-bottom:12px;display:flex;align-items:center;gap:6px;"><i class="fas fa-briefcase"></i> Job Details</div>
+                        ${viewRow('Employee ID', val(emp.employeeId))}
+                        ${viewRow('Department', val(emp.department))}
+                        ${viewRow('Sub-Department', val(emp.subDepartment))}
+                        ${viewRow('Designation', val(emp.designation))}
+                        ${viewRow('Grade', val(emp.employeeGrade))}
+                        ${viewRow('Employment Type', val(emp.employmentType))}
+                        ${viewRow('Joining Date', fmt(emp.joiningDate))}
+                        ${viewRow('Probation End', fmt(emp.probationEndDate))}
+                        ${viewRow('Reporting Manager', val(emp.reportingManager))}
+                        ${viewRow('HR Business Partner', val(emp.hrBusinessPartner))}
+                        ${viewRow('Work Location', val(emp.workLocation))}
+                        ${viewRow('Shift', val(emp.shift))}
+                        ${viewRow('Cost Centre', val(emp.costCentre))}
+                        ${viewRow('Basic Salary', emp.basicSalary ? `₹${Number(emp.basicSalary).toLocaleString('en-IN')}` : '—')}
+                    </div>
+                </div>
+
+                <!-- Row 2: Contact + Bank -->
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
+
+                    <!-- Contact -->
+                    <div style="background:#faf0f5;border-radius:12px;padding:16px;border:1px solid #f0e0eb;">
+                        <div style="font-size:12px;font-weight:700;color:#540863;margin-bottom:12px;display:flex;align-items:center;gap:6px;"><i class="fas fa-address-book"></i> Contact & Address</div>
+                        ${viewRow('Personal Email', val(emp.personalEmail))}
+                        ${viewRow('Work Email', val(emp.workEmail))}
+                        ${viewRow('Mobile', val(emp.mobileNumber))}
+                        ${viewRow('Alternate Phone', val(emp.alternateNumber))}
+                        <div style="margin-top:10px;padding-top:8px;border-top:1px solid #f0e0eb;">
+                            <div style="font-size:11px;font-weight:700;color:#92487A;margin-bottom:6px;">Current Address</div>
+                            ${viewRow('Street', val(emp.currentStreet))}
+                            ${viewRow('City / State', `${val(emp.currentCity)}, ${val(emp.currentState)} — ${val(emp.currentPincode)}`)}
+                        </div>
+                        <div style="margin-top:10px;padding-top:8px;border-top:1px solid #f0e0eb;">
+                            <div style="font-size:11px;font-weight:700;color:#92487A;margin-bottom:6px;">Permanent Address</div>
+                            ${viewRow('Street', val(emp.permanentStreet))}
+                            ${viewRow('City / State', `${val(emp.permanentCity)}, ${val(emp.permanentState)} — ${val(emp.permanentPincode)}`)}
+                        </div>
+                        <div style="margin-top:10px;padding-top:8px;border-top:1px solid #f0e0eb;">
+                            <div style="font-size:11px;font-weight:700;color:#92487A;margin-bottom:6px;">Emergency Contact</div>
+                            ${viewRow('Name', val(emp.emergencyName))}
+                            ${viewRow('Relationship', val(emp.emergencyRelationship))}
+                            ${viewRow('Phone', val(emp.emergencyPhone))}
+                        </div>
+                    </div>
+
+                    <!-- Bank + Documents -->
+                    <div>
+                        <div style="background:#faf0f5;border-radius:12px;padding:16px;border:1px solid #f0e0eb;margin-bottom:16px;">
+                            <div style="font-size:12px;font-weight:700;color:#540863;margin-bottom:12px;display:flex;align-items:center;gap:6px;"><i class="fas fa-building"></i> Bank Details</div>
+                            ${viewRow('Bank Name', val(emp.bankName))}
+                            ${viewRow('Account Number', val(emp.accountNumber))}
+                            ${viewRow('IFSC Code', val(emp.ifscCode))}
+                        </div>
+                        <div style="background:#faf0f5;border-radius:12px;padding:16px;border:1px solid #f0e0eb;">
+                            <div style="font-size:12px;font-weight:700;color:#540863;margin-bottom:12px;display:flex;align-items:center;gap:6px;"><i class="fas fa-folder"></i> Documents</div>
+                            ${docHtml}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Row 3: Education, Family, Experience -->
+                <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:16px;">
+                    <div style="background:#faf0f5;border-radius:12px;padding:16px;border:1px solid #f0e0eb;">
+                        <div style="font-size:12px;font-weight:700;color:#540863;margin-bottom:12px;display:flex;align-items:center;gap:6px;"><i class="fas fa-graduation-cap"></i> Education</div>
+                        ${eduRows ? `<table style="width:100%;"><thead><tr><th style="padding:4px 10px;font-size:11px;color:#92487A;text-align:left;">Degree</th><th style="padding:4px 10px;font-size:11px;color:#92487A;text-align:left;">Institution</th><th style="padding:4px 10px;font-size:11px;color:#92487A;text-align:left;">Year</th></tr></thead><tbody>${eduRows}</tbody></table>` : '<p style="font-size:12px;color:#aaa;">No education records</p>'}
+                    </div>
+                    <div style="background:#faf0f5;border-radius:12px;padding:16px;border:1px solid #f0e0eb;">
+                        <div style="font-size:12px;font-weight:700;color:#540863;margin-bottom:12px;display:flex;align-items:center;gap:6px;"><i class="fas fa-users"></i> Family</div>
+                        ${famRows ? `<table style="width:100%;"><thead><tr><th style="padding:4px 10px;font-size:11px;color:#92487A;text-align:left;">Name</th><th style="padding:4px 10px;font-size:11px;color:#92487A;text-align:left;">Relation</th><th style="padding:4px 10px;font-size:11px;color:#92487A;text-align:left;">Occupation</th></tr></thead><tbody>${famRows}</tbody></table>` : '<p style="font-size:12px;color:#aaa;">No family records</p>'}
+                    </div>
+                    <div style="background:#faf0f5;border-radius:12px;padding:16px;border:1px solid #f0e0eb;">
+                        <div style="font-size:12px;font-weight:700;color:#540863;margin-bottom:12px;display:flex;align-items:center;gap:6px;"><i class="fas fa-briefcase"></i> Work Experience</div>
+                        ${expRows ? `<table style="width:100%;"><thead><tr><th style="padding:4px 10px;font-size:11px;color:#92487A;text-align:left;">Company</th><th style="padding:4px 10px;font-size:11px;color:#92487A;text-align:left;">Designation</th><th style="padding:4px 10px;font-size:11px;color:#92487A;text-align:left;">Years</th></tr></thead><tbody>${expRows}</tbody></table>` : '<p style="font-size:12px;color:#aaa;">No experience records</p>'}
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Footer -->
+            <div style="padding:16px 24px;border-top:1px solid #f0e0eb;display:flex;justify-content:flex-end;gap:10px;background:#faf8fa;">
+                <button onclick="closeViewOverlay();editEmployee(${emp.employeePrimeId})" style="background:#540863;color:white;border:none;padding:8px 20px;border-radius:8px;cursor:pointer;font-size:13px;font-weight:600;"><i class="fas fa-edit mr-1"></i> Edit Employee</button>
+                <button onclick="closeViewOverlay()" style="background:white;color:#540863;border:1px solid #c99ebb;padding:8px 20px;border-radius:8px;cursor:pointer;font-size:13px;">Close</button>
+            </div>
+        </div>`;
+
+    // Close on backdrop click
+    overlay.addEventListener('click', function(e) {
+        if (e.target === overlay) closeViewOverlay();
+    });
+}
+
+function viewRow(label, value) {
+    return `<div style="display:flex;justify-content:space-between;align-items:flex-start;padding:4px 0;border-bottom:1px solid rgba(201,158,187,0.2);">
+        <span style="font-size:11px;color:#92487A;min-width:120px;">${label}</span>
+        <span style="font-size:12px;color:#333;font-weight:500;text-align:right;">${value}</span>
+    </div>`;
+}
+
+function closeViewOverlay() {
+    const overlay = document.getElementById('viewEmployeeOverlay');
+    if (overlay) overlay.remove();
+}
+
+// ==================== EDIT EMPLOYEE OVERLAY ====================
+async function editEmployee(employeePrimeId) {
+    // Show loading overlay immediately
+    showEditOverlay(null, true, employeePrimeId);
+
+    const result = await apiFetch(`${API_BASE}/get-employee-by-id/${employeePrimeId}`);
+    if (!result.ok || !result.data?.data) {
+        closeEditOverlay();
+        showToast('Could not load employee details', 'error');
+        return;
+    }
+
+    const emp = result.data.data;
+    showEditOverlay(emp, false, employeePrimeId);
+}
+
+function showEditOverlay(emp, loading, employeePrimeId) {
+    let overlay = document.getElementById('editEmployeeOverlay');
+    if (!overlay) {
+        overlay = document.createElement('div');
+        overlay.id = 'editEmployeeOverlay';
+        document.body.appendChild(overlay);
+    }
+
+    overlay.style.cssText = `
+        position:fixed;top:0;left:0;width:100%;height:100%;
+        background:rgba(0,0,0,0.55);z-index:3000;
+        display:flex;justify-content:center;align-items:flex-start;
+        padding:20px;overflow-y:auto;backdrop-filter:blur(3px);
+    `;
+
+    if (loading) {
+        overlay.innerHTML = `
+            <div style="background:white;border-radius:16px;padding:60px;margin:auto;text-align:center;min-width:300px;">
+                <i class="fas fa-spinner fa-spin" style="font-size:32px;color:#540863;"></i>
+                <p style="margin-top:12px;color:#92487A;font-size:14px;">Loading employee data...</p>
+            </div>`;
+        return;
+    }
+
+    const name = emp.fullName || `${emp.firstName || ''} ${emp.lastName || ''}`.trim();
+    const initial = name.charAt(0).toUpperCase();
+
+    overlay.innerHTML = `
+        <div style="background:white;border-radius:16px;width:100%;max-width:860px;margin:auto;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.2);">
+
+            <!-- Header -->
+            <div style="background:linear-gradient(135deg,#540863,#92487A);padding:20px 24px;display:flex;justify-content:space-between;align-items:center;">
+                <div style="display:flex;align-items:center;gap:14px;">
+                    <div style="width:48px;height:48px;border-radius:50%;background:rgba(255,255,255,0.2);border:2px solid rgba(255,255,255,0.5);display:flex;align-items:center;justify-content:center;color:white;font-size:20px;font-weight:700;">${initial}</div>
+                    <div>
+                        <div style="font-size:16px;font-weight:700;color:white;">Edit Employee</div>
+                        <div style="font-size:12px;color:rgba(255,255,255,0.75);">${name} &nbsp;·&nbsp; ${emp.employeeId || ''}</div>
+                    </div>
+                </div>
+                <button onclick="closeEditOverlay()" style="background:rgba(255,255,255,0.2);border:none;color:white;width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:16px;">&times;</button>
+            </div>
+
+            <!-- Edit Tabs -->
+            <div style="display:flex;border-bottom:2px solid #f0e0eb;background:#faf8fa;padding:0 24px;overflow-x:auto;">
+                ${['Personal','Job Details','Contact & Address','Education & Family','Documents'].map((tab, i) =>
+                    `<button onclick="switchEditTab(${i})" id="editTab${i}" style="padding:12px 16px;border:none;background:none;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;border-bottom:2px solid transparent;margin-bottom:-2px;color:${i===0?'#540863':'#92487A'};border-bottom-color:${i===0?'#540863':'transparent'};">${tab}</button>`
+                ).join('')}
+            </div>
+
+            <!-- Edit Form -->
+            <form id="editEmployeeForm" onsubmit="submitEditEmployee(event, ${employeePrimeId})">
+                <div style="padding:24px;overflow-y:auto;max-height:calc(100vh - 250px);">
+
+                    <!-- TAB 0: Personal Info -->
+                    <div id="editSt0">
+                        <div style="font-size:13px;font-weight:700;color:#540863;margin-bottom:14px;padding-bottom:8px;border-bottom:2px solid #f0e0eb;"><i class="fas fa-id-card mr-2"></i>Personal Information</div>
+                        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:12px;">
+                            ${editField('First Name *', 'efFN', emp.firstName, 'text', true)}
+                            ${editField('Middle Name', 'efMN', emp.middleName)}
+                            ${editField('Last Name *', 'efLN', emp.lastName, 'text', true)}
+                        </div>
+                        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:12px;">
+                            ${editField('Date of Birth', 'efDOB', emp.dateOfBirth, 'date')}
+                            ${editSelectField('Gender', 'efGender', ['Male','Female','Other'], emp.gender)}
+                            ${editSelectField('Marital Status', 'efMarital', ['Single','Married','Divorced','Widowed'], emp.maritalStatus)}
+                        </div>
+                        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:12px;">
+                            ${editSelectField('Blood Group', 'efBlood', ['A+','A-','B+','B-','O+','O-','AB+','AB-'], emp.bloodGroup)}
+                            ${editField('PAN Number', 'efPAN', emp.panNumber)}
+                            ${editField('Aadhaar Number', 'efAAD', emp.aadhaarNumber)}
+                        </div>
+                        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;">
+                            ${editField('Nationality', 'efNat', emp.nationality || 'Indian')}
+                            ${editField('Religion', 'efRel', emp.religion)}
+                            ${editField("Father's / Spouse Name", 'efFatherName', emp.fatherSpouseName)}
+                        </div>
+                        <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:12px;">
+                            ${editField('LinkedIn Profile', 'efLI', emp.linkedinProfile)}
+                            ${editField('Employee Status', 'efStatus', emp.status)}
+                        </div>
+                    </div>
+
+                    <!-- TAB 1: Job Details -->
+                    <div id="editSt1" style="display:none;">
+                        <div style="font-size:13px;font-weight:700;color:#540863;margin-bottom:14px;padding-bottom:8px;border-bottom:2px solid #f0e0eb;"><i class="fas fa-briefcase mr-2"></i>Job Details</div>
+                        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:12px;">
+                            ${editSelectField('Department *', 'efDept', ['Information Technology','Human Resources','Sales & Marketing','Finance & Accounts','Operations'], emp.department, true)}
+                            ${editField('Sub-Department', 'efSubDept', emp.subDepartment)}
+                            ${editField('Designation *', 'efDesig', emp.designation, 'text', true)}
+                        </div>
+                        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:12px;">
+                            ${editSelectField('Employee Grade', 'efGrade', ['L1','L2','L3','L4','L5','M1','M2'], emp.employeeGrade)}
+                            ${editSelectField('Employment Type', 'efEmpType', ['Full-Time','Part-Time','Contract','Intern'], emp.employmentType)}
+                            ${editField('Joining Date *', 'efJD', emp.joiningDate, 'date', true)}
+                        </div>
+                        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:12px;">
+                            ${editField('Probation End Date', 'efProbEnd', emp.probationEndDate, 'date')}
+                            ${editField('Reporting Manager', 'efMgr', emp.reportingManager)}
+                            ${editField('HR Business Partner', 'efHRBP', emp.hrBusinessPartner)}
+                        </div>
+                        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:12px;">
+                            ${editSelectField('Work Location', 'efWL', ['Mumbai HQ','Delhi Branch','Remote','Hybrid'], emp.workLocation)}
+                            ${editField('Basic Salary (₹) *', 'efBasic', emp.basicSalary, 'number', true)}
+                            ${editSelectField('Shift', 'efShift', ['General (9AM-6PM)','Morning (7AM-4PM)','Evening (2PM-11PM)','Night (10PM-7AM)'], emp.shift)}
+                        </div>
+                        <div style="display:grid;grid-template-columns:repeat(1,1fr);gap:12px;margin-bottom:12px;">
+                            ${editField('Cost Centre', 'efCC', emp.costCentre)}
+                        </div>
+                        <div style="font-size:13px;font-weight:700;color:#540863;margin-bottom:14px;padding-bottom:8px;border-bottom:2px solid #f0e0eb;margin-top:16px;"><i class="fas fa-building mr-2"></i>Bank Details</div>
+                        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;">
+                            ${editField('Bank Name', 'efBank', emp.bankName)}
+                            ${editField('Account Number', 'efAccNo', emp.accountNumber)}
+                            ${editField('IFSC Code', 'efIFSC', emp.ifscCode)}
+                        </div>
+                    </div>
+
+                    <!-- TAB 2: Contact & Address -->
+                    <div id="editSt2" style="display:none;">
+                        <div style="font-size:13px;font-weight:700;color:#540863;margin-bottom:14px;padding-bottom:8px;border-bottom:2px solid #f0e0eb;"><i class="fas fa-address-book mr-2"></i>Contact Information</div>
+                        <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:12px;">
+                            ${editField('Personal Email *', 'efPEmail', emp.personalEmail, 'email', true)}
+                            ${editField('Work Email', 'efWEmail', emp.workEmail, 'email')}
+                            ${editField('Mobile *', 'efMob', emp.mobileNumber, 'text', true)}
+                            ${editField('Alternate Phone', 'efAlt', emp.alternateNumber)}
+                        </div>
+                        <div style="font-size:12px;font-weight:700;color:#92487A;margin-bottom:10px;margin-top:6px;">Current Address</div>
+                        <div style="background:#faf0f5;border-radius:10px;padding:14px;margin-bottom:12px;">
+                            ${editTextareaField('Street Address', 'efCAddr', emp.currentStreet)}
+                            <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:10px;">
+                                ${editField('City', 'efCity', emp.currentCity)}
+                                ${editField('State', 'efState', emp.currentState)}
+                                ${editField('PIN Code', 'efPIN', emp.currentPincode)}
+                                ${editField('Country', 'efCountry', emp.currentCountry || 'India')}
+                            </div>
+                        </div>
+                        <div style="font-size:12px;font-weight:700;color:#92487A;margin-bottom:10px;">Permanent Address</div>
+                        <div style="background:#faf0f5;border-radius:10px;padding:14px;margin-bottom:12px;">
+                            ${editTextareaField('Street Address', 'efPAddr', emp.permanentStreet)}
+                            <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:10px;">
+                                ${editField('City', 'efPCity', emp.permanentCity)}
+                                ${editField('State', 'efPState', emp.permanentState)}
+                                ${editField('PIN Code', 'efPPIN', emp.permanentPincode)}
+                                ${editField('Country', 'efPCountry', emp.permanentCountry || 'India')}
+                            </div>
+                        </div>
+                        <div style="font-size:12px;font-weight:700;color:#92487A;margin-bottom:10px;">Emergency Contact</div>
+                        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;">
+                            ${editField('Name *', 'efECName', emp.emergencyName, 'text', true)}
+                            ${editSelectField('Relationship', 'efECRel', ['Spouse','Father','Mother','Sibling'], emp.emergencyRelationship)}
+                            ${editField('Phone *', 'efECPhone', emp.emergencyPhone, 'text', true)}
+                        </div>
+                    </div>
+
+                    <!-- TAB 3: Education & Family -->
+                    <div id="editSt3" style="display:none;">
+                        <div style="font-size:13px;font-weight:700;color:#540863;margin-bottom:14px;padding-bottom:8px;border-bottom:2px solid #f0e0eb;"><i class="fas fa-graduation-cap mr-2"></i>Education Details</div>
+                        <div id="editEduList"></div>
+                        <button type="button" onclick="addEditEduRow()" style="border:1px solid #540863;color:#540863;background:transparent;padding:6px 14px;border-radius:8px;cursor:pointer;font-size:12px;margin-bottom:16px;"><i class="fas fa-plus mr-1"></i> Add Education</button>
+                        <div style="font-size:13px;font-weight:700;color:#540863;margin-bottom:14px;padding-bottom:8px;border-bottom:2px solid #f0e0eb;"><i class="fas fa-users mr-2"></i>Family Details</div>
+                        <div id="editFamList"></div>
+                        <button type="button" onclick="addEditFamRow()" style="border:1px solid #540863;color:#540863;background:transparent;padding:6px 14px;border-radius:8px;cursor:pointer;font-size:12px;margin-bottom:16px;"><i class="fas fa-plus mr-1"></i> Add Family Member</button>
+                        <div style="font-size:13px;font-weight:700;color:#540863;margin-bottom:14px;padding-bottom:8px;border-bottom:2px solid #f0e0eb;"><i class="fas fa-briefcase mr-2"></i>Work Experience</div>
+                        <div id="editExpList"></div>
+                        <button type="button" onclick="addEditExpRow()" style="border:1px solid #540863;color:#540863;background:transparent;padding:6px 14px;border-radius:8px;cursor:pointer;font-size:12px;"><i class="fas fa-plus mr-1"></i> Add Experience</button>
+                    </div>
+
+                    <!-- TAB 4: Documents -->
+                    <div id="editSt4" style="display:none;">
+                        <div style="font-size:13px;font-weight:700;color:#540863;margin-bottom:14px;padding-bottom:8px;border-bottom:2px solid #f0e0eb;"><i class="fas fa-folder mr-2"></i>Upload / Replace Documents</div>
+                        <p style="font-size:12px;color:#92487A;margin-bottom:14px;">Upload a new file to replace the existing document. Leave blank to keep existing.</p>
+                        <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px;">
+                            ${editFileField('Aadhaar Card',        'efAadhaar',     !!(emp.aadhaarDocumentUrl    || emp.aadhaarDocumentImage),   `${API_BASE}/${emp.employeeId}/aadhaar-image`)}
+                            ${editFileField('PAN Card',            'efPAN_doc',     !!(emp.panDocumentUrl         || emp.panDocumentImage),       `${API_BASE}/${emp.employeeId}/pan-image`)}
+                            ${editFileField('Degree Certificate',  'efDegree',      !!(emp.degreeDocumentUrl      || emp.degreeDocumentImage),    `${API_BASE}/${emp.employeeId}/degree-image`)}
+                            ${editFileField('Experience Letter',   'efExpDoc',      !!(emp.experienceDocumentUrl  || emp.experienceDocumentImage),`${API_BASE}/${emp.employeeId}/experience-image`)}
+                            ${editFileField('Offer Letter',        'efOfferLetter', !!(emp.offerLetterUrl         || emp.offerLetterImage),       `${API_BASE}/${emp.employeeId}/offer-letter`)}
+                            ${editFileField('Profile Photo',       'efProfilePhoto',!!(emp.profilePhotoUrl        || emp.profilePhotoImage),      `${API_BASE}/${emp.employeeId}/profile-photo`)}
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Footer -->
+                <div style="padding:16px 24px;border-top:1px solid #f0e0eb;display:flex;justify-content:space-between;align-items:center;background:#faf8fa;">
+                    <span style="font-size:11px;color:#92487A;"><i class="fas fa-info-circle mr-1"></i>Fields marked with * are required</span>
+                    <div style="display:flex;gap:10px;">
+                        <button type="button" onclick="closeEditOverlay()" style="background:white;color:#540863;border:1px solid #c99ebb;padding:8px 20px;border-radius:8px;cursor:pointer;font-size:13px;">Cancel</button>
+                        <button type="submit" id="editSaveBtn" style="background:#28a745;color:white;border:none;padding:8px 24px;border-radius:8px;cursor:pointer;font-size:13px;font-weight:600;"><i class="fas fa-save mr-1"></i>Save Changes</button>
+                    </div>
+                </div>
+            </form>
+        </div>`;
+
+    // Populate dynamic lists
+    try {
+        if (emp.education) {
+            const edu = JSON.parse(emp.education);
+            edu.forEach(e => addEditEduRow(e.degree, e.institution, e.year));
+        }
+    } catch(e) {}
+    try {
+        if (emp.family) {
+            const fam = JSON.parse(emp.family);
+            fam.forEach(f => addEditFamRow(f.name, f.relationship, f.occupation));
+        }
+    } catch(e) {}
+    try {
+        if (emp.workExperience) {
+            const exp = JSON.parse(emp.workExperience);
+            exp.forEach(x => addEditExpRow(x.company, x.designation, x.years));
+        }
+    } catch(e) {}
+
+    // Close on backdrop
+    overlay.addEventListener('click', function(e) {
+        if (e.target === overlay) closeEditOverlay();
+    });
+}
+
+// Helper: Generate edit input field HTML
+function editField(label, id, value, type = 'text', required = false) {
+    const req = required ? '*' : '';
+    const val = value !== null && value !== undefined ? value : '';
+    return `<div>
+        <label style="font-size:11px;font-weight:600;color:#540863;display:block;margin-bottom:4px;">${label}</label>
+        <input type="${type}" id="${id}" value="${String(val).replace(/"/g, '&quot;')}" ${required ? 'required' : ''}
+            style="border:1px solid #c99ebb;border-radius:8px;padding:7px 10px;width:100%;font-size:12px;box-sizing:border-box;">
+    </div>`;
+}
+
+function editSelectField(label, id, options, selected, required = false) {
+    const opts = options.map(o => `<option value="${o}" ${o === selected ? 'selected' : ''}>${o}</option>`).join('');
+    return `<div>
+        <label style="font-size:11px;font-weight:600;color:#540863;display:block;margin-bottom:4px;">${label}</label>
+        <select id="${id}" ${required ? 'required' : ''}
+            style="border:1px solid #c99ebb;border-radius:8px;padding:7px 10px;width:100%;font-size:12px;box-sizing:border-box;">
+            <option value="">Select</option>${opts}
+        </select>
+    </div>`;
+}
+
+function editTextareaField(label, id, value) {
+    const val = value || '';
+    return `<div>
+        <label style="font-size:11px;font-weight:600;color:#540863;display:block;margin-bottom:4px;">${label}</label>
+        <textarea id="${id}" rows="2" style="border:1px solid #c99ebb;border-radius:8px;padding:7px 10px;width:100%;font-size:12px;box-sizing:border-box;resize:vertical;">${val}</textarea>
+    </div>`;
+}
+
+function editFileField(label, id, existingUrl) {
+    return `<div style="background:#faf0f5;border-radius:8px;padding:12px;border:1px solid #f0e0eb;">
+        <label style="font-size:11px;font-weight:600;color:#540863;display:block;margin-bottom:6px;">${label}</label>
+        ${existingUrl ? `<div style="margin-bottom:6px;"><a href="${existingUrl}" target="_blank" style="font-size:11px;color:#1a7a6b;"><i class="fas fa-check-circle mr-1"></i>Current file — View</a></div>` : `<div style="margin-bottom:6px;font-size:11px;color:#dc3545;"><i class="fas fa-times-circle mr-1"></i>Not uploaded</div>`}
+        <input type="file" id="${id}" accept=".pdf,.jpg,.png"
+            style="border:1px solid #c99ebb;border-radius:6px;padding:5px;width:100%;font-size:11px;box-sizing:border-box;">
+        <div style="font-size:10px;color:#92487A;margin-top:3px;">Leave blank to keep existing</div>
+    </div>`;
+}
+
+// Edit tab switching
+function switchEditTab(idx) {
+    for (let i = 0; i < 5; i++) {
+        const st = document.getElementById(`editSt${i}`);
+        const tb = document.getElementById(`editTab${i}`);
+        if (st) st.style.display = i === idx ? 'block' : 'none';
+        if (tb) {
+            tb.style.color = i === idx ? '#540863' : '#92487A';
+            tb.style.borderBottomColor = i === idx ? '#540863' : 'transparent';
+        }
+    }
+}
+
+// Dynamic rows for edit overlay
+function addEditEduRow(degree = '', institution = '', year = '') {
+    const row = document.createElement('div');
+    row.className = 'edit-edu-row';
+    row.style.cssText = 'display:grid;grid-template-columns:1fr 1fr 1fr 32px;gap:8px;margin-bottom:8px;align-items:end;';
+    row.innerHTML = `
+        <input class="fi" placeholder="Degree" value="${degree}" style="border:1px solid #c99ebb;border-radius:8px;padding:6px 10px;font-size:12px;">
+        <input class="fi" placeholder="Institution" value="${institution}" style="border:1px solid #c99ebb;border-radius:8px;padding:6px 10px;font-size:12px;">
+        <input class="fi" placeholder="Year" value="${year}" style="border:1px solid #c99ebb;border-radius:8px;padding:6px 10px;font-size:12px;">
+        <button type="button" onclick="this.parentElement.remove()" style="background:#dc3545;color:white;border:none;border-radius:8px;height:32px;cursor:pointer;"><i class="fas fa-trash" style="font-size:11px;"></i></button>
+    `;
+    document.getElementById('editEduList').appendChild(row);
+}
+
+function addEditFamRow(name = '', relationship = '', occupation = '') {
+    const row = document.createElement('div');
+    row.className = 'edit-fam-row';
+    row.style.cssText = 'display:grid;grid-template-columns:1fr 1fr 1fr 32px;gap:8px;margin-bottom:8px;align-items:end;';
+    row.innerHTML = `
+        <input class="fi" placeholder="Name" value="${name}" style="border:1px solid #c99ebb;border-radius:8px;padding:6px 10px;font-size:12px;">
+        <input class="fi" placeholder="Relationship" value="${relationship}" style="border:1px solid #c99ebb;border-radius:8px;padding:6px 10px;font-size:12px;">
+        <input class="fi" placeholder="Occupation" value="${occupation}" style="border:1px solid #c99ebb;border-radius:8px;padding:6px 10px;font-size:12px;">
+        <button type="button" onclick="this.parentElement.remove()" style="background:#dc3545;color:white;border:none;border-radius:8px;height:32px;cursor:pointer;"><i class="fas fa-trash" style="font-size:11px;"></i></button>
+    `;
+    document.getElementById('editFamList').appendChild(row);
+}
+
+function addEditExpRow(company = '', designation = '', years = '') {
+    const row = document.createElement('div');
+    row.className = 'edit-exp-row';
+    row.style.cssText = 'display:grid;grid-template-columns:1fr 1fr 1fr 32px;gap:8px;margin-bottom:8px;align-items:end;';
+    row.innerHTML = `
+        <input class="fi" placeholder="Company" value="${company}" style="border:1px solid #c99ebb;border-radius:8px;padding:6px 10px;font-size:12px;">
+        <input class="fi" placeholder="Designation" value="${designation}" style="border:1px solid #c99ebb;border-radius:8px;padding:6px 10px;font-size:12px;">
+        <input class="fi" placeholder="Years" value="${years}" style="border:1px solid #c99ebb;border-radius:8px;padding:6px 10px;font-size:12px;">
+        <button type="button" onclick="this.parentElement.remove()" style="background:#dc3545;color:white;border:none;border-radius:8px;height:32px;cursor:pointer;"><i class="fas fa-trash" style="font-size:11px;"></i></button>
+    `;
+    document.getElementById('editExpList').appendChild(row);
+}
+
+// Collect dynamic list data from edit overlay
+function collectEditEducation() {
+    const rows = document.querySelectorAll('#editEduList .edit-edu-row');
+    const result = [];
+    rows.forEach(row => {
+        const inputs = row.querySelectorAll('input');
+        if (inputs[0]?.value.trim()) {
+            result.push({ degree: inputs[0].value, institution: inputs[1].value, year: inputs[2].value });
+        }
+    });
+    return result.length ? JSON.stringify(result) : null;
+}
+
+function collectEditFamily() {
+    const rows = document.querySelectorAll('#editFamList .edit-fam-row');
+    const result = [];
+    rows.forEach(row => {
+        const inputs = row.querySelectorAll('input');
+        if (inputs[0]?.value.trim()) {
+            result.push({ name: inputs[0].value, relationship: inputs[1].value, occupation: inputs[2].value });
+        }
+    });
+    return result.length ? JSON.stringify(result) : null;
+}
+
+function collectEditExperience() {
+    const rows = document.querySelectorAll('#editExpList .edit-exp-row');
+    const result = [];
+    rows.forEach(row => {
+        const inputs = row.querySelectorAll('input');
+        if (inputs[0]?.value.trim()) {
+            result.push({ company: inputs[0].value, designation: inputs[1].value, years: inputs[2].value });
+        }
+    });
+    return result.length ? JSON.stringify(result) : null;
+}
+
+// ==================== SUBMIT EDIT FORM → PUT /api/employees/update-employee/{id} ====================
+async function submitEditEmployee(e, employeePrimeId) {
+    e.preventDefault();
+
+    // Validation
+    const firstName   = document.getElementById('efFN')?.value.trim();
+    const lastName    = document.getElementById('efLN')?.value.trim();
+    const email       = document.getElementById('efPEmail')?.value.trim();
+    const mobile      = document.getElementById('efMob')?.value.trim();
+    const dept        = document.getElementById('efDept')?.value;
+    const desig       = document.getElementById('efDesig')?.value.trim();
+    const joiningDate = document.getElementById('efJD')?.value;
+    const basicSalary = document.getElementById('efBasic')?.value;
+    const ecName      = document.getElementById('efECName')?.value.trim();
+    const ecPhone     = document.getElementById('efECPhone')?.value.trim();
+
+    if (!firstName || !lastName)      { showToast('Please enter First Name and Last Name', 'error'); switchEditTab(0); return; }
+    if (!email || !mobile)            { showToast('Please enter Email and Mobile number', 'error'); switchEditTab(2); return; }
+    if (!dept || !desig)              { showToast('Please select Department and Designation', 'error'); switchEditTab(1); return; }
+    if (!joiningDate || !basicSalary) { showToast('Please enter Joining Date and Basic Salary', 'error'); switchEditTab(1); return; }
+    if (!ecName || !ecPhone)          { showToast('Please enter Emergency Contact details', 'error'); switchEditTab(2); return; }
+
+    const employeePayload = {
+        firstName,
+        middleName:             document.getElementById('efMN')?.value.trim(),
+        lastName,
+        dateOfBirth:            document.getElementById('efDOB')?.value || null,
+        gender:                 document.getElementById('efGender')?.value,
+        maritalStatus:          document.getElementById('efMarital')?.value,
+        bloodGroup:             document.getElementById('efBlood')?.value,
+        panNumber:              document.getElementById('efPAN')?.value.trim().toUpperCase(),
+        aadhaarNumber:          document.getElementById('efAAD')?.value.trim(),
+        nationality:            document.getElementById('efNat')?.value.trim(),
+        religion:               document.getElementById('efRel')?.value.trim(),
+        linkedinProfile:        document.getElementById('efLI')?.value.trim(),
+        fatherSpouseName:       document.getElementById('efFatherName')?.value.trim(),
+        status:                 document.getElementById('efStatus')?.value.trim(),
+
+        // Job Details
+        department:             dept,
+        subDepartment:          document.getElementById('efSubDept')?.value.trim(),
+        designation:            desig,
+        employeeGrade:          document.getElementById('efGrade')?.value,
+        employmentType:         document.getElementById('efEmpType')?.value,
+        joiningDate,
+        probationEndDate:       document.getElementById('efProbEnd')?.value || null,
+        reportingManager:       document.getElementById('efMgr')?.value.trim(),
+        hrBusinessPartner:      document.getElementById('efHRBP')?.value.trim(),
+        workLocation:           document.getElementById('efWL')?.value,
+        basicSalary:            parseFloat(basicSalary) || null,
+        shift:                  document.getElementById('efShift')?.value,
+        costCentre:             document.getElementById('efCC')?.value.trim(),
+
+        // Bank
+        bankName:               document.getElementById('efBank')?.value.trim(),
+        accountNumber:          document.getElementById('efAccNo')?.value.trim(),
+        ifscCode:               document.getElementById('efIFSC')?.value.trim().toUpperCase(),
+
+        // Contact
+        personalEmail:          email,
+        workEmail:              document.getElementById('efWEmail')?.value.trim(),
+        mobileNumber:           mobile,
+        alternateNumber:        document.getElementById('efAlt')?.value.trim(),
+
+        // Current Address
+        currentStreet:          document.getElementById('efCAddr')?.value.trim(),
+        currentCity:            document.getElementById('efCity')?.value.trim(),
+        currentState:           document.getElementById('efState')?.value.trim(),
+        currentPincode:         document.getElementById('efPIN')?.value.trim(),
+        currentCountry:         document.getElementById('efCountry')?.value.trim(),
+
+        // Permanent Address
+        permanentStreet:        document.getElementById('efPAddr')?.value.trim(),
+        permanentCity:          document.getElementById('efPCity')?.value.trim(),
+        permanentState:         document.getElementById('efPState')?.value.trim(),
+        permanentPincode:       document.getElementById('efPPIN')?.value.trim(),
+        permanentCountry:       document.getElementById('efPCountry')?.value.trim(),
+
+        // Emergency Contact
+        emergencyName:          ecName,
+        emergencyRelationship:  document.getElementById('efECRel')?.value,
+        emergencyPhone:         ecPhone,
+
+        // Education, Family, Experience
+        education:              collectEditEducation(),
+        family:                 collectEditFamily(),
+        workExperience:         collectEditExperience(),
+    };
+
+    const formData = new FormData();
+    formData.append('employee', JSON.stringify(employeePayload));
+
+    // Append new document files if selected
+    const docFieldMap = {
+        'efAadhaar':     'aadhaarDocument',
+        'efPAN_doc':     'panDocument',
+        'efDegree':      'degreeDocument',
+        'efExpDoc':      'experienceDocument',
+        'efOfferLetter': 'offerLetter',
+        'efProfilePhoto':'profilePhoto',
+    };
+    Object.entries(docFieldMap).forEach(([inputId, partName]) => {
+        const fileInput = document.getElementById(inputId);
+        if (fileInput?.files?.length > 0) {
+            formData.append(partName, fileInput.files[0]);
+        }
+    });
+
+    // Disable save button
+    const saveBtn = document.getElementById('editSaveBtn');
+    if (saveBtn) { saveBtn.disabled = true; saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-1"></i>Saving...'; }
+
+    let result, resData;
+    try {
+        result = await fetch(`${API_BASE}/update-employee/${employeePrimeId}`, {
+            method: 'PUT',
+            body: formData
+        });
+        resData = await result.json();
+    } catch (err) {
+        if (saveBtn) { saveBtn.disabled = false; saveBtn.innerHTML = '<i class="fas fa-save mr-1"></i>Save Changes'; }
+        showToast('Network error. Could not reach server.', 'error');
+        return;
+    }
+
+    if (saveBtn) { saveBtn.disabled = false; saveBtn.innerHTML = '<i class="fas fa-save mr-1"></i>Save Changes'; }
+
+    if (result.ok && resData.success) {
+        const savedName = resData.data?.fullName || `${firstName} ${lastName}`;
+        showToast(`Employee ${savedName} updated successfully!`, 'success');
+        closeEditOverlay();
+        await fetchAndRenderEmployees();
+    } else {
+        showToast(resData.message || 'Failed to update employee. Please check all required fields.', 'error');
+    }
+}
+
+function closeEditOverlay() {
+    const overlay = document.getElementById('editEmployeeOverlay');
+    if (overlay) overlay.remove();
+}
+
+// ==================== DELETE MODAL ====================
+function openDeleteModal(employeePrimeId, name) {
+    deleteTargetId = employeePrimeId;
+    deleteTargetName = name;
+    document.getElementById('deleteEmployeeName').innerHTML = `Employee: <strong>${name}</strong>`;
+    document.getElementById('deleteModal').style.display = 'flex';
+}
+
+function closeDeleteModal() {
+    document.getElementById('deleteModal').style.display = 'none';
+    deleteTargetId = null;
+}
+
+async function confirmDeleteEmployee() {
+    if (!deleteTargetId) return;
+
+    const result = await apiFetch(`${API_BASE}/delete-employee/${deleteTargetId}`, { method: 'DELETE' });
+
+    if (result.ok) {
+        showToast(`Employee ${deleteTargetName} deleted!`, 'success');
+        await fetchAndRenderEmployees();
+    } else {
+        showToast(result.data.message || 'Delete failed!', 'error');
+    }
+    closeDeleteModal();
+}
+
+// ==================== WIZARD ====================
+function updateWizardUI() {
+    for (let i = 0; i < totalSteps; i++) {
+        const wz = document.getElementById(`wz${i}`);
+        if (wz) {
+            if (i < currentStep)      { wz.classList.add('done'); wz.classList.remove('cur'); }
+            else if (i === currentStep) { wz.classList.add('cur'); wz.classList.remove('done'); }
+            else                      { wz.classList.remove('cur', 'done'); }
+        }
+    }
+    for (let i = 0; i < totalSteps; i++) {
+        const stepDiv = document.getElementById(`st${i}`);
+        if (stepDiv) stepDiv.style.display = i === currentStep ? 'block' : 'none';
+    }
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const saveBtn = document.getElementById('saveBtn');
+    if (prevBtn) prevBtn.style.display = currentStep === 0 ? 'none' : 'inline-flex';
+    if (nextBtn && saveBtn) {
+        if (currentStep === totalSteps - 1) {
+            nextBtn.style.display = 'none';
+            saveBtn.style.display = 'inline-flex';
+        } else {
+            nextBtn.style.display = 'inline-flex';
+            saveBtn.style.display = 'none';
+        }
+    }
+}
+
+function nextStep() { if (currentStep < totalSteps - 1) { currentStep++; updateWizardUI(); } }
+function prevStep() { if (currentStep > 0) { currentStep--; updateWizardUI(); } }
+
+// ==================== FORM FIELD HELPERS ====================
+function setPill(groupId, value, btn) {
+    document.querySelectorAll(`#${groupId} .rpill`).forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('fGender').value = value;
+}
+
+function togglePWD(toggle) {
+    const details = document.getElementById('pwdDetails');
+    const label = document.getElementById('pwdToggleLabel');
+    if (toggle.checked) { details.style.display = 'block'; label.innerText = 'Yes'; }
+    else { details.style.display = 'none'; label.innerText = 'No'; }
+}
+
+// ==================== DYNAMIC ROWS ====================
+function addEduRow() {
+    const row = `<div class="edu-row grid-3" style="margin-bottom:10px;">
+        <input class="fi" placeholder="Degree" style="padding:4px;">
+        <input class="fi" placeholder="Institution" style="padding:4px;">
+        <input class="fi" placeholder="Year" style="padding:4px;">
+        <button type="button" onclick="this.parentElement.remove()" style="background:#dc3545;color:white;border:none;border-radius:8px;width:32px;"><i class="fas fa-trash"></i></button>
+    </div>`;
+    document.getElementById('eduList').insertAdjacentHTML('beforeend', row);
+}
+
+function addFamRow() {
+    const row = `<div class="fam-row grid-3" style="margin-bottom:10px;">
+        <input class="fi" placeholder="Name" style="padding:4px;">
+        <input class="fi" placeholder="Relationship" style="padding:4px;">
+        <input class="fi" placeholder="Occupation" style="padding:4px;">
+        <button type="button" onclick="this.parentElement.remove()" style="background:#dc3545;color:white;border:none;border-radius:8px;width:32px;"><i class="fas fa-trash"></i></button>
+    </div>`;
+    document.getElementById('famList').insertAdjacentHTML('beforeend', row);
+}
+
+function addExpRow() {
+    const row = `<div class="exp-row grid-3" style="margin-bottom:10px;">
+        <input class="fi" placeholder="Company" style="padding:4px;">
+        <input class="fi" placeholder="Designation" style="padding:4px;">
+        <input class="fi" placeholder="Years" style="padding:4px;">
+        <button type="button" onclick="this.parentElement.remove()" style="background:#dc3545;color:white;border:none;border-radius:8px;width:32px;"><i class="fas fa-trash"></i></button>
+    </div>`;
+    document.getElementById('expList').insertAdjacentHTML('beforeend', row);
+}
+
+// ==================== DOCUMENT UPLOAD PREVIEW ====================
+function addDocRow(input, docName) {
+    if (input.files.length > 0) {
+        uploadedDocs = uploadedDocs.filter(d => d.name !== docName); // replace if re-uploaded
+        uploadedDocs.push({ name: docName, file: input.files[0].name, fileObj: input.files[0] });
+        updateDocList();
+    }
+}
+
+function updateDocList() {
+    const container = document.getElementById('uploadedDocList');
+    if (container) {
+        container.innerHTML = uploadedDocs.map(doc =>
+            `<div class="doc-item">
+                <span><i class="fas fa-file-pdf" style="color:#540863;"></i>&nbsp; ${doc.name}: <strong>${doc.file}</strong></span>
+                <button type="button" onclick="removeDoc('${doc.name}')" class="text-red-500"><i class="fas fa-trash"></i></button>
+            </div>`
+        ).join('');
+    }
+}
+
+function removeDoc(docName) {
+    uploadedDocs = uploadedDocs.filter(d => d.name !== docName);
+    updateDocList();
+}
+
+// ==================== COLLECT DYNAMIC LIST DATA AS JSON STRINGS ====================
+function collectEducation() {
+    const rows = document.querySelectorAll('.edu-row');
+    const result = [];
+    rows.forEach(row => {
+        const inputs = row.querySelectorAll('input');
+        if (inputs[0]?.value.trim()) {
+            result.push({ degree: inputs[0].value, institution: inputs[1].value, year: inputs[2].value });
+        }
+    });
+    return result.length ? JSON.stringify(result) : null;
+}
+
+function collectFamily() {
+    const rows = document.querySelectorAll('.fam-row');
+    const result = [];
+    rows.forEach(row => {
+        const inputs = row.querySelectorAll('input');
+        if (inputs[0]?.value.trim()) {
+            result.push({ name: inputs[0].value, relationship: inputs[1].value, occupation: inputs[2].value });
+        }
+    });
+    return result.length ? JSON.stringify(result) : null;
+}
+
+function collectExperience() {
+    const rows = document.querySelectorAll('.exp-row');
+    const result = [];
+    rows.forEach(row => {
+        const inputs = row.querySelectorAll('input');
+        if (inputs[0]?.value.trim()) {
+            result.push({ company: inputs[0].value, designation: inputs[1].value, years: inputs[2].value });
+        }
+    });
+    return result.length ? JSON.stringify(result) : null;
+}
+
+// ==================== CUSTOM FIELDS ====================
+function showCFBuilder() {
+    document.getElementById('cfBuilderPanel').style.display = 'block';
+    document.getElementById('addCFBtn').style.display = 'none';
+}
+
+function closeCFBuilder() {
+    document.getElementById('cfBuilderPanel').style.display = 'none';
+    document.getElementById('addCFBtn').style.display = 'flex';
+    document.getElementById('cfLabel').value = '';
+    document.getElementById('cfType').value = 'text';
+    document.getElementById('cfOptions').value = '';
+    document.getElementById('cfPlaceholder').value = '';
+    document.getElementById('cfRequired').checked = false;
+    document.getElementById('cfDropdownOptions').style.display = 'none';
+}
+
+function toggleCFOptions() {
+    const type = document.getElementById('cfType').value;
+    document.getElementById('cfDropdownOptions').style.display = type === 'dropdown' ? 'block' : 'none';
+}
+
+function addCustomField() {
+    const label = document.getElementById('cfLabel').value.trim();
+    if (!label) { showToast('Please enter field label', 'error'); return; }
+
+    const type = document.getElementById('cfType').value;
+    const section = document.getElementById('cfSection').value;
+    const placeholder = document.getElementById('cfPlaceholder').value;
+    const isRequired = document.getElementById('cfRequired').checked;
+    let options = [];
+
+    if (type === 'dropdown') {
+        const optionsStr = document.getElementById('cfOptions').value;
+        options = optionsStr.split(',').map(o => o.trim()).filter(o => o);
+    }
+
+    const fieldId = `cf_${Date.now()}`;
+    customFieldsList.push({ id: fieldId, label, type, section, placeholder, required: isRequired, options });
+    renderCustomFields();
+    closeCFBuilder();
+    showToast(`Custom field "${label}" added!`, 'success');
+}
+
+function renderCustomFields() {
+    const container = document.getElementById('customFieldsList');
+    if (!container) return;
+
+    if (customFieldsList.length === 0) {
+        container.innerHTML = '<div class="text-center text-gray-400 text-sm py-4">No custom fields added yet. Click "Add Custom Field" to create one.</div>';
+        return;
+    }
+
+    let html = '';
+    customFieldsList.forEach(field => {
+        let inputHtml = '';
+        switch (field.type) {
+            case 'text':
+                inputHtml = `<input type="text" class="fi" id="${field.id}" placeholder="${field.placeholder}" ${field.required ? 'required' : ''}>`;
+                break;
+            case 'number':
+                inputHtml = `<input type="number" class="fi" id="${field.id}" placeholder="${field.placeholder}" ${field.required ? 'required' : ''}>`;
+                break;
+            case 'date':
+                inputHtml = `<input type="date" class="fi" id="${field.id}" ${field.required ? 'required' : ''}>`;
+                break;
+            case 'textarea':
+                inputHtml = `<textarea class="fi" id="${field.id}" rows="2" placeholder="${field.placeholder}" ${field.required ? 'required' : ''}></textarea>`;
+                break;
+            case 'checkbox':
+                inputHtml = `<div class="toggle-switch-wrap"><span class="text-sm">No</span><label class="toggle-switch"><input type="checkbox" id="${field.id}"><span class="toggle-thumb"></span></label><span class="text-sm">Yes</span></div>`;
+                break;
+            case 'dropdown':
+                let optionsHtml = `<option value="">Select ${field.label}</option>`;
+                field.options.forEach(opt => { optionsHtml += `<option value="${opt}">${opt}</option>`; });
+                inputHtml = `<select class="fi" id="${field.id}" ${field.required ? 'required' : ''}>${optionsHtml}</select>`;
+                break;
+            default:
+                inputHtml = `<input type="text" class="fi" id="${field.id}" placeholder="${field.placeholder}" ${field.required ? 'required' : ''}>`;
+        }
+
+        html += `<div class="custom-field-card">
+            <div style="flex:1;"><label class="fl">${field.label} ${field.required ? '<span class="req">*</span>' : ''}</label>${inputHtml}</div>
+            <button type="button" onclick="removeCustomField('${field.id}')" class="text-red-500 ml-3"><i class="fas fa-trash"></i></button>
+        </div>`;
+    });
+    container.innerHTML = html;
+}
+
+function removeCustomField(fieldId) {
+    customFieldsList = customFieldsList.filter(f => f.id !== fieldId);
+    renderCustomFields();
+    showToast('Custom field removed', 'info');
+}
+
+// ==================== FORM SUBMIT → POST /api/employees/create-employee ====================
+document.getElementById('addEmployeeForm')?.addEventListener('submit', async function (e) {
+    e.preventDefault();
+
+    // --- Validation ---
+    const firstName   = document.getElementById('fFN').value.trim();
+    const lastName    = document.getElementById('fLN').value.trim();
+    const email       = document.getElementById('fPEmail').value.trim();
+    const mobile      = document.getElementById('fMob').value.trim();
+    const dept        = document.getElementById('fDept').value;
+    const desig       = document.getElementById('fDesig').value.trim();
+    const joiningDate = document.getElementById('fJD').value;
+    const basicSalary = document.getElementById('fBasic').value;
+    const ecName      = document.getElementById('fECName').value.trim();
+    const ecPhone     = document.getElementById('fECPhone').value.trim();
+
+    if (!firstName || !lastName)      { showToast('Please enter First Name and Last Name', 'error'); return; }
+    if (!email || !mobile)            { showToast('Please enter Email and Mobile number', 'error'); return; }
+    if (!dept || !desig)              { showToast('Please select Department and Designation', 'error'); return; }
+    if (!joiningDate || !basicSalary) { showToast('Please enter Joining Date and Basic Salary', 'error'); return; }
+    if (!ecName || !ecPhone)          { showToast('Please enter Emergency Contact details', 'error'); return; }
+
+    const pwdToggle = document.getElementById('fPWDToggle').checked;
+
+    // --- Build EmployeeRequestDTO-compatible payload ---
+    // Field names EXACTLY match EmployeeRequestDTO getters/setters
+    const employeePayload = {
+        firstName,
+        middleName:             document.getElementById('fMN').value.trim(),
+        lastName,
+        dateOfBirth:            document.getElementById('fDOB').value || null,
+        gender:                 document.getElementById('fGender').value,
+        maritalStatus:          document.getElementById('fMarital').value,
+        bloodGroup:             document.getElementById('fBlood').value,
+        panNumber:              document.getElementById('fPAN').value.trim().toUpperCase(),
+        aadhaarNumber:          document.getElementById('fAAD').value.trim(),
+        nationality:            document.getElementById('fNat').value.trim(),
+        religion:               document.getElementById('fRel').value.trim(),
+        linkedinProfile:        document.getElementById('fLI').value.trim(),
+        fatherSpouseName:       document.getElementById('fFatherName').value.trim(),
+
+        // PWD
+        isPhysicallyChallenged: pwdToggle,
+        disabilityType:         pwdToggle ? document.getElementById('fPWDType').value : null,
+        disabilityPercentage:   pwdToggle ? (parseInt(document.getElementById('fPWDPct').value) || null) : null,
+        certificateNumber:      pwdToggle ? document.getElementById('fPWDCert').value.trim() : null,
+
+        // Job Details
+        department:             dept,
+        subDepartment:          document.getElementById('fSubDept').value.trim(),
+        designation:            desig,
+        employeeGrade:          document.getElementById('fGrade').value,
+        employmentType:         document.getElementById('fEmpType').value,
+        joiningDate,
+        probationEndDate:       document.getElementById('fProbEnd').value || null,
+        reportingManager:       document.getElementById('fMgr').value.trim(),
+        hrBusinessPartner:      document.getElementById('fHRBP').value.trim(),
+        workLocation:           document.getElementById('fWL').value,
+        basicSalary:            parseFloat(basicSalary) || null,
+        shift:                  document.getElementById('fShift').value,
+        costCentre:             document.getElementById('fCC').value.trim(),
+
+        // Bank
+        bankName:               document.getElementById('fBank').value.trim(),
+        accountNumber:          document.getElementById('fAccNo').value.trim(),
+        ifscCode:               document.getElementById('fIFSC').value.trim().toUpperCase(),
+
+        // Contact
+        personalEmail:          email,
+        workEmail:              document.getElementById('fWEmail').value.trim(),
+        mobileNumber:           mobile,
+        alternateNumber:        document.getElementById('fAlt').value.trim(),
+
+        // Current Address
+        currentStreet:          document.getElementById('fCAddr').value.trim(),
+        currentCity:            document.getElementById('fCity').value.trim(),
+        currentState:           document.getElementById('fState').value.trim(),
+        currentPincode:         document.getElementById('fPIN').value.trim(),
+        currentCountry:         document.getElementById('fCountry').value.trim(),
+
+        // Permanent Address
+        permanentStreet:        document.getElementById('fPAddr').value.trim(),
+        permanentCity:          document.getElementById('fPCity').value.trim(),
+        permanentState:         document.getElementById('fPState').value.trim(),
+        permanentPincode:       document.getElementById('fPPIN').value.trim(),
+        permanentCountry:       document.getElementById('fPCountry').value.trim(),
+
+        // Emergency Contact
+        emergencyName:          ecName,
+        emergencyRelationship:  document.getElementById('fECRel').value,
+        emergencyPhone:         ecPhone,
+
+        // Education, Family, Work Experience as JSON strings (backend @Column(columnDefinition="TEXT"))
+        education:              collectEducation(),
+        family:                 collectFamily(),
+        workExperience:         collectExperience(),
+    };
+
+    // --- Build FormData (multipart/form-data) ---
+    const formData = new FormData();
+    // Backend expects part name "employee" as a JSON string
+    formData.append('employee', JSON.stringify(employeePayload));
+
+    // Map frontend doc names to backend @RequestPart parameter names
+    const docKeyMap = {
+        'Aadhaar Card':         'aadhaarDocument',
+        'PAN Card':             'panDocument',
+        'Degree Certificate':   'degreeDocument',
+        'Experience Letter':    'experienceDocument',
+    };
+    uploadedDocs.forEach(doc => {
+        const key = docKeyMap[doc.name];
+        if (key && doc.fileObj) formData.append(key, doc.fileObj);
+    });
+
+    // --- Disable button to prevent double-submit ---
+    const saveBtn = document.getElementById('saveBtn');
+    saveBtn.disabled = true;
+    saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+
+    let result, resData;
+    try {
+        result = await fetch(`${API_BASE}/create-employee`, {
+            method: 'POST',
+            body: formData
+            // ⚠️ Do NOT set Content-Type — browser auto-sets it with multipart boundary
+        });
+        resData = await result.json();
+    } catch (err) {
+        saveBtn.disabled = false;
+        saveBtn.innerHTML = '<i class="fas fa-save"></i> Save Employee';
+        showToast('Network error. Could not reach server.', 'error');
+        return;
+    }
+
+    saveBtn.disabled = false;
+    saveBtn.innerHTML = '<i class="fas fa-save"></i> Save Employee';
+
+    if (result.ok && resData.success) {
+        const savedName = resData.data?.fullName || `${firstName} ${lastName}`;
+        showToast(`Employee ${savedName} added successfully!`, 'success');
+        resetAddForm.call(this);
+        document.querySelector('.tab-btn[data-tab="all"]').click();
+        await fetchAndRenderEmployees();
+    } else {
+        showToast(resData.message || 'Failed to save employee. Please check all required fields.', 'error');
+    }
+});
+
+function resetAddForm() {
+    document.getElementById('addEmployeeForm').reset();
+    document.getElementById('fNat').value = 'Indian';
+    document.getElementById('fCountry').value = 'India';
+    document.getElementById('fPCountry').value = 'India';
+    document.getElementById('eduList').innerHTML = '';
+    document.getElementById('famList').innerHTML = '';
+    document.getElementById('expList').innerHTML = '';
+    document.getElementById('uploadedDocList').innerHTML = '';
+    uploadedDocs = [];
+    customFieldsList = [];
+    renderCustomFields();
+    currentStep = 0;
+    updateWizardUI();
+    // Reset gender pills
+    document.querySelectorAll('#genderGroup .rpill').forEach(p => p.classList.remove('active'));
+    document.getElementById('fGender').value = '';
+}
+
+// ==================== DOCUMENTS TAB ====================
+function uploadDocument(docName) {
+    const emp = document.getElementById('docEmployeeSelect').value;
+    if (!emp) { showToast('Select employee first', 'error'); return; }
+    showToast(`To upload documents, use the Add/Edit Employee form`, 'info');
+}
+
+async function loadEmployeeDocuments() {
+    const employeeId = document.getElementById('docEmployeeSelect').value;
+    if (!employeeId) return;
+
+    // employeeId here is the string EMP001 format (from populateDropdowns which sets emp.employeeId)
+    const result = await apiFetch(`${API_BASE}/get-employee-by-employee-prime-id/${employeeId}`);
+    if (!result.ok) { showToast('Could not load documents', 'error'); return; }
+
+    const emp = result.data?.data;
+    if (!emp) return;
+
+    const docMap = [
+        { label: 'PAN Card',           urlKey: 'panDocumentUrl',         statusId: 'doc-pan-status' },
+        { label: 'Aadhar Card',        urlKey: 'aadhaarDocumentUrl',     statusId: 'doc-aadhar-status' },
+        { label: 'Offer Letter',       urlKey: 'offerLetterUrl',         statusId: 'doc-offer-status' },
+        { label: 'Degree Certificate', urlKey: 'degreeDocumentUrl',      statusId: 'doc-degree-status' },
+    ];
+
+    docMap.forEach(doc => {
+        const statusEl = document.getElementById(doc.statusId);
+        if (statusEl) {
+            if (emp[doc.urlKey]) {
+                statusEl.innerHTML = `<a href="${emp[doc.urlKey]}" target="_blank" style="color:#28a745;font-weight:600;text-decoration:none;">
+                    <i class="fas fa-check-circle"></i> View
+                </a>`;
+            } else {
+                statusEl.innerHTML = `<span style="color:#dc3545;">Not Uploaded</span>`;
+            }
+        }
+    });
+}
+
+// ==================== POPULATE DROPDOWNS (Documents & History tabs) ====================
+async function populateDropdowns() {
+    const result = await apiFetch(`${API_BASE}/all-employees`);
+    const employees = result.ok ? (result.data || []) : [];
+
+    ['docEmployeeSelect', 'historyEmployeeSelect'].forEach(id => {
+        const sel = document.getElementById(id);
+        if (sel) {
+            let options = '<option value="">Select Employee</option>';
+            employees.forEach(emp => {
+                const name = `${emp.firstName || ''} ${emp.lastName || ''}`.trim();
+                // Use employeeId (EMP001 string) as value — matches get-employee-by-employee-prime-id
+                options += `<option value="${emp.employeeId}">${name} (${emp.employeeId})</option>`;
+            });
+            sel.innerHTML = options;
+        }
+    });
+}
+
+// ==================== HISTORY TAB ====================
+async function loadEmployeeHistory() {
+    const employeeId = document.getElementById('historyEmployeeSelect').value;
+    const historyDiv = document.getElementById('historyList');
+    if (!historyDiv) return;
+
+    if (!employeeId) {
+        historyDiv.innerHTML = '<p class="text-center text-gray-500 py-4">Select an employee to view history</p>';
+        return;
+    }
+
+    const result = await apiFetch(`${API_BASE}/get-employee-by-employee-prime-id/${employeeId}`);
+    if (!result.ok) { historyDiv.innerHTML = '<p class="text-center text-red-400 py-4">Could not load history</p>'; return; }
+
+    const emp = result.data?.data;
+    if (!emp) return;
+
+    const fmt = d => d ? new Date(d).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' }) : 'N/A';
+
+    historyDiv.innerHTML = `
+        <div class="border-l-4 pl-4 mb-3" style="border-color:#28a745;">
+            <p class="font-medium text-sm" style="color:#540863;"><i class="fas fa-user-plus mr-1"></i> Joined the company</p>
+            <p class="text-xs mt-1" style="color:#92487A;">${fmt(emp.joiningDate)} &nbsp;·&nbsp; ${emp.department || 'N/A'} &nbsp;·&nbsp; ${emp.designation || ''}</p>
+        </div>
+        ${emp.probationEndDate ? `
+        <div class="border-l-4 pl-4 mb-3" style="border-color:#ffc107;">
+            <p class="font-medium text-sm" style="color:#540863;"><i class="fas fa-clock mr-1"></i> Probation end date</p>
+            <p class="text-xs mt-1" style="color:#92487A;">${fmt(emp.probationEndDate)}</p>
+        </div>` : ''}
+        ${emp.updatedAt ? `
+        <div class="border-l-4 pl-4 mb-3" style="border-color:#c99ebb;">
+            <p class="font-medium text-sm" style="color:#540863;"><i class="fas fa-edit mr-1"></i> Profile last updated</p>
+            <p class="text-xs mt-1" style="color:#92487A;">${fmt(emp.updatedAt)}</p>
+        </div>` : ''}
+        <div class="border-l-4 pl-4" style="border-color:#540863;">
+            <p class="font-medium text-sm" style="color:#540863;"><i class="fas fa-info-circle mr-1"></i> Current Status</p>
+            <p class="text-xs mt-1" style="color:#92487A;">${emp.status || 'Active'} &nbsp;·&nbsp; ${emp.employmentType || ''} &nbsp;·&nbsp; ${emp.workLocation || ''}</p>
+        </div>`;
+}
+
+// ==================== TAB NAVIGATION ====================
+function initTabs() {
+    const tabs = document.querySelectorAll('.tab-btn');
+    const contents = document.querySelectorAll('.tab-content');
+    const breadcrumbSpan = document.getElementById('breadcrumbSubmodule');
+
+    tabs.forEach(tab => {
+        tab.addEventListener('click', function () {
+            const tabId = this.getAttribute('data-tab');
+            tabs.forEach(t => { t.classList.remove('active'); t.style.color = '#92487A'; t.style.borderBottom = 'none'; });
+            this.classList.add('active');
+            this.style.color = '#540863';
+            this.style.borderBottom = '2px solid #540863';
+            contents.forEach(content => content.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            if (breadcrumbSpan) {
+                if (tabId === 'all')            breadcrumbSpan.innerHTML = '👥 All Employees';
+                else if (tabId === 'add')       breadcrumbSpan.innerHTML = '➕ Add Employee';
+                else if (tabId === 'documents') breadcrumbSpan.innerHTML = '📄 Documents';
+                else if (tabId === 'history')   breadcrumbSpan.innerHTML = '📜 History';
+            }
+        });
+    });
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const activeTab = urlParams.get('tab') || 'all';
+    document.querySelector(`.tab-btn[data-tab="${activeTab}"]`)?.click();
+}
+
+// ==================== UTILS ====================
+function setActiveMenu(module) {
+    setTimeout(() => {
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('data-module') === module) link.classList.add('active');
+        });
+    }, 300);
+}
+
+function showToast(message, type) {
+    const toast = document.createElement('div');
+    toast.className = `toast ${type}`;
+    toast.innerHTML = message;
+    document.body.appendChild(toast);
+    setTimeout(() => toast.remove(), 3000);
+}
+
+// ==================== WIZARD STEP CLICK ====================
+document.querySelectorAll('.wz').forEach((wz, idx) => {
+    wz.addEventListener('click', () => { currentStep = idx; updateWizardUI(); });
+});
+
+// ==================== INIT ====================
+document.addEventListener('DOMContentLoaded', async function () {
+    if (typeof loadSidebar === 'function') loadSidebar();
+    if (typeof loadHeader  === 'function') loadHeader();
+    setActiveMenu('employees');
+    initTabs();
+    updateWizardUI();
+    renderCustomFields();
+    await fetchAndRenderEmployees();
+});
     </script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+

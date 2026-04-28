@@ -353,3 +353,6 @@ window.hrmsCommon = {
     getCurrentTime,
     setActiveMenu
 };
+
+// ========== EXPORT API BASE URL ==========
+window.API_BASE_URL = API_BASE_URL;

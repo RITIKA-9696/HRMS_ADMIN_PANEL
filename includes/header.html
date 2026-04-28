@@ -1,59 +1,59 @@
 <!-- Common Header Component -->
-<header class="main-header h-14 flex items-center justify-between px-6 fixed top-0 right-0 left-0 z-40 bg-white shadow-sm" style="left: 256px; border-bottom: 1px solid #92487A; transition: left 0.3s ease;">
+<header class="main-header h-14 flex items-center justify-between px-6 fixed top-0 right-0 left-0 z-40 bg-white shadow-sm" style="left: 256px; border-bottom: 1px solid #3098b5; transition: left 0.3s ease;">
     <div class="flex items-center gap-4"></div>
     
     <div class="flex items-center gap-4">
         <!-- Notification -->
         <div class="relative">
-            <button id="notificationBtn" class="transition-all relative" style="color: #c99ebb;">
+            <button id="notificationBtn" class="transition-all relative" style="color: #BDE4EE">
                 <i class="fas fa-bell text-xl"></i>
-                <span class="absolute -top-1 -right-2 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center" style="background-color: #540863;">3</span>
+                <span class="absolute -top-1 -right-2 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center" style="background-color: #1B738C">3</span>
             </button>
-            <div id="notificationMenu" class="dropdown-menu hidden absolute right-0 mt-2 w-80 bg-white rounded-xl shadow-lg border z-50" style="border-color: #92487A;">
-                <div class="p-4 border-b" style="border-color: #92487A;">
-                    <h4 class="font-semibold" style="color: #540863;">Notifications</h4>
+            <div id="notificationMenu" class="dropdown-menu hidden absolute right-0 mt-2 w-80 bg-white rounded-xl shadow-lg border z-50" style="border-color: #62C9EA">
+                <div class="p-4 border-b" style="border-color: #62C9EA;">
+                    <h4 class="font-semibold" style="color: #1B738C;">Notifications</h4>
                 </div>
                 <div class="max-h-96 overflow-y-auto">
                     <div class="p-3 hover:bg-[#FFD3D5] cursor-pointer transition-all">
-                        <p class="text-sm" style="color: #540863;">New leave request from Elena</p>
-                        <p class="text-xs mt-1" style="color: #92487A;">2 hours ago</p>
+                        <p class="text-sm" style="color: #1B738C">New leave request from Elena</p>
+                        <p class="text-xs mt-1" style="color: #62C9EA">2 hours ago</p>
                     </div>
                     <div class="p-3 hover:bg-[#FFD3D5] cursor-pointer transition-all">
-                        <p class="text-sm" style="color: #540863;">Payroll for March processed</p>
-                        <p class="text-xs mt-1" style="color: #92487A;">Yesterday</p>
+                        <p class="text-sm" style="color: #1B738C;">Payroll for March processed</p>
+                        <p class="text-xs mt-1" style="color: #62C9EA;">Yesterday</p>
                     </div>
                 </div>
-                <div class="p-3 border-t text-center" style="border-color: #92487A;">
-                    <a href="#" class="text-sm" style="color: #540863;">View all notifications</a>
+                <div class="p-3 border-t text-center" style="border-color: #62C9EA;">
+                    <a href="#" class="text-sm" style="color: #1B738C;">View all notifications</a>
                 </div>
             </div>
         </div>
         
         <!-- User Menu -->
         <div class="relative">
-            <button id="userBtn" class="flex items-center gap-3 px-3 py-1.5 rounded-lg transition-all hover:bg-[#FFD3D5]">
-                <div class="w-8 h-8 rounded-full flex items-center justify-center" style="background: linear-gradient(135deg, #540863 0%, #92487A 100%);">
+            <button id="userBtn" class="flex items-center gap-3 px-3 py-1.5 rounded-lg transition-all hover:bg-[#EBF4F6]">
+                <div class="w-8 h-8 rounded-full flex items-center justify-center" style="background: #1B738C">
                     <span id="userInitial" class="text-white text-sm font-medium">AD</span>
                 </div>
                 <div class="hidden md:block text-left">
-                    <p id="userName" class="text-sm font-semibold" style="color: #540863;">Loading...</p>
-                    <p id="userRole" class="text-xs" style="color: #92487A;">Loading...</p>
+                    <p id="userName" class="text-sm font-semibold" style="color: #1B738C;">Loading...</p>
+                    <p id="userRole" class="text-xs" style="color: #39acd2;">Loading...</p>
                 </div>
-                <i class="fas fa-chevron-down text-xs hidden md:block" style="color: #540863;"></i>
+                <i class="fas fa-chevron-down text-xs hidden md:block" style="color: #1B738C;"></i>
             </button>
-            <div id="userMenu" class="dropdown-menu hidden absolute right-0 mt-2 w-56 bg-white rounded-xl shadow-lg border z-50" style="border-color: #c99ebb;">
-                <div class="p-3 border-b" style="border-color: #c99ebb">
-                    <p id="menuUserName" class="text-sm font-semibold" style="color: #540863;">Loading...</p>
-                    <!-- <p id="menuUserMobile" class="text-xs" style="color: #92487A;">Loading...</p> -->
+            <div id="userMenu" class="dropdown-menu hidden absolute right-0 mt-2 w-56 bg-white rounded-xl shadow-lg border z-50" style="border-color: #62C9EA;">
+                <div class="p-3 border-b" style="border-color: #62C9EA;">
+                    <p id="menuUserName" class="text-sm font-semibold" style="color: #1B738C;">Loading...</p>
+                    <!-- <p id="menuUserMobile" class="text-xs" style="color: #62C9EA;">Loading...</p> -->
                 </div>
                 <!-- <div class="py-2">
-                    <div class="px-4 py-2 text-xs" style="color: #92487A;">
-                        <span class="font-medium" style="color: #540863;">Admin ID:</span> 
+                    <div class="px-4 py-2 text-xs" style="color: #62C9EA;">
+                        <span class="font-medium" style="color: #1B738C;">Admin ID:</span> 
                         <span id="menuAdminId">-</span>
                     </div>
                 </div> -->
-                <div class="border-t pt-2" style="border-color: #c99ebb">
-                    <a href="#" id="logoutBtn" class="flex items-center gap-3 px-4 py-2 text-sm transition-all hover:bg-[#FFD3D5]" style="color: #e74c3c;">
+                <div class="border-t pt-2" style="border-color: #62C9EA;">
+                    <a href="#" id="logoutBtn" class="flex items-center gap-3 px-4 py-2 mb-2 text-sm transition-all hover:bg-[#EBF4F6]" style="color: #e74c3c;">
                         <i class="fas fa-sign-out-alt w-4"></i> Logout
                     </a>
                 </div>
@@ -70,10 +70,10 @@
             <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-red-100 flex items-center justify-center">
                 <i class="fas fa-sign-out-alt text-2xl text-red-500"></i>
             </div>
-            <h3 class="text-xl font-semibold mb-2" style="color: #540863;">Confirm Logout</h3>
+            <h3 class="text-xl font-semibold mb-2" style="color: #1B738C;">Confirm Logout</h3>
             <p class="text-sm text-gray-500 mb-6">Are you sure you want to logout? You will need to login again to access the dashboard.</p>
             <div class="flex justify-center gap-3">
-                <button id="cancelLogoutBtn" class="px-5 py-2 rounded-lg border transition-all duration-300" style="border-color: #5c003f; color: #540863;">Cancel</button>
+                <button id="cancelLogoutBtn" class="px-5 py-2 rounded-lg border transition-all duration-300" style="border-color: #62C9EA; color: #1B738C;">Cancel</button>
                 <button id="confirmLogoutBtn" class="px-5 py-2 rounded-lg text-white transition-all duration-300" style="background-color: #dc3545;">Yes, Logout</button>
             </div>
         </div>
@@ -119,7 +119,7 @@
         width: 90%; 
         box-shadow: 0 20px 35px -10px rgba(0, 0, 0, 0.2); 
         animation: modalFadeIn 0.3s ease-out; 
-        border: 1px solid #5c003f; 
+        border: 1px solid #62C9EA; 
     }
     @keyframes modalFadeIn { 
         from { opacity: 0; transform: scale(0.95); } 

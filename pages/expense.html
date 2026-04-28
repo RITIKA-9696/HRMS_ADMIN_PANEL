@@ -8,154 +8,215 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    
-    <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     
     <style>
         * { font-family: 'Inter', sans-serif; }
-        body { background-color: #f3eeef; }
-        
+
+        /* ===== COMPANY MANAGEMENT THEME ===== */
+        :root {
+            --primary: #1B738C;
+            --primary-light: #62C9EA;
+            --primary-soft: #BDE4EE;
+            --primary-bg-light: #e9f2f4;
+            --button-hover: #166278;
+            --border-color: #1B738C;
+            --text-dark: #1B738C;
+            --text-light: #5a7c8a;
+        }
+
+        body { background-color: #EBF4F6; }
+
         .section-card {
             background: white;
             border-radius: 12px;
-            border: 1px solid #5c003f;
+            border: 1px solid var(--primary-light);
             padding: 20px;
             margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(27,115,140,0.04);
         }
-        
+
         .stat-card {
             background: white;
             border-radius: 12px;
-            border: 1px solid #5c003f;
-            padding: 16px;
+            border: 1px solid var(--primary-light);
+            padding: 14px 18px;
             transition: all 0.3s ease;
         }
-        .stat-card:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(84,8,99,0.1); }
-        
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px -5px #a6dff1;
+            border-color: var(--primary-light);
+        }
+
+        /* ===== BUTTONS ===== */
         .btn-primary {
-            background-color: #540863;
+            background-color: var(--primary);
             transition: all 0.3s ease;
             color: white;
-            padding: 8px 16px;
-            border-radius: 8px;
+            padding: 8px 20px;
+            border-radius: 10px;
             cursor: pointer;
+            font-weight: 600;
             border: none;
+            font-size: 13px;
         }
-        .btn-primary:hover { background-color: #92487A; transform: translateY(-1px); }
-        
+        .btn-primary:hover {
+            background-color: var(--button-hover);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 10px rgba(27,115,140,0.2);
+        }
+
         .btn-success {
-            background-color: #28a745;
+            background-color: #2b7a3e;
             color: white;
-            padding: 6px 12px;
-            border-radius: 6px;
+            padding: 6px 14px;
+            border-radius: 8px;
             font-size: 12px;
             cursor: pointer;
             border: none;
+            font-weight: 500;
+            transition: all 0.2s;
         }
-        .btn-success:hover { background-color: #218838; }
-        
+        .btn-success:hover { background-color: #1e5a2e; }
+
         .btn-danger {
             background-color: #dc3545;
             color: white;
-            padding: 6px 12px;
-            border-radius: 6px;
+            padding: 6px 14px;
+            border-radius: 8px;
             font-size: 12px;
             cursor: pointer;
             border: none;
+            font-weight: 500;
+            transition: all 0.2s;
         }
         .btn-danger:hover { background-color: #c82333; }
-        
+
         .btn-warning {
             background-color: #ffc107;
             color: #333;
-            padding: 6px 12px;
-            border-radius: 6px;
+            padding: 6px 14px;
+            border-radius: 8px;
             font-size: 12px;
             cursor: pointer;
             border: none;
+            font-weight: 500;
         }
         .btn-warning:hover { background-color: #e0a800; }
-        
+
         .btn-outline {
-            border: 1px solid #540863;
-            color: #540863;
-            padding: 8px 16px;
-            border-radius: 8px;
+            border: 1px solid var(--primary-light);
+            color: var(--primary);
+            padding: 8px 18px;
+            border-radius: 10px;
             background: transparent;
             cursor: pointer;
+            font-weight: 500;
+            font-size: 13px;
+            transition: all 0.2s;
         }
-        .btn-outline:hover { background-color: #540863; color: white; }
-        
+        .btn-outline:hover {
+            background-color: var(--primary-bg-light);
+            border-color: var(--primary);
+        }
+
+        /* ===== INPUTS ===== */
         input, select, textarea {
-            border: 1px solid #5c003f;
-            border-radius: 8px;
-            padding: 8px 12px;
+            border: 1px solid var(--primary-soft);
+            border-radius: 10px;
+            padding: 10px 14px;
             width: 100%;
+            font-size: 13px;
+            color: var(--text-dark);
+            background-color: #fff;
+            box-sizing: border-box;
+            line-height: 1.5;
+            min-height: 42px;
+            transition: 0.2s;
         }
+
+        input::placeholder, textarea::placeholder {
+            color: #aaa;
+            font-size: 13px;
+            font-weight: 400;
+        }
+
+        select {
+            appearance: auto;
+            padding-right: 32px;
+            cursor: pointer;
+        }
+
+        input[type="date"] { padding: 10px 14px; color: #555; }
+        input[type="file"] { padding: 8px 12px; min-height: 42px; cursor: pointer; font-size: 13px; color: #555; }
+        input[type="number"] { padding: 10px 14px; }
+
         input:focus, select:focus, textarea:focus {
             outline: none;
-            border-color: #540863;
-            box-shadow: 0 0 0 2px rgba(84, 8, 99, 0.1);
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(27,115,140,0.1);
         }
-        
+
         label {
             font-size: 13px;
-            font-weight: 500;
-            color: #540863;
-            margin-bottom: 4px;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 6px;
             display: block;
         }
-        
-        /* Tab Navigation */
+
+        /* ===== TABS (pill style same as Company Management) ===== */
         .tab-nav {
             display: flex;
             gap: 8px;
             margin-bottom: 24px;
             padding-bottom: 12px;
-            border-bottom: 1px solid #5c003f;
+            border-bottom: 2px solid var(--primary-soft);
             flex-wrap: wrap;
         }
-        
+
         .tab-btn {
-            padding: 8px 20px;
-            border-radius: 8px;
+            padding: 8px 22px;
+            border-radius: 40px;
             font-size: 14px;
-            font-weight: 500;
-            transition: all 0.3s ease;
+            font-weight: 600;
+            transition: all 0.2s;
             background: transparent;
-            color: #92487A;
+            color: var(--primary);
             cursor: pointer;
             border: none;
         }
-        
         .tab-btn:hover {
-            background-color: rgba(84, 8, 99, 0.1);
-            color: #540863;
+            background-color: var(--primary-bg-light);
+            color: var(--button-hover);
         }
-        
         .tab-btn.active {
-            background-color: #540863;
+            background-color: var(--primary);
             color: white;
         }
-        
+
         .tab-content { display: none; }
         .tab-content.active { display: block; }
-        
-        /* Status Badges */
-        .status-pending { background: rgba(255, 193, 7, 0.2); color: #856404; }
-        .status-approved { background: rgba(40, 167, 69, 0.2); color: #155724; }
-        .status-rejected { background: rgba(220, 53, 69, 0.2); color: #721c24; }
-        .status-paid { background: rgba(23, 162, 184, 0.2); color: #0c5460; }
-        
-        /* Modal */
+
+        /* ===== STATUS BADGES ===== */
+        .status-pending  { background: rgba(255,193,7,0.18);  color: #856404; }
+        .status-approved { background: rgba(43,122,62,0.15);  color: #155724; }
+        .status-rejected { background: rgba(220,53,69,0.15);  color: #721c24; }
+        .status-paid     { background: rgba(27,115,140,0.15); color: #0c5460; }
+
+        /* ===== TABLE ===== */
+        table { width: 100%; border-collapse: collapse; }
+        th { font-weight: 600; font-size: 12px; color: var(--text-light); text-align: left; padding: 12px 8px; }
+        td { padding: 10px 8px; }
+        .data-row:hover { background-color: var(--primary-bg-light); cursor: pointer; }
+
+        /* ===== MODAL ===== */
         .modal {
             display: none;
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
             background: rgba(0,0,0,0.5);
             z-index: 1000;
             justify-content: center;
@@ -164,50 +225,64 @@
         .modal.active { display: flex; }
         .modal-content {
             background: white;
-            border-radius: 16px;
+            border-radius: 20px;
             width: 90%;
-            max-width: 450px;
-            max-height: 85vh;
+            max-width: 480px;
+            max-height: 90vh;
             overflow-y: auto;
             padding: 24px;
+            box-shadow: 0 20px 35px rgba(0,0,0,0.15);
         }
-        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid var(--primary-soft);
+        }
+        .modal-header h3 {
+            font-weight: 700;
+            color: var(--primary);
+            font-size: 1.1rem;
+        }
+
+        /* ===== TOAST ===== */
         .toast {
             position: fixed;
-            bottom: 20px;
-            right: 20px;
-            padding: 12px 20px;
-            border-radius: 8px;
+            bottom: 24px;
+            right: 24px;
+            padding: 12px 22px;
+            border-radius: 40px;
             color: white;
             z-index: 1100;
             animation: slideIn 0.3s ease;
+            font-weight: 500;
+            font-size: 13px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
-        .toast.success { background-color: #28a745; }
-        .toast.error { background-color: #dc3545; }
-        .toast.info { background-color: #17a2b8; }
-        
+        .toast.success { background-color: #2b7a3e; }
+        .toast.error   { background-color: #dc3545; }
+        .toast.info    { background-color: var(--primary); }
+
         @keyframes slideIn {
             from { transform: translateX(100%); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
+            to   { transform: translateX(0);    opacity: 1; }
         }
-        
+
         .main-content { margin-top: 64px; }
-        
+
         ::-webkit-scrollbar { width: 5px; }
-        ::-webkit-scrollbar-track { background: #f3eeef; }
-        ::-webkit-scrollbar-thumb { background: #92487A; border-radius: 10px; }
-        
+        ::-webkit-scrollbar-track { background: #EBF4F6; }
+        ::-webkit-scrollbar-thumb { background: var(--primary-light); border-radius: 10px; }
+
         .form-row {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 16px;
-            margin-bottom: 16px;
+            gap: 20px;
+            margin-bottom: 20px;
         }
-        
-        .data-row:hover { background-color: rgba(84, 8, 99, 0.05); cursor: pointer; }
-        table { width: 100%; border-collapse: collapse; }
-        
-        /* Receipt Preview */
+
         .receipt-preview {
             max-width: 80px;
             max-height: 80px;
@@ -215,28 +290,163 @@
             border-radius: 8px;
             cursor: pointer;
         }
-        
-        .pie-chart-container {
-            max-width: 200px;
-            margin: 0 auto;
+
+        .pie-chart-container { max-width: 200px; margin: 0 auto; }
+        .budget-chart-container { max-width: 100%; height: 250px; }
+
+        /* ===== PAGINATION ===== */
+        .pagination-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 16px;
+            flex-wrap: wrap;
+            gap: 8px;
         }
-        
-        /* Reduced Budget Chart Container */
-        .budget-chart-container {
-            max-width: 100%;
-            height: 250px;
+        .pagination-info { font-size: 12px; color: var(--text-light); }
+        .pagination-controls { display: flex; align-items: center; gap: 4px; }
+        .page-btn {
+            min-width: 32px;
+            height: 32px;
+            padding: 0 10px;
+            border-radius: 8px;
+            border: 1px solid var(--primary-soft);
+            background: white;
+            color: var(--primary);
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
         }
-        
+        .page-btn:hover:not(:disabled) { background-color: var(--primary); color: white; border-color: var(--primary); }
+        .page-btn.active { background-color: var(--primary); color: white; border-color: var(--primary); }
+        .page-btn:disabled { opacity: 0.4; cursor: not-allowed; pointer-events: none; }
+
+        /* ===== CUSTOM TYPE OVERLAY ===== */
+        .custom-type-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+        .custom-type-overlay.active { display: flex; }
+        .custom-type-box {
+            background: white;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 400px;
+            padding: 28px;
+            box-shadow: 0 20px 60px rgba(27,115,140,0.2);
+            border: 1px solid var(--primary-soft);
+        }
+        .custom-type-box h4 {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 6px;
+        }
+        .custom-type-box p {
+            font-size: 12px;
+            color: var(--text-light);
+            margin-bottom: 18px;
+        }
+        .custom-type-input-wrap {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        .custom-type-input-wrap input {
+            flex: 1;
+            min-height: 42px;
+            border: 1px solid var(--primary-soft);
+            border-radius: 10px;
+            padding: 10px 14px;
+            font-size: 13px;
+            color: var(--text-dark);
+        }
+        .custom-type-input-wrap input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(27,115,140,0.1);
+        }
+        .custom-type-add-btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 10px 16px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: background-color 0.2s;
+            min-height: 42px;
+        }
+        .custom-type-add-btn:hover { background-color: var(--button-hover); }
+        .custom-type-cancel-btn {
+            margin-top: 14px;
+            width: 100%;
+            background: transparent;
+            border: 1px solid var(--primary-soft);
+            color: var(--primary);
+            border-radius: 10px;
+            padding: 9px 16px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .custom-type-cancel-btn:hover { background-color: var(--primary-bg-light); border-color: var(--primary); }
+        .custom-type-added-list { margin-top: 16px; }
+        .custom-type-added-list p { font-size: 12px; color: var(--text-light); margin-bottom: 8px; font-weight: 500; }
+        .custom-type-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--primary-bg-light);
+            border: 1px solid var(--primary-soft);
+            border-radius: 20px;
+            padding: 4px 12px;
+            font-size: 12px;
+            color: var(--primary);
+            margin: 3px;
+            font-weight: 500;
+        }
+        .custom-type-tag .remove-tag {
+            cursor: pointer;
+            color: #dc3545;
+            font-size: 11px;
+            font-weight: bold;
+            line-height: 1;
+        }
+        .custom-type-tag .remove-tag:hover { color: #a71d2a; }
+
+        .badge-custom {
+            background: var(--primary-bg-light);
+            padding: 3px 10px;
+            border-radius: 40px;
+            font-size: 11px;
+            color: var(--primary);
+            font-weight: 500;
+        }
+
         @media (max-width: 768px) {
-            .section-card { padding: 16px; }
-            .tab-btn { padding: 6px 12px; font-size: 12px; }
+            .section-card { padding: 14px; }
+            .tab-btn { padding: 6px 14px; font-size: 12px; }
             .form-row { grid-template-columns: 1fr; }
             .pie-chart-container { max-width: 150px; }
             .budget-chart-container { height: 200px; }
         }
     </style>
 </head>
-<body class="bg-[#f3eeef]">
+<body>
     
     <div class="flex h-screen overflow-hidden">
         <div id="sidebar-container"></div>
@@ -248,46 +458,75 @@
                 
                 <!-- Page Header -->
                 <div class="mb-4">
-                    <h1 class="text-xl font-bold" style="color: #540863;">Expense Management</h1>
-                    <p class="text-xs mt-0.5" style="color: #92487A;">Manage employee expense claims, approvals, reimbursements, and budgets</p>
+                    <h1 class="text-xl font-bold" style="color: var(--primary);">Expense Management</h1>
+                    <p class="text-xs mt-0.5" style="color: var(--text-light);">Manage employee expense claims, approvals, reimbursements, and budgets</p>
                 </div>
                 
-                <!-- Tab Navigation -->
+                <!-- Tabs -->
                 <div class="tab-nav">
-                    <button class="tab-btn active" data-tab="claims">💰 Expense Claims</button>
-                    <button class="tab-btn" data-tab="approvals">⏳ Pending Approvals</button>
-                    <button class="tab-btn" data-tab="reimbursements">💸 Reimbursements</button>
-                    <button class="tab-btn" data-tab="budget">📊 Budget Management</button>
-                    <button class="tab-btn" data-tab="reports">📈 Reports</button>
+                    <button class="tab-btn active" data-tab="claims"> Expense Claims</button>
+                    <button class="tab-btn" data-tab="approvals"> Pending Approvals</button>
                 </div>
                 
-                <!-- ==================== TAB 1: EXPENSE CLAIMS ==================== -->
+                <!-- ==================== CLAIMS TAB ==================== -->
                 <div id="tab-claims" class="tab-content active">
-                    <!-- Stats Cards -->
                     <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-5">
-                        <div class="stat-card"><p class="text-xs text-gray-500">Total Claims</p><p class="text-2xl font-bold" style="color:#540863;" id="totalClaims">24</p><p class="text-xs text-gray-500">This month</p></div>
-                        <div class="stat-card"><p class="text-xs text-gray-500">Total Amount</p><p class="text-2xl font-bold" style="color:#540863;" id="totalAmount">₹1,85,000</p><p class="text-xs text-gray-500">This month</p></div>
-                        <div class="stat-card"><p class="text-xs text-gray-500">Pending Claims</p><p class="text-2xl font-bold" style="color:#ffc107;" id="pendingClaims">8</p><p class="text-xs text-yellow-600">Awaiting approval</p></div>
-                        <div class="stat-card"><p class="text-xs text-gray-500">Reimbursed</p><p class="text-2xl font-bold" style="color:#28a745;" id="reimbursedAmount">₹98,500</p><p class="text-xs text-green-600">This month</p></div>
+                        <div class="stat-card">
+                            <div class="flex items-center justify-between mb-2">
+                                <div class="w-8 h-8 rounded-lg flex items-center justify-center" style="background: var(--primary-soft);">
+                                    <i class="fas fa-file-invoice text-sm" style="color: var(--primary);"></i>
+                                </div>
+                            </div>
+                            <p class="text-[11px] mb-0.5" style="color: var(--text-light);">TOTAL CLAIMS</p>
+                            <p class="text-2xl font-bold" style="color: var(--primary);" id="totalClaims">0</p>
+                            <p class="text-[10px] mt-1" style="color: var(--text-light);">This month</p>
+                        </div>
+                        <div class="stat-card">
+                            <div class="flex items-center justify-between mb-2">
+                                <div class="w-8 h-8 rounded-lg flex items-center justify-center" style="background: var(--primary-soft);">
+                                    <i class="fas fa-rupee-sign text-sm" style="color: var(--primary);"></i>
+                                </div>
+                            </div>
+                            <p class="text-[11px] mb-0.5" style="color: var(--text-light);">TOTAL AMOUNT</p>
+                            <p class="text-2xl font-bold" style="color: var(--primary);" id="totalAmount">₹0</p>
+                            <p class="text-[10px] mt-1" style="color: var(--text-light);">This month</p>
+                        </div>
+                        <div class="stat-card">
+                            <div class="flex items-center justify-between mb-2">
+                                <div class="w-8 h-8 rounded-lg flex items-center justify-center" style="background: var(--primary-soft);">
+                                    <i class="fas fa-hourglass-half text-sm" style="color: var(--primary);"></i>
+                                </div>
+                            </div>
+                            <p class="text-[11px] mb-0.5" style="color: var(--text-light);">PENDING CLAIMS</p>
+                            <p class="text-2xl font-bold" style="color: #856404;" id="pendingClaims">0</p>
+                            <p class="text-[10px] mt-1" style="color: #856404;">Awaiting approval</p>
+                        </div>
+                        <div class="stat-card">
+                            <div class="flex items-center justify-between mb-2">
+                                <div class="w-8 h-8 rounded-lg flex items-center justify-center" style="background: var(--primary-soft);">
+                                    <i class="fas fa-check-circle text-sm" style="color: var(--primary);"></i>
+                                </div>
+                            </div>
+                            <p class="text-[11px] mb-0.5" style="color: var(--text-light);">APPROVED</p>
+                            <p class="text-2xl font-bold" style="color: #2b7a3e;" id="approvedClaims">0</p>
+                            <p class="text-[10px] mt-1" style="color: #2b7a3e;">This month</p>
+                        </div>
                     </div>
                     
-                    <!-- Submit New Claim Form -->
+                    <!-- Submit Form -->
                     <div class="section-card">
-                        <h3 class="text-md font-semibold mb-4" style="color:#540863;">Submit New Expense Claim</h3>
+                        <h3 class="text-md font-bold mb-4" style="color: var(--primary);">Submit New Expense Claim</h3>
                         <form id="expenseForm">
                             <div class="form-row">
-                                <div><label>Employee <span class="text-red-500">*</span></label>
+                                <div>
+                                    <label>Employee <span class="text-red-500">*</span></label>
                                     <select id="exp_employee" required>
-                                        <option value="">Select Employee</option>
-                                        <option>Rajesh Kumar</option>
-                                        <option>Priya Sharma</option>
-                                        <option>Amit Mehta</option>
-                                        <option>Neha Gupta</option>
-                                        <option>Vikram Singh</option>
+                                        <option value="">Loading employees...</option>
                                     </select>
                                 </div>
-                                <div><label>Expense Type <span class="text-red-500">*</span></label>
-                                    <select id="exp_type" required>
+                                <div>
+                                    <label>Expense Type <span class="text-red-500">*</span></label>
+                                    <select id="exp_type" required onchange="handleExpenseTypeChange(this, 'main')">
                                         <option value="">Select Type</option>
                                         <option value="Travel">🚗 Travel</option>
                                         <option value="Food">🍽️ Food</option>
@@ -299,33 +538,50 @@
                                 </div>
                             </div>
                             <div class="form-row">
-                                <div><label>Expense Date <span class="text-red-500">*</span></label><input type="date" id="exp_date" required></div>
-                                <div><label>Amount (₹) <span class="text-red-500">*</span></label><input type="number" id="exp_amount" placeholder="Enter amount" required></div>
+                                <div>
+                                    <label>Expense Date <span class="text-red-500">*</span></label>
+                                    <input type="date" id="exp_date" required>
+                                </div>
+                                <div>
+                                    <label>Amount (₹) <span class="text-red-500">*</span></label>
+                                    <input type="number" id="exp_amount" placeholder="Enter amount" required>
+                                </div>
                             </div>
                             <div class="form-row">
-                                <div><label>Description</label><textarea id="exp_desc" rows="2" placeholder="Brief description of expense"></textarea></div>
+                                <div>
+                                    <label>Description</label>
+                                    <textarea id="exp_desc" rows="2" placeholder="Brief description of expense"></textarea>
+                                </div>
                             </div>
                             <div class="form-row">
-                                <div><label>Upload Receipt</label><input type="file" id="exp_receipt" accept="image/*,.pdf"></div>
-                                <div><label>Bill/Invoice Number</label><input type="text" id="exp_bill_no" placeholder="Optional"></div>
+                                <div>
+                                    <label>Upload Receipt</label>
+                                    <input type="file" id="exp_receipt" accept="image/*,.pdf">
+                                </div>
+                                <div>
+                                    <label>Bill/Invoice Number</label>
+                                    <input type="text" id="exp_bill_no" placeholder="Optional">
+                                </div>
                             </div>
-                            <div class="flex justify-end mt-4"><button type="submit" class="btn-primary"><i class="fas fa-paper-plane mr-2"></i>Submit Claim</button></div>
+                            <div class="flex justify-end mt-4">
+                                <button type="submit" class="btn-primary"><i class="fas fa-paper-plane mr-2"></i>Submit Claim</button>
+                            </div>
                         </form>
                     </div>
                     
-                    <!-- Recent Claims List -->
+                    <!-- Claims Table -->
                     <div class="section-card">
                         <div class="flex justify-between items-center mb-4 flex-wrap gap-3">
-                            <h3 class="text-md font-semibold" style="color:#540863;">Recent Expense Claims</h3>
+                            <h3 class="text-md font-bold" style="color: var(--primary);">Recent Expense Claims</h3>
                             <div class="flex gap-2 flex-wrap">
-                                <select id="claimTypeFilter" class="w-40 text-sm" onchange="filterClaims()">
+                                <select id="claimTypeFilter" class="w-40 text-sm" onchange="filterClaims()" style="padding: 6px 10px;">
                                     <option value="all">All Types</option>
                                     <option value="Travel">Travel</option>
                                     <option value="Food">Food</option>
                                     <option value="Fuel">Fuel</option>
                                     <option value="Stationery">Stationery</option>
                                 </select>
-                                <input type="text" id="claimSearch" placeholder="Search..." class="w-48 text-sm" onkeyup="filterClaims()">
+                                <input type="text" id="claimSearch" placeholder="Search..." class="w-48 text-sm" onkeyup="filterClaims()" style="padding: 6px 10px;">
                                 <button onclick="exportClaims()" class="btn-outline text-sm"><i class="fas fa-download mr-1"></i>Export</button>
                             </div>
                         </div>
@@ -333,249 +589,116 @@
                         <div class="overflow-x-auto">
                             <table class="w-full">
                                 <thead>
-                                    <tr class="border-b" style="border-color:#5c003f;">
-                                        <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">Claim ID</th>
-                                        <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">Employee</th>
-                                        <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">Type</th>
-                                        <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">Date</th>
-                                        <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">Amount</th>
-                                        <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">Status</th>
-                                        <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">Receipt</th>
-                                        <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">Action</th>
-                                    </td>
+                                    <tr class="border-b" style="border-color: var(--primary-soft);">
+                                        <th>Claim ID</th>
+                                        <th>Employee</th>
+                                        <th>Type</th>
+                                        <th>Date</th>
+                                        <th>Amount</th>
+                                        <th>Status</th>
+                                        <th>Receipt</th>
+                                        <th>Action</th>
+                                    </tr>
                                 </thead>
                                 <tbody id="claimsList">
-                                    <tr class="border-b data-row" style="border-color:#e5e7eb;">
-                                        <td class="py-3 text-sm" style="color:#540863;">EXP-001</td>
-                                        <td class="py-3 text-sm" style="color:#540863;">Rajesh Kumar</td>
-                                        <td class="py-3 text-sm" style="color:#92487A;">Travel</td>
-                                        <td class="py-3 text-sm" style="color:#92487A;">2024-04-10</td>
-                                        <td class="py-3 text-sm" style="color:#92487A;">₹5,000</td>
-                                        <td class="py-3"><span class="status-pending text-xs px-2 py-1 rounded-full">Pending</span></td>
-                                        <td class="py-3"><i class="fas fa-paperclip text-[#92487A] cursor-pointer" onclick="viewReceipt(this)"></i></td>
-                                        <td class="py-3"><button onclick="editClaim(this)" class="text-[#540863] mr-2"><i class="fas fa-edit"></i></button><button onclick="openDeleteModal('EXP-001', this)" class="text-red-500"><i class="fas fa-trash"></i></button></td>
-                                    </tr>
-                                    <tr class="border-b data-row" style="border-color:#e5e7eb;">
-                                        <td class="py-3 text-sm" style="color:#540863;">EXP-002</td>
-                                        <td class="py-3 text-sm" style="color:#540863;">Priya Sharma</td>
-                                        <td class="py-3 text-sm" style="color:#92487A;">Food</td>
-                                        <td class="py-3 text-sm" style="color:#92487A;">2024-04-09</td>
-                                        <td class="py-3 text-sm" style="color:#92487A;">₹2,500</td>
-                                        <td class="py-3"><span class="status-approved text-xs px-2 py-1 rounded-full">Approved</span></td>
-                                        <td class="py-3"><i class="fas fa-paperclip text-[#92487A] cursor-pointer" onclick="viewReceipt(this)"></i></td>
-                                        <td class="py-3"><button onclick="editClaim(this)" class="text-[#540863] mr-2"><i class="fas fa-edit"></i></button><button onclick="openDeleteModal('EXP-002', this)" class="text-red-500"><i class="fas fa-trash"></i></button></td>
-                                    </tr>
-                                    <tr class="border-b data-row" style="border-color:#e5e7eb;">
-                                        <td class="py-3 text-sm" style="color:#540863;">EXP-003</td>
-                                        <td class="py-3 text-sm" style="color:#540863;">Amit Mehta</td>
-                                        <td class="py-3 text-sm" style="color:#92487A;">Fuel</td>
-                                        <td class="py-3 text-sm" style="color:#92487A;">2024-04-08</td>
-                                        <td class="py-3 text-sm" style="color:#92487A;">₹3,200</td>
-                                        <td class="py-3"><span class="status-pending text-xs px-2 py-1 rounded-full">Pending</span></td>
-                                        <td class="py-3"><i class="fas fa-paperclip text-[#92487A] cursor-pointer" onclick="viewReceipt(this)"></i></td>
-                                        <td class="py-3"><button onclick="editClaim(this)" class="text-[#540863] mr-2"><i class="fas fa-edit"></i></button><button onclick="openDeleteModal('EXP-003', this)" class="text-red-500"><i class="fas fa-trash"></i></button></td>
-                                    </tr>
+                                    <tr><td colspan="8" class="text-center py-5" style="color: var(--text-light);">Loading claims...</td></tr>
                                 </tbody>
                             </table>
+                        </div>
+
+                        <div class="pagination-wrapper">
+                            <span class="pagination-info" id="claimsPaginationInfo"></span>
+                            <div class="pagination-controls" id="claimsPaginationControls"></div>
                         </div>
                     </div>
                 </div>
                 
-                <!-- ==================== TAB 2: PENDING APPROVALS ==================== -->
+                <!-- ==================== APPROVALS TAB ==================== -->
                 <div id="tab-approvals" class="tab-content">
                     <div class="section-card">
                         <div class="flex justify-between items-center mb-4 flex-wrap gap-3">
-                            <h3 class="text-md font-semibold" style="color:#540863;">Pending Approvals</h3>
-                            <div class="flex gap-2">
-                                <select id="approvalTypeFilter" class="w-40 text-sm" onchange="filterApprovals()">
+                            <h3 class="text-md font-bold" style="color: var(--primary);">Pending Approvals</h3>
+                            <div class="flex gap-2 flex-wrap">
+                                <select id="approvalTypeFilter" class="w-40 text-sm" onchange="filterApprovals()" style="padding: 6px 10px;">
                                     <option value="all">All Types</option>
                                     <option value="Travel">Travel</option>
                                     <option value="Food">Food</option>
                                     <option value="Fuel">Fuel</option>
                                 </select>
-                                <input type="text" id="approvalSearch" placeholder="Search employee..." class="w-48 text-sm" onkeyup="filterApprovals()">
+                                <input type="text" id="approvalSearch" placeholder="Search employee..." class="w-48 text-sm" style="padding: 6px 10px;" onkeyup="filterApprovals()">
                             </div>
                         </div>
                         
                         <div class="overflow-x-auto">
                             <table class="w-full">
                                 <thead>
-                                    <tr class="border-b" style="border-color:#5c003f;">
-                                        <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">Claim ID</th>
-                                        <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">Employee</th>
-                                        <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">Department</th>
-                                        <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">Type</th>
-                                        <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">Amount</th>
-                                        <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">Submitted On</th>
-                                        <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">Action</th>
+                                    <tr class="border-b" style="border-color: var(--primary-soft);">
+                                        <th>Claim ID</th>
+                                        <th>Employee</th>
+                                        <th>Department</th>
+                                        <th>Type</th>
+                                        <th>Amount</th>
+                                        <th>Submitted On</th>
+                                        <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody id="approvalsList">
-                                    <tr class="border-b data-row" style="border-color:#e5e7eb;">
-                                        <td class="py-3 text-sm" style="color:#540863;">EXP-001</td>
-                                        <td class="py-3 text-sm" style="color:#540863;">Rajesh Kumar</td>
-                                        <td class="py-3 text-sm" style="color:#92487A;">IT</td>
-                                        <td class="py-3 text-sm" style="color:#92487A;">Travel</td>
-                                        <td class="py-3 text-sm" style="color:#92487A;">₹5,000</td>
-                                        <td class="py-3 text-sm" style="color:#92487A;">2024-04-10</td>
-                                        <td class="py-3"><button onclick="approveExpense(this)" class="btn-success text-xs mr-1"><i class="fas fa-check"></i> Approve</button><button onclick="rejectExpense(this)" class="btn-danger text-xs"><i class="fas fa-times"></i> Reject</button></td>
-                                     </tr>
-                                    <tr class="border-b data-row" style="border-color:#e5e7eb;">
-                                        <td class="py-3 text-sm" style="color:#540863;">EXP-003</td>
-                                        <td class="py-3 text-sm" style="color:#540863;">Amit Mehta</td>
-                                        <td class="py-3 text-sm" style="color:#92487A;">Sales</td>
-                                        <td class="py-3 text-sm" style="color:#92487A;">Fuel</td>
-                                        <td class="py-3 text-sm" style="color:#92487A;">₹3,200</td>
-                                        <td class="py-3 text-sm" style="color:#92487A;">2024-04-08</td>
-                                        <td class="py-3"><button onclick="approveExpense(this)" class="btn-success text-xs mr-1"><i class="fas fa-check"></i> Approve</button><button onclick="rejectExpense(this)" class="btn-danger text-xs"><i class="fas fa-times"></i> Reject</button></td>
-                                     </tr>
+                                    <tr><td colspan="7" class="text-center py-5" style="color: var(--text-light);">Loading pending approvals...</td></tr>
                                 </tbody>
                             </table>
                         </div>
                     </div>
                 </div>
-                
-                <!-- ==================== TAB 3: REIMBURSEMENTS ==================== -->
-                <div id="tab-reimbursements" class="tab-content">
-                    <div class="section-card">
-                        <div class="flex justify-between items-center mb-4">
-                            <h3 class="text-md font-semibold" style="color:#540863;">Reimbursements</h3>
-                            <button onclick="processBulkReimbursement()" class="btn-primary text-sm"><i class="fas fa-money-bill-wave mr-1"></i>Process Bulk</button>
-                        </div>
-                        
-                        <div class="overflow-x-auto">
-                            <table class="w-full">
-                                <thead>
-                                    <tr class="border-b" style="border-color:#5c003f;">
-                                        <th class="text-left py-3 text-xs font-medium" style="color:#92487A;"><input type="checkbox" id="selectAll" onchange="toggleSelectAll()"></th>
-                                        <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">Claim ID</th>
-                                        <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">Employee</th>
-                                        <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">Amount</th>
-                                        <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">Approved Date</th>
-                                        <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">Payment Status</th>
-                                        <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">Action</th>
-                                     </tr>
-                                </thead>
-                                <tbody id="reimbursementsList">
-                                    <tr class="border-b data-row" style="border-color:#e5e7eb;">
-                                        <td class="py-3 text-center"><input type="checkbox" class="reimbursement-checkbox"></td>
-                                        <td class="py-3 text-sm" style="color:#540863;">EXP-002</td>
-                                        <td class="py-3 text-sm" style="color:#540863;">Priya Sharma</td>
-                                        <td class="py-3 text-sm" style="color:#92487A;">₹2,500</td>
-                                        <td class="py-3 text-sm" style="color:#92487A;">2024-04-09</td>
-                                        <td class="py-3"><span class="status-pending text-xs px-2 py-1 rounded-full">Pending</span></td>
-                                        <td class="py-3"><button onclick="processReimbursement(this)" class="btn-success text-xs"><i class="fas fa-rupee-sign mr-1"></i>Pay Now</button></td>
-                                     </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                    
-                    <!-- Reimbursement Summary -->
-                    <div class="section-card">
-                        <h3 class="text-md font-semibold mb-3" style="color:#540863;">Reimbursement Summary</h3>
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                            <div class="p-3 border rounded-lg text-center"><p class="text-xs text-gray-500">Pending Amount</p><p class="text-2xl font-bold" style="color:#ffc107;" id="pendingReimburse">₹2,500</p></div>
-                            <div class="p-3 border rounded-lg text-center"><p class="text-xs text-gray-500">Processed This Month</p><p class="text-2xl font-bold" style="color:#28a745;" id="processedReimburse">₹96,000</p></div>
-                            <div class="p-3 border rounded-lg text-center"><p class="text-xs text-gray-500">Total Reimbursed</p><p class="text-2xl font-bold" style="color:#540863;" id="totalReimburse">₹3,86,000</p></div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- ==================== TAB 4: BUDGET MANAGEMENT ==================== -->
-                <div id="tab-budget" class="tab-content">
-                    <div class="section-card">
-                        <div class="flex justify-between items-center mb-4">
-                            <h3 class="text-md font-semibold" style="color:#540863;">Department Budgets</h3>
-                            <button onclick="openBudgetModal()" class="btn-primary text-sm"><i class="fas fa-plus mr-1"></i>Set Budget</button>
-                        </div>
-                        
-                        <div class="overflow-x-auto">
-                            <table class="w-full">
-                                <thead>
-                                    <tr class="border-b" style="border-color:#5c003f;">
-                                        <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">Department</th>
-                                        <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">Monthly Budget</th>
-                                        <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">Spent</th>
-                                        <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">Remaining</th>
-                                        <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">Utilization</th>
-                                        <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">Action</th>
-                                     </tr>
-                                </thead>
-                                <tbody id="budgetList">
-                                    <tr class="border-b" style="border-color:#e5e7eb;"><td class="py-2 text-sm" style="color:#540863;">IT</td><td class="py-2 text-sm">₹50,000</td><td class="py-2 text-sm">₹32,500</td><td class="py-2 text-sm">₹17,500</td><td class="py-2"><div class="w-24"><div class="progress-bar"><div class="progress-fill" style="width: 65%; background:#ffc107;"></div></div><span class="text-xs">65%</span></div></td><td class="py-2"><button onclick="editBudget(this)" class="text-[#540863]"><i class="fas fa-edit"></i></button></td></tr>
-                                    <tr class="border-b" style="border-color:#e5e7eb;"><td class="py-2 text-sm" style="color:#540863;">HR</td><td class="py-2 text-sm">₹30,000</td><td class="py-2 text-sm">₹18,000</td><td class="py-2 text-sm">₹12,000</td><td class="py-2"><div class="w-24"><div class="progress-bar"><div class="progress-fill" style="width: 60%; background:#28a745;"></div></div><span class="text-xs">60%</span></div></td><td class="py-2"><button onclick="editBudget(this)" class="text-[#540863]"><i class="fas fa-edit"></i></button></td></tr>
-                                    <tr class="border-b" style="border-color:#e5e7eb;"><td class="py-2 text-sm" style="color:#540863;">Sales</td><td class="py-2 text-sm">₹80,000</td><td class="py-2 text-sm">₹65,000</td><td class="py-2 text-sm">₹15,000</td><td class="py-2"><div class="w-24"><div class="progress-bar"><div class="progress-fill" style="width: 81%; background:#dc3545;"></div></div><span class="text-xs">81%</span></div></td><td class="py-2"><button onclick="editBudget(this)" class="text-[#540863]"><i class="fas fa-edit"></i></button></td></tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                    
-                    <!-- Budget Utilization Chart - REDUCED SIZE -->
-                    <div class="section-card">
-                        <h3 class="text-md font-semibold mb-3 text-center" style="color:#540863;">Budget Utilization</h3>
-                        <div class="budget-chart-container">
-                            <canvas id="budgetChart" height="220"></canvas>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- ==================== TAB 5: REPORTS ==================== -->
-                <div id="tab-reports" class="tab-content">
-                    <div class="section-card">
-                        <h3 class="text-md font-semibold mb-4" style="color:#540863;">Expense Reports</h3>
-                        <div class="form-row">
-                            <div><label>Report Type</label><select id="expReportType"><option>Expense Summary</option><option>Department-wise</option><option>Category-wise</option></select></div>
-                            <div><label>Department</label><select id="expReportDept"><option>All Departments</option><option>IT</option><option>HR</option><option>Sales</option></select></div>
-                            <div><label>Date Range</label><select id="expReportDate"><option>This Month</option><option>Last Month</option><option>This Quarter</option><option>This Year</option></select></div>
-                            <div class="flex items-end"><button onclick="generateExpenseReport()" class="btn-primary w-full">Generate Report</button></div>
-                        </div>
-                        <div id="expenseReportPreview" class="mt-4 p-4 bg-gray-50 rounded-lg text-center text-gray-500">Select filters and click Generate</div>
-                    </div>
-                    
-                    <!-- Expense Distribution Chart -->
-                    <div class="section-card">
-                        <h3 class="text-md font-semibold mb-3 text-center" style="color:#540863;">Expense Distribution by Category</h3>
-                        <div class="pie-chart-container">
-                            <canvas id="expensePieChart" height="180" width="180"></canvas>
-                        </div>
-                        <div class="flex justify-center gap-3 mt-3 flex-wrap">
-                            <div class="flex items-center gap-1"><div class="w-3 h-3 rounded-full" style="background:#540863;"></div><span class="text-xs">Travel (45%)</span></div>
-                            <div class="flex items-center gap-1"><div class="w-3 h-3 rounded-full" style="background:#92487A;"></div><span class="text-xs">Food (25%)</span></div>
-                            <div class="flex items-center gap-1"><div class="w-3 h-3 rounded-full" style="background:#E49BA6;"></div><span class="text-xs">Fuel (18%)</span></div>
-                            <div class="flex items-center gap-1"><div class="w-3 h-3 rounded-full" style="background:#FFD3D5;"></div><span class="text-xs">Others (12%)</span></div>
-                        </div>
-                    </div>
-                </div>
-                
+    
             </main>
         </div>
     </div>
     
-    <!-- Budget Modal -->
+    <!-- ==================== BUDGET MODAL ==================== -->
     <div id="budgetModal" class="modal">
-        <div class="modal-content"><div class="flex justify-between items-center mb-4"><h3 class="text-lg font-semibold" style="color:#540863;">Set Department Budget</h3><button onclick="closeBudgetModal()" class="text-gray-500 text-xl">&times;</button></div>
-        <form id="budgetForm"><div><label>Department</label><select required><option>IT</option><option>HR</option><option>Sales</option><option>Finance</option></select></div><div class="mt-2"><label>Monthly Budget (₹)</label><input type="number" required></div><div class="mt-2"><label>Quarterly Budget (₹)</label><input type="number"></div><div class="flex justify-end gap-3 mt-4"><button type="button" onclick="closeBudgetModal()" class="btn-outline">Cancel</button><button type="submit" class="btn-primary">Set Budget</button></div></form></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Set Department Budget</h3>
+                <span onclick="closeBudgetModal()" style="cursor:pointer;font-size:22px;color:var(--primary-light);">&times;</span>
+            </div>
+            <form id="budgetForm">
+                <div class="mb-3"><label>Department</label><select required><option>IT</option><option>HR</option><option>Sales</option><option>Finance</option></select></div>
+                <div class="mb-3"><label>Monthly Budget (₹)</label><input type="number" required></div>
+                <div class="mb-3"><label>Quarterly Budget (₹)</label><input type="number"></div>
+                <div class="flex justify-end gap-3 mt-4">
+                    <button type="button" onclick="closeBudgetModal()" class="btn-outline">Cancel</button>
+                    <button type="submit" class="btn-primary">Set Budget</button>
+                </div>
+            </form>
+        </div>
     </div>
     
-    <!-- Receipt Modal -->
+    <!-- ==================== RECEIPT MODAL ==================== -->
     <div id="receiptModal" class="modal">
-        <div class="modal-content text-center"><div class="flex justify-between items-center mb-4"><h3 class="text-lg font-semibold" style="color:#540863;">Receipt Preview</h3><button onclick="closeReceiptModal()" class="text-gray-500 text-xl">&times;</button></div>
-        <div class="p-4 bg-gray-100 rounded-lg"><i class="fas fa-receipt text-6xl text-gray-400"></i><p class="mt-2 text-sm text-gray-500">Receipt image will be displayed here</p></div>
-        <div class="flex justify-end mt-4"><button onclick="closeReceiptModal()" class="btn-primary">Close</button></div></div>
+        <div class="modal-content text-center">
+            <div class="modal-header">
+                <h3>Receipt Preview</h3>
+                <span onclick="closeReceiptModal()" style="cursor:pointer;font-size:22px;color:var(--primary-light);">&times;</span>
+            </div>
+            <div id="receiptPreviewArea" class="p-4 rounded-lg" style="background: var(--primary-bg-light);">
+                <i class="fas fa-receipt text-6xl mb-2" style="color: var(--primary-soft); display:block;"></i>
+                <p class="mt-2 text-sm" style="color: var(--text-light);">No receipt uploaded for this claim</p>
+            </div>
+            <div class="flex justify-end mt-4"><button onclick="closeReceiptModal()" class="btn-primary">Close</button></div>
+        </div>
     </div>
     
-    <!-- Delete Confirmation Modal -->
+    <!-- ==================== DELETE MODAL ==================== -->
     <div id="deleteModal" class="modal">
         <div class="modal-content text-center">
-            <div class="flex justify-between items-center mb-4">
-                <h3 class="text-lg font-semibold" style="color:#dc3545;">Confirm Delete</h3>
-                <button onclick="closeDeleteModal()" class="text-gray-500 text-xl hover:text-gray-700">&times;</button>
+            <div class="modal-header">
+                <h3 style="color: #dc3545;">Confirm Delete</h3>
+                <span onclick="closeDeleteModal()" style="cursor:pointer;font-size:22px;color:var(--primary-light);">&times;</span>
             </div>
             <div class="py-4">
-                <i class="fas fa-exclamation-triangle text-5xl text-red-500 mb-3"></i>
-                <p class="text-gray-700 mb-2">Are you sure you want to delete this expense claim?</p>
-                <p class="text-sm text-gray-500" id="deleteItemId"></p>
+                <i class="fas fa-exclamation-triangle text-5xl text-red-500 mb-3" style="display:block;"></i>
+                <p style="color: var(--text-dark);" class="mb-2">Are you sure you want to delete this expense claim?</p>
+                <p class="text-sm" style="color: var(--text-light);" id="deleteItemId"></p>
             </div>
             <div class="flex justify-center gap-3 mt-4">
                 <button onclick="closeDeleteModal()" class="btn-outline px-6">Cancel</button>
@@ -583,193 +706,637 @@
             </div>
         </div>
     </div>
-    
+
+    <!-- ==================== EDIT MODAL ==================== -->
+    <div id="editClaimModal" class="modal">
+        <div class="modal-content" style="max-width:520px;">
+            <div class="modal-header">
+                <h3><i class="fas fa-edit mr-2"></i>Edit Expense Claim</h3>
+                <span onclick="closeEditModal()" style="cursor:pointer;font-size:22px;color:var(--primary-light);">&times;</span>
+            </div>
+            <form id="editClaimForm">
+                <div class="form-row">
+                    <div>
+                        <label>Employee <span class="text-red-500">*</span></label>
+                        <select id="edit_employee" required>
+                            <option value="">Loading employees...</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label>Expense Type <span class="text-red-500">*</span></label>
+                        <select id="edit_type" required onchange="handleExpenseTypeChange(this, 'edit')">
+                            <option value="">Select Type</option>
+                            <option value="Travel">🚗 Travel</option>
+                            <option value="Food">🍽️ Food</option>
+                            <option value="Fuel">⛽ Fuel</option>
+                            <option value="Stationery">📎 Stationery</option>
+                            <option value="Medical">💊 Medical</option>
+                            <option value="Others">📦 Others</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div>
+                        <label>Expense Date <span class="text-red-500">*</span></label>
+                        <input type="date" id="edit_date" required>
+                    </div>
+                    <div>
+                        <label>Amount (₹) <span class="text-red-500">*</span></label>
+                        <input type="number" id="edit_amount" placeholder="Enter amount" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div>
+                        <label>Status</label>
+                        <select id="edit_status">
+                            <option value="Pending">Pending</option>
+                            <option value="Approved">Approved</option>
+                            <option value="Rejected">Rejected</option>
+                            <option value="Paid">Paid</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="flex justify-end gap-3 mt-4">
+                    <button type="button" onclick="closeEditModal()" class="btn-outline">Cancel</button>
+                    <button type="submit" class="btn-primary"><i class="fas fa-save mr-2"></i>Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ==================== CUSTOM TYPE OVERLAY ==================== -->
+    <div id="customTypeOverlay" class="custom-type-overlay">
+        <div class="custom-type-box">
+            <h4><i class="fas fa-plus-circle mr-2" style="color: var(--primary);"></i>Add Custom Expense Type</h4>
+            <p>Type your custom expense category name and click Add. It will be saved to the dropdown for this session.</p>
+            <div class="custom-type-input-wrap">
+                <input type="text" id="customTypeInput" placeholder="e.g. Internet Bill, Courier, Maintenance…" maxlength="40" onkeydown="handleCustomTypeKeydown(event)" />
+                <button class="custom-type-add-btn" onclick="addCustomExpenseType()"><i class="fas fa-plus mr-1"></i>Add</button>
+            </div>
+            <div class="custom-type-added-list" id="customTypeAddedList" style="display:none;">
+                <p>Added this session:</p>
+                <div id="customTypeTagsContainer"></div>
+            </div>
+            <button class="custom-type-cancel-btn" onclick="closeCustomTypeOverlay()">Cancel</button>
+        </div>
+    </div>
+
     <script src="/assets/js/common.js"></script>
     <script src="/assets/js/sidebar.js"></script>
     <script src="/assets/js/header.js"></script>
     
     <script>
-        let expensePieChart = null;
-        let budgetChart = null;
-        let deleteTargetRow = null;
-        let deleteTargetId = null;
-        
-        // Tab Navigation
-        function initTabs() {
-            const tabs = document.querySelectorAll('.tab-btn');
-            const contents = document.querySelectorAll('.tab-content');
-            tabs.forEach(tab => {
-                tab.addEventListener('click', function() {
-                    const tabId = this.getAttribute('data-tab');
-                    tabs.forEach(t => t.classList.remove('active'));
-                    this.classList.add('active');
-                    contents.forEach(content => content.classList.remove('active'));
-                    document.getElementById(`tab-${tabId}`).classList.add('active');
-                    localStorage.setItem('expenseActiveTab', tabId);
-                    if (tabId === 'reports') updateExpenseChart();
-                    if (tabId === 'budget') updateBudgetChart();
+        // API URLs
+        const EXPENSE_API_BASE_URL  = 'http://localhost:8086/api/expenses';
+        const EMPLOYEE_API_BASE_URL = 'http://localhost:8086/api/employees';
+
+        // State
+        var claimsData = [], approvalsData = [], employeesList = [];
+        var expensePieChart = null, budgetChart = null;
+        var deleteTargetRow = null, deleteTargetId = null;
+        var claimsCurrentPage = 1, claimsRowsPerPage = 5;
+        var editTargetRow = null, editTargetExpenseId = null;
+        var customTypeOriginContext = null, customTypesAdded = [];
+
+        // ========== HELPERS ==========
+        function showToast(msg, type) {
+            var t = document.createElement('div');
+            t.className = 'toast ' + type;
+            t.innerHTML = msg;
+            document.body.appendChild(t);
+            setTimeout(function() { t.remove(); }, 3000);
+        }
+
+        function statusClass(status) {
+            var map = { 'Pending':'status-pending', 'Approved':'status-approved', 'Rejected':'status-rejected', 'Paid':'status-paid' };
+            return map[status] || 'status-pending';
+        }
+
+        function formatINR(num) { return Number(num).toLocaleString('en-IN'); }
+
+        // ========== EMPLOYEES ==========
+        async function fetchAllEmployees() {
+            try {
+                const res = await fetch(`${EMPLOYEE_API_BASE_URL}/get-all-employees?page=0&size=100`);
+                const result = await res.json();
+                if (result.success && result.data) { employeesList = result.data; populateEmployeeDropdowns(); }
+            } catch(e) { showToast('Failed to load employees', 'error'); }
+        }
+
+        function populateEmployeeDropdowns() {
+            ['exp_employee','edit_employee'].forEach(function(id) {
+                var sel = document.getElementById(id);
+                if (!sel) return;
+                sel.innerHTML = '<option value="">Select Employee</option>';
+                employeesList.forEach(function(emp) {
+                    var opt = document.createElement('option');
+                    opt.value = emp.id;
+                    opt.textContent = (emp.fullName || emp.name || 'Employee ' + emp.id) + ' (' + (emp.employeePrimeId || 'ID:' + emp.id) + ')';
+                    sel.appendChild(opt);
                 });
             });
-            const savedTab = localStorage.getItem('expenseActiveTab');
-            if (savedTab) { const savedTabBtn = document.querySelector(`.tab-btn[data-tab="${savedTab}"]`); if (savedTabBtn) savedTabBtn.click(); }
         }
-        
-        // Submit Expense Claim
-        document.getElementById('expenseForm')?.addEventListener('submit', function(e) {
-            e.preventDefault();
-            const employee = document.getElementById('exp_employee').value;
-            const amount = document.getElementById('exp_amount').value;
-            showToast(`Expense claim submitted for ${employee} - ₹${amount}`, 'success');
-            this.reset();
-        });
-        
-        // Claims Functions
+
+        function getEmployeeName(id) {
+            var e = employeesList.find(function(x) { return x.id == id; });
+            return e ? (e.fullName || e.name || 'Employee ' + e.id) : 'Unknown (ID:' + id + ')';
+        }
+
+        function getEmployeeDepartment(id) {
+            var e = employeesList.find(function(x) { return x.id == id; });
+            return e ? (e.department || e.deptName || 'General') : 'General';
+        }
+
+        // ========== EXPENSE APIs ==========
+        async function fetchAllExpenses() {
+            try {
+                const res = await fetch(`${EXPENSE_API_BASE_URL}/get-all-expenses`);
+                if (!res.ok) throw new Error();
+                const data = await res.json();
+                claimsData = Array.isArray(data) ? data : (data.data || []);
+                renderClaimsFromData(); updateClaimStats();
+            } catch(e) { showToast('Failed to load expenses', 'error'); }
+        }
+
+        async function fetchPendingApprovals() {
+            try {
+                const res = await fetch(`${EXPENSE_API_BASE_URL}/get-pending-approvals/pending`);
+                if (!res.ok) throw new Error();
+                const data = await res.json();
+                approvalsData = Array.isArray(data) ? data : (data.data || []);
+                renderApprovalsFromData();
+            } catch(e) { showToast('Failed to load pending approvals', 'error'); }
+        }
+
+        async function createExpenseAPI(employeeId, expenseType, expenseDate, amount, description, billNumber, receiptFile) {
+            const fd = new FormData();
+            fd.append('employeeId', employeeId);
+            fd.append('expenseType', expenseType);
+            fd.append('expenseDate', expenseDate);
+            fd.append('amount', amount);
+            if (description) fd.append('description', description);
+            if (billNumber)  fd.append('billNumber', billNumber);
+            if (receiptFile) fd.append('receipts', receiptFile);
+            try {
+                const res = await fetch(`${EXPENSE_API_BASE_URL}/create-expense`, { method:'POST', body:fd });
+                if (!res.ok) throw new Error(await res.text());
+                showToast('Expense claim submitted!', 'success');
+                await fetchAllExpenses(); await fetchPendingApprovals();
+            } catch(e) { showToast('Failed: ' + e.message, 'error'); throw e; }
+        }
+
+        async function updateExpenseAPI(id, employeeId, expenseType, expenseDate, amount, desc, bill, status) {
+            const fd = new FormData();
+            if (employeeId)  fd.append('employeeId', employeeId);
+            if (expenseType) fd.append('expenseType', expenseType);
+            if (expenseDate) fd.append('expenseDate', expenseDate);
+            if (amount)      fd.append('amount', amount);
+            if (desc)        fd.append('description', desc);
+            if (bill)        fd.append('billNumber', bill);
+            try {
+                var url = status
+                    ? `${EXPENSE_API_BASE_URL}/patch-expense/${id}`
+                    : `${EXPENSE_API_BASE_URL}/update-expense/${id}`;
+                var method = status ? 'PATCH' : 'PUT';
+                if (status) fd.append('status', status);
+                const res = await fetch(url, { method, body: fd });
+                if (!res.ok) throw new Error();
+                showToast('Expense updated!', 'success');
+                await fetchAllExpenses(); await fetchPendingApprovals();
+            } catch(e) { showToast('Failed to update', 'error'); throw e; }
+        }
+
+        async function deleteExpenseAPI(id) {
+            try {
+                const res = await fetch(`${EXPENSE_API_BASE_URL}/delete-expense/${id}`, { method:'DELETE' });
+                if (!res.ok) throw new Error();
+                showToast('Expense deleted!', 'success');
+                await fetchAllExpenses(); await fetchPendingApprovals();
+                return true;
+            } catch(e) { showToast('Failed to delete', 'error'); return false; }
+        }
+
+        async function approveExpenseAPI(id) {
+            try {
+                const res = await fetch(`${EXPENSE_API_BASE_URL}/approve-expense/${id}/approve`, { method:'PATCH' });
+                if (!res.ok) throw new Error();
+                showToast('Expense approved!', 'success');
+                await fetchAllExpenses(); await fetchPendingApprovals();
+            } catch(e) { showToast('Failed to approve', 'error'); }
+        }
+
+        async function rejectExpenseAPI(id) {
+            try {
+                const res = await fetch(`${EXPENSE_API_BASE_URL}/reject-expense/${id}/reject`, { method:'PATCH' });
+                if (!res.ok) throw new Error();
+                showToast('Expense rejected!', 'info');
+                await fetchAllExpenses(); await fetchPendingApprovals();
+            } catch(e) { showToast('Failed to reject', 'error'); }
+        }
+
+        // ========== RENDER ==========
+        function buildClaimRowHTML(item) {
+            return '<td class="py-3 text-sm font-semibold" style="color:var(--primary);">EXP-' + String(item.id).padStart(3,'0') + '</td>' +
+                   '<td class="py-3 text-sm" style="color:var(--primary);">' + getEmployeeName(item.employeeId) + '</td>' +
+                   '<td class="py-3"><span class="badge-custom">' + (item.expenseType||'-') + '</span></td>' +
+                   '<td class="py-3 text-sm" style="color:var(--text-light);">' + (item.expenseDate||'-') + '</td>' +
+                   '<td class="py-3 text-sm font-semibold" style="color:var(--primary);">₹' + formatINR(item.amount) + '</td>' +
+                   '<td class="py-3"><span class="' + statusClass(item.status) + ' text-xs px-2 py-1 rounded-full font-medium">' + (item.status||'Pending') + '</span></td>' +
+                   '<td class="py-3"><i class="fas fa-paperclip cursor-pointer" style="color:var(--primary-light);" data-expense-id="' + item.id + '" onclick="viewReceipt(this,' + item.id + ')"></i></td>' +
+                   '<td class="py-3">' +
+                       '<button onclick="editClaim(this,' + item.id + ')" style="background:none;border:none;cursor:pointer;color:var(--primary);margin-right:8px;"><i class="fas fa-edit"></i></button>' +
+                       '<button onclick="openDeleteModal(' + item.id + ',this)" style="background:none;border:none;cursor:pointer;color:#dc3545;"><i class="fas fa-trash"></i></button>' +
+                   '</td>';
+        }
+
+        function buildApprovalRowHTML(item) {
+            return '<td class="py-3 text-sm font-semibold" style="color:var(--primary);">EXP-' + String(item.id).padStart(3,'0') + '</td>' +
+                   '<td class="py-3 text-sm" style="color:var(--primary);">' + getEmployeeName(item.employeeId) + '</td>' +
+                   '<td class="py-3 text-sm" style="color:var(--text-light);">' + getEmployeeDepartment(item.employeeId) + '</td>' +
+                   '<td class="py-3"><span class="badge-custom">' + (item.expenseType||'-') + '</span></td>' +
+                   '<td class="py-3 text-sm font-semibold" style="color:var(--primary);">₹' + formatINR(item.amount) + '</td>' +
+                   '<td class="py-3 text-sm" style="color:var(--text-light);">' + (item.expenseDate||'-') + '</td>' +
+                   '<td class="py-3">' +
+                       '<button onclick="approveExpenseBtn(this,' + item.id + ')" class="btn-success mr-1"><i class="fas fa-check mr-1"></i>Approve</button>' +
+                       '<button onclick="rejectExpenseBtn(this,' + item.id + ')" class="btn-danger"><i class="fas fa-times mr-1"></i>Reject</button>' +
+                   '</td>';
+        }
+
+        function renderClaimsFromData() {
+            var tbody = document.getElementById('claimsList');
+            tbody.innerHTML = '';
+            if (!claimsData || !claimsData.length) {
+                tbody.innerHTML = '<tr><td colspan="8" class="text-center py-5" style="color:var(--text-light);">No expense claims found</td></tr>';
+                return;
+            }
+            claimsData.forEach(function(item) {
+                if (!item) return;
+                var tr = document.createElement('tr');
+                tr.className = 'border-b data-row';
+                tr.style.borderColor = '#e5e7eb';
+                tr.innerHTML = buildClaimRowHTML(item);
+                tbody.appendChild(tr);
+            });
+            filterClaims();
+        }
+
+        function renderApprovalsFromData() {
+            var tbody = document.getElementById('approvalsList');
+            tbody.innerHTML = '';
+            if (!approvalsData || !approvalsData.length) {
+                tbody.innerHTML = '<tr><td colspan="7" class="text-center py-5" style="color:var(--text-light);">No pending approvals found</td></tr>';
+                return;
+            }
+            approvalsData.forEach(function(item) {
+                if (!item) return;
+                var tr = document.createElement('tr');
+                tr.className = 'border-b data-row';
+                tr.style.borderColor = '#e5e7eb';
+                tr.innerHTML = buildApprovalRowHTML(item);
+                tbody.appendChild(tr);
+            });
+        }
+
+        // ========== STATS ==========
+        function updateClaimStats() {
+            var total = 0, pending = 0, approved = 0;
+            claimsData.forEach(function(item) {
+                if (item && item.amount) total += item.amount;
+                if (item && item.status === 'Pending')  pending++;
+                if (item && item.status === 'Approved') approved++;
+            });
+            document.getElementById('totalClaims').innerText  = claimsData.length;
+            document.getElementById('pendingClaims').innerText = pending;
+            document.getElementById('approvedClaims').innerText = approved;
+            document.getElementById('totalAmount').innerText  = '₹' + total.toLocaleString('en-IN');
+        }
+
+        // ========== TABS ==========
+        function initTabs() {
+            document.querySelectorAll('.tab-btn').forEach(function(tab) {
+                tab.addEventListener('click', function() {
+                    var tabId = this.getAttribute('data-tab');
+                    document.querySelectorAll('.tab-btn').forEach(function(t) { t.classList.remove('active'); });
+                    this.classList.add('active');
+                    document.querySelectorAll('.tab-content').forEach(function(c) { c.classList.remove('active'); });
+                    document.getElementById('tab-' + tabId).classList.add('active');
+                    localStorage.setItem('expenseActiveTab', tabId);
+                    if (tabId === 'approvals') fetchPendingApprovals();
+                });
+            });
+            var saved = localStorage.getItem('expenseActiveTab');
+            if (saved) { var btn = document.querySelector('.tab-btn[data-tab="' + saved + '"]'); if (btn) btn.click(); }
+        }
+
+        // ========== PAGINATION ==========
+        function renderClaimsPage(allRows, filtered) {
+            var totalPages = Math.max(1, Math.ceil(filtered.length / claimsRowsPerPage));
+            if (claimsCurrentPage > totalPages) claimsCurrentPage = totalPages;
+            var start = (claimsCurrentPage - 1) * claimsRowsPerPage;
+            var end   = start + claimsRowsPerPage;
+            allRows.forEach(function(r) { r.style.display = 'none'; });
+            filtered.slice(start, end).forEach(function(r) { r.style.display = ''; });
+            var info = document.getElementById('claimsPaginationInfo');
+            info.textContent = filtered.length === 0 ? 'No records found' : 'Showing ' + (start+1) + '–' + Math.min(end, filtered.length) + ' of ' + filtered.length + ' records';
+            var ctrl = document.getElementById('claimsPaginationControls');
+            ctrl.innerHTML = '';
+            if (totalPages <= 1) return;
+            var prev = document.createElement('button');
+            prev.className = 'page-btn'; prev.innerHTML = '&#8249;'; prev.disabled = (claimsCurrentPage === 1);
+            prev.onclick = function() { claimsCurrentPage--; renderClaimsPage(allRows, filtered); };
+            ctrl.appendChild(prev);
+            for (var i = 1; i <= totalPages; i++) {
+                var pb = document.createElement('button');
+                pb.className = 'page-btn' + (i === claimsCurrentPage ? ' active' : '');
+                pb.textContent = i;
+                pb.onclick = (function(p) { return function() { claimsCurrentPage=p; renderClaimsPage(allRows, filtered); }; })(i);
+                ctrl.appendChild(pb);
+            }
+            var next = document.createElement('button');
+            next.className = 'page-btn'; next.innerHTML = '&#8250;'; next.disabled = (claimsCurrentPage === totalPages);
+            next.onclick = function() { claimsCurrentPage++; renderClaimsPage(allRows, filtered); };
+            ctrl.appendChild(next);
+        }
+
+        // ========== FILTER ==========
         function filterClaims() {
-            const search = document.getElementById('claimSearch').value.toLowerCase();
-            const type = document.getElementById('claimTypeFilter').value;
-            const rows = document.querySelectorAll('#claimsList tr');
-            rows.forEach(row => {
-                let show = true;
-                const name = row.cells[1]?.innerText.toLowerCase();
-                const rowType = row.cells[2]?.innerText;
-                if(search && !name.includes(search)) show = false;
-                if(type !== 'all' && rowType !== type) show = false;
+            var search = document.getElementById('claimSearch').value.toLowerCase();
+            var type   = document.getElementById('claimTypeFilter').value;
+            var allRows = Array.from(document.querySelectorAll('#claimsList tr'));
+            var filtered = allRows.filter(function(row) {
+                if (row.cells.length < 6) return false;
+                var name    = row.cells[1] ? row.cells[1].innerText.toLowerCase() : '';
+                var rowType = row.cells[2] ? row.cells[2].innerText : '';
+                if (search && !name.includes(search)) return false;
+                if (type !== 'all' && !rowType.includes(type)) return false;
+                return true;
+            });
+            claimsCurrentPage = 1;
+            renderClaimsPage(allRows, filtered);
+            updateClaimStats();
+        }
+
+        function filterApprovals() {
+            var search = document.getElementById('approvalSearch').value.toLowerCase();
+            var type   = document.getElementById('approvalTypeFilter').value;
+            document.querySelectorAll('#approvalsList tr').forEach(function(row) {
+                if (row.cells.length < 7) return;
+                var name    = row.cells[1] ? row.cells[1].innerText.toLowerCase() : '';
+                var rowType = row.cells[3] ? row.cells[3].innerText : '';
+                var show = (!search || name.includes(search)) && (type === 'all' || rowType.includes(type));
                 row.style.display = show ? '' : 'none';
             });
         }
-        
-        function exportClaims() { showToast('Claims exported!', 'success'); }
-        function editClaim(btn) { showToast('Edit claim feature coming soon', 'info'); }
-        
-        // Delete Modal Functions
-        function openDeleteModal(claimId, btn) {
+
+        function exportClaims() {
+            var rows = document.querySelectorAll('#claimsList tr');
+            var headers = ['Claim ID','Employee','Type','Date','Amount','Status'];
+            var csv = [headers.join(',')];
+            rows.forEach(function(row) {
+                if (row.cells.length < 6) return;
+                var vals = [0,1,2,3,4,5].map(function(i) { return '"' + (row.cells[i]?.innerText||'').trim().replace(/"/g,'""') + '"'; });
+                csv.push(vals.join(','));
+            });
+            var a = document.createElement('a');
+            a.href = URL.createObjectURL(new Blob([csv.join('\n')], {type:'text/csv;charset=utf-8;'}));
+            a.download = 'expense_claims.csv'; a.click();
+            showToast('Exported!', 'success');
+        }
+
+        // ========== EDIT ==========
+        function editClaim(btn, expenseId) {
+            editTargetRow = btn.closest('tr');
+            editTargetExpenseId = expenseId;
+            var exp = claimsData.find(function(e) { return e.id === expenseId; });
+            if (exp) {
+                document.getElementById('edit_employee').value = exp.employeeId;
+                document.getElementById('edit_type').value     = exp.expenseType || '';
+                document.getElementById('edit_date').value     = exp.expenseDate || '';
+                document.getElementById('edit_amount').value   = exp.amount;
+                document.getElementById('edit_status').value   = exp.status || 'Pending';
+            }
+            document.getElementById('editClaimModal').classList.add('active');
+        }
+
+        function closeEditModal() {
+            document.getElementById('editClaimModal').classList.remove('active');
+            editTargetRow = null; editTargetExpenseId = null;
+        }
+
+        document.getElementById('editClaimForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            if (!editTargetExpenseId) return;
+            updateExpenseAPI(
+                editTargetExpenseId,
+                document.getElementById('edit_employee').value,
+                document.getElementById('edit_type').value,
+                document.getElementById('edit_date').value,
+                parseFloat(document.getElementById('edit_amount').value),
+                null, null,
+                document.getElementById('edit_status').value
+            ).then(function() { closeEditModal(); });
+        });
+
+        // ========== DELETE ==========
+        function openDeleteModal(expenseId, btn) {
             deleteTargetRow = btn.closest('tr');
-            deleteTargetId = claimId;
-            document.getElementById('deleteItemId').innerHTML = `Claim ID: <strong>${claimId}</strong>`;
+            deleteTargetId  = expenseId;
+            document.getElementById('deleteItemId').innerHTML = 'Claim ID: <strong>EXP-' + String(expenseId).padStart(3,'0') + '</strong>';
             document.getElementById('deleteModal').classList.add('active');
         }
-        
+
         function closeDeleteModal() {
             document.getElementById('deleteModal').classList.remove('active');
-            deleteTargetRow = null;
-            deleteTargetId = null;
+            deleteTargetRow = null; deleteTargetId = null;
         }
-        
+
         function confirmDelete() {
-            if (deleteTargetRow) {
-                deleteTargetRow.remove();
-                showToast(`Claim ${deleteTargetId} deleted successfully!`, 'success');
-                updateClaimStats();
+            if (deleteTargetId) {
+                deleteExpenseAPI(deleteTargetId).then(function(ok) {
+                    if (ok && deleteTargetRow) deleteTargetRow.remove();
+                });
             }
             closeDeleteModal();
         }
-        
-        function updateClaimStats() {
-            const rows = document.querySelectorAll('#claimsList tr');
-            const total = rows.length;
-            const pending = document.querySelectorAll('#claimsList tr .status-pending').length;
-            document.getElementById('totalClaims').innerText = total;
-            document.getElementById('pendingClaims').innerText = pending;
+
+        // ========== RECEIPT ==========
+        async function viewReceipt(btn, expenseId) {
+            try {
+                const res = await fetch(`${EXPENSE_API_BASE_URL}/get-receipt/${expenseId}/receipts/0`);
+                if (res.ok) {
+                    const blob = await res.blob();
+                    openReceiptPreview(URL.createObjectURL(blob), res.headers.get('content-type') || 'image/jpeg');
+                } else { uploadNewReceipt(expenseId, btn); }
+            } catch(e) { uploadNewReceipt(expenseId, btn); }
         }
-        
-        function viewReceipt(btn) { document.getElementById('receiptModal').classList.add('active'); }
-        function closeReceiptModal() { document.getElementById('receiptModal').classList.remove('active'); }
-        
-        // Approval Functions
-        function filterApprovals() {
-            const search = document.getElementById('approvalSearch').value.toLowerCase();
-            const type = document.getElementById('approvalTypeFilter').value;
-            const rows = document.querySelectorAll('#approvalsList tr');
-            rows.forEach(row => {
-                let show = true;
-                const name = row.cells[1]?.innerText.toLowerCase();
-                const rowType = row.cells[3]?.innerText;
-                if(search && !name.includes(search)) show = false;
-                if(type !== 'all' && rowType !== type) show = false;
-                row.style.display = show ? '' : 'none';
+
+        function uploadNewReceipt(expenseId, btn) {
+            var picker = document.createElement('input');
+            picker.type = 'file'; picker.accept = 'image/*,.pdf'; picker.style.display = 'none';
+            document.body.appendChild(picker);
+            picker.addEventListener('change', async function() {
+                var file = picker.files[0];
+                if (!file) { document.body.removeChild(picker); return; }
+                const fd = new FormData(); fd.append('receipts', file);
+                try {
+                    const res = await fetch(`${EXPENSE_API_BASE_URL}/patch-expense/${expenseId}`, { method:'PATCH', body:fd });
+                    openReceiptPreview(URL.createObjectURL(file), file.type);
+                    if (res.ok) showToast('Receipt uploaded!', 'success');
+                } catch(e) { openReceiptPreview(URL.createObjectURL(file), file.type); }
+                document.body.removeChild(picker);
             });
+            picker.click();
         }
-        
-        function approveExpense(btn) {
-            const row = btn.closest('tr');
-            const amount = row.cells[4]?.innerText;
-            btn.parentElement.innerHTML = '<span class="text-green-600 text-xs font-medium">Approved</span>';
-            showToast(`Expense of ${amount} approved!`, 'success');
+
+        function openReceiptPreview(fileUrl, fileType) {
+            var area = document.getElementById('receiptPreviewArea');
+            if (fileType && fileType.startsWith('image/')) {
+                area.innerHTML = '<img src="' + fileUrl + '" alt="Receipt" style="max-width:100%;max-height:400px;border-radius:8px;object-fit:contain;">';
+            } else if (fileType === 'application/pdf') {
+                area.innerHTML = '<iframe src="' + fileUrl + '" style="width:100%;height:400px;border-radius:8px;border:none;"></iframe>';
+            } else {
+                area.innerHTML = '<i class="fas fa-file text-5xl" style="color:var(--primary-light);display:block;"></i><p class="mt-2 text-sm"><a href="' + fileUrl + '" download style="color:var(--primary);">Click to download</a></p>';
+            }
+            document.getElementById('receiptModal').classList.add('active');
         }
-        
-        function rejectExpense(btn) {
-            const row = btn.closest('tr');
-            const amount = row.cells[4]?.innerText;
-            btn.parentElement.innerHTML = '<span class="text-red-600 text-xs font-medium">Rejected</span>';
-            showToast(`Expense of ${amount} rejected!`, 'warning');
+
+        function closeReceiptModal() {
+            document.getElementById('receiptModal').classList.remove('active');
+            var area = document.getElementById('receiptPreviewArea');
+            var img = area.querySelector('img');
+            if (img && img.src.startsWith('blob:')) URL.revokeObjectURL(img.src);
+            var iframe = area.querySelector('iframe');
+            if (iframe && iframe.src.startsWith('blob:')) URL.revokeObjectURL(iframe.src);
+            area.innerHTML = '<i class="fas fa-receipt text-6xl mb-2" style="color:var(--primary-soft);display:block;"></i><p class="mt-2 text-sm" style="color:var(--text-light);">No receipt uploaded</p>';
         }
-        
-        // Reimbursement Functions
-        let selectAllChecked = false;
-        function toggleSelectAll() {
-            selectAllChecked = !selectAllChecked;
-            document.querySelectorAll('.reimbursement-checkbox').forEach(cb => cb.checked = selectAllChecked);
+
+        // ========== APPROVALS ==========
+        async function approveExpenseBtn(btn, id) {
+            await approveExpenseAPI(id);
+            var cell = btn.closest('tr').cells[6];
+            cell.innerHTML = '<span class="text-xs font-semibold" style="color:#2b7a3e;">Approved</span>';
         }
-        
-        function processReimbursement(btn) {
-            const row = btn.closest('tr');
-            row.cells[5].innerHTML = '<span class="status-paid text-xs px-2 py-1 rounded-full">Paid</span>';
-            btn.remove();
-            showToast('Reimbursement processed!', 'success');
+
+        async function rejectExpenseBtn(btn, id) {
+            await rejectExpenseAPI(id);
+            var cell = btn.closest('tr').cells[6];
+            cell.innerHTML = '<span class="text-xs font-semibold" style="color:#dc3545;">Rejected</span>';
         }
-        
-        function processBulkReimbursement() {
-            const selected = document.querySelectorAll('.reimbursement-checkbox:checked');
-            if(selected.length === 0) { showToast('Select at least one claim', 'error'); return; }
-            selected.forEach(cb => { const row = cb.closest('tr'); row.cells[5].innerHTML = '<span class="status-paid text-xs px-2 py-1 rounded-full">Paid</span>'; });
-            showToast(`${selected.length} reimbursements processed!`, 'success');
-        }
-        
-        // Budget Functions
-        function openBudgetModal() { document.getElementById('budgetModal').classList.add('active'); }
+
+        // ========== BUDGET ==========
+        function openBudgetModal()  { document.getElementById('budgetModal').classList.add('active'); }
         function closeBudgetModal() { document.getElementById('budgetModal').classList.remove('active'); }
-        document.getElementById('budgetForm')?.addEventListener('submit', function(e) { e.preventDefault(); showToast('Budget set!', 'success'); closeBudgetModal(); });
-        function editBudget(btn) { showToast('Edit budget feature coming soon', 'info'); }
-        
-        function updateBudgetChart() {
-            const ctx = document.getElementById('budgetChart').getContext('2d');
-            if (budgetChart) budgetChart.destroy();
-            budgetChart = new Chart(ctx, {
-                type: 'bar',
-                data: { 
-                    labels: ['IT', 'HR', 'Sales', 'Finance'], 
-                    datasets: [
-                        { label: 'Budget', data: [50000, 30000, 80000, 40000], backgroundColor: '#540863', borderRadius: 6 },
-                        { label: 'Spent', data: [32500, 18000, 65000, 25000], backgroundColor: '#92487A', borderRadius: 6 }
-                    ] 
-                },
-                options: { 
-                    responsive: true, 
-                    maintainAspectRatio: true, 
-                    plugins: { legend: { position: 'bottom', labels: { boxWidth: 10, font: { size: 10 } } } },
-                    scales: { y: { ticks: { callback: function(value) { return '₹' + value.toLocaleString(); }, font: { size: 10 } }, grid: { color: '#e5e7eb' } } }
-                }
-            });
+        document.getElementById('budgetForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            showToast('Budget set!', 'success');
+            closeBudgetModal();
+        });
+
+        // ========== CUSTOM TYPE ==========
+        function handleExpenseTypeChange(sel, ctx) {
+            if (sel.value === 'Others') { customTypeOriginContext = ctx; openCustomTypeOverlay(); }
         }
-        
-        // Report Functions
-        function generateExpenseReport() { document.getElementById('expenseReportPreview').innerHTML = '<div class="text-center"><i class="fas fa-chart-line text-3xl text-gray-400 mb-2"></i><p>Report generated successfully!</p></div>'; showToast('Report generated!', 'success'); }
-        
-        function updateExpenseChart() {
-            const ctx = document.getElementById('expensePieChart').getContext('2d');
-            if (expensePieChart) expensePieChart.destroy();
-            expensePieChart = new Chart(ctx, {
-                type: 'doughnut',
-                data: { labels: ['Travel', 'Food', 'Fuel', 'Others'], datasets: [{ data: [45, 25, 18, 12], backgroundColor: ['#540863', '#92487A', '#E49BA6', '#FFD3D5'], borderWidth: 0 }] },
-                options: { responsive: true, maintainAspectRatio: true, plugins: { legend: { display: false } }, cutout: '60%' }
-            });
+
+        function openCustomTypeOverlay() {
+            document.getElementById('customTypeOverlay').classList.add('active');
+            document.getElementById('customTypeInput').value = '';
+            setTimeout(function() { document.getElementById('customTypeInput').focus(); }, 100);
         }
-        
-        function showToast(message, type) { const toast = document.createElement('div'); toast.className = `toast ${type}`; toast.innerHTML = message; document.body.appendChild(toast); setTimeout(() => toast.remove(), 3000); }
-        
-        function setActiveMenu(module) { setTimeout(() => { document.querySelectorAll('.nav-link').forEach(link => { link.classList.remove('active'); if(link.getAttribute('data-module') === module) link.classList.add('active'); }); }, 500); }
-        
-        document.addEventListener('DOMContentLoaded', function() { loadSidebar(); loadHeader(); setActiveMenu('expense'); initTabs(); updateExpenseChart(); updateBudgetChart(); });
+
+        function closeCustomTypeOverlay() {
+            document.getElementById('customTypeOverlay').classList.remove('active');
+            var sel = document.getElementById(customTypeOriginContext === 'main' ? 'exp_type' : 'edit_type');
+            if (sel && sel.value === 'Others') sel.value = '';
+            customTypeOriginContext = null;
+        }
+
+        function handleCustomTypeKeydown(e) { if (e.key === 'Enter') { e.preventDefault(); addCustomExpenseType(); } }
+
+        function getAllExpenseTypeSelects() {
+            return ['exp_type','edit_type'].map(function(id) { return document.getElementById(id); }).filter(Boolean);
+        }
+
+        function addOptionToExpenseSelect(sel, value) {
+            var idx = -1;
+            for (var i=0; i<sel.options.length; i++) { if (sel.options[i].value==='Others') { idx=i; break; } }
+            var opt = document.createElement('option');
+            opt.value = value; opt.textContent = '✏️ ' + value; opt.setAttribute('data-custom','true');
+            if (idx !== -1) sel.insertBefore(opt, sel.options[idx]); else sel.appendChild(opt);
+        }
+
+        function addCustomExpenseType() {
+            var input = document.getElementById('customTypeInput');
+            var val = input.value.trim();
+            if (!val) { input.focus(); input.style.borderColor='#dc3545'; setTimeout(function(){input.style.borderColor='var(--primary-soft)';},1500); return; }
+            var sels = getAllExpenseTypeSelects();
+            var exists = sels.length > 0 && Array.from(sels[0].options).some(function(o){ return o.value.toLowerCase()===val.toLowerCase(); });
+            if (exists) { input.value=''; input.placeholder='"'+val+'" already exists!'; setTimeout(function(){input.placeholder='e.g. Internet Bill…';},2000); return; }
+            sels.forEach(function(s){ addOptionToExpenseSelect(s, val); });
+            var ctx = customTypeOriginContext;
+            if (ctx) { var s = document.getElementById(ctx==='main'?'exp_type':'edit_type'); if(s) s.value=val; }
+            customTypesAdded.push(val);
+            document.getElementById('customTypeAddedList').style.display='block';
+            renderCustomTypeTags();
+            showToast('Type "' + val + '" added!', 'success');
+            document.getElementById('customTypeOverlay').classList.remove('active');
+            customTypeOriginContext = null;
+        }
+
+        function renderCustomTypeTags() {
+            var c = document.getElementById('customTypeTagsContainer');
+            c.innerHTML = customTypesAdded.map(function(t) {
+                return '<span class="custom-type-tag">' + t + '<span class="remove-tag" onclick="removeCustomTypeTag(\'' + t.replace(/'/g,"\\'") + '\')">✕</span></span>';
+            }).join('');
+        }
+
+        function removeCustomTypeTag(name) {
+            customTypesAdded = customTypesAdded.filter(function(t){return t!==name;});
+            getAllExpenseTypeSelects().forEach(function(sel) {
+                for (var i=0;i<sel.options.length;i++) { if(sel.options[i].value===name){ if(sel.value===name) sel.value=''; sel.remove(i); break; } }
+            });
+            renderCustomTypeTags();
+            if (!customTypesAdded.length) document.getElementById('customTypeAddedList').style.display='none';
+            showToast('Type "'+name+'" removed.','info');
+        }
+
+        // ========== FORM SUBMIT ==========
+        document.getElementById('expenseForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            var employeeId = document.getElementById('exp_employee').value;
+            var type       = document.getElementById('exp_type').value;
+            var date       = document.getElementById('exp_date').value;
+            var amount     = document.getElementById('exp_amount').value;
+            var desc       = document.getElementById('exp_desc').value;
+            var bill       = document.getElementById('exp_bill_no').value;
+            var file       = document.getElementById('exp_receipt').files[0];
+            if (!employeeId) { showToast('Select employee','error'); return; }
+            if (!type)       { showToast('Select expense type','error'); return; }
+            if (!date)       { showToast('Select date','error'); return; }
+            if (!amount || amount <= 0) { showToast('Enter valid amount','error'); return; }
+            createExpenseAPI(employeeId, type, date, parseFloat(amount), desc, bill, file)
+                .then(function() { document.getElementById('expenseForm').reset(); })
+                .catch(function() {});
+        });
+
+        function setActiveMenu(module) {
+            setTimeout(function() {
+                document.querySelectorAll('.nav-link').forEach(function(link) {
+                    link.classList.remove('active');
+                    if (link.getAttribute('data-module') === module) link.classList.add('active');
+                });
+            }, 500);
+        }
+
+        // ========== INIT ==========
+        document.addEventListener('DOMContentLoaded', async function() {
+            if (typeof loadSidebar === 'function') loadSidebar();
+            if (typeof loadHeader === 'function')  loadHeader();
+            setActiveMenu('expense');
+            initTabs();
+            await fetchAllEmployees();
+            await fetchAllExpenses();
+            await fetchPendingApprovals();
+        });
     </script>
 </body>
 </html>

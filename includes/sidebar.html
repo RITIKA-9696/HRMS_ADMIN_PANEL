@@ -1,16 +1,13 @@
 <!-- Collapsible Sidebar with Fixed Submenu Toggle -->
 <aside class="main-sidebar w-64 flex flex-col" id="mainSidebar"
-    style="background: #edb5bd; height: 100vh; overflow: hidden;">
+    style="background: #b8cfd7; height: 100vh; overflow: hidden;">
     <!-- Sidebar Header -->
     <div class="h-14 flex items-center justify-between px-4 border-b flex-shrink-0"
-        style="border-bottom-color: #5c003f;">
-        <div class="sidebar-logo flex items-center gap-2">
-            <div class="w-7 h-7 rounded-lg" style="background-color: #92487A;">
-                <i class="fas fa-chart-line text-white text-xs flex items-center justify-center h-full"></i>
-            </div>
-            <span class="font-bold text-sm" style="color: #540863;">HRMS Admin</span>
+        style="border-bottom-color: #3098b5;">
+        <div class="sidebar-logo gap-2">
+            <img src="/assets/images/logo.png" alt="" class="h-10 w-48 object-contain">
         </div>
-        <button id="collapseBtn" class="transition-all duration-300 hover:scale-110" style="color: #540863;">
+        <button id="collapseBtn" class="transition-all duration-300 hover:scale-110" style="color: #3098b5">
             <i class="fas fa-chevron-left text-xs"></i>
         </button>
     </div>
@@ -23,8 +20,8 @@
                 <a href="/dashboard.html"
                     class="nav-link flex items-center gap-2 px-3 py-2 rounded-lg transition-all duration-300 group"
                     data-module="dashboard">
-                    <i class="fas fa-tachometer-alt w-4 text-xs" style="color: #540863;"></i>
-                    <span class="nav-text text-sm" style="color: #540863;">Dashboard</span>
+                    <i class="fas fa-tachometer-alt w-4 text-xs" style="color: #1B738C;"></i>
+                    <span class="nav-text text-sm font-medium" style="color: #125f74;">Dashboard</span>
                 </a>
             </li>
 
@@ -33,8 +30,8 @@
                 <a href="/pages/company-mgmt/company.html"
                     class="nav-link flex items-center gap-2 px-3 py-2 rounded-lg transition-all duration-300 group"
                     data-module="company">
-                    <i class="fas fa-building w-4 text-xs" style="color: #540863;"></i>
-                    <span class="nav-text text-sm font-medium" style="color: #540863;">Company Management</span>
+                    <i class="fas fa-building w-4 text-xs" style="color: #1B738C;"></i>
+                    <span class="nav-text text-sm font-medium" style="color: #125f74;">Company Management</span>
                 </a>
             </li>
 
@@ -45,70 +42,77 @@
                     class="nav-link toggle-submenu flex items-center justify-between px-3 py-2 rounded-lg transition-all duration-300 group"
                     data-module="employees">
                     <div class="flex items-center gap-2">
-                        <i class="fas fa-users w-4 text-xs" style="color: #540863;"></i>
-                        <span class="nav-text text-sm font-medium" style="color: #540863;">Employee Management</span>
+                        <i class="fas fa-users w-4 text-xs" style="color: #1B738C;"></i>
+                        <span class="nav-text text-sm font-medium" style="color: #125f74;">Employee Management</span>
                     </div>
                     <i class="fas fa-chevron-right submenu-arrow text-[9px] transition-transform duration-300"
-                        style="color: #540863;"></i>
+                        style="color: #1B738C;"></i>
                 </a>
                 <ul class="flex flex-col items-end submenu mt-1 space-y-0.5" style="display: none;">
+
                     <li><a href="/pages/employees.html?tab=all"
                             class="block px-3 py-1.5 ml-7 rounded-lg text-[13px] transition-all duration-300"
-                            style="color: #5c003f;">1. All Employees</a></li>
+                            style="color: #125f74;">1. All Employees</a></li>
 
                     <li><a href="/pages/employees.html?tab=add"
                             class="block px-3 py-1.5 ml-7 rounded-lg text-[13px] transition-all duration-300"
-                            style="color: #5c003f;">2. Add Employee</a></li>
+                            style="color: #125f74;">2. Add Employee</a></li>
 
-                    <li><a href="/pages/employees.html?tab=documents"
+                    
+
+
+
+                    <!-- <li><a href="/pages/employees.html?tab=documents"
                             class="block px-3 py-1.5 ml-7 rounded-lg text-[13px] transition-all duration-300"
-                            style="color: #5c003f;">3. Documents</a></li>
+                            style="color: #1B738C;">3. Documents</a></li> -->
 
                     <!-- <li><a href="/pages/employees.html?tab=history"
                             class="block px-3 py-1.5 ml-7 rounded-lg text-[13px] transition-all duration-300"
-                            style="color: #5c003f;">4. History</a></li> -->
+                            style="color: #1B738C;">4. History</a></li> -->
                     <!-- <li><a href="/pages/onboarding.html"
                             class="block px-3 py-1.5 ml-7  rounded-lg text-[14px] transition-all duration-300"
-                            style="color: #5c003f;"> Onboarding </a></li>
+                            style="color: #1B738C;"> Onboarding </a></li>
                     <li><a href="/pages/asset.html"
                             class="block px-3 py-1.5 ml-7 rounded-lg text-[14px] transition-all duration-300"
-                            style="color: #5c003f;"> Asset Management</a></li>
+                            style="color: #1B738C;"> Asset Management</a></li>
                     <li><a href="/pages/exit.html"
                             class="block px-3 py-1.5 ml-7 rounded-lg text-[14px] transition-all duration-300"
-                            style="color: #5c003f;"> Exit Management</a></li> -->
+                            style="color: #1B738C;"> Exit Management</a></li> -->
                 </ul>
             </li>
 
 
             <!-- Onboarding -->
-<li class="nav-item">
-    <a href="/pages/onboarding.html"
-        class="nav-link flex items-center gap-2 px-3 py-2 rounded-lg transition-all duration-300 group"
-        data-module="onboarding">
-        <i class="fas fa-user-plus w-4 text-xs" style="color: #540863;"></i>
-        <span class="nav-text text-sm font-medium" style="color: #540863;">Onboarding</span>
-    </a>
-</li>
+            <li class="nav-item">
+                <a href="/pages/onboarding.html"
+                    class="nav-link flex items-center gap-2 px-3 py-2 rounded-lg transition-all duration-300 group"
+                    data-module="onboarding">
+                    <i class="fas fa-user-plus w-4 text-xs" style="color: #1B738C;"></i>
+                    <span class="nav-text text-sm font-medium" style="color: #125f74;">Onboarding</span>
+                </a>
+            </li>
 
-<!-- Exit -->
-<li class="nav-item">
-    <a href="/pages/exit.html"
-        class="nav-link flex items-center gap-2 px-3 py-2 rounded-lg transition-all duration-300 group"
-        data-module="exit">
-        <i class="fas fa-sign-out-alt w-4 text-xs" style="color: #540863;"></i>
-        <span class="nav-text text-sm font-medium" style="color: #540863;">Exit Management</span>
-    </a>
-</li>
+            <!-- Asset Management -->
+            <li class="nav-item">
+                <a href="/pages/asset.html"
+                    class="nav-link flex items-center gap-2 px-3 py-2 rounded-lg transition-all duration-300 group"
+                    data-module="asset-management">
+                    <i class="fas fa-laptop w-4 text-xs" style="color: #1B738C;"></i>
+                    <span class="nav-text text-sm font-medium" style="color: #125f74;">Asset Management</span>
+                </a>
+            </li>
 
-<!-- Asset Management -->
-<li class="nav-item">
-    <a href="/pages/asset-management.html"
-        class="nav-link flex items-center gap-2 px-3 py-2 rounded-lg transition-all duration-300 group"
-        data-module="asset-management">
-        <i class="fas fa-laptop w-4 text-xs" style="color: #540863;"></i>
-        <span class="nav-text text-sm font-medium" style="color: #540863;">Asset Management</span>
-    </a>
-</li>
+            <!-- Exit -->
+            <li class="nav-item">
+                <a href="/pages/exit.html"
+                    class="nav-link flex items-center gap-2 px-3 py-2 rounded-lg transition-all duration-300 group"
+                    data-module="exit">
+                    <i class="fas fa-sign-out-alt w-4 text-xs" style="color: #1B738C;"></i>
+                    <span class="nav-text text-sm font-medium" style="color: #125f74;">Exit Management</span>
+                </a>
+            </li>
+
+
 
 
             <!-- Attendance -->
@@ -116,8 +120,8 @@
                 <a href="/pages/attandance.html"
                     class="nav-link flex items-center gap-2 px-3 py-2 rounded-lg transition-all duration-300 group"
                     data-module="attendance">
-                    <i class="fas fa-clock w-4 text-xs" style="color: #540863;"></i>
-                    <span class="nav-text text-sm font-medium" style="color: #540863;">Attendance</span>
+                    <i class="fas fa-clock w-4 text-xs" style="color: #1B738C;"></i>
+                    <span class="nav-text text-sm font-medium" style="color: #125f74;">Attendance</span>
                 </a>
             </li>
 
@@ -126,8 +130,18 @@
                 <a href="/pages/leave.html"
                     class="nav-link flex items-center gap-2 px-3 py-2 rounded-lg transition-all duration-300 group"
                     data-module="leave">
-                    <i class="fas fa-calendar-alt w-4 text-xs" style="color: #540863;"></i>
-                    <span class="nav-text text-sm font-medium" style="color: #540863;">Leave Management</span>
+                    <i class="fas fa-calendar-alt w-4 text-xs" style="color: #1B738C;"></i>
+                    <span class="nav-text text-sm font-medium" style="color: #125f74;">Leave Management</span>
+                </a>
+            </li>
+
+            <!-- Expense Management -->
+            <li class="nav-item">
+                <a href="/pages/expense.html"
+                    class="nav-link flex items-center gap-2 px-3 py-2 rounded-lg transition-all duration-300 group"
+                    data-module="expense">
+                    <i class="fas fa-wallet w-4 text-xs" style="color: #1B738C;"></i>
+                    <span class="nav-text text-sm font-medium" style="color: #125f74;">Expense Management</span>
                 </a>
             </li>
 
@@ -137,25 +151,19 @@
                     class="nav-link toggle-submenu flex items-center justify-between px-3 py-2 rounded-lg transition-all duration-300 group"
                     data-module="payroll">
                     <div class="flex items-center gap-2">
-                        <i class="fas fa-rupee-sign w-4 text-xs" style="color: #540863;"></i>
-                        <span class="nav-text text-sm font-medium" style="color: #540863;">Payroll</span>
+                        <i class="fas fa-rupee-sign w-4 text-xs" style="color: #1B738C;"></i>
+                        <span class="nav-text text-sm font-medium" style="color: #125f74;">Payroll</span>
                     </div>
                     <i class="fas fa-chevron-right submenu-arrow text-[9px] transition-transform duration-300"
-                        style="color: #540863;"></i>
+                        style="color: #1B738C;"></i>
                 </a>
                 <ul class="submenu mt-1 space-y-0.5" style="display: none;">
-                    <li><a href="/pages/payroll/structure.html"
+                    <li><a href="/pages/payroll/employee_payroll.html"
                             class="block px-3 py-1.5 ml-7 rounded-lg text-[13px] transition-all duration-300"
-                            style="color: #5c003f;"> Salary Structure</a></li>
-                    <li><a href="/pages/payroll/deductions.html"
-                            class="block px-3 py-1.5 ml-7 rounded-lg text-[13px] transition-all duration-300"
-                            style="color: #5c003f;"> Deductions</a></li>
-                    <li><a href="/pages/payroll/run.html"
-                            class="block px-3 py-1.5 ml-7 rounded-lg text-[13px] transition-all duration-300"
-                            style="color: #5c003f;"> Run Payroll</a></li>
+                            style="color: #125f74;">1. Employee Pay</a></li>
                     <li><a href="/pages/payroll/payslips.html"
                             class="block px-3 py-1.5 ml-7 rounded-lg text-[13px] transition-all duration-300"
-                            style="color: #5c003f;"> Payslips</a></li>
+                            style="color: #125f74;">2. Employee Pay-Slips</a></li>
                 </ul>
             </li>
 
@@ -164,104 +172,82 @@
                 <a href="/pages/kpi.html"
                     class="nav-link flex items-center gap-2 px-3 py-2 rounded-lg transition-all duration-300 group"
                     data-module="kpi">
-                    <i class="fas fa-chart-line w-4 text-xs" style="color: #540863;"></i>
-                    <span class="nav-text text-sm font-medium" style="color: #540863;">KPI / Performance</span>
+                    <i class="fas fa-chart-line w-4 text-xs" style="color: #1B738C;"></i>
+                    <span class="nav-text text-sm font-medium" style="color: #125f74;">KPI / Performance</span>
                 </a>
             </li>
 
             <!-- Workflow & Approval -->
-            <li class="nav-item">
+            <!-- <li class="nav-item">
                 <a href="/pages/workflow.html"
                     class="nav-link flex items-center gap-2 px-3 py-2 rounded-lg transition-all duration-300 group"
                     data-module="workflow">
-                    <i class="fas fa-tasks w-4 text-xs" style="color: #540863;"></i>
-                    <span class="nav-text text-sm font-medium" style="color: #540863;">Workflow & Approval</span>
+                    <i class="fas fa-tasks w-4 text-xs" style="color: #1B738C;"></i>
+                    <span class="nav-text text-sm font-medium" style="color: #125f74;">Workflow & Approval</span>
                 </a>
-            </li>
+            </li> -->
 
             <!-- Asset Management -->
-            <li class="nav-item">
+            <!-- <li class="nav-item">
                 <a href="/pages/asset.html"
                     class="nav-link flex items-center gap-2 px-3 py-2 rounded-lg transition-all duration-300 group"
                     data-module="asset">
-                    <i class="fas fa-laptop w-4 text-xs" style="color: #540863;"></i>
-                    <span class="nav-text text-sm font-medium" style="color: #540863;">Asset Management</span>
+                    <i class="fas fa-laptop w-4 text-xs" style="color: #1B738C;"></i>
+                    <span class="nav-text text-sm font-medium" style="color: #125f74;">Asset Management</span>
                 </a>
-            </li>
+            </li> -->
 
-            <!-- Expense Management -->
-            <li class="nav-item">
-                <a href="/pages/expense.html"
-                    class="nav-link flex items-center gap-2 px-3 py-2 rounded-lg transition-all duration-300 group"
-                    data-module="expense">
-                    <i class="fas fa-wallet w-4 text-xs" style="color: #540863;"></i>
-                    <span class="nav-text text-sm font-medium" style="color: #540863;">Expense Management</span>
-                </a>
-            </li>
+
 
             <!-- Notification -->
-            <li class="nav-item">
+            <!-- <li class="nav-item">
                 <a href="/pages/notification.html"
                     class="nav-link flex items-center gap-2 px-3 py-2 rounded-lg transition-all duration-300 group"
                     data-module="notification">
-                    <i class="fas fa-bell w-4 text-xs" style="color: #540863;"></i>
-                    <span class="nav-text text-sm font-medium" style="color: #540863;">Notification</span>
+                    <i class="fas fa-bell w-4 text-xs" style="color: #1B738C;"></i>
+                    <span class="nav-text text-sm font-medium" style="color: #125f74;">Notification</span>
                 </a>
-            </li>
+            </li> -->
 
             <!-- Reports -->
-            <li class="nav-item has-submenu">
-                <a href="javascript:void(0);"
-                    class="nav-link toggle-submenu flex items-center justify-between px-3 py-2 rounded-lg transition-all duration-300 group"
-                    data-module="reports">
-                    <div class="flex items-center gap-2">
-                        <i class="fas fa-file-alt w-4 text-xs" style="color: #540863;"></i>
-                        <span class="nav-text text-sm font-medium" style="color: #540863;">Reports</span>
-                    </div>
-                    <i class="fas fa-chevron-right submenu-arrow text-[9px] transition-transform duration-300"
-                        style="color: #540863;"></i>
+            <!-- <li class="nav-item">
+                <a href="/pages/attandance.html"
+                    class="nav-link flex items-center gap-2 px-3 py-2 rounded-lg transition-all duration-300 group">
+
+                    <i class="fas fa-file-alt w-4 text-xs" style="color: #1B738C;"></i>
+
+                    <span class="nav-text text-sm font-medium" style="color: #125f74;">
+                        Reports
+                    </span>
+
                 </a>
-                <ul class="submenu mt-1 space-y-0.5" style="display: none;">
-                    <li><a href="/pages/reports/employee.html"
-                            class="block px-3 py-1.5 ml-7 rounded-lg text-[13px] transition-all duration-300"
-                            style="color: #5c003f;"> Employee Report</a></li>
-                    <li><a href="/pages/reports/attendance.html"
-                            class="block px-3 py-1.5 ml-7 rounded-lg text-[13px] transition-all duration-300"
-                            style="color: #5c003f;"> Attendance Report</a></li>
-                    <li><a href="/pages/reports/leave.html"
-                            class="block px-3 py-1.5 ml-7 rounded-lg text-[13px] transition-all duration-300"
-                            style="color: #5c003f;"> Leave Report</a></li>
-                    <li><a href="/pages/reports/salary.html"
-                            class="block px-3 py-1.5 ml-7 rounded-lg text-[13px] transition-all duration-300"
-                            style="color: #5c003f;"> Salary Report</a></li>
-                </ul>
-            </li>
-           
+            </li> -->
+
 
             <!-- Security & Role -->
-            <li class="nav-item has-submenu">
+            <!-- <li class="nav-item has-submenu">
                 <a href="javascript:void(0);"
                     class="nav-link toggle-submenu flex items-center justify-between px-3 py-2 rounded-lg transition-all duration-300 group"
                     data-module="security">
                     <div class="flex items-center gap-2">
-                        <i class="fas fa-shield-alt w-4 text-xs" style="color: #540863;"></i>
-                        <span class="nav-text text-sm font-medium" style="color: #540863;">Security & Role</span>
+                        <i class="fas fa-shield-alt w-4 text-xs" style="color: #1B738C;"></i>
+                        <span class="nav-text text-sm font-medium" style="color: #125f74;">Security & Role</span>
                     </div>
                     <i class="fas fa-chevron-right submenu-arrow text-[9px] transition-transform duration-300"
-                        style="color: #540863;"></i>
+                        style="color: #125f74;"></i>
                 </a>
                 <ul class="submenu mt-1 space-y-0.5" style="display: none;">
                     <li><a href="/pages/security.html?tab=roles"
                             class="block px-3 py-1.5 ml-7 rounded-lg text-[13px] transition-all duration-300"
-                            style="color: #5c003f;"> Role Management</a></li>
+                            style="color: #125f74;"> Role Management</a></li>
                     <li><a href="/pages/security.html?tab=permissions"
                             class="block px-3 py-1.5 ml-7 rounded-lg text-[13px] transition-all duration-300"
-                            style="color: #5c003f;"> Permissions</a></li>
+                            style="color: #125f74;"> Permissions</a></li>
                     <li><a href="/pages/security.html?tab=audit"
                             class="block px-3 py-1.5 ml-7 rounded-lg text-[13px] transition-all duration-300"
-                            style="color: #5c003f;"> Audit Logs</a></li>
+                            style="color: #125f74;"> Audit Logs</a></li>
                 </ul>
-            </li>
+            </li> -->
         </ul>
     </nav>
 </aside>
@@ -277,7 +263,7 @@
     /* Navigation Menu Scrollbar Styling */
     .sidebar-nav {
         scrollbar-width: thin;
-        scrollbar-color: #540863 #E49BA6;
+        scrollbar-color: #1B738C #BDE4EE;
         overflow-y: auto !important;
         overflow-x: hidden !important;
     }
@@ -287,17 +273,17 @@
     }
 
     .sidebar-nav::-webkit-scrollbar-track {
-        background: #d48a95;
+        background: #BDE4EE;
         border-radius: 10px;
     }
 
     .sidebar-nav::-webkit-scrollbar-thumb {
-        background: #540863;
+        background: #1B738C;
         border-radius: 10px;
     }
 
     .sidebar-nav::-webkit-scrollbar-thumb:hover {
-        background: #92487A;
+        background: #BDE4EE;
     }
 
     .nav-link {
@@ -307,22 +293,23 @@
 
     /* Sidebar Navigation Hover Effects */
     .nav-link:hover {
-        background-color: rgba(84, 8, 99, 0.1);
+        background-color: #649cab;
         transform: translateX(2px);
-        border: 1px solid #92487A;
+        border: 1px solid #1B738C;
+
     }
 
     .nav-link:hover span {
-        color: #540863 !important;
+        color: white !important;
     }
 
     .nav-link:hover i {
-        color: #540863 !important;
+        color: white !important;
     }
 
     .nav-link.active {
-        background-color: #92487A;
-        border-left: 2px solid #dbd4dc;
+        background-color: #1B738C;
+        border: 1px solid #17657a;
     }
 
     .nav-link.active span {
@@ -336,14 +323,14 @@
 
     /* Submenu Hover Effects */
     .submenu li a:hover {
-        background-color: rgba(84, 8, 99, 0.1);
-        color: #540863 !important;
+        background-color: #649cab;
+        color: white !important;
         transform: translateX(2px);
     }
 
     .submenu li a.active {
-        background-color: rgba(84, 8, 99, 0.15);
-        color: #540863 !important;
+        background-color: #1B738C;
+        color: #EDE9E6 !important;
         font-weight: 500;
     }
 
@@ -375,14 +362,14 @@
     .main-sidebar.collapsed .submenu {
         position: fixed;
         left: 70px;
-        background: #E49BA6;
+        background: #EBF4F6;
         min-width: 180px;
         border-radius: 8px;
         padding: 6px 0;
         display: none !important;
-        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.15);
+        box-shadow: 0 10px 25px -5px #F3F4F4;
         z-index: 1000;
-        border: 1px solid #87015d;
+        border: 1px solid #F3F4F4;
     }
 
     .main-sidebar.collapsed .has-submenu:hover .submenu {
@@ -393,12 +380,12 @@
         padding: 8px 14px;
         white-space: nowrap;
         font-size: 12px;
-        color: #540863 !important;
+        color: #146278 !important;
     }
 
     .main-sidebar.collapsed .has-submenu .submenu li a:hover {
         background-color: rgba(84, 8, 99, 0.1);
-        color: #540863 !important;
+        color: #fefefe !important;
     }
 
     /* Transition Effects */

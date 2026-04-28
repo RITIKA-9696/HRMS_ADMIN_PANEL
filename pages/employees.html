@@ -4,181 +4,178 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Employee Management | HRMS Admin</title>
-    
+
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    
+
     <style>
         * { font-family: 'Inter', sans-serif; }
-        body { background-color: #f3eeef; }
-        
+
+        /* ===== COMPANY MANAGEMENT THEME (matching company.html exactly) ===== */
         :root {
-            --brand-50: #faf0f5;
-            --brand-100: #f0e0eb;
-            --brand-200: #e0c0d6;
-            --brand-300: #cfa0c2;
-            --brand-400: #b070a4;
-            --brand-500: #540863;
-            --brand-600: #430750;
-            --teal-50: #e6f7f5;
-            --teal-100: #cceeea;
-            --teal-400: #2d9c8a;
-            --teal-500: #1a7a6b;
-            --teal-600: #135e52;
-            --purple-600: #6a1b9a;
-            --gray-50: #f9fafb;
-            --gray-100: #f3f4f6;
-            --gray-200: #e5e7eb;
-            --gray-300: #d1d5db;
-            --gray-400: #9ca3af;
-            --gray-500: #6b7280;
-            --gray-600: #4b5563;
-            --text-primary: #1f2937;
-            --text-muted: #6b7280;
-            --border: #e5e7eb;
-            --white: #ffffff;
-            --r-sm: 6px;
-            --r-md: 10px;
-            --r-lg: 14px;
+            --primary: #1B738C;
+            --primary-light: #62C9EA;
+            --primary-soft: #BDE4EE;
+            --primary-bg-light: #e9f2f4;
+            --button-hover: #166278;
+            --border-color: #1B738C;
+            --text-dark: #1B738C;
+            --text-light: #5a7c8a;
         }
-        
+
+        body { background-color: #f0f7f9; }
+
         .section-card {
             background: white;
             border-radius: 12px;
-            border: 1px solid #c99ebb;
-            padding: 20px;
-            margin-bottom: 20px;
+            border: 1px solid var(--primary-light);
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 2px 8px rgba(27, 115, 140, 0.04);
         }
-        
+
+        /* ===== BUTTONS (matching company.html exactly) ===== */
         .btn-primary {
-            background-color: #540863;
+            background-color: var(--primary);
             transition: all 0.3s ease;
             color: white;
-            padding: 8px 16px;
-            border-radius: 8px;
+            padding: 10px 26px;
+            border-radius: 12px;
             cursor: pointer;
+            font-weight: 600;
+            border: none;
+            font-size: 13px;
+        }
+        .btn-primary:hover { background-color: var(--button-hover); transform: translateY(-1px); box-shadow: 0 4px 10px rgba(27,115,140,0.2); }
+        .btn-primary:disabled { background-color: var(--primary-soft); cursor: not-allowed; transform: none; }
+
+        .btn-secondary {
+            background-color: var(--primary-light);
+            transition: all 0.3s ease;
+            color: var(--primary);
+            padding: 8px 18px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 500;
             border: none;
         }
-        .btn-primary:hover { background-color: #92487A; transform: translateY(-1px); }
-        
+        .btn-secondary:hover { background-color: var(--primary); color: white; }
+
         .btn-success {
-            background-color: #28a745;
+            background-color: #2b7a3e;
+            transition: all 0.3s ease;
             color: white;
-            padding: 8px 16px;
-            border-radius: 8px;
+            padding: 10px 26px;
+            border-radius: 12px;
             cursor: pointer;
+            font-weight: 600;
             border: none;
+            font-size: 13px;
         }
-        .btn-success:hover { background-color: #218838; }
-        
+        .btn-success:hover:not(:disabled) { background-color: #1e5a2e; transform: translateY(-1px); box-shadow: 0 4px 10px rgba(43,122,62,0.2); }
+        .btn-success:disabled { background-color: #a0c4a8; cursor: not-allowed; }
+
         .btn-danger {
             background-color: #dc3545;
             color: white;
-            padding: 6px 12px;
-            border-radius: 6px;
-            font-size: 12px;
+            padding: 8px 18px;
+            border-radius: 10px;
             cursor: pointer;
+            font-weight: 500;
             border: none;
         }
         .btn-danger:hover { background-color: #c82333; }
-        
+
         .btn-outline {
-            border: 1px solid #540863;
-            color: #540863;
-            padding: 8px 16px;
-            border-radius: 8px;
+            border: 1px solid var(--primary-light);
+            color: var(--primary);
+            padding: 8px 18px;
+            border-radius: 10px;
             background: transparent;
             cursor: pointer;
+            font-weight: 500;
+            font-size: 13px;
+            transition: all 0.2s;
         }
-        .btn-outline:hover { background-color: #540863; color: white; }
-        
-        .btn-ghost {
-            background: transparent;
-            border: 1px solid var(--gray-300);
-            padding: 8px 16px;
-            border-radius: 8px;
+        .btn-outline:hover { background-color: var(--primary-bg-light); border-color: var(--primary); }
+
+        .btn-info {
+            background-color: var(--primary-light);
+            color: var(--primary);
+            padding: 8px 18px;
+            border-radius: 10px;
             cursor: pointer;
+            font-weight: 500;
+            border: none;
         }
-        .btn-ghost:hover { background: var(--gray-50); }
-        
-        .btn-sm { padding: 6px 12px; font-size: 12px; }
-        
+        .btn-info:hover { background-color: var(--primary); color: white; }
+
+        .btn-sm { padding: 6px 14px !important; font-size: 12px !important; border-radius: 8px !important; }
+
+        /* ===== INPUTS (matching company.html exactly) ===== */
         input, select, textarea {
-            border: 1px solid #c99ebb;
-            border-radius: 8px;
-            padding: 8px 12px;
+            border: 1px solid var(--primary-soft);
+            border-radius: 12px;
+            padding: 10px 14px;
             width: 100%;
+            font-size: 13px;
+            transition: 0.2s;
+            color: var(--text-dark);
         }
         input:focus, select:focus, textarea:focus {
             outline: none;
-            border-color: #c372d3;
-            box-shadow: 0 0 0 2px rgba(84, 8, 99, 0.1);
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(27,115,140,0.1);
         }
-        
         label {
             font-size: 13px;
-            font-weight: 500;
-            color: #540863;
-            margin-bottom: 4px;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 6px;
             display: block;
         }
-        
-        .req { color: #dc3545; font-size: 12px; }
-        
-        .tab-btn.active {
-            color: #540863;
-            border-bottom: 2px solid #540863;
+
+        /* ===== TABS (matching company.html exactly) ===== */
+        .submodule-nav {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 28px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid var(--primary-soft);
+            flex-wrap: wrap;
         }
-        
-        .main-content { margin-top: 64px; }
-        
-        ::-webkit-scrollbar { width: 5px; }
-        ::-webkit-scrollbar-track { background: #f3eeef; }
-        ::-webkit-scrollbar-thumb { background: #92487A; border-radius: 10px; }
-        
+        .tab-btn {
+            padding: 8px 24px;
+            border-radius: 40px;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.2s;
+            background: transparent;
+            color: var(--primary);
+            cursor: pointer;
+            border: none;
+            position: relative;
+        }
+        .tab-btn:hover { background-color: var(--primary-bg-light); color: var(--button-hover); }
+        .tab-btn.active { background-color: var(--primary); color: white; }
+
         .tab-content { display: none; }
         .tab-content.active { display: block; }
-        
-        .form-row {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 16px;
-            margin-bottom: 16px;
-        }
-        
-        .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
-        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-        .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
-        
-        .data-row:hover { background-color: rgba(84, 8, 99, 0.05); cursor: pointer; }
-        table { width: 100%; border-collapse: collapse; }
-        
-        .avatar {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            background-color: #540863;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 12px;
-            font-weight: 500;
-        }
-        
-        /* Wizard Styles */
+
+        /* ===== WIZARD ===== */
         .wizard {
             display: flex;
             align-items: flex-start;
             justify-content: space-between;
-            background: var(--gray-50);
+            background: var(--primary-bg-light);
             padding: 16px 20px;
             border-radius: 14px;
             margin-bottom: 24px;
             flex-wrap: wrap;
+            gap: 8px;
+            border: 1px solid var(--primary-soft);
         }
-        
         .wz {
             display: flex;
             align-items: center;
@@ -187,274 +184,412 @@
             position: relative;
             cursor: pointer;
         }
-        
         .wz-dot {
             width: 36px;
             height: 36px;
             border-radius: 50%;
             background: white;
-            border: 2px solid var(--gray-300);
+            border: 2px solid var(--primary-soft);
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: 700;
             font-size: 14px;
-            color: var(--gray-500);
+            color: var(--text-light);
             transition: all 0.3s;
+            flex-shrink: 0;
         }
-        
-        .wz.cur .wz-dot {
-            background: #540863;
-            border-color: #c99ebb;
-            color: white;
-        }
-        
-        .wz.done .wz-dot {
-            background: #28a745;
-            border-color: #28a745;
-            color: white;
-        }
-        
+        .wz.cur .wz-dot { background: var(--primary); border-color: var(--primary); color: white; }
+        .wz.done .wz-dot { background: #2b7a3e; border-color: #2b7a3e; color: white; }
         .wz-info { flex: 1; }
-        .wz-step-lbl { font-size: 11px; color: var(--text-muted); }
-        .wz-step-name { font-size: 13px; font-weight: 600; color: var(--text-primary); }
-        
-        .wz-line {
-            flex: 1;
-            height: 2px;
-            background: var(--gray-300);
-            margin-left: 10px;
-        }
-        
+        .wz-step-lbl { font-size: 11px; color: var(--text-light); }
+        .wz-step-name { font-size: 13px; font-weight: 600; color: var(--primary); }
+        .wz-line { flex: 1; height: 2px; background: var(--primary-soft); margin-left: 10px; }
+
+        /* ===== SECTION TITLES IN FORM ===== */
         .sec-title {
             font-size: 14px;
             font-weight: 700;
-            color: #540863;
-            margin: 20px 0 16px 0;
-            padding-bottom: 8px;
-            border-bottom: 2px solid var(--brand-100);
+            color: var(--primary);
+            margin: 24px 0 16px 0;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--primary-soft);
             display: flex;
             align-items: center;
             gap: 8px;
         }
         .sec-title:first-child { margin-top: 0; }
-        
-        .fi-icon-wrap { position: relative; }
-        .fi-icon {
-            position: absolute;
-            left: 12px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--gray-400);
-            font-size: 14px;
+
+        /* ===== GRIDS ===== */
+        .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+        .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+        .form-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; margin-bottom: 16px; }
+
+        /* ===== TABLE ===== */
+        table { width: 100%; border-collapse: collapse; }
+        th { font-weight: 600; font-size: 12px; color: var(--text-light); text-align: left; padding: 12px 8px; }
+        td { padding: 10px 8px; }
+        .data-row:hover { background-color: var(--primary-bg-light); cursor: pointer; }
+
+        /* ===== AVATAR ===== */
+        .avatar {
+            width: 34px; height: 34px;
+            border-radius: 50%;
+            background-color: var(--primary);
+            display: flex; align-items: center; justify-content: center;
+            color: white; font-size: 13px; font-weight: 600;
+            flex-shrink: 0;
         }
-        .fi-has-icon { padding-left: 36px; }
-        
-        .mono { font-family: monospace; letter-spacing: 0.5px; }
-        
-        .badge { padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 500; }
-        .b-teal { background: var(--teal-50); color: var(--teal-600); }
-        
-        .fhint { font-size: 11px; color: var(--text-muted); margin-top: 4px; }
-        
-        .radio-pill-group {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
+
+        /* ===== RADIO PILLS ===== */
+        .radio-pill-group { display: flex; gap: 8px; flex-wrap: wrap; }
         .rpill {
-            padding: 6px 14px;
+            padding: 6px 16px;
             border-radius: 30px;
             background: white;
-            border: 1px solid var(--gray-300);
+            border: 1px solid var(--primary-soft);
             font-size: 12px;
             cursor: pointer;
             transition: all 0.2s;
+            color: var(--text-light);
+            font-weight: 500;
         }
-        .rpill.active {
-            background: #540863;
-            border-color: #c99ebb;
-            color: white;
-        }
-        
-        .toggle-switch-wrap {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .toggle-switch {
-            position: relative;
-            display: inline-block;
-            width: 44px;
-            height: 22px;
-        }
-        .toggle-switch input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
+        .rpill.active { background: var(--primary); border-color: var(--primary); color: white; }
+        .rpill:hover:not(.active) { background: var(--primary-bg-light); border-color: var(--primary-light); color: var(--primary); }
+
+        /* ===== TOGGLE SWITCH ===== */
+        .toggle-switch-wrap { display: flex; align-items: center; gap: 10px; }
+        .toggle-switch { position: relative; display: inline-block; width: 44px; height: 22px; }
+        .toggle-switch input { opacity: 0; width: 0; height: 0; }
         .toggle-thumb {
-            position: absolute;
-            cursor: pointer;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: #ccc;
-            transition: 0.3s;
-            border-radius: 22px;
+            position: absolute; cursor: pointer;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: var(--primary-soft);
+            transition: 0.3s; border-radius: 22px;
         }
         .toggle-thumb:before {
-            position: absolute;
-            content: "";
-            height: 16px;
-            width: 16px;
-            left: 3px;
-            bottom: 3px;
+            position: absolute; content: "";
+            height: 16px; width: 16px;
+            left: 3px; bottom: 3px;
             background-color: white;
-            transition: 0.3s;
-            border-radius: 50%;
+            transition: 0.3s; border-radius: 50%;
         }
-        input:checked + .toggle-thumb { background-color: #540863; }
+        input:checked + .toggle-thumb { background-color: var(--primary); }
         input:checked + .toggle-thumb:before { transform: translateX(22px); }
-        
+
+        /* ===== PWD BLOCK ===== */
         .pwd-block {
             margin-top: 20px;
             padding: 16px;
-            background: var(--gray-50);
-            border-radius: var(--r-lg);
-            border: 1px solid var(--gray-200);
+            background: var(--primary-bg-light);
+            border-radius: 12px;
+            border: 1px solid var(--primary-soft);
         }
-        .pwd-toggle-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 12px;
-        }
-        
+        .pwd-toggle-row { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+
+        /* ===== DOCUMENTS ===== */
         .doc-list { margin-top: 12px; }
         .doc-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px;
-            background: var(--gray-50);
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 10px 14px;
+            background: var(--primary-bg-light);
             border-radius: 8px;
             margin-bottom: 8px;
+            border: 1px solid var(--primary-soft);
         }
-        
-        /* Custom Field Styles */
+
+        /* ===== CUSTOM FIELDS ===== */
         .custom-field-card {
-            background: var(--gray-50);
-            border: 1px solid var(--gray-200);
+            background: var(--primary-bg-light);
+            border: 1px solid var(--primary-soft);
             border-radius: 10px;
-            padding: 12px;
+            padding: 14px;
             margin-bottom: 10px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            transition: 0.2s;
         }
-        .custom-field-card:hover { background: white; border-color: #c99ebb; }
-        
+        .custom-field-card:hover { background: white; border-color: var(--primary-light); }
+
+        /* ===== BADGE ===== */
+        .badge { padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 600; }
+        .badge-custom { background: var(--primary-bg-light); padding: 4px 12px; border-radius: 40px; font-size: 12px; color: var(--primary); font-weight: 500; }
+
+        /* ===== MONO ===== */
+        .mono { font-family: monospace; letter-spacing: 0.5px; }
+
+        /* ===== HINT ===== */
+        .fhint { font-size: 11px; color: var(--text-light); margin-top: 4px; }
+        .req { color: #dc3545; font-size: 12px; }
+
+        /* ===== MODAL (matching company.html exactly) ===== */
+        .modal-overlay {
+            position: fixed; inset: 0;
+            background: rgba(0,0,0,0.5);
+            display: none; align-items: center; justify-content: center;
+            z-index: 1000;
+        }
+        .modal-overlay.active { display: flex; }
+        .modal-container {
+            background: white;
+            border-radius: 24px;
+            padding: 24px;
+            width: 450px;
+            max-width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 35px rgba(0,0,0,0.2);
+        }
+        .modal-header {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 20px; padding-bottom: 12px;
+            border-bottom: 2px solid var(--primary-soft);
+        }
+        .modal-header h3 { font-weight: 700; color: var(--primary); font-size: 1.25rem; }
+        .modal-close { cursor: pointer; font-size: 24px; color: var(--primary-light); transition: 0.2s; }
+        .modal-close:hover { color: var(--primary); }
+
+        /* ===== TOAST (matching company.html exactly) ===== */
         .toast {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            padding: 12px 20px;
-            border-radius: 8px;
-            color: white;
-            z-index: 1100;
+            position: fixed; bottom: 24px; right: 24px;
+            padding: 12px 24px; border-radius: 40px;
+            color: white; z-index: 1200;
             animation: slideIn 0.3s ease;
+            font-weight: 500; font-size: 13px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
-        .toast.success { background-color: #28a745; }
+        .toast.success { background-color: #2b7a3e; }
         .toast.error { background-color: #dc3545; }
-        .toast.info { background-color: #17a2b8; }
-        
-        @keyframes slideIn {
-            from { transform: translateX(100%); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
+        .toast.info { background-color: var(--primary); }
+
+        @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+
+        .main-content { margin-top: 64px; }
+
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-track { background: #f0f7f9; }
+        ::-webkit-scrollbar-thumb { background: var(--primary-light); border-radius: 10px; }
+
+        /* ===== ADDRESS / INNER BLOCKS ===== */
+        .inner-block {
+            background: var(--primary-bg-light);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 16px;
+            border: 1px solid var(--primary-soft);
         }
-        
+        .inner-block-title { font-size: 12px; font-weight: 700; color: var(--primary); margin-bottom: 12px; }
+
+        /* ===== CF BUILDER ===== */
+        .cf-builder-panel {
+            background: var(--primary-bg-light);
+            border: 1px solid var(--primary-soft);
+            border-radius: 12px;
+            padding: 18px;
+            margin-top: 12px;
+        }
+
+        /* ===== ADD CF BUTTON ===== */
+        .add-cf-btn {
+            border: 2px dashed var(--primary-soft);
+            border-radius: 12px;
+            padding: 16px 20px;
+            display: flex; align-items: center; gap: 14px;
+            cursor: pointer; transition: 0.2s;
+        }
+        .add-cf-btn:hover { border-color: var(--primary-light); background: var(--primary-bg-light); }
+        .add-cf-icon {
+            width: 36px; height: 36px; border-radius: 10px;
+            background: white;
+            color: var(--primary);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 16px;
+            border: 1px solid var(--primary-soft);
+        }
+
+        /* ===== STATUS BADGES ===== */
+        .status-active { background: rgba(43,122,62,0.15); color: #155724; }
+        .status-inactive { background: rgba(220,53,69,0.15); color: #721c24; }
+
+        /* ===== NAVIGATION BUTTONS (matching company.html) ===== */
+        .navigation-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 24px;
+            padding-top: 20px;
+            border-top: 2px solid var(--primary-soft);
+        }
+
+        /* ===== FORM GROUP (matching company.html) ===== */
+        .form-group { margin-bottom: 18px; }
+
+        /* ===== ERROR / SUCCESS MESSAGES (matching company.html) ===== */
+        .error-message {
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+        }
+        .error-message.show { display: block; }
+        .success-message {
+            background-color: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+        }
+        .success-message.show { display: block; }
+
+        /* ===== CONFIRM MODAL (matching company.html) ===== */
+        .confirm-modal-overlay {
+            position: fixed; inset: 0;
+            background: rgba(0,0,0,0.5);
+            display: none; align-items: center; justify-content: center;
+            z-index: 2000;
+        }
+        .confirm-modal-overlay.active { display: flex; }
+        .confirm-modal-container {
+            background: white;
+            border-radius: 24px;
+            padding: 24px;
+            width: 400px;
+            max-width: 90%;
+            text-align: center;
+        }
+        .confirm-modal-container h3 { color: var(--primary); font-size: 1.25rem; margin-bottom: 16px; }
+        .confirm-modal-container p { color: var(--text-light); margin-bottom: 24px; }
+        .confirm-buttons { display: flex; gap: 12px; justify-content: center; }
+
+        /* ===== ADD CUSTOM BTN (matching company.html) ===== */
+        .add-custom-btn {
+            background: var(--primary-soft);
+            border-radius: 40px;
+            padding: 6px 14px;
+            font-size: 12px;
+            cursor: pointer;
+            white-space: nowrap;
+            color: var(--primary);
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
+            border: none;
+        }
+        .add-custom-btn:hover { background: var(--primary-light); transform: translateY(-1px); }
+
         @media (max-width: 768px) {
             .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
             .wizard { flex-direction: column; gap: 12px; }
             .wz-line { display: none; }
+            .section-card { padding: 16px; }
+            .tab-btn { padding: 6px 16px; font-size: 12px; }
         }
     </style>
 </head>
-<body class="bg-[#f3eeef]">
-    
+<body>
+
     <div class="flex h-screen overflow-hidden">
         <div id="sidebar-container"></div>
-        
+
         <div class="flex-1 flex flex-col overflow-hidden">
             <div id="header-container"></div>
-            
+
             <main class="flex-1 overflow-y-auto p-5 main-content">
-                
-                
-                
+
                 <!-- Page Header -->
-                <div class="mb-4">
-                    <h1 class="text-xl font-bold" style="color: #540863;">Employee Management</h1>
-                    <p class="text-xs mt-0.5" style="color: #92487A;">Manage all employee information, documents, and history</p>
+                <div class="mb-5">
+                    <h1 class="text-xl font-bold" style="color: var(--primary);">Employee Management</h1>
+                    <p class="text-sm mt-1" style="color: var(--text-light);">Manage all employee information, documents, and history</p>
                 </div>
-                
+
+                <div id="errorContainer" class="error-message"></div>
+                <div id="successContainer" class="success-message"></div>
+
                 <!-- Tab Navigation -->
-                <div class="border-b mb-5 flex flex-wrap gap-6" style="border-color: #c99ebb;">
-                    <a href="javascript:void(0)" class="tab-btn pb-2 text-sm font-medium transition-all" data-tab="all" style="color: #540863;">All Employees</a>
-                    <a href="javascript:void(0)" class="tab-btn pb-2 text-sm font-medium transition-all" data-tab="add" style="color: #92487A;"> Add Employee</a>
-                    <a href="javascript:void(0)" class="tab-btn pb-2 text-sm font-medium transition-all" data-tab="documents" style="color: #92487A;">Documents</a>
-                    <!-- <a href="javascript:void(0)" class="tab-btn pb-2 text-sm font-medium transition-all" data-tab="history" style="color: #92487A;">📜 History</a> -->
+                <div class="submodule-nav">
+                   
+                    <div class="tab-btn active" data-tab="all">All Employees</div>
+                     <div class="tab-btn " data-tab="add">Add Employee</div>
+                    
+                    <!-- <div class="tab-btn" data-tab="documents">Documents</div> -->
                 </div>
-                
+
                 <!-- ==================== TAB 1: ALL EMPLOYEES ==================== -->
                 <div id="all" class="tab-content active">
                     <div class="section-card">
-                        <div class="flex justify-between items-center mb-4 flex-wrap gap-3">
-                            <h3 class="text-md font-semibold" style="color:#540863;">Employee List</h3>
-                            <div class="flex gap-2">
-                                <input type="text" id="searchEmployee" placeholder="Search employees..." class="w-64 text-sm" style="padding: 3px;" onkeyup="filterEmployees()">
-                                <button onclick="exportEmployees()" class="btn-outline text-sm"><i class="fas fa-download mr-1"></i>Export</button>
+                        <div class="flex justify-between items-center mb-5 flex-wrap gap-3">
+                            <h3 class="text-md font-bold" style="color: var(--primary);">Employee List</h3>
+                            <div class="flex gap-2 flex-wrap">
+                                <input type="text" id="searchEmployee" placeholder="Search employees..."
+                                    style="width:256px;padding:8px 14px;font-size:13px;" onkeyup="filterEmployees()">
+                                <button onclick="exportEmployees()" class="btn-outline btn-sm">
+                                    <i class="fas fa-download mr-1"></i>Export
+                                </button>
                             </div>
                         </div>
-                        
+
                         <div class="overflow-x-auto">
-                            <table class="w-full">
+                            <table>
                                 <thead>
-                                    <tr class="border-b" style="border-color:#c99ebb;">
-                                        <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">Employee</th>
-                                        <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">ID</th>
-                                        <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">Department</th>
-                                        <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">Designation</th>
-                                        <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">Email</th>
-                                        <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">Phone</th>
-                                        <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">Status</th>
-                                        <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">Action</th>
+                                    <tr class="border-b" style="border-color: var(--primary-soft);">
+                                        <th style="color:var(--primary);">Employee</th>
+                                        <th style="color:var(--primary);">ID</th>
+                                        <th style="color:var(--primary);">Department</th>
+                                        <th style="color:var(--primary);">Designation</th>
+                                        <th style="color:var(--primary);">Email</th>
+                                        <th style="color:var(--primary);">Phone</th>
+                                        <th style="color:var(--primary);">Status</th>
+                                        <th style="color:var(--primary);">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody id="employeesList"></tbody>
                             </table>
                         </div>
-                        
-                        <div class="flex justify-between items-center mt-4 pt-3 border-t">
-                            <p class="text-xs text-gray-500" id="employeeCount">Showing 0 employees</p>
+
+                        <div class="flex justify-between items-center mt-4 pt-3 border-t" style="border-color: var(--primary-soft);">
+                            <p class="text-xs" style="color: var(--text-light);" id="employeeCount">Showing 0 employees</p>
                             <div class="flex gap-2" id="pagination"></div>
                         </div>
                     </div>
                 </div>
-                
-                <!-- ==================== TAB 2: ADD EMPLOYEE (WITH ALL FIELDS + CUSTOM FIELDS) ==================== -->
+
+                <!-- ==================== TAB 2: ADD EMPLOYEE ==================== -->
                 <div id="add" class="tab-content">
                     <div class="section-card">
                         <!-- Wizard -->
                         <div class="wizard" id="wiz">
-                            <div class="wz cur" id="wz0"><div class="wz-dot">1</div><div class="wz-info"><div class="wz-step-lbl">Step 1</div><div class="wz-step-name">Personal Info</div></div><div class="wz-line"></div></div>
-                            <div class="wz" id="wz1"><div class="wz-dot">2</div><div class="wz-info"><div class="wz-step-lbl">Step 2</div><div class="wz-step-name">Job Details</div></div><div class="wz-line"></div></div>
-                            <div class="wz" id="wz2"><div class="wz-dot">3</div><div class="wz-info"><div class="wz-step-lbl">Step 3</div><div class="wz-step-name">Contact & Address</div></div><div class="wz-line"></div></div>
-                            <div class="wz" id="wz3"><div class="wz-dot">4</div><div class="wz-info"><div class="wz-step-lbl">Step 4</div><div class="wz-step-name">Education & Family</div></div><div class="wz-line"></div></div>
-                            <div class="wz" id="wz4"><div class="wz-dot">5</div><div class="wz-info"><div class="wz-step-lbl">Step 5</div><div class="wz-step-name">Documents & Custom</div></div></div>
+                            <div class="wz cur" id="wz0">
+                                <div class="wz-dot">1</div>
+                                <div class="wz-info"><div class="wz-step-lbl">Step 1</div><div class="wz-step-name">Info</div></div>
+                                <div class="wz-line"></div>
+                            </div>
+                            <div class="wz" id="wz1">
+                                <div class="wz-dot">2</div>
+                                <div class="wz-info"><div class="wz-step-lbl">Step 2</div><div class="wz-step-name">Details</div></div>
+                                <div class="wz-line"></div>
+                            </div>
+                            <div class="wz" id="wz2">
+                                <div class="wz-dot">3</div>
+                                <div class="wz-info"><div class="wz-step-lbl">Step 3</div><div class="wz-step-name">Contact</div></div>
+                                <div class="wz-line"></div>
+                            </div>
+                            <div class="wz" id="wz3">
+                                <div class="wz-dot">4</div>
+                                <div class="wz-info"><div class="wz-step-lbl">Step 4</div><div class="wz-step-name">Education</div></div>
+                                <div class="wz-line"></div>
+                            </div>
+                            <div class="wz" id="wz4">
+                                <div class="wz-dot">5</div>
+                                <div class="wz-info"><div class="wz-step-lbl">Step 5</div><div class="wz-step-name">Documents</div></div>
+                            </div>
                         </div>
 
                         <form id="addEmployeeForm">
@@ -462,53 +597,53 @@
                             <div id="st0">
                                 <div class="sec-title"><i class="fas fa-id-card"></i> Personal Information</div>
                                 <div class="grid-4 mb-4">
-                                    <div class="fg"><label class="fl">First Name <span class="req">*</span></label><input class="fi" id="fFN" placeholder="e.g. Arjun" required style="padding: 4px;"></div>
-                                    <div class="fg"><label class="fl">Middle Name</label><input class="fi" id="fMN" placeholder="e.g. Kumar" style="padding: 4px;"></div>
-                                    <div class="fg"><label class="fl">Last Name <span class="req">*</span></label><input class="fi" id="fLN" placeholder="e.g. Sharma" required style="padding: 4px;"></div>
-                                    <div class="fg"><label class="fl">Employee ID</label><input class="fi mono" id="fEID" readonly style="background:var(--gray-50);color:var(--brand-400);font-weight:700;padding: 4px;"></div>
+                                    <div class="form-group"><label>First Name <span class="req">*</span></label><input id="fFN" placeholder="e.g. Arjun" required></div>
+                                    <div class="form-group"><label>Middle Name</label><input id="fMN" placeholder="e.g. Kumar"></div>
+                                    <div class="form-group"><label>Last Name <span class="req">*</span></label><input id="fLN" placeholder="e.g. Sharma" required></div>
+                                    <div class="form-group"><label>Employee ID</label><input id="fEID" class="mono" readonly style="background:var(--primary-bg-light);color:var(--primary);font-weight:700;"></div>
                                 </div>
-                                
                                 <div class="grid-4 mb-4">
-                                    <div class="fg"><label class="fl">Date of Birth</label><input type="date" class="fi" id="fDOB" style="padding: 4px;"></div>
-                                    <div class="fg"><label class="fl">Gender <span class="req" style="padding: 4px;">*</span></label>
-                                        <div class="radio-pill-group" id="genderGroup">
-                                            <button type="button" class="rpill" onclick="setPill('genderGroup','Male',this)"><i class="fas fa-mars"></i> Male</button>
-                                            <button type="button" class="rpill" onclick="setPill('genderGroup','Female',this)"><i class="fas fa-venus"></i> Female</button>
-                                            <button type="button" class="rpill" onclick="setPill('genderGroup','Other',this)"><i class="fas fa-genderless"></i> Other</button>
+                                    <div class="form-group"><label>Date of Birth</label><input type="date" id="fDOB"></div>
+                                    <div class="form-group">
+                                        <label>Gender <span class="req">*</span></label>
+                                        <div class="radio-pill-group mt-1" id="genderGroup">
+                                            <button type="button" class="rpill" onclick="setPill('genderGroup','Male',this)"><i class="fas fa-mars mr-1"></i>Male</button>
+                                            <button type="button" class="rpill" onclick="setPill('genderGroup','Female',this)"><i class="fas fa-venus mr-1"></i>Female</button>
+                                            <button type="button" class="rpill" onclick="setPill('genderGroup','Other',this)">Other</button>
                                         </div>
                                         <input type="hidden" id="fGender">
                                     </div>
-                                    <div class="fg"><label class="fl">Marital Status</label><select class="fi" id="fMarital" style="padding: 4px;"><option value="">Select</option><option>Single</option><option>Married</option><option>Divorced</option><option>Widowed</option></select></div>
-                                    <div class="fg"><label class="fl">Blood Group</label><select class="fi" id="fBlood" style="padding: 4px;"><option value="">Select</option><option>A+</option><option>A-</option><option>B+</option><option>B-</option><option>O+</option><option>O-</option><option>AB+</option><option>AB-</option></select></div>
+                                    <div class="form-group"><label>Marital Status</label><select id="fMarital"><option value="">Select</option><option>Single</option><option>Married</option><option>Divorced</option><option>Widowed</option></select></div>
+                                    <div class="form-group"><label>Blood Group</label><select id="fBlood"><option value="">Select</option><option>A+</option><option>A-</option><option>B+</option><option>B-</option><option>O+</option><option>O-</option><option>AB+</option><option>AB-</option></select></div>
                                 </div>
-                                
                                 <div class="grid-3 mb-4">
-                                    <div class="fg"><label class="fl" >PAN Number</label><input class="fi mono" id="fPAN" placeholder="ABCDE1234F" maxlength="10" style="text-transform:uppercase ;padding: 4px;"></div>
-                                    <div class="fg"><label class="fl">Aadhaar Number</label><input class="fi mono" id="fAAD" placeholder="XXXX XXXX XXXX" maxlength="14" style="padding: 4px;"></div>
-                                    <div class="fg"><label class="fl">Nationality</label><input class="fi" id="fNat" value="Indian" style="padding: 4px;"></div>
+                                    <div class="form-group"><label>PAN Number</label><input class="mono" id="fPAN" placeholder="ABCDE1234F" maxlength="10" style="text-transform:uppercase;"></div>
+                                    <div class="form-group"><label>Aadhaar Number</label><input class="mono" id="fAAD" placeholder="XXXX XXXX XXXX" maxlength="14"></div>
+                                    <div class="form-group"><label>Nationality</label><input id="fNat" value="Indian"></div>
                                 </div>
-                    
-                                <div class="grid-3">
-                                    <div class="fg"><label class="fl">Religion</label><input class="fi" id="fRel" placeholder="Optional" style="padding: 4px;"></div>
-                                    <div class="fg"><label class="fl">LinkedIn Profile</label><input class="fi" id="fLI" placeholder="linkedin.com/in/username" style="padding: 4px;"></div>
-                                    <div class="fg"><label class="fl">Father's / Spouse Name</label><input class="fi" id="fFatherName" placeholder="Ramesh Sharma" style="padding: 4px;"></div>
+                                <div class="grid-3 mb-4">
+                                    <div class="form-group"><label>Religion</label><input id="fRel" placeholder="Optional"></div>
+                                    <div class="form-group"><label>LinkedIn Profile</label><input id="fLI" placeholder="linkedin.com/in/username"></div>
+                                    <div class="form-group"><label>Father's / Spouse Name</label><input id="fFatherName" placeholder="Ramesh Sharma"></div>
                                 </div>
 
-                                <!-- Physically Challenged Block -->
+                                <!-- PwD Block -->
                                 <div class="pwd-block">
                                     <div class="pwd-toggle-row">
-                                        <div><div style="font-weight:700;font-size:13px;">Physically Challenged (PwD)</div><div style="font-size:12px;color:var(--text-muted);">Person with Disability as per PWD Act 1995</div></div>
+                                        <div>
+                                            <div style="font-weight:700;font-size:13px;color:var(--primary);">Physically Challenged (PwD)</div>
+                                            <div style="font-size:12px;color:var(--text-light);">Person with Disability as per PWD Act 1995</div>
+                                        </div>
                                         <div class="toggle-switch-wrap">
-                                            <span id="pwdToggleLabel" style="font-size:12px;font-weight:600;">No</span>
+                                            <span id="pwdToggleLabel" style="font-size:12px;font-weight:600;color:var(--text-light);">No</span>
                                             <label class="toggle-switch"><input type="checkbox" id="fPWDToggle" onchange="togglePWD(this)"><span class="toggle-thumb"></span></label>
                                         </div>
                                     </div>
-                                    <div id="pwdDetails" style="display:none;margin-top:16px;padding:16px;background:var(--brand-50);border-radius:var(--r-md);">
-                                        <div style="font-size:12px;font-weight:700;margin-bottom:14px;"><i class="fas fa-wheelchair"></i> PwD Details</div>
-                                        <div class="grid-3 mb-4">
-                                            <div class="fg"><label class="fl" >Type of Disability</label><select class="fi" id="fPWDType" style="padding: 4px;"><option>Locomotor Disability</option><option>Visual Impairment</option><option>Hearing Impairment</option></select></div>
-                                            <div class="fg"><label class="fl">Disability Percentage (%)</label><input type="number" class="fi" id="fPWDPct" placeholder="e.g. 40" style="padding: 4px;"></div>
-                                            <div class="fg"><label class="fl">Certificate Number</label><input class="fi" id="fPWDCert" placeholder="PWD/2024/XXXXX" style="padding: 4px;"></div>
+                                    <div id="pwdDetails" style="display:none;margin-top:16px;">
+                                        <div class="grid-3">
+                                            <div class="form-group"><label>Type of Disability</label><select id="fPWDType"><option>Locomotor Disability</option><option>Visual Impairment</option><option>Hearing Impairment</option></select></div>
+                                            <div class="form-group"><label>Disability Percentage (%)</label><input type="number" id="fPWDPct" placeholder="e.g. 40"></div>
+                                            <div class="form-group"><label>Certificate Number</label><input id="fPWDCert" placeholder="PWD/2024/XXXXX"></div>
                                         </div>
                                     </div>
                                 </div>
@@ -518,32 +653,32 @@
                             <div id="st1" style="display:none;">
                                 <div class="sec-title"><i class="fas fa-briefcase"></i> Job Details</div>
                                 <div class="grid-3 mb-4">
-                                    <div class="fg"><label class="fl">Department <span class="req">*</span></label><select class="fi" id="fDept" style="padding: 4px;"><option value="">Select</option><option>Information Technology</option><option>Human Resources</option><option>Sales & Marketing</option><option>Finance & Accounts</option><option>Operations</option></select></div>
-                                    <div class="fg"><label class="fl">Sub-Department</label><input class="fi" id="fSubDept" placeholder="Optional" style="padding: 4px;"></div>
-                                    <div class="fg"><label class="fl">Designation <span class="req">*</span></label><input class="fi" id="fDesig" placeholder="e.g. Senior Developer" style="padding: 4px;"></div>
+                                    <div class="form-group"><label>Department <span class="req">*</span></label><select id="fDept"><option value="">Select</option><option>Information Technology</option><option>Human Resources</option><option>Sales & Marketing</option><option>Finance & Accounts</option><option>Operations</option></select></div>
+                                    <div class="form-group"><label>Sub-Department</label><input id="fSubDept" placeholder="Optional"></div>
+                                    <div class="form-group"><label>Designation <span class="req">*</span></label><input id="fDesig" placeholder="e.g. Senior Developer"></div>
                                 </div>
                                 <div class="grid-4 mb-4">
-                                    <div class="fg"><label class="fl">Employee Grade</label><select class="fi" id="fGrade" style="padding: 4px;"><option>L1</option><option>L2</option><option>L3</option><option>L4</option><option>L5</option><option>M1</option><option>M2</option></select></div>
-                                    <div class="fg"><label class="fl">Employment Type</label><select class="fi" id="fEmpType" style="padding: 4px;"><option>Full-Time</option><option>Part-Time</option><option>Contract</option><option>Intern</option></select></div>
-                                    <div class="fg"><label class="fl">Joining Date <span class="req">*</span></label><input type="date" class="fi" id="fJD" style="padding: 4px;"></div>
-                                    <div class="fg"><label class="fl">Probation End Date</label><input type="date" class="fi" id="fProbEnd" style="padding: 4px;"></div>
+                                    <div class="form-group"><label>Employee Grade</label><select id="fGrade"><option>L1</option><option>L2</option><option>L3</option><option>L4</option><option>L5</option><option>M1</option><option>M2</option></select></div>
+                                    <div class="form-group"><label>Employment Type</label><select id="fEmpType"><option>Full-Time</option><option>Part-Time</option><option>Contract</option><option>Intern</option></select></div>
+                                    <div class="form-group"><label>Joining Date <span class="req">*</span></label><input type="date" id="fJD"></div>
+                                    <div class="form-group"><label>Probation End Date</label><input type="date" id="fProbEnd"></div>
                                 </div>
                                 <div class="grid-3 mb-4">
-                                    <div class="fg"><label class="fl">Reporting Manager</label><input class="fi" id="fMgr" placeholder="e.g. Rajesh Kumar" style="padding: 4px;"></div>
-                                    <div class="fg"><label class="fl">HR Business Partner</label><input class="fi" id="fHRBP" placeholder="e.g. Priya Sharma" style="padding: 4px;"></div>
-                                    <div class="fg"><label class="fl">Work Location</label><select class="fi" id="fWL" style="padding: 4px;"><option>Mumbai HQ</option><option>Delhi Branch</option><option>Remote</option><option>Hybrid</option></select></div>
+                                    <div class="form-group"><label>Reporting Manager</label><input id="fMgr" placeholder="e.g. Rajesh Kumar"></div>
+                                    <div class="form-group"><label>HR Business Partner</label><input id="fHRBP" placeholder="e.g. Priya Sharma"></div>
+                                    <div class="form-group"><label>Work Location</label><select id="fWL"><option>Mumbai HQ</option><option>Delhi Branch</option><option>Remote</option><option>Hybrid</option></select></div>
                                 </div>
-                                <div class="grid-3  mb-4">
-                                    <div class="fg"><label class="fl">Basic Salary (₹) <span class="req">*</span></label><input type="number" class="fi mono" id="fBasic" placeholder="35000" style="padding: 4px;"></div>
-                                    <div class="fg"><label class="fl">Shift</label><select class="fi" id="fShift" style="padding: 4px;"><option>General (9AM-6PM)</option><option>Morning (7AM-4PM)</option><option>Evening (2PM-11PM)</option><option>Night (10PM-7AM)</option></select></div>
-                                    <div class="fg"><label class="fl">Cost Centre</label><input class="fi" id="fCC" placeholder="CC-001" style="padding: 4px;"></div>
+                                <div class="grid-3 mb-4">
+                                    <div class="form-group"><label>Basic Salary (₹) <span class="req">*</span></label><input type="number" class="mono" id="fBasic" placeholder="35000"></div>
+                                    <div class="form-group"><label>Shift</label><select id="fShift"><option>General (9AM-6PM)</option><option>Morning (7AM-4PM)</option><option>Evening (2PM-11PM)</option><option>Night (10PM-7AM)</option></select></div>
+                                    <div class="form-group"><label>Cost Centre</label><input id="fCC" placeholder="CC-001"></div>
                                 </div>
-                                
+
                                 <div class="sec-title"><i class="fas fa-building"></i> Bank Details</div>
                                 <div class="grid-3 mb-4">
-                                    <div class="fg"><label class="fl">Bank Name</label><input class="fi" id="fBank" placeholder="HDFC Bank" style="padding: 4px;"></div>
-                                    <div class="fg"><label class="fl">Account Number</label><input class="fi mono" id="fAccNo" placeholder="XXXXXXXXXXXX" style="padding: 4px;"></div>
-                                    <div class="fg"><label class="fl">IFSC Code</label><input class="fi mono" id="fIFSC" placeholder="HDFC0001234" style="padding: 4px;"></div>
+                                    <div class="form-group"><label>Bank Name</label><input id="fBank" placeholder="HDFC Bank"></div>
+                                    <div class="form-group"><label>Account Number</label><input class="mono" id="fAccNo" placeholder="XXXXXXXXXXXX"></div>
+                                    <div class="form-group"><label>IFSC Code</label><input class="mono" id="fIFSC" placeholder="HDFC0001234"></div>
                                 </div>
                             </div>
 
@@ -551,40 +686,39 @@
                             <div id="st2" style="display:none;">
                                 <div class="sec-title"><i class="fas fa-address-book"></i> Contact Information</div>
                                 <div class="grid-2 mb-4">
-                                    <div class="fg"><label class="fl">Personal Email <span class="req">*</span></label><input type="email" class="fi" id="fPEmail" placeholder="arjun@gmail.com" style="padding: 4px;"></div>
-                                    <div class="fg"><label class="fl">Work Email</label><input type="email" class="fi" id="fWEmail" placeholder="arjun@company.com" style="padding: 4px;"></div>
-                                    <div class="fg"><label class="fl">Mobile <span class="req">*</span></label><input class="fi mono" id="fMob" placeholder="+91 98765 43210" style="padding: 4px;"></div>
-                                    <div class="fg"><label class="fl">Alternate Phone</label><input class="fi mono" id="fAlt" placeholder="+91 88765 43210" style="padding: 4px;"></div>
+                                    <div class="form-group"><label>Personal Email <span class="req">*</span></label><input type="email" id="fPEmail" placeholder="arjun@gmail.com"></div>
+                                    <div class="form-group"><label>Work Email</label><input type="email" id="fWEmail" placeholder="arjun@company.com"></div>
+                                    <div class="form-group"><label>Mobile <span class="req">*</span></label><input class="mono" id="fMob" placeholder="+91 98765 43210"></div>
+                                    <div class="form-group"><label>Alternate Phone</label><input class="mono" id="fAlt" placeholder="+91 88765 43210"></div>
                                 </div>
-                                
+
                                 <div class="sec-title"><i class="fas fa-location-dot"></i> Address Details</div>
-                                <div style="padding:16px;background:var(--gray-50);border-radius:var(--r-lg);margin-bottom:16px;">
-                                    <div style="font-size:12px;font-weight:700;margin-bottom:12px;"><i class="fas fa-home"></i> Current / Local Address</div>
-                                    <div class="fg"><label class="fl">Street Address</label><textarea class="fi" id="fCAddr" rows="2" placeholder="Flat 101, XYZ Apartments" style="padding: 4px;"></textarea></div>
+                                <div class="inner-block mb-4">
+                                    <div class="inner-block-title"><i class="fas fa-home mr-1"></i> Current / Local Address</div>
+                                    <div class="mb-3"><label>Street Address</label><textarea id="fCAddr" rows="2" placeholder="Flat 101, XYZ Apartments"></textarea></div>
                                     <div class="grid-4">
-                                        <div class="fg"><label class="fl">City</label><input class="fi" id="fCity" placeholder="Mumbai" style="padding: 4px;"></div>
-                                        <div class="fg"><label class="fl">State</label><input class="fi" id="fState" placeholder="Maharashtra" style="padding: 4px;"></div>
-                                        <div class="fg"><label class="fl">PIN Code</label><input class="fi mono" id="fPIN" placeholder="400058" style="padding: 4px;"></div>
-                                        <div class="fg"><label class="fl">Country</label><input class="fi" id="fCountry" value="India" style="padding: 4px;"></div>
+                                        <div class="form-group"><label>City</label><input id="fCity" placeholder="Mumbai"></div>
+                                        <div class="form-group"><label>State</label><input id="fState" placeholder="Maharashtra"></div>
+                                        <div class="form-group"><label>PIN Code</label><input class="mono" id="fPIN" placeholder="400058"></div>
+                                        <div class="form-group"><label>Country</label><input id="fCountry" value="India"></div>
                                     </div>
                                 </div>
-                                
-                                <div style="padding:16px;background:var(--gray-50);border-radius:var(--r-lg);margin-bottom:16px;">
-                                    <div style="font-size:12px;font-weight:700;margin-bottom:12px;"><i class="fas fa-map-pin"></i> Permanent Address</div>
-                                    <div class="fg"><label class="fl">Street Address</label><textarea class="fi" id="fPAddr" rows="2" placeholder="123 Main Street" style="padding: 4px;"></textarea></div>
+                                <div class="inner-block mb-4">
+                                    <div class="inner-block-title"><i class="fas fa-map-pin mr-1"></i> Permanent Address</div>
+                                    <div class="mb-3"><label>Street Address</label><textarea id="fPAddr" rows="2" placeholder="123 Main Street"></textarea></div>
                                     <div class="grid-4">
-                                        <div class="fg"><label class="fl">City</label><input class="fi" id="fPCity" placeholder="Jaipur" style="padding: 4px;"></div>
-                                        <div class="fg"><label class="fl">State</label><input class="fi" id="fPState" placeholder="Rajasthan" style="padding: 4px;"></div>
-                                        <div class="fg"><label class="fl">PIN Code</label><input class="fi mono" id="fPPIN" placeholder="302001" style="padding: 4px;"></div>
-                                        <div class="fg"><label class="fl">Country</label><input class="fi" id="fPCountry" value="India" style="padding: 4px;"></div>
+                                        <div class="form-group"><label>City</label><input id="fPCity" placeholder="Jaipur"></div>
+                                        <div class="form-group"><label>State</label><input id="fPState" placeholder="Rajasthan"></div>
+                                        <div class="form-group"><label>PIN Code</label><input class="mono" id="fPPIN" placeholder="302001"></div>
+                                        <div class="form-group"><label>Country</label><input id="fPCountry" value="India"></div>
                                     </div>
                                 </div>
-                                
+
                                 <div class="sec-title"><i class="fas fa-phone-volume"></i> Emergency Contact</div>
                                 <div class="grid-3">
-                                    <div class="fg"><label class="fl">Name <span class="req">*</span></label><input class="fi" id="fECName" placeholder="Ramesh Sharma" style="padding: 4px;"></div>
-                                    <div class="fg"><label class="fl">Relationship</label><select class="fi" id="fECRel" style="padding: 4px;"><option>Spouse</option><option>Father</option><option>Mother</option><option>Sibling</option></select></div>
-                                    <div class="fg"><label class="fl">Phone <span class="req">*</span></label><input class="fi mono" id="fECPhone" placeholder="+91 99999 88888" style="padding: 4px;"></div>
+                                    <div class="form-group"><label>Name <span class="req">*</span></label><input id="fECName" placeholder="Ramesh Sharma"></div>
+                                    <div class="form-group"><label>Relationship</label><select id="fECRel"><option>Spouse</option><option>Father</option><option>Mother</option><option>Sibling</option></select></div>
+                                    <div class="form-group"><label>Phone <span class="req">*</span></label><input class="mono" id="fECPhone" placeholder="+91 99999 88888"></div>
                                 </div>
                             </div>
 
@@ -592,53 +726,52 @@
                             <div id="st3" style="display:none;">
                                 <div class="sec-title"><i class="fas fa-graduation-cap"></i> Education Details</div>
                                 <div id="eduList"></div>
-                                <button type="button" class="btn-outline btn-sm" onclick="addEduRow()"><i class="fas fa-plus"></i> Add Education</button>
+                                <button type="button" class="btn-outline btn-sm" onclick="addEduRow()"><i class="fas fa-plus mr-1"></i>Add Education</button>
 
                                 <div class="sec-title"><i class="fas fa-users"></i> Family Details</div>
                                 <div id="famList"></div>
-                                <button type="button" class="btn-outline btn-sm" onclick="addFamRow()"><i class="fas fa-plus"></i> Add Family Member</button>
+                                <button type="button" class="btn-outline btn-sm" onclick="addFamRow()"><i class="fas fa-plus mr-1"></i>Add Family Member</button>
 
                                 <div class="sec-title"><i class="fas fa-briefcase"></i> Work Experience</div>
                                 <div id="expList"></div>
-                                <button type="button" class="btn-outline btn-sm" onclick="addExpRow()"><i class="fas fa-plus"></i> Add Experience</button>
+                                <button type="button" class="btn-outline btn-sm" onclick="addExpRow()"><i class="fas fa-plus mr-1"></i>Add Experience</button>
                             </div>
 
                             <!-- STEP 4: Documents + Custom Fields -->
                             <div id="st4" style="display:none;">
                                 <div class="sec-title"><i class="fas fa-folder"></i> Upload Documents</div>
                                 <div class="grid-2 mb-4">
-                                    <div class="fg"><label class="fl">Aadhaar Card</label><input type="file" class="fi" accept=".pdf,.jpg,.png" onchange="addDocRow(this,'Aadhaar Card')"></div>
-                                    <div class="fg"><label class="fl">PAN Card</label><input type="file" class="fi" accept=".pdf,.jpg,.png" onchange="addDocRow(this,'PAN Card')"></div>
-                                    <div class="fg"><label class="fl">Degree Certificate</label><input type="file" class="fi" accept=".pdf,.jpg,.png" onchange="addDocRow(this,'Degree Certificate')"></div>
-                                    <div class="fg"><label class="fl">Experience Letter</label><input type="file" class="fi" accept=".pdf,.jpg,.png" onchange="addDocRow(this,'Experience Letter')"></div>
+                                    <div class="form-group"><label>Aadhaar Card</label><input type="file" accept=".pdf,.jpg,.png" onchange="addDocRow(this,'Aadhaar Card')"></div>
+                                    <div class="form-group"><label>PAN Card</label><input type="file" accept=".pdf,.jpg,.png" onchange="addDocRow(this,'PAN Card')"></div>
+                                    <div class="form-group"><label>Degree Certificate</label><input type="file" accept=".pdf,.jpg,.png" onchange="addDocRow(this,'Degree Certificate')"></div>
+                                    <div class="form-group"><label>Experience Letter</label><input type="file" accept=".pdf,.jpg,.png" onchange="addDocRow(this,'Experience Letter')"></div>
                                 </div>
                                 <div id="uploadedDocList" class="doc-list"></div>
 
-                                <!-- ==================== CUSTOM FIELDS BUILDER ==================== -->
-                                <div class="sec-title" style="margin-top:28px;"><i class="fas fa-sliders"></i> Custom Fields <span style="font-size:11px;font-weight:400;color:var(--text-muted);text-transform:none;letter-spacing:0;margin-left:6px;">Add extra fields specific to this employee</span></div>
+                                <!-- Custom Fields Builder -->
+                                <div class="sec-title" style="margin-top:28px;">
+                                    <i class="fas fa-sliders"></i> Custom Fields
+                                    <span style="font-size:11px;font-weight:400;color:var(--text-light);text-transform:none;letter-spacing:0;margin-left:6px;">Add extra fields specific to this employee</span>
+                                </div>
 
                                 <div id="customFieldsList" style="display:flex;flex-direction:column;gap:10px;margin-bottom:16px;"></div>
 
-                                <!-- Add custom field trigger -->
-                                <div style="border:2px dashed var(--border);border-radius:var(--r-lg);padding:16px 20px;display:flex;align-items:center;gap:14px;cursor:pointer;transition:.2s;" id="addCFBtn" onclick="showCFBuilder()" onmouseenter="this.style.borderColor='var(--brand-400)';this.style.background='var(--brand-50)'" onmouseleave="this.style.borderColor='var(--border)';this.style.background='transparent'">
-                                    <div style="width:36px;height:36px;border-radius:10px;background:var(--brand-50);color:var(--brand-400);display:flex;align-items:center;justify-content:center;font-size:16px;"><i class="fas fa-plus"></i></div>
+                                <div class="add-cf-btn" id="addCFBtn" onclick="showCFBuilder()">
+                                    <div class="add-cf-icon"><i class="fas fa-plus"></i></div>
                                     <div>
-                                        <div style="font-weight:700;font-size:13px;">Add Custom Field</div>
-                                        <div style="font-size:12px;color:var(--text-muted);">Text, Number, Dropdown, Date, Textarea, Checkbox</div>
+                                        <div style="font-weight:700;font-size:13px;color:var(--primary);">Add Custom Field</div>
+                                        <div style="font-size:12px;color:var(--text-light);">Text, Number, Dropdown, Date, Textarea, Checkbox</div>
                                     </div>
                                 </div>
 
-                                <!-- Custom Field Builder Panel -->
-                                <div id="cfBuilderPanel" style="display:none;padding:18px;background:var(--gray-50);border:1px solid var(--gray-200);border-radius:var(--r-lg);margin-top:12px;">
-                                    <div style="font-size:13px;font-weight:700;margin-bottom:14px;color:var(--text-primary);">🛠 Configure New Field</div>
-                                    <div class="grid-3" style="margin-bottom:14px;">
-                                        <div class="fg">
-                                            <label class="fl">Field Label <span class="req">*</span></label>
-                                            <input class="fi" id="cfLabel" placeholder="e.g. Employee Category" style="padding: 4px;">
-                                        </div>
-                                        <div class="fg">
-                                            <label class="fl">Field Type</label>
-                                            <select class="fi" id="cfType" onchange="toggleCFOptions()" style="padding: 4px;">
+                                <!-- CF Builder Panel -->
+                                <div id="cfBuilderPanel" class="cf-builder-panel" style="display:none;">
+                                    <div style="font-size:13px;font-weight:700;margin-bottom:14px;color:var(--primary);">Configure New Field</div>
+                                    <div class="grid-3 mb-4">
+                                        <div class="form-group"><label>Field Label <span class="req">*</span></label><input id="cfLabel" placeholder="e.g. Employee Category"></div>
+                                        <div class="form-group">
+                                            <label>Field Type</label>
+                                            <select id="cfType" onchange="toggleCFOptions()">
                                                 <option value="text">Text Input</option>
                                                 <option value="number">Number Input</option>
                                                 <option value="dropdown">Dropdown (Select)</option>
@@ -647,9 +780,9 @@
                                                 <option value="checkbox">Yes / No Toggle</option>
                                             </select>
                                         </div>
-                                        <div class="fg">
-                                            <label class="fl">Section</label>
-                                            <select class="fi" id="cfSection " style="padding: 4px;">
+                                        <div class="form-group">
+                                            <label>Section</label>
+                                            <select id="cfSection">
                                                 <option value="personal">Personal Info</option>
                                                 <option value="job">Job Details</option>
                                                 <option value="contact">Contact</option>
@@ -658,467 +791,869 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <!-- Dropdown options — shown only when type=dropdown -->
                                     <div id="cfDropdownOptions" style="display:none;margin-bottom:14px;">
-                                        <div class="fg">
-                                            <label class="fl">Dropdown Options <span style="font-size:10px;font-weight:400;color:var(--text-muted);text-transform:none;">(comma separated)</span></label>
-                                            <input class="fi" id="cfOptions" placeholder="Option 1, Option 2, Option 3">
+                                        <div class="form-group">
+                                            <label>Dropdown Options <span style="font-size:10px;font-weight:400;color:var(--text-light);">(comma separated)</span></label>
+                                            <input id="cfOptions" placeholder="Option 1, Option 2, Option 3">
                                             <div class="fhint">Each comma-separated value becomes a dropdown option</div>
                                         </div>
                                     </div>
-                                    <div class="grid-2" style="padding: 4px;">
-                                        <div class="fg">
-                                            <label class="fl">Placeholder / Help Text</label>
-                                            <input class="fi" id="cfPlaceholder" placeholder="e.g. Enter employee category" style="padding: 4px;">
-                                        </div>
-                                        <div class="fg" style="justify-content:flex-end;padding-top:22px;display:flex;align-items:center;gap:8px;">
-                                            <label style="display:flex;align-items:center;gap:7px;font-size:13px;cursor:pointer;"><input type="checkbox" id="cfRequired" style="accent-color:var(--brand-400);"> Required field</label>
+                                    <div class="grid-2 mb-4">
+                                        <div class="form-group"><label>Placeholder / Help Text</label><input id="cfPlaceholder" placeholder="e.g. Enter employee category"></div>
+                                        <div style="display:flex;align-items:flex-end;padding-bottom:2px;">
+                                            <label style="display:flex;align-items:center;gap:7px;font-size:13px;cursor:pointer;margin:0;">
+                                                <input type="checkbox" id="cfRequired" style="width:auto;accent-color:var(--primary);"> Required field
+                                            </label>
                                         </div>
                                     </div>
                                     <div style="display:flex;gap:8px;">
-                                        <button type="button" class="btn-primary btn-sm" onclick="addCustomField()"><i class="fas fa-plus"></i> Add Field</button>
-                                        <button type="button" class="btn-ghost btn-sm" onclick="closeCFBuilder()">Cancel</button>
+                                        <button type="button" class="btn-primary btn-sm" onclick="addCustomField()"><i class="fas fa-plus mr-1"></i>Add Field</button>
+                                        <button type="button" class="btn-outline btn-sm" onclick="closeCFBuilder()">Cancel</button>
                                     </div>
                                 </div>
                             </div>
-                            
+
                             <!-- Navigation Buttons -->
-                            <div class="flex justify-between items-center mt-6 pt-4 border-t">
-                                <button type="button" id="prevBtn" class="btn-outline" style="display: none;" onclick="prevStep()"><i class="fas fa-arrow-left"></i> Previous</button>
+                            <div class="navigation-buttons">
+                                <button type="button" id="prevBtn" class="btn-outline" style="display:none;" onclick="prevStep()"><i class="fas fa-arrow-left mr-1"></i>Previous</button>
                                 <div class="flex gap-3 ml-auto">
                                     <button type="reset" class="btn-outline">Reset</button>
-                                    <button type="button" id="nextBtn" class="btn-primary" onclick="nextStep()">Next <i class="fas fa-arrow-right"></i></button>
-                                    <button type="submit" id="saveBtn" class="btn-success" style="display: none;"><i class="fas fa-save"></i> Save Employee</button>
+                                    <button type="button" id="nextBtn" class="btn-primary" onclick="nextStep()">Next <i class="fas fa-arrow-right ml-1"></i></button>
+                                    <button type="submit" id="saveBtn" class="btn-success" style="display:none;"><i class="fas fa-save mr-1"></i>Save Employee</button>
                                 </div>
                             </div>
                         </form>
                     </div>
                 </div>
-                
+
                 <!-- ==================== TAB 3: DOCUMENTS ==================== -->
                 <div id="documents" class="tab-content">
                     <div class="section-card">
-                        <div class="flex justify-between items-center mb-4">
-                            <h3 class="text-md font-semibold" style="color:#540863;">Employee Documents</h3>
-                            <select id="docEmployeeSelect" class="w-64 text-sm" onchange="loadEmployeeDocuments()" style="padding: 4px;">
+                        <div class="flex justify-between items-center mb-5 flex-wrap gap-3">
+                            <h3 class="text-md font-bold" style="color: var(--primary);">Employee Documents</h3>
+                            <select id="docEmployeeSelect" style="width:256px;padding:8px 14px;font-size:13px;" onchange="loadEmployeeDocuments()">
                                 <option value="">Select Employee</option>
                             </select>
                         </div>
                         <div id="documentsList">
-                            <div class="flex justify-between items-center p-3 border-b"><div><i class="fas fa-id-card mr-2"></i><span>PAN Card</span></div><div><button onclick="uploadDocument('PAN Card')" class="btn-outline text-xs">Upload</button><span class="text-xs ml-2" id="doc-pan-status">Not Uploaded</span></div></div>
-                            <div class="flex justify-between items-center p-3 border-b"><div><i class="fas fa-address-card mr-2"></i><span>Aadhar Card</span></div><div><button onclick="uploadDocument('Aadhar Card')" class="btn-outline text-xs">Upload</button><span class="text-xs ml-2" id="doc-aadhar-status">Not Uploaded</span></div></div>
-                            <div class="flex justify-between items-center p-3 border-b"><div><i class="fas fa-file-alt mr-2"></i><span>Offer Letter</span></div><div><button onclick="uploadDocument('Offer Letter')" class="btn-outline text-xs">Upload</button><span class="text-xs ml-2" id="doc-offer-status">Not Uploaded</span></div></div>
-                            <div class="flex justify-between items-center p-3"><div><i class="fas fa-graduation-cap mr-2"></i><span>Degree Certificate</span></div><div><button onclick="uploadDocument('Degree Certificate')" class="btn-outline text-xs">Upload</button><span class="text-xs ml-2" id="doc-degree-status">Not Uploaded</span></div></div>
+                            <div class="flex justify-between items-center p-3 border-b" style="border-color: var(--primary-soft);"><div style="color:var(--primary);font-size:13px;"><i class="fas fa-id-card mr-2"></i>PAN Card</div><div><button onclick="uploadDocument('PAN Card')" class="btn-outline btn-sm">Upload</button><span class="text-xs ml-2" id="doc-pan-status" style="color:var(--text-light);">Not Uploaded</span></div></div>
+                            <div class="flex justify-between items-center p-3 border-b" style="border-color: var(--primary-soft);"><div style="color:var(--primary);font-size:13px;"><i class="fas fa-address-card mr-2"></i>Aadhar Card</div><div><button onclick="uploadDocument('Aadhar Card')" class="btn-outline btn-sm">Upload</button><span class="text-xs ml-2" id="doc-aadhar-status" style="color:var(--text-light);">Not Uploaded</span></div></div>
+                            <div class="flex justify-between items-center p-3 border-b" style="border-color: var(--primary-soft);"><div style="color:var(--primary);font-size:13px;"><i class="fas fa-file-alt mr-2"></i>Offer Letter</div><div><button onclick="uploadDocument('Offer Letter')" class="btn-outline btn-sm">Upload</button><span class="text-xs ml-2" id="doc-offer-status" style="color:var(--text-light);">Not Uploaded</span></div></div>
+                            <div class="flex justify-between items-center p-3"><div style="color:var(--primary);font-size:13px;"><i class="fas fa-graduation-cap mr-2"></i>Degree Certificate</div><div><button onclick="uploadDocument('Degree Certificate')" class="btn-outline btn-sm">Upload</button><span class="text-xs ml-2" id="doc-degree-status" style="color:var(--text-light);">Not Uploaded</span></div></div>
                         </div>
                     </div>
                 </div>
-                
-                <!-- ==================== TAB 4: HISTORY ==================== -->
-                <div id="history" class="tab-content">
-                    <div class="section-card" >
-                        <h3 class="text-md font-semibold mb-4" style="color:#540863;">Employee History</h3>
-                        <select id="historyEmployeeSelect" class="w-64 text-sm mb-4" onchange="loadEmployeeHistory()" style="padding: 4px;">
-                            <option value="" >Select Employee</option>
-                        </select>
-                        <div id="historyList"><p class="text-center text-gray-500 py-4">Select an employee to view history</p></div>
-                    </div>
-                </div>
-                
+
             </main>
         </div>
     </div>
-    
-    <!-- Delete Confirmation Modal -->
-    <div id="deleteModal" class="overlay" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);z-index:2000;justify-content:center;align-items:center;">
-        <div class="bg-white rounded-2xl p-6 max-w-md w-full text-center">
-            <div class="flex justify-between items-center mb-4"><h3 class="text-lg font-semibold" style="color:#dc3545;">Confirm Delete</h3><button onclick="closeDeleteModal()" class="text-gray-500 text-xl">&times;</button></div>
-            <div class="py-4"><i class="fas fa-exclamation-triangle text-5xl text-red-500 mb-3"></i><p class="text-gray-700 mb-2">Are you sure you want to delete this employee?</p><p class="text-sm text-gray-500" id="deleteEmployeeName"></p></div>
-            <div class="flex justify-center gap-3 mt-4"><button onclick="closeDeleteModal()" class="btn-outline px-6">Cancel</button><button onclick="confirmDeleteEmployee()" class="btn-danger px-6">Delete</button></div>
+
+    <!-- Delete Confirmation Modal (matching company.html confirm modal style) -->
+    <div id="deleteModal" class="confirm-modal-overlay">
+        <div class="confirm-modal-container">
+            <h3>Confirm Delete</h3>
+            <p id="deleteEmployeeName">Are you sure you want to delete this employee?</p>
+            <div class="confirm-buttons">
+                <button onclick="closeDeleteModal()" class="btn-outline">Cancel</button>
+                <button onclick="confirmDeleteEmployee()" class="btn-danger">Delete</button>
+            </div>
         </div>
     </div>
-    
+
     <script src="/assets/js/common.js"></script>
     <script src="/assets/js/sidebar.js"></script>
     <script src="/assets/js/header.js"></script>
-    
+
     <script>
-        // ==================== GLOBAL VARIABLES ====================
-        let employeesData = [
-            { id: 'EMP001', name: 'Rajesh Kumar', email: 'rajesh@hrms.com', phone: '+91 98765 43210', department: 'Information Technology', designation: 'Senior Developer', status: 'Active' },
-            { id: 'EMP002', name: 'Priya Sharma', email: 'priya@hrms.com', phone: '+91 98765 43211', department: 'Human Resources', designation: 'HR Manager', status: 'Active' },
-            { id: 'EMP003', name: 'Amit Mehta', email: 'amit@hrms.com', phone: '+91 98765 43212', department: 'Sales & Marketing', designation: 'Sales Manager', status: 'Active' }
-        ];
-        
-        let currentPage = 1;
-        const rowsPerPage = 5;
-        let deleteTargetId = null;
-        let deleteTargetName = null;
-        let uploadedDocs = [];
-        let customFieldsList = [];
-        
-        // ==================== WIZARD VARIABLES ====================
-        let currentStep = 0;
-        const totalSteps = 5;
-        
-        // ==================== EMPLOYEE TABLE FUNCTIONS ====================
-        function generateEmployeeId() { 
-            return `EMP${String(employeesData.length + 1).padStart(3, '0')}`; 
-        }
-        
-        function renderEmployeesTable() {
-            const searchTerm = document.getElementById('searchEmployee')?.value.toLowerCase() || '';
-            let filteredData = employeesData.filter(emp => emp.name.toLowerCase().includes(searchTerm) || emp.email.toLowerCase().includes(searchTerm));
-            const totalPages = Math.ceil(filteredData.length / rowsPerPage);
-            const start = (currentPage - 1) * rowsPerPage;
-            const paginatedData = filteredData.slice(start, start + rowsPerPage);
-            const tbody = document.getElementById('employeesList');
-            if (!tbody) return;
-            if (paginatedData.length === 0) { 
-                tbody.innerHTML = `<tr><td colspan="8" class="py-8 text-center text-gray-500">No employees found</td></tr>`; 
-                return; 
-            }
-            let html = '';
-            paginatedData.forEach(emp => {
-                html += `<tr class="border-b data-row">
-                    <td class="py-3"><div class="flex items-center gap-2"><div class="avatar">${emp.name.charAt(0)}</div><div><p class="text-sm font-medium" style="color:#540863;">${emp.name}</p><p class="text-xs" style="color:#92487A;">${emp.id}</p></div></div></td>
-                    <td class="py-3 text-sm" style="color:#92487A;">${emp.id}</td>
-                    <td class="py-3 text-sm" style="color:#92487A;">${emp.department}</td>
-                    <td class="py-3 text-sm" style="color:#92487A;">${emp.designation}</td>
-                    <td class="py-3 text-sm" style="color:#92487A;">${emp.email}</td>
-                    <td class="py-3 text-sm" style="color:#92487A;">${emp.phone}</td>
-                    <td class="py-3"><span class="text-xs px-2 py-1 rounded-full" style="background:rgba(40,167,69,0.2);color:#155724;">${emp.status}</span></td>
-                    <td class="py-3"><button onclick="editEmployee('${emp.id}')" class="text-[#540863] mr-2"><i class="fas fa-edit"></i></button><button onclick="openDeleteModal('${emp.id}', '${emp.name}')" class="text-red-500"><i class="fas fa-trash"></i></button></td>
-                </table>`;
-            });
-            tbody.innerHTML = html;
-            let paginationHtml = '';
-            for (let i = 1; i <= totalPages; i++) { 
-                paginationHtml += `<button onclick="goToPage(${i})" class="px-3 py-1 rounded-lg text-xs ${i === currentPage ? 'btn-primary' : 'btn-outline'}">${i}</button>`; 
-            }
-            document.getElementById('pagination').innerHTML = paginationHtml;
-            document.getElementById('employeeCount').innerHTML = `Showing ${filteredData.length} employees`;
-        }
-        
-        function goToPage(page) { currentPage = page; renderEmployeesTable(); }
-        function filterEmployees() { currentPage = 1; renderEmployeesTable(); }
-        function exportEmployees() { showToast('Employee list exported!', 'success'); }
-        function editEmployee(id) { showToast(`Edit employee feature coming soon`, 'info'); }
-        
-        // ==================== DELETE MODAL FUNCTIONS ====================
-        function openDeleteModal(id, name) { 
-            deleteTargetId = id; 
-            deleteTargetName = name; 
-            document.getElementById('deleteEmployeeName').innerHTML = `Employee: <strong>${name}</strong>`; 
-            document.getElementById('deleteModal').style.display = 'flex'; 
-        }
-        function closeDeleteModal() { 
-            document.getElementById('deleteModal').style.display = 'none'; 
-            deleteTargetId = null; 
-        }
-        function confirmDeleteEmployee() { 
-            if (deleteTargetId) { 
-                employeesData = employeesData.filter(e => e.id !== deleteTargetId); 
-                renderEmployeesTable(); 
-                showToast(`Employee ${deleteTargetName} deleted!`, 'success'); 
-            } 
-            closeDeleteModal(); 
-        }
-        
-        // ==================== WIZARD NAVIGATION FUNCTIONS ====================
-        function updateWizardUI() {
-            for(let i = 0; i < totalSteps; i++) { 
-                const wz = document.getElementById(`wz${i}`); 
-                if(wz) {
-                    if(i < currentStep) { wz.classList.add('done'); wz.classList.remove('cur'); }
-                    else if(i === currentStep) { wz.classList.add('cur'); wz.classList.remove('done'); }
-                    else { wz.classList.remove('cur', 'done'); }
-                }
-            }
-            for(let i = 0; i < totalSteps; i++) {
-                const stepDiv = document.getElementById(`st${i}`);
-                if(stepDiv) { stepDiv.style.display = i === currentStep ? 'block' : 'none'; }
-            }
-            const prevBtn = document.getElementById('prevBtn');
-            const nextBtn = document.getElementById('nextBtn');
-            const saveBtn = document.getElementById('saveBtn');
-            if(prevBtn) { prevBtn.style.display = currentStep === 0 ? 'none' : 'inline-flex'; }
-            if(nextBtn && saveBtn) {
-                if(currentStep === totalSteps - 1) {
-                    nextBtn.style.display = 'none';
-                    saveBtn.style.display = 'inline-flex';
-                } else {
-                    nextBtn.style.display = 'inline-flex';
-                    saveBtn.style.display = 'none';
-                }
-            }
-        }
-        
-        function nextStep() { if(currentStep < totalSteps - 1) { currentStep++; updateWizardUI(); } }
-        function prevStep() { if(currentStep > 0) { currentStep--; updateWizardUI(); } }
-        
-        // ==================== FORM FIELD FUNCTIONS ====================
-        function setPill(groupId, value, btn) { 
-            document.querySelectorAll(`#${groupId} .rpill`).forEach(p => p.classList.remove('active')); 
-            btn.classList.add('active'); 
-            document.getElementById(`fGender`).value = value; 
-        }
-        
-        function togglePWD(toggle) { 
-            const details = document.getElementById('pwdDetails'); 
-            const label = document.getElementById('pwdToggleLabel'); 
-            if(toggle.checked) { details.style.display = 'block'; label.innerText = 'Yes'; } 
-            else { details.style.display = 'none'; label.innerText = 'No'; } 
-        }
-        
-        // Dynamic Rows Functions
-        function addEduRow() { 
-            const row = `<div class="edu-row grid-3" style="margin-bottom:10px;"><input class="fi" placeholder="Degree"><input class="fi" placeholder="Institution"><input class="fi" placeholder="Year"><button type="button" onclick="this.parentElement.remove()" style="background:#dc3545;color:white;border:none;border-radius:8px;width:32px;"><i class="fas fa-trash"></i></button></div>`; 
-            document.getElementById('eduList').insertAdjacentHTML('beforeend', row); 
-        }
-        function addFamRow() { 
-            const row = `<div class="fam-row grid-3" style="margin-bottom:10px;"><input class="fi" placeholder="Name"><input class="fi" placeholder="Relationship"><input class="fi" placeholder="Occupation"><button type="button" onclick="this.parentElement.remove()" style="background:#dc3545;color:white;border:none;border-radius:8px;width:32px;"><i class="fas fa-trash"></i></button></div>`; 
-            document.getElementById('famList').insertAdjacentHTML('beforeend', row); 
-        }
-        function addExpRow() { 
-            const row = `<div class="exp-row grid-3" style="margin-bottom:10px;"><input class="fi" placeholder="Company"><input class="fi" placeholder="Designation"><input class="fi" placeholder="Years"><button type="button" onclick="this.parentElement.remove()" style="background:#dc3545;color:white;border:none;border-radius:8px;width:32px;"><i class="fas fa-trash"></i></button></div>`; 
-            document.getElementById('expList').insertAdjacentHTML('beforeend', row); 
-        }
-        
-        function addDocRow(input, docName) { 
-            if(input.files.length > 0) { 
-                uploadedDocs.push({ name: docName, file: input.files[0].name }); 
-                updateDocList(); 
-            } 
-        }
-        function updateDocList() { 
-            const container = document.getElementById('uploadedDocList'); 
-            if(container) { 
-                container.innerHTML = uploadedDocs.map(doc => `<div class="doc-item"><span><i class="fas fa-file-pdf"></i> ${doc.name}: ${doc.file}</span><button type="button" onclick="removeDoc('${doc.name}')" class="text-red-500"><i class="fas fa-trash"></i></button></div>`).join(''); 
-            } 
-        }
-        function removeDoc(docName) { 
-            uploadedDocs = uploadedDocs.filter(d => d.name !== docName); 
-            updateDocList(); 
-        }
-        
-        // ==================== CUSTOM FIELDS FUNCTIONS ====================
-        function showCFBuilder() {
-            document.getElementById('cfBuilderPanel').style.display = 'block';
-            document.getElementById('addCFBtn').style.display = 'none';
-        }
-        
-        function closeCFBuilder() {
-            document.getElementById('cfBuilderPanel').style.display = 'none';
-            document.getElementById('addCFBtn').style.display = 'flex';
-            document.getElementById('cfLabel').value = '';
-            document.getElementById('cfType').value = 'text';
-            document.getElementById('cfOptions').value = '';
-            document.getElementById('cfPlaceholder').value = '';
-            document.getElementById('cfRequired').checked = false;
-            document.getElementById('cfDropdownOptions').style.display = 'none';
-        }
-        
-        function toggleCFOptions() {
-            const type = document.getElementById('cfType').value;
-            const optionsDiv = document.getElementById('cfDropdownOptions');
-            optionsDiv.style.display = type === 'dropdown' ? 'block' : 'none';
-        }
-        
-        function addCustomField() {
-            const label = document.getElementById('cfLabel').value.trim();
-            if(!label) { showToast('Please enter field label', 'error'); return; }
-            
-            const type = document.getElementById('cfType').value;
-            const section = document.getElementById('cfSection').value;
-            const placeholder = document.getElementById('cfPlaceholder').value;
-            const isRequired = document.getElementById('cfRequired').checked;
-            let options = [];
-            
-            if(type === 'dropdown') {
-                const optionsStr = document.getElementById('cfOptions').value;
-                options = optionsStr.split(',').map(opt => opt.trim()).filter(opt => opt);
-            }
-            
-            const fieldId = `cf_${Date.now()}`;
-            customFieldsList.push({ id: fieldId, label, type, section, placeholder, required: isRequired, options });
-            
-            renderCustomFields();
-            closeCFBuilder();
-            showToast(`Custom field "${label}" added!`, 'success');
-        }
-        
-        function renderCustomFields() {
-            const container = document.getElementById('customFieldsList');
-            if(!container) return;
-            
-            if(customFieldsList.length === 0) {
-                container.innerHTML = '<div class="text-center text-gray-400 text-sm py-4">No custom fields added yet. Click "Add Custom Field" to create one.</div>';
-                return;
-            }
-            
-            let html = '';
-            customFieldsList.forEach((field, index) => {
-                let inputHtml = '';
-                switch(field.type) {
-                    case 'text':
-                        inputHtml = `<input type="text" class="fi" id="${field.id}" placeholder="${field.placeholder}" ${field.required ? 'required' : ''}>`;
-                        break;
-                    case 'number':
-                        inputHtml = `<input type="number" class="fi" id="${field.id}" placeholder="${field.placeholder}" ${field.required ? 'required' : ''}>`;
-                        break;
-                    case 'date':
-                        inputHtml = `<input type="date" class="fi" id="${field.id}" ${field.required ? 'required' : ''}>`;
-                        break;
-                    case 'textarea':
-                        inputHtml = `<textarea class="fi" id="${field.id}" rows="2" placeholder="${field.placeholder}" ${field.required ? 'required' : ''}></textarea>`;
-                        break;
-                    case 'checkbox':
-                        inputHtml = `<div class="toggle-switch-wrap"><span class="text-sm">No</span><label class="toggle-switch"><input type="checkbox" id="${field.id}"><span class="toggle-thumb"></span></label><span class="text-sm">Yes</span></div>`;
-                        break;
-                    case 'dropdown':
-                        let optionsHtml = `<option value="">Select ${field.label}</option>`;
-                        field.options.forEach(opt => { optionsHtml += `<option value="${opt}">${opt}</option>`; });
-                        inputHtml = `<select class="fi" id="${field.id}" ${field.required ? 'required' : ''}>${optionsHtml}</select>`;
-                        break;
-                    default:
-                        inputHtml = `<input type="text" class="fi" id="${field.id}" placeholder="${field.placeholder}" ${field.required ? 'required' : ''}>`;
-                }
-                
-                html += `<div class="custom-field-card">
-                    <div style="flex:1;"><label class="fl">${field.label} ${field.required ? '<span class="req">*</span>' : ''}</label>${inputHtml}</div>
-                    <button type="button" onclick="removeCustomField('${field.id}')" class="text-red-500 ml-3"><i class="fas fa-trash"></i></button>
-                </div>`;
-            });
-            container.innerHTML = html;
-        }
-        
-        function removeCustomField(fieldId) {
-            customFieldsList = customFieldsList.filter(f => f.id !== fieldId);
-            renderCustomFields();
-            showToast('Custom field removed', 'info');
-        }
-        
-        // ==================== FORM SUBMIT ====================
-        document.getElementById('addEmployeeForm')?.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const firstName = document.getElementById('fFN').value;
-            const lastName = document.getElementById('fLN').value;
-            const email = document.getElementById('fPEmail').value;
-            const mobile = document.getElementById('fMob').value;
-            const dept = document.getElementById('fDept').value;
-            const desig = document.getElementById('fDesig').value;
-            const joiningDate = document.getElementById('fJD').value;
-            const basicSalary = document.getElementById('fBasic').value;
-            const ecName = document.getElementById('fECName').value;
-            const ecPhone = document.getElementById('fECPhone').value;
-            
-            if(!firstName || !lastName) { showToast('Please enter First Name and Last Name', 'error'); return; }
-            if(!email || !mobile) { showToast('Please enter Email and Mobile number', 'error'); return; }
-            if(!dept || !desig) { showToast('Please select Department and Designation', 'error'); return; }
-            if(!joiningDate || !basicSalary) { showToast('Please enter Joining Date and Basic Salary', 'error'); return; }
-            if(!ecName || !ecPhone) { showToast('Please enter Emergency Contact details', 'error'); return; }
-            
-            const newEmployee = {
-                id: document.getElementById('fEID').value,
-                name: `${firstName} ${document.getElementById('fMN').value} ${lastName}`.trim(),
-                email: email,
-                phone: mobile,
-                department: dept,
-                designation: desig,
-                status: 'Active',
-                customFields: customFieldsList.map(field => ({
-                    label: field.label,
-                    value: document.getElementById(field.id)?.value || ''
-                }))
-            };
-            
-            employeesData.unshift(newEmployee);
-            renderEmployeesTable();
-            showToast(`Employee ${newEmployee.name} added successfully!`, 'success');
-            
-            // Reset form
-            this.reset();
-            document.getElementById('fEID').value = generateEmployeeId();
-            document.getElementById('fNat').value = 'Indian';
-            document.getElementById('fCountry').value = 'India';
-            document.getElementById('fPCountry').value = 'India';
-            document.getElementById('eduList').innerHTML = '';
-            document.getElementById('famList').innerHTML = '';
-            document.getElementById('expList').innerHTML = '';
-            document.getElementById('uploadedDocList').innerHTML = '';
-            uploadedDocs = [];
-            customFieldsList = [];
-            renderCustomFields();
-            currentStep = 0;
-            updateWizardUI();
-            document.querySelector('.tab-btn[data-tab="all"]').click();
+// ==================== CONFIG ====================
+const API_BASE = 'http://localhost:8086/api/employees';
+
+// ==================== GLOBAL VARIABLES ====================
+let currentPage = 0;
+const rowsPerPage = 10;
+let totalPages = 0;
+let totalElements = 0;
+
+let deleteTargetId = null;
+let deleteTargetName = null;
+let uploadedDocs = [];
+let customFieldsList = [];
+
+// ==================== WIZARD VARIABLES ====================
+let currentStep = 0;
+const totalSteps = 5;
+
+// ==================== UTILS ====================
+function showToast(message, type) {
+    const toast = document.createElement('div');
+    toast.className = `toast ${type}`;
+    toast.innerHTML = message;
+    document.body.appendChild(toast);
+    setTimeout(() => toast.remove(), 3000);
+}
+
+function showError(msg) { const c = document.getElementById('errorContainer'); c.innerHTML = msg; c.classList.add('show'); setTimeout(() => c.classList.remove('show'), 5000); }
+function showSuccess(msg) { const c = document.getElementById('successContainer'); c.innerHTML = msg; c.classList.add('show'); setTimeout(() => c.classList.remove('show'), 5000); }
+
+// ==================== API HELPER ====================
+async function apiFetch(url, options = {}) {
+    try {
+        const res = await fetch(url, options);
+        const data = await res.json();
+        return { ok: res.ok, status: res.status, data };
+    } catch (err) {
+        console.error('API Error:', err);
+        return { ok: false, status: 0, data: { message: 'Network error. Please check your connection.' } };
+    }
+}
+
+// ==================== FETCH & RENDER EMPLOYEES TABLE ====================
+async function fetchAndRenderEmployees() {
+    const tbody = document.getElementById('employeesList');
+    if (!tbody) return;
+
+    tbody.innerHTML = `<tr><td colspan="8" class="py-8 text-center" style="color:var(--text-light);"><i class="fas fa-spinner fa-spin mr-2"></i>Loading employees...</td></tr>`;
+
+    const result = await apiFetch(`${API_BASE}/get-all-employees?page=${currentPage}&size=${rowsPerPage}`);
+
+    if (!result.ok) {
+        tbody.innerHTML = `<tr><td colspan="8" class="py-8 text-center" style="color:#dc3545;">Failed to load employees. ${result.data.message || ''}</td></tr>`;
+        return;
+    }
+
+    const { data: employees, totalPages: tp, totalElements: te } = result.data;
+    totalPages = tp || 0;
+    totalElements = te || 0;
+
+    if (!employees || employees.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="8" class="py-8 text-center" style="color:var(--text-light);">No employees found</td></tr>`;
+        document.getElementById('employeeCount').innerHTML = 'Showing 0 employees';
+        document.getElementById('pagination').innerHTML = '';
+        return;
+    }
+
+    let html = '';
+    employees.forEach(emp => {
+        const name = emp.fullName || `${emp.firstName || ''} ${emp.lastName || ''}`.trim();
+        const initial = name.charAt(0).toUpperCase();
+        const isActive = (emp.status || '').toLowerCase() === 'active';
+        const statusStyle = isActive
+            ? 'background:rgba(43,122,62,0.15);color:#155724;'
+            : 'background:rgba(220,53,69,0.15);color:#721c24;';
+
+        html += `<tr class="border-b data-row" style="border-color:var(--primary-soft);">
+            <td class="py-3">
+                <div class="flex items-center gap-2">
+                    <div class="avatar">${initial}</div>
+                    <div>
+                        <p class="text-sm font-medium" style="color:var(--primary);">${name}</p>
+                        <p class="text-xs" style="color:var(--text-light);">${emp.employeeId || ''}</p>
+                    </div>
+                </div>
+            </td>
+            <td class="py-3 text-sm" style="color:var(--text-light);">${emp.employeeId || '-'}</td>
+            <td class="py-3 text-sm" style="color:var(--text-light);">${emp.department || '-'}</td>
+            <td class="py-3 text-sm" style="color:var(--text-light);">${emp.designation || '-'}</td>
+            <td class="py-3 text-sm" style="color:var(--text-light);">${emp.personalEmail || emp.workEmail || '-'}</td>
+            <td class="py-3 text-sm" style="color:var(--text-light);">${emp.mobileNumber || '-'}</td>
+            <td class="py-3">
+                <span class="badge-custom" style="${statusStyle}">${emp.status || 'Active'}</span>
+            </td>
+            <td class="py-3">
+                <button onclick="viewEmployee(${emp.employeePrimeId})" title="View"
+                    style="background:var(--primary-bg-light);border:none;padding:5px 9px;border-radius:6px;cursor:pointer;font-size:12px;color:var(--primary);margin-right:4px;">
+                    <i class="fas fa-eye"></i>
+                </button>
+                <button onclick="editEmployee(${emp.employeePrimeId})" title="Edit"
+                    style="background:var(--primary-bg-light);border:none;padding:5px 9px;border-radius:6px;cursor:pointer;font-size:12px;color:var(--primary);margin-right:4px;">
+                    <i class="fas fa-edit"></i>
+                </button>
+                <button onclick="openDeleteModal(${emp.employeePrimeId}, '${name.replace(/'/g, "\\'")}')" title="Delete"
+                    style="background:rgba(220,53,69,0.1);border:none;padding:5px 9px;border-radius:6px;cursor:pointer;font-size:12px;color:#dc3545;">
+                    <i class="fas fa-trash"></i>
+                </button>
+            </td>
+        </tr>`;
+    });
+
+    tbody.innerHTML = html;
+
+    let paginationHtml = '';
+    for (let i = 0; i < totalPages; i++) {
+        paginationHtml += `<button onclick="goToPage(${i})" class="${i === currentPage ? 'btn-primary' : 'btn-outline'} btn-sm">${i + 1}</button>`;
+    }
+    document.getElementById('pagination').innerHTML = paginationHtml;
+    document.getElementById('employeeCount').innerHTML = `Showing ${totalElements} employees`;
+
+    await populateDropdowns();
+}
+
+// ==================== SEARCH ====================
+let searchDebounce = null;
+function filterEmployees() {
+    clearTimeout(searchDebounce);
+    searchDebounce = setTimeout(async () => {
+        const searchTerm = document.getElementById('searchEmployee')?.value.toLowerCase().trim() || '';
+        if (!searchTerm) { currentPage = 0; await fetchAndRenderEmployees(); return; }
+
+        const result = await apiFetch(`${API_BASE}/all-employees`);
+        if (!result.ok) return;
+
+        const all = result.data || [];
+        const filtered = all.filter(emp => {
+            const name = `${emp.firstName || ''} ${emp.lastName || ''}`.toLowerCase();
+            return name.includes(searchTerm) || (emp.employeeId || '').toLowerCase().includes(searchTerm);
         });
-        
-        // ==================== DOCUMENT & HISTORY FUNCTIONS ====================
-        function uploadDocument(docName) { 
-            const emp = document.getElementById('docEmployeeSelect').value; 
-            if(!emp) { showToast('Select employee first', 'error'); return; } 
-            showToast(`Upload ${docName}`, 'info'); 
+
+        const tbody = document.getElementById('employeesList');
+        if (!filtered.length) {
+            tbody.innerHTML = `<tr><td colspan="8" class="py-8 text-center" style="color:var(--text-light);">No employees found</td></tr>`;
+            document.getElementById('employeeCount').innerHTML = 'Showing 0 employees';
+            document.getElementById('pagination').innerHTML = '';
+            return;
         }
-        function loadEmployeeDocuments() { 
-            const emp = document.getElementById('docEmployeeSelect').value; 
-            if(emp) console.log('Loading docs for:', emp); 
-        }
-        function loadEmployeeHistory() { 
-            const emp = document.getElementById('historyEmployeeSelect').value; 
-            const historyDiv = document.getElementById('historyList'); 
-            if(!emp) { historyDiv.innerHTML = '<p class="text-center text-gray-500 py-4">Select an employee to view history</p>'; return; } 
-            historyDiv.innerHTML = `<div class="border-l-4 pl-4" style="border-color:#c99ebb;"><p class="font-medium text-sm" style="color:#540863;">Joined the company</p><p class="text-xs" style="color:#92487A;">${new Date().toLocaleDateString()}</p></div>`; 
-        }
-        
-        function populateDropdowns() { 
-            ['docEmployeeSelect', 'historyEmployeeSelect'].forEach(id => { 
-                const sel = document.getElementById(id); 
-                if(sel) { 
-                    let options = '<option value="">Select Employee</option>'; 
-                    employeesData.forEach(emp => { options += `<option value="${emp.id}">${emp.name} (${emp.id})</option>`; }); 
-                    sel.innerHTML = options; 
-                } 
-            }); 
-        }
-        
-        // ==================== TAB NAVIGATION ====================
-        function initTabs() {
-            const tabs = document.querySelectorAll('.tab-btn');
-            const contents = document.querySelectorAll('.tab-content');
-            const breadcrumbSpan = document.getElementById('breadcrumbSubmodule');
-            tabs.forEach(tab => {
-                tab.addEventListener('click', function() {
-                    const tabId = this.getAttribute('data-tab');
-                    tabs.forEach(t => { t.classList.remove('active'); t.style.color = '#92487A'; t.style.borderBottom = 'none'; });
-                    this.classList.add('active'); this.style.color = '#540863'; this.style.borderBottom = '2px solid #540863';
-                    contents.forEach(content => content.classList.remove('active'));
-                    document.getElementById(tabId).classList.add('active');
-                    if(tabId === 'all') breadcrumbSpan.innerHTML = '👥 All Employees';
-                    else if(tabId === 'add') breadcrumbSpan.innerHTML = '➕ Add Employee';
-                    else if(tabId === 'documents') breadcrumbSpan.innerHTML = '📄 Documents';
-                    else if(tabId === 'history') breadcrumbSpan.innerHTML = '📜 History';
-                });
-            });
-            const urlParams = new URLSearchParams(window.location.search);
-            const activeTab = urlParams.get('tab') || 'all';
-            document.querySelector(`.tab-btn[data-tab="${activeTab}"]`)?.click();
-        }
-        
-        function setActiveMenu(module) { setTimeout(() => { document.querySelectorAll('.nav-link').forEach(link => { link.classList.remove('active'); if(link.getAttribute('data-module') === module) link.classList.add('active'); }); }, 300); }
-        function showToast(message, type) { const toast = document.createElement('div'); toast.className = `toast ${type}`; toast.innerHTML = message; document.body.appendChild(toast); setTimeout(() => toast.remove(), 3000); }
-        
-        // Make wizard steps clickable
-        document.querySelectorAll('.wz').forEach((wz, idx) => {
-            wz.addEventListener('click', () => { currentStep = idx; updateWizardUI(); });
+
+        let html = '';
+        filtered.forEach(emp => {
+            const name = `${emp.firstName || ''} ${emp.lastName || ''}`.trim();
+            html += `<tr class="border-b data-row" style="border-color:var(--primary-soft);">
+                <td class="py-3">
+                    <div class="flex items-center gap-2">
+                        <div class="avatar">${name.charAt(0)}</div>
+                        <div>
+                            <p class="text-sm font-medium" style="color:var(--primary);">${name}</p>
+                            <p class="text-xs" style="color:var(--text-light);">${emp.employeeId || ''}</p>
+                        </div>
+                    </div>
+                </td>
+                <td class="py-3 text-sm" style="color:var(--text-light);">${emp.employeeId || '-'}</td>
+                <td class="py-3 text-sm" style="color:var(--text-light);">${emp.department || '-'}</td>
+                <td class="py-3 text-sm" style="color:var(--text-light);">-</td>
+                <td class="py-3 text-sm" style="color:var(--text-light);">-</td>
+                <td class="py-3 text-sm" style="color:var(--text-light);">-</td>
+                <td class="py-3"><span class="badge-custom" style="background:rgba(43,122,62,0.15);color:#155724;">Active</span></td>
+                <td class="py-3">
+                    <button onclick="viewEmployee(${emp.employeePrimeId})" style="background:var(--primary-bg-light);border:none;padding:5px 9px;border-radius:6px;cursor:pointer;font-size:12px;color:var(--primary);margin-right:4px;"><i class="fas fa-eye"></i></button>
+                    <button onclick="editEmployee(${emp.employeePrimeId})" style="background:var(--primary-bg-light);border:none;padding:5px 9px;border-radius:6px;cursor:pointer;font-size:12px;color:var(--primary);"><i class="fas fa-edit"></i></button>
+                </td>
+            </tr>`;
         });
-        
-        // Initialize
-        document.getElementById('fEID').value = generateEmployeeId();
-        document.addEventListener('DOMContentLoaded', function() { 
-            loadSidebar(); loadHeader(); setActiveMenu('employees'); initTabs(); renderEmployeesTable(); populateDropdowns(); updateWizardUI(); 
+        tbody.innerHTML = html;
+        document.getElementById('pagination').innerHTML = '';
+        document.getElementById('employeeCount').innerHTML = `Showing ${filtered.length} employees`;
+    }, 350);
+}
+
+function goToPage(page) { currentPage = page; fetchAndRenderEmployees(); }
+
+// ==================== EXPORT ====================
+async function exportEmployees() {
+    showToast('Preparing export...', 'info');
+    const result = await apiFetch(`${API_BASE}/export-employees`);
+    if (!result.ok) { showToast('Export failed!', 'error'); return; }
+
+    const employees = result.data.data || [];
+    if (!employees.length) { showToast('No data to export', 'info'); return; }
+
+    const headers = ['Employee ID', 'Full Name', 'Department', 'Designation', 'Email', 'Mobile', 'Status', 'Joining Date'];
+    const rows = employees.map(e => [e.employeeId, e.fullName, e.department, e.designation, e.personalEmail, e.mobileNumber, e.status, e.joiningDate]);
+
+    const csvContent = [headers, ...rows].map(row => row.map(cell => `"${cell || ''}"`).join(',')).join('\n');
+    const blob = new Blob([csvContent], { type: 'text/csv' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = `employees_${new Date().toISOString().slice(0,10)}.csv`; a.click();
+    URL.revokeObjectURL(url);
+    showToast(`Exported ${employees.length} employees!`, 'success');
+}
+
+// ==================== VIEW EMPLOYEE OVERLAY ====================
+async function viewEmployee(employeePrimeId) {
+    showViewOverlay(null, true);
+    const result = await apiFetch(`${API_BASE}/get-employee-by-id/${employeePrimeId}`);
+    if (!result.ok || !result.data?.data) { closeViewOverlay(); showToast('Could not load employee details', 'error'); return; }
+    showViewOverlay(result.data.data, false);
+}
+
+function showViewOverlay(emp, loading) {
+    let overlay = document.getElementById('viewEmployeeOverlay');
+    if (!overlay) { overlay = document.createElement('div'); overlay.id = 'viewEmployeeOverlay'; document.body.appendChild(overlay); }
+
+    overlay.style.cssText = `position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.55);z-index:3000;display:flex;justify-content:center;align-items:flex-start;padding:20px;overflow-y:auto;backdrop-filter:blur(3px);`;
+
+    if (loading) {
+        overlay.innerHTML = `<div style="background:white;border-radius:16px;padding:60px;margin:auto;text-align:center;min-width:300px;"><i class="fas fa-spinner fa-spin" style="font-size:32px;color:var(--primary);"></i><p style="margin-top:12px;color:var(--text-light);font-size:14px;">Loading employee details...</p></div>`;
+        return;
+    }
+
+    const fmt = d => d ? new Date(d).toLocaleDateString('en-IN', { day:'2-digit', month:'short', year:'numeric' }) : '—';
+    const val = v => v || '—';
+    const name = emp.fullName || `${emp.firstName || ''} ${emp.lastName || ''}`.trim();
+    const initial = name.charAt(0).toUpperCase();
+    const statusColor = (emp.status || '').toLowerCase() === 'active' ? '#2b7a3e' : '#dc3545';
+
+    let eduRows = '', famRows = '', expRows = '';
+    try { const edu = emp.education ? JSON.parse(emp.education) : []; eduRows = edu.map(e => `<tr style="border-bottom:1px solid var(--primary-soft);"><td style="padding:6px 10px;font-size:12px;color:var(--primary);">${e.degree||'—'}</td><td style="padding:6px 10px;font-size:12px;color:var(--text-light);">${e.institution||'—'}</td><td style="padding:6px 10px;font-size:12px;color:var(--text-light);">${e.year||'—'}</td></tr>`).join(''); } catch(e) {}
+    try { const fam = emp.family ? JSON.parse(emp.family) : []; famRows = fam.map(f => `<tr style="border-bottom:1px solid var(--primary-soft);"><td style="padding:6px 10px;font-size:12px;color:var(--primary);">${f.name||'—'}</td><td style="padding:6px 10px;font-size:12px;color:var(--text-light);">${f.relationship||'—'}</td><td style="padding:6px 10px;font-size:12px;color:var(--text-light);">${f.occupation||'—'}</td></tr>`).join(''); } catch(e) {}
+    try { const exp = emp.workExperience ? JSON.parse(emp.workExperience) : []; expRows = exp.map(x => `<tr style="border-bottom:1px solid var(--primary-soft);"><td style="padding:6px 10px;font-size:12px;color:var(--primary);">${x.company||'—'}</td><td style="padding:6px 10px;font-size:12px;color:var(--text-light);">${x.designation||'—'}</td><td style="padding:6px 10px;font-size:12px;color:var(--text-light);">${x.years||'—'}</td></tr>`).join(''); } catch(e) {}
+
+    const empId = emp.employeeId || '';
+    const docLinks = [
+        { label: 'Aadhaar',       icon: 'fa-id-card',            endpoint: `${API_BASE}/${empId}/aadhaar-image`,    hasDoc: !!(emp.aadhaarDocumentUrl   || emp.aadhaarDocumentImage) },
+        { label: 'PAN Card',      icon: 'fa-address-card',       endpoint: `${API_BASE}/${empId}/pan-image`,        hasDoc: !!(emp.panDocumentUrl        || emp.panDocumentImage) },
+        { label: 'Degree',        icon: 'fa-graduation-cap',     endpoint: `${API_BASE}/${empId}/degree-image`,     hasDoc: !!(emp.degreeDocumentUrl     || emp.degreeDocumentImage) },
+        { label: 'Experience',    icon: 'fa-file-alt',           endpoint: `${API_BASE}/${empId}/experience-image`, hasDoc: !!(emp.experienceDocumentUrl || emp.experienceDocumentImage) },
+        { label: 'Offer Letter',  icon: 'fa-envelope-open-text', endpoint: `${API_BASE}/${empId}/offer-letter`,     hasDoc: !!(emp.offerLetterUrl        || emp.offerLetterImage) },
+        { label: 'Profile Photo', icon: 'fa-user-circle',        endpoint: `${API_BASE}/${empId}/profile-photo`,   hasDoc: !!(emp.profilePhotoUrl       || emp.profilePhotoImage) },
+    ];
+    const docHtml = docLinks.map(d => `
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 10px;background:var(--primary-bg-light);border-radius:8px;margin-bottom:6px;border:1px solid var(--primary-soft);">
+            <span style="font-size:12px;color:var(--primary);"><i class="fas ${d.icon} mr-2"></i>${d.label}</span>
+            ${d.hasDoc ? `<a href="${d.endpoint}" target="_blank" style="font-size:11px;color:#2b7a3e;font-weight:600;text-decoration:none;"><i class="fas fa-eye mr-1"></i>View</a>` : `<span style="font-size:11px;color:#dc3545;">Not Uploaded</span>`}
+        </div>`).join('');
+
+    overlay.innerHTML = `
+        <div style="background:white;border-radius:16px;width:100%;max-width:860px;margin:auto;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.2);border:1px solid var(--primary-soft);">
+            <div style="background:var(--primary);padding:20px 24px;display:flex;justify-content:space-between;align-items:center;">
+                <div style="display:flex;align-items:center;gap:16px;">
+                    <div style="width:56px;height:56px;border-radius:50%;background:rgba(255,255,255,0.2);border:2px solid rgba(255,255,255,0.5);display:flex;align-items:center;justify-content:center;color:white;font-size:22px;font-weight:700;">${initial}</div>
+                    <div>
+                        <div style="font-size:18px;font-weight:700;color:white;">${val(name)}</div>
+                        <div style="font-size:13px;color:rgba(255,255,255,0.75);">${val(emp.designation)} &nbsp;·&nbsp; ${val(emp.department)}</div>
+                        <div style="margin-top:4px;"><span style="font-size:11px;padding:2px 10px;border-radius:20px;background:rgba(255,255,255,0.2);color:white;">${val(emp.employeeId)}</span></div>
+                    </div>
+                </div>
+                <div style="display:flex;align-items:center;gap:10px;">
+                    <span style="font-size:11px;padding:4px 12px;border-radius:20px;background:${statusColor};color:white;font-weight:600;">${val(emp.status)}</span>
+                    <button onclick="closeViewOverlay()" style="background:rgba(255,255,255,0.2);border:none;color:white;width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;">&times;</button>
+                </div>
+            </div>
+            <div style="padding:24px;overflow-y:auto;max-height:calc(100vh - 180px);">
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
+                    <div style="background:var(--primary-bg-light);border-radius:12px;padding:16px;border:1px solid var(--primary-soft);">
+                        <div style="font-size:12px;font-weight:700;color:var(--primary);margin-bottom:12px;"><i class="fas fa-id-card mr-2"></i>Personal Information</div>
+                        ${viewRow('Full Name', val(name))}${viewRow('Date of Birth', fmt(emp.dateOfBirth))}${viewRow('Gender', val(emp.gender))}${viewRow('Marital Status', val(emp.maritalStatus))}${viewRow('Blood Group', val(emp.bloodGroup))}${viewRow('Nationality', val(emp.nationality))}${viewRow('PAN Number', val(emp.panNumber))}${viewRow('Aadhaar', val(emp.aadhaarNumber))}${viewRow('Religion', val(emp.religion))}${viewRow("Father's / Spouse Name", val(emp.fatherSpouseName))}${viewRow('LinkedIn', emp.linkedinProfile ? `<a href="${emp.linkedinProfile}" target="_blank" style="color:var(--primary);">${emp.linkedinProfile}</a>` : '—')}${emp.isPhysicallyChallenged ? viewRow('PwD', `<span style="color:#e67e22;font-weight:600;">Yes — ${val(emp.disabilityType)} (${val(emp.disabilityPercentage)}%)</span>`) : ''}
+                    </div>
+                    <div style="background:var(--primary-bg-light);border-radius:12px;padding:16px;border:1px solid var(--primary-soft);">
+                        <div style="font-size:12px;font-weight:700;color:var(--primary);margin-bottom:12px;"><i class="fas fa-briefcase mr-2"></i>Job Details</div>
+                        ${viewRow('Employee ID', val(emp.employeeId))}${viewRow('Department', val(emp.department))}${viewRow('Sub-Department', val(emp.subDepartment))}${viewRow('Designation', val(emp.designation))}${viewRow('Grade', val(emp.employeeGrade))}${viewRow('Employment Type', val(emp.employmentType))}${viewRow('Joining Date', fmt(emp.joiningDate))}${viewRow('Probation End', fmt(emp.probationEndDate))}${viewRow('Reporting Manager', val(emp.reportingManager))}${viewRow('HR Business Partner', val(emp.hrBusinessPartner))}${viewRow('Work Location', val(emp.workLocation))}${viewRow('Shift', val(emp.shift))}${viewRow('Cost Centre', val(emp.costCentre))}${viewRow('Basic Salary', emp.basicSalary ? `₹${Number(emp.basicSalary).toLocaleString('en-IN')}` : '—')}
+                    </div>
+                </div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
+                    <div style="background:var(--primary-bg-light);border-radius:12px;padding:16px;border:1px solid var(--primary-soft);">
+                        <div style="font-size:12px;font-weight:700;color:var(--primary);margin-bottom:12px;"><i class="fas fa-address-book mr-2"></i>Contact & Address</div>
+                        ${viewRow('Personal Email', val(emp.personalEmail))}${viewRow('Work Email', val(emp.workEmail))}${viewRow('Mobile', val(emp.mobileNumber))}${viewRow('Alternate Phone', val(emp.alternateNumber))}
+                        <div style="margin-top:10px;padding-top:8px;border-top:1px solid var(--primary-soft);"><div style="font-size:11px;font-weight:700;color:var(--text-light);margin-bottom:6px;">Current Address</div>${viewRow('Street', val(emp.currentStreet))}${viewRow('City / State', `${val(emp.currentCity)}, ${val(emp.currentState)} — ${val(emp.currentPincode)}`)}</div>
+                        <div style="margin-top:10px;padding-top:8px;border-top:1px solid var(--primary-soft);"><div style="font-size:11px;font-weight:700;color:var(--text-light);margin-bottom:6px;">Permanent Address</div>${viewRow('Street', val(emp.permanentStreet))}${viewRow('City / State', `${val(emp.permanentCity)}, ${val(emp.permanentState)} — ${val(emp.permanentPincode)}`)}</div>
+                        <div style="margin-top:10px;padding-top:8px;border-top:1px solid var(--primary-soft);"><div style="font-size:11px;font-weight:700;color:var(--text-light);margin-bottom:6px;">Emergency Contact</div>${viewRow('Name', val(emp.emergencyName))}${viewRow('Relationship', val(emp.emergencyRelationship))}${viewRow('Phone', val(emp.emergencyPhone))}</div>
+                    </div>
+                    <div>
+                        <div style="background:var(--primary-bg-light);border-radius:12px;padding:16px;border:1px solid var(--primary-soft);margin-bottom:16px;">
+                            <div style="font-size:12px;font-weight:700;color:var(--primary);margin-bottom:12px;"><i class="fas fa-building mr-2"></i>Bank Details</div>
+                            ${viewRow('Bank Name', val(emp.bankName))}${viewRow('Account Number', val(emp.accountNumber))}${viewRow('IFSC Code', val(emp.ifscCode))}
+                        </div>
+                        <div style="background:var(--primary-bg-light);border-radius:12px;padding:16px;border:1px solid var(--primary-soft);">
+                            <div style="font-size:12px;font-weight:700;color:var(--primary);margin-bottom:12px;"><i class="fas fa-folder mr-2"></i>Documents</div>
+                            ${docHtml}
+                        </div>
+                    </div>
+                </div>
+                <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:16px;">
+                    <div style="background:var(--primary-bg-light);border-radius:12px;padding:16px;border:1px solid var(--primary-soft);">
+                        <div style="font-size:12px;font-weight:700;color:var(--primary);margin-bottom:12px;"><i class="fas fa-graduation-cap mr-2"></i>Education</div>
+                        ${eduRows ? `<table style="width:100%;"><thead><tr><th style="padding:4px 10px;font-size:11px;color:var(--text-light);text-align:left;">Degree</th><th style="padding:4px 10px;font-size:11px;color:var(--text-light);text-align:left;">Institution</th><th style="padding:4px 10px;font-size:11px;color:var(--text-light);text-align:left;">Year</th></tr></thead><tbody>${eduRows}</tbody></table>` : '<p style="font-size:12px;color:var(--text-light);">No education records</p>'}
+                    </div>
+                    <div style="background:var(--primary-bg-light);border-radius:12px;padding:16px;border:1px solid var(--primary-soft);">
+                        <div style="font-size:12px;font-weight:700;color:var(--primary);margin-bottom:12px;"><i class="fas fa-users mr-2"></i>Family</div>
+                        ${famRows ? `<table style="width:100%;"><thead><tr><th style="padding:4px 10px;font-size:11px;color:var(--text-light);text-align:left;">Name</th><th style="padding:4px 10px;font-size:11px;color:var(--text-light);text-align:left;">Relation</th><th style="padding:4px 10px;font-size:11px;color:var(--text-light);text-align:left;">Occupation</th></tr></thead><tbody>${famRows}</tbody></table>` : '<p style="font-size:12px;color:var(--text-light);">No family records</p>'}
+                    </div>
+                    <div style="background:var(--primary-bg-light);border-radius:12px;padding:16px;border:1px solid var(--primary-soft);">
+                        <div style="font-size:12px;font-weight:700;color:var(--primary);margin-bottom:12px;"><i class="fas fa-briefcase mr-2"></i>Work Experience</div>
+                        ${expRows ? `<table style="width:100%;"><thead><tr><th style="padding:4px 10px;font-size:11px;color:var(--text-light);text-align:left;">Company</th><th style="padding:4px 10px;font-size:11px;color:var(--text-light);text-align:left;">Designation</th><th style="padding:4px 10px;font-size:11px;color:var(--text-light);text-align:left;">Years</th></tr></thead><tbody>${expRows}</tbody></table>` : '<p style="font-size:12px;color:var(--text-light);">No experience records</p>'}
+                    </div>
+                </div>
+            </div>
+            <div style="padding:16px 24px;border-top:1px solid var(--primary-soft);display:flex;justify-content:flex-end;gap:10px;background:var(--primary-bg-light);">
+                <button onclick="closeViewOverlay();editEmployee(${emp.employeePrimeId})" class="btn-primary btn-sm"><i class="fas fa-edit mr-1"></i> Edit Employee</button>
+                <button onclick="closeViewOverlay()" class="btn-outline btn-sm">Close</button>
+            </div>
+        </div>`;
+
+    overlay.addEventListener('click', function(e) { if (e.target === overlay) closeViewOverlay(); });
+}
+
+function viewRow(label, value) {
+    return `<div style="display:flex;justify-content:space-between;align-items:flex-start;padding:4px 0;border-bottom:1px solid rgba(189,228,238,0.5);">
+        <span style="font-size:11px;color:var(--text-light);min-width:120px;">${label}</span>
+        <span style="font-size:12px;color:var(--text-dark);font-weight:500;text-align:right;">${value}</span>
+    </div>`;
+}
+function closeViewOverlay() { const o = document.getElementById('viewEmployeeOverlay'); if (o) o.remove(); }
+
+// ==================== EDIT EMPLOYEE OVERLAY ====================
+async function editEmployee(employeePrimeId) {
+    showEditOverlay(null, true, employeePrimeId);
+    const result = await apiFetch(`${API_BASE}/get-employee-by-id/${employeePrimeId}`);
+    if (!result.ok || !result.data?.data) { closeEditOverlay(); showToast('Could not load employee details', 'error'); return; }
+    showEditOverlay(result.data.data, false, employeePrimeId);
+}
+
+function showEditOverlay(emp, loading, employeePrimeId) {
+    let overlay = document.getElementById('editEmployeeOverlay');
+    if (!overlay) { overlay = document.createElement('div'); overlay.id = 'editEmployeeOverlay'; document.body.appendChild(overlay); }
+
+    overlay.style.cssText = `position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.55);z-index:3000;display:flex;justify-content:center;align-items:flex-start;padding:20px;overflow-y:auto;backdrop-filter:blur(3px);`;
+
+    if (loading) {
+        overlay.innerHTML = `<div style="background:white;border-radius:16px;padding:60px;margin:auto;text-align:center;min-width:300px;"><i class="fas fa-spinner fa-spin" style="font-size:32px;color:var(--primary);"></i><p style="margin-top:12px;color:var(--text-light);font-size:14px;">Loading employee data...</p></div>`;
+        return;
+    }
+
+    const name = emp.fullName || `${emp.firstName || ''} ${emp.lastName || ''}`.trim();
+    const initial = name.charAt(0).toUpperCase();
+
+    overlay.innerHTML = `
+        <div style="background:white;border-radius:16px;width:100%;max-width:860px;margin:auto;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.2);border:1px solid var(--primary-soft);">
+            <div style="background:var(--primary);padding:20px 24px;display:flex;justify-content:space-between;align-items:center;">
+                <div style="display:flex;align-items:center;gap:14px;">
+                    <div style="width:48px;height:48px;border-radius:50%;background:rgba(255,255,255,0.2);border:2px solid rgba(255,255,255,0.5);display:flex;align-items:center;justify-content:center;color:white;font-size:20px;font-weight:700;">${initial}</div>
+                    <div>
+                        <div style="font-size:16px;font-weight:700;color:white;">Edit Employee</div>
+                        <div style="font-size:12px;color:rgba(255,255,255,0.75);">${name} &nbsp;·&nbsp; ${emp.employeeId || ''}</div>
+                    </div>
+                </div>
+                <button onclick="closeEditOverlay()" style="background:rgba(255,255,255,0.2);border:none;color:white;width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:16px;">&times;</button>
+            </div>
+            <div style="display:flex;border-bottom:2px solid var(--primary-soft);background:var(--primary-bg-light);padding:0 24px;overflow-x:auto;">
+                ${['Personal','Job Details','Contact & Address','Education & Family','Documents'].map((tab, i) =>
+                    `<button onclick="switchEditTab(${i})" id="editTab${i}" style="padding:12px 16px;border:none;background:none;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;border-bottom:2px solid transparent;margin-bottom:-2px;color:${i===0?'var(--primary)':'var(--text-light)'};border-bottom-color:${i===0?'var(--primary)':'transparent'};">${tab}</button>`
+                ).join('')}
+            </div>
+            <form id="editEmployeeForm" onsubmit="submitEditEmployee(event, ${employeePrimeId})">
+                <div style="padding:24px;overflow-y:auto;max-height:calc(100vh - 250px);">
+                    <!-- TAB 0: Personal -->
+                    <div id="editSt0">
+                        <div style="font-size:13px;font-weight:700;color:var(--primary);margin-bottom:14px;padding-bottom:8px;border-bottom:2px solid var(--primary-soft);"><i class="fas fa-id-card mr-2"></i>Personal Information</div>
+                        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:12px;">
+                            ${editField('First Name *','efFN',emp.firstName,'text',true)}${editField('Middle Name','efMN',emp.middleName)}${editField('Last Name *','efLN',emp.lastName,'text',true)}
+                        </div>
+                        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:12px;">
+                            ${editField('Date of Birth','efDOB',emp.dateOfBirth,'date')}${editSelectField('Gender','efGender',['Male','Female','Other'],emp.gender)}${editSelectField('Marital Status','efMarital',['Single','Married','Divorced','Widowed'],emp.maritalStatus)}
+                        </div>
+                        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:12px;">
+                            ${editSelectField('Blood Group','efBlood',['A+','A-','B+','B-','O+','O-','AB+','AB-'],emp.bloodGroup)}${editField('PAN Number','efPAN',emp.panNumber)}${editField('Aadhaar Number','efAAD',emp.aadhaarNumber)}
+                        </div>
+                        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;">
+                            ${editField('Nationality','efNat',emp.nationality||'Indian')}${editField('Religion','efRel',emp.religion)}${editField("Father's / Spouse Name",'efFatherName',emp.fatherSpouseName)}
+                        </div>
+                        <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:12px;">
+                            ${editField('LinkedIn Profile','efLI',emp.linkedinProfile)}${editField('Employee Status','efStatus',emp.status)}
+                        </div>
+                    </div>
+                    <!-- TAB 1: Job Details -->
+                    <div id="editSt1" style="display:none;">
+                        <div style="font-size:13px;font-weight:700;color:var(--primary);margin-bottom:14px;padding-bottom:8px;border-bottom:2px solid var(--primary-soft);"><i class="fas fa-briefcase mr-2"></i>Job Details</div>
+                        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:12px;">
+                            ${editSelectField('Department *','efDept',['Information Technology','Human Resources','Sales & Marketing','Finance & Accounts','Operations'],emp.department,true)}${editField('Sub-Department','efSubDept',emp.subDepartment)}${editField('Designation *','efDesig',emp.designation,'text',true)}
+                        </div>
+                        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:12px;">
+                            ${editSelectField('Employee Grade','efGrade',['L1','L2','L3','L4','L5','M1','M2'],emp.employeeGrade)}${editSelectField('Employment Type','efEmpType',['Full-Time','Part-Time','Contract','Intern'],emp.employmentType)}${editField('Joining Date *','efJD',emp.joiningDate,'date',true)}
+                        </div>
+                        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:12px;">
+                            ${editField('Probation End Date','efProbEnd',emp.probationEndDate,'date')}${editField('Reporting Manager','efMgr',emp.reportingManager)}${editField('HR Business Partner','efHRBP',emp.hrBusinessPartner)}
+                        </div>
+                        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:12px;">
+                            ${editSelectField('Work Location','efWL',['Mumbai HQ','Delhi Branch','Remote','Hybrid'],emp.workLocation)}${editField('Basic Salary (₹) *','efBasic',emp.basicSalary,'number',true)}${editSelectField('Shift','efShift',['General (9AM-6PM)','Morning (7AM-4PM)','Evening (2PM-11PM)','Night (10PM-7AM)'],emp.shift)}
+                        </div>
+                        <div style="display:grid;grid-template-columns:1fr;gap:12px;margin-bottom:12px;">${editField('Cost Centre','efCC',emp.costCentre)}</div>
+                        <div style="font-size:13px;font-weight:700;color:var(--primary);margin-bottom:14px;padding-bottom:8px;border-bottom:2px solid var(--primary-soft);margin-top:16px;"><i class="fas fa-building mr-2"></i>Bank Details</div>
+                        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;">
+                            ${editField('Bank Name','efBank',emp.bankName)}${editField('Account Number','efAccNo',emp.accountNumber)}${editField('IFSC Code','efIFSC',emp.ifscCode)}
+                        </div>
+                    </div>
+                    <!-- TAB 2: Contact & Address -->
+                    <div id="editSt2" style="display:none;">
+                        <div style="font-size:13px;font-weight:700;color:var(--primary);margin-bottom:14px;padding-bottom:8px;border-bottom:2px solid var(--primary-soft);"><i class="fas fa-address-book mr-2"></i>Contact Information</div>
+                        <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:12px;">
+                            ${editField('Personal Email *','efPEmail',emp.personalEmail,'email',true)}${editField('Work Email','efWEmail',emp.workEmail,'email')}${editField('Mobile *','efMob',emp.mobileNumber,'text',true)}${editField('Alternate Phone','efAlt',emp.alternateNumber)}
+                        </div>
+                        <div style="font-size:12px;font-weight:700;color:var(--text-light);margin-bottom:10px;margin-top:6px;">Current Address</div>
+                        <div style="background:var(--primary-bg-light);border-radius:10px;padding:14px;margin-bottom:12px;border:1px solid var(--primary-soft);">
+                            ${editTextareaField('Street Address','efCAddr',emp.currentStreet)}
+                            <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:10px;">
+                                ${editField('City','efCity',emp.currentCity)}${editField('State','efState',emp.currentState)}${editField('PIN Code','efPIN',emp.currentPincode)}${editField('Country','efCountry',emp.currentCountry||'India')}
+                            </div>
+                        </div>
+                        <div style="font-size:12px;font-weight:700;color:var(--text-light);margin-bottom:10px;">Permanent Address</div>
+                        <div style="background:var(--primary-bg-light);border-radius:10px;padding:14px;margin-bottom:12px;border:1px solid var(--primary-soft);">
+                            ${editTextareaField('Street Address','efPAddr',emp.permanentStreet)}
+                            <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:10px;">
+                                ${editField('City','efPCity',emp.permanentCity)}${editField('State','efPState',emp.permanentState)}${editField('PIN Code','efPPIN',emp.permanentPincode)}${editField('Country','efPCountry',emp.permanentCountry||'India')}
+                            </div>
+                        </div>
+                        <div style="font-size:12px;font-weight:700;color:var(--text-light);margin-bottom:10px;">Emergency Contact</div>
+                        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;">
+                            ${editField('Name *','efECName',emp.emergencyName,'text',true)}${editSelectField('Relationship','efECRel',['Spouse','Father','Mother','Sibling'],emp.emergencyRelationship)}${editField('Phone *','efECPhone',emp.emergencyPhone,'text',true)}
+                        </div>
+                    </div>
+                    <!-- TAB 3: Education & Family -->
+                    <div id="editSt3" style="display:none;">
+                        <div style="font-size:13px;font-weight:700;color:var(--primary);margin-bottom:14px;padding-bottom:8px;border-bottom:2px solid var(--primary-soft);"><i class="fas fa-graduation-cap mr-2"></i>Education Details</div>
+                        <div id="editEduList"></div>
+                        <button type="button" onclick="addEditEduRow()" class="btn-outline btn-sm" style="margin-bottom:16px;"><i class="fas fa-plus mr-1"></i> Add Education</button>
+                        <div style="font-size:13px;font-weight:700;color:var(--primary);margin-bottom:14px;padding-bottom:8px;border-bottom:2px solid var(--primary-soft);"><i class="fas fa-users mr-2"></i>Family Details</div>
+                        <div id="editFamList"></div>
+                        <button type="button" onclick="addEditFamRow()" class="btn-outline btn-sm" style="margin-bottom:16px;"><i class="fas fa-plus mr-1"></i> Add Family Member</button>
+                        <div style="font-size:13px;font-weight:700;color:var(--primary);margin-bottom:14px;padding-bottom:8px;border-bottom:2px solid var(--primary-soft);"><i class="fas fa-briefcase mr-2"></i>Work Experience</div>
+                        <div id="editExpList"></div>
+                        <button type="button" onclick="addEditExpRow()" class="btn-outline btn-sm"><i class="fas fa-plus mr-1"></i> Add Experience</button>
+                    </div>
+                    <!-- TAB 4: Documents -->
+                    <div id="editSt4" style="display:none;">
+                        <div style="font-size:13px;font-weight:700;color:var(--primary);margin-bottom:14px;padding-bottom:8px;border-bottom:2px solid var(--primary-soft);"><i class="fas fa-folder mr-2"></i>Upload / Replace Documents</div>
+                        <p style="font-size:12px;color:var(--text-light);margin-bottom:14px;">Upload a new file to replace the existing document. Leave blank to keep existing.</p>
+                        <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px;">
+                            ${editFileField('Aadhaar Card','efAadhaar',!!(emp.aadhaarDocumentUrl||emp.aadhaarDocumentImage),`${API_BASE}/${emp.employeeId}/aadhaar-image`)}
+                            ${editFileField('PAN Card','efPAN_doc',!!(emp.panDocumentUrl||emp.panDocumentImage),`${API_BASE}/${emp.employeeId}/pan-image`)}
+                            ${editFileField('Degree Certificate','efDegree',!!(emp.degreeDocumentUrl||emp.degreeDocumentImage),`${API_BASE}/${emp.employeeId}/degree-image`)}
+                            ${editFileField('Experience Letter','efExpDoc',!!(emp.experienceDocumentUrl||emp.experienceDocumentImage),`${API_BASE}/${emp.employeeId}/experience-image`)}
+                            ${editFileField('Offer Letter','efOfferLetter',!!(emp.offerLetterUrl||emp.offerLetterImage),`${API_BASE}/${emp.employeeId}/offer-letter`)}
+                            ${editFileField('Profile Photo','efProfilePhoto',!!(emp.profilePhotoUrl||emp.profilePhotoImage),`${API_BASE}/${emp.employeeId}/profile-photo`)}
+                        </div>
+                    </div>
+                </div>
+                <div style="padding:16px 24px;border-top:1px solid var(--primary-soft);display:flex;justify-content:space-between;align-items:center;background:var(--primary-bg-light);">
+                    <span style="font-size:11px;color:var(--text-light);"><i class="fas fa-info-circle mr-1"></i>Fields marked with * are required</span>
+                    <div style="display:flex;gap:10px;">
+                        <button type="button" onclick="closeEditOverlay()" class="btn-outline btn-sm">Cancel</button>
+                        <button type="submit" id="editSaveBtn" class="btn-success btn-sm"><i class="fas fa-save mr-1"></i>Save Changes</button>
+                    </div>
+                </div>
+            </form>
+        </div>`;
+
+    try { if (emp.education) { JSON.parse(emp.education).forEach(e => addEditEduRow(e.degree, e.institution, e.year)); } } catch(e) {}
+    try { if (emp.family) { JSON.parse(emp.family).forEach(f => addEditFamRow(f.name, f.relationship, f.occupation)); } } catch(e) {}
+    try { if (emp.workExperience) { JSON.parse(emp.workExperience).forEach(x => addEditExpRow(x.company, x.designation, x.years)); } } catch(e) {}
+
+    overlay.addEventListener('click', function(e) { if (e.target === overlay) closeEditOverlay(); });
+}
+
+function editField(label, id, value, type='text', required=false) {
+    const val = value !== null && value !== undefined ? value : '';
+    return `<div><label style="font-size:11px;font-weight:600;color:var(--primary);display:block;margin-bottom:4px;">${label}</label><input type="${type}" id="${id}" value="${String(val).replace(/"/g,'&quot;')}" ${required?'required':''} style="border:1px solid var(--primary-soft);border-radius:10px;padding:8px 12px;width:100%;font-size:12px;box-sizing:border-box;color:var(--text-dark);"></div>`;
+}
+function editSelectField(label, id, options, selected, required=false) {
+    const opts = options.map(o => `<option value="${o}" ${o===selected?'selected':''}>${o}</option>`).join('');
+    return `<div><label style="font-size:11px;font-weight:600;color:var(--primary);display:block;margin-bottom:4px;">${label}</label><select id="${id}" ${required?'required':''} style="border:1px solid var(--primary-soft);border-radius:10px;padding:8px 12px;width:100%;font-size:12px;box-sizing:border-box;color:var(--text-dark);"><option value="">Select</option>${opts}</select></div>`;
+}
+function editTextareaField(label, id, value) {
+    return `<div><label style="font-size:11px;font-weight:600;color:var(--primary);display:block;margin-bottom:4px;">${label}</label><textarea id="${id}" rows="2" style="border:1px solid var(--primary-soft);border-radius:10px;padding:8px 12px;width:100%;font-size:12px;box-sizing:border-box;resize:vertical;color:var(--text-dark);">${value||''}</textarea></div>`;
+}
+function editFileField(label, id, hasDoc, viewUrl) {
+    return `<div style="background:var(--primary-bg-light);border-radius:10px;padding:12px;border:1px solid var(--primary-soft);">
+        <label style="font-size:11px;font-weight:600;color:var(--primary);display:block;margin-bottom:6px;">${label}</label>
+        ${hasDoc ? `<div style="margin-bottom:6px;"><a href="${viewUrl}" target="_blank" style="font-size:11px;color:#2b7a3e;font-weight:600;"><i class="fas fa-check-circle mr-1"></i>Current file — View</a></div>` : `<div style="margin-bottom:6px;font-size:11px;color:#dc3545;"><i class="fas fa-times-circle mr-1"></i>Not uploaded</div>`}
+        <input type="file" id="${id}" accept=".pdf,.jpg,.png" style="border:1px solid var(--primary-soft);border-radius:8px;padding:5px;width:100%;font-size:11px;box-sizing:border-box;">
+        <div style="font-size:10px;color:var(--text-light);margin-top:3px;">Leave blank to keep existing</div>
+    </div>`;
+}
+
+function switchEditTab(idx) {
+    for (let i = 0; i < 5; i++) {
+        const st = document.getElementById(`editSt${i}`);
+        const tb = document.getElementById(`editTab${i}`);
+        if (st) st.style.display = i === idx ? 'block' : 'none';
+        if (tb) { tb.style.color = i===idx ? 'var(--primary)' : 'var(--text-light)'; tb.style.borderBottomColor = i===idx ? 'var(--primary)' : 'transparent'; }
+    }
+}
+
+function addEditEduRow(degree='', institution='', year='') {
+    const row = document.createElement('div');
+    row.className = 'edit-edu-row';
+    row.style.cssText = 'display:grid;grid-template-columns:1fr 1fr 1fr 32px;gap:8px;margin-bottom:8px;align-items:end;';
+    row.innerHTML = `<input placeholder="Degree" value="${degree}" style="border:1px solid var(--primary-soft);border-radius:10px;padding:7px 10px;font-size:12px;"><input placeholder="Institution" value="${institution}" style="border:1px solid var(--primary-soft);border-radius:10px;padding:7px 10px;font-size:12px;"><input placeholder="Year" value="${year}" style="border:1px solid var(--primary-soft);border-radius:10px;padding:7px 10px;font-size:12px;"><button type="button" onclick="this.parentElement.remove()" class="btn-danger" style="padding:0;width:32px;height:34px;border-radius:8px;font-size:11px;"><i class="fas fa-trash"></i></button>`;
+    document.getElementById('editEduList').appendChild(row);
+}
+function addEditFamRow(name='', relationship='', occupation='') {
+    const row = document.createElement('div');
+    row.className = 'edit-fam-row';
+    row.style.cssText = 'display:grid;grid-template-columns:1fr 1fr 1fr 32px;gap:8px;margin-bottom:8px;align-items:end;';
+    row.innerHTML = `<input placeholder="Name" value="${name}" style="border:1px solid var(--primary-soft);border-radius:10px;padding:7px 10px;font-size:12px;"><input placeholder="Relationship" value="${relationship}" style="border:1px solid var(--primary-soft);border-radius:10px;padding:7px 10px;font-size:12px;"><input placeholder="Occupation" value="${occupation}" style="border:1px solid var(--primary-soft);border-radius:10px;padding:7px 10px;font-size:12px;"><button type="button" onclick="this.parentElement.remove()" class="btn-danger" style="padding:0;width:32px;height:34px;border-radius:8px;font-size:11px;"><i class="fas fa-trash"></i></button>`;
+    document.getElementById('editFamList').appendChild(row);
+}
+function addEditExpRow(company='', designation='', years='') {
+    const row = document.createElement('div');
+    row.className = 'edit-exp-row';
+    row.style.cssText = 'display:grid;grid-template-columns:1fr 1fr 1fr 32px;gap:8px;margin-bottom:8px;align-items:end;';
+    row.innerHTML = `<input placeholder="Company" value="${company}" style="border:1px solid var(--primary-soft);border-radius:10px;padding:7px 10px;font-size:12px;"><input placeholder="Designation" value="${designation}" style="border:1px solid var(--primary-soft);border-radius:10px;padding:7px 10px;font-size:12px;"><input placeholder="Years" value="${years}" style="border:1px solid var(--primary-soft);border-radius:10px;padding:7px 10px;font-size:12px;"><button type="button" onclick="this.parentElement.remove()" class="btn-danger" style="padding:0;width:32px;height:34px;border-radius:8px;font-size:11px;"><i class="fas fa-trash"></i></button>`;
+    document.getElementById('editExpList').appendChild(row);
+}
+
+function collectEditEducation() { const rows = document.querySelectorAll('#editEduList .edit-edu-row'); const result = []; rows.forEach(row => { const inputs = row.querySelectorAll('input'); if (inputs[0]?.value.trim()) result.push({ degree:inputs[0].value, institution:inputs[1].value, year:inputs[2].value }); }); return result.length ? JSON.stringify(result) : null; }
+function collectEditFamily() { const rows = document.querySelectorAll('#editFamList .edit-fam-row'); const result = []; rows.forEach(row => { const inputs = row.querySelectorAll('input'); if (inputs[0]?.value.trim()) result.push({ name:inputs[0].value, relationship:inputs[1].value, occupation:inputs[2].value }); }); return result.length ? JSON.stringify(result) : null; }
+function collectEditExperience() { const rows = document.querySelectorAll('#editExpList .edit-exp-row'); const result = []; rows.forEach(row => { const inputs = row.querySelectorAll('input'); if (inputs[0]?.value.trim()) result.push({ company:inputs[0].value, designation:inputs[1].value, years:inputs[2].value }); }); return result.length ? JSON.stringify(result) : null; }
+
+async function submitEditEmployee(e, employeePrimeId) {
+    e.preventDefault();
+    const firstName=document.getElementById('efFN')?.value.trim(), lastName=document.getElementById('efLN')?.value.trim(), email=document.getElementById('efPEmail')?.value.trim(), mobile=document.getElementById('efMob')?.value.trim(), dept=document.getElementById('efDept')?.value, desig=document.getElementById('efDesig')?.value.trim(), joiningDate=document.getElementById('efJD')?.value, basicSalary=document.getElementById('efBasic')?.value, ecName=document.getElementById('efECName')?.value.trim(), ecPhone=document.getElementById('efECPhone')?.value.trim();
+    if (!firstName||!lastName) { showToast('Please enter First Name and Last Name','error'); switchEditTab(0); return; }
+    if (!email||!mobile) { showToast('Please enter Email and Mobile number','error'); switchEditTab(2); return; }
+    if (!dept||!desig) { showToast('Please select Department and Designation','error'); switchEditTab(1); return; }
+    if (!joiningDate||!basicSalary) { showToast('Please enter Joining Date and Basic Salary','error'); switchEditTab(1); return; }
+    if (!ecName||!ecPhone) { showToast('Please enter Emergency Contact details','error'); switchEditTab(2); return; }
+
+    const employeePayload = { firstName, middleName:document.getElementById('efMN')?.value.trim(), lastName, dateOfBirth:document.getElementById('efDOB')?.value||null, gender:document.getElementById('efGender')?.value, maritalStatus:document.getElementById('efMarital')?.value, bloodGroup:document.getElementById('efBlood')?.value, panNumber:document.getElementById('efPAN')?.value.trim().toUpperCase(), aadhaarNumber:document.getElementById('efAAD')?.value.trim(), nationality:document.getElementById('efNat')?.value.trim(), religion:document.getElementById('efRel')?.value.trim(), linkedinProfile:document.getElementById('efLI')?.value.trim(), fatherSpouseName:document.getElementById('efFatherName')?.value.trim(), status:document.getElementById('efStatus')?.value.trim(), department:dept, subDepartment:document.getElementById('efSubDept')?.value.trim(), designation:desig, employeeGrade:document.getElementById('efGrade')?.value, employmentType:document.getElementById('efEmpType')?.value, joiningDate, probationEndDate:document.getElementById('efProbEnd')?.value||null, reportingManager:document.getElementById('efMgr')?.value.trim(), hrBusinessPartner:document.getElementById('efHRBP')?.value.trim(), workLocation:document.getElementById('efWL')?.value, basicSalary:parseFloat(basicSalary)||null, shift:document.getElementById('efShift')?.value, costCentre:document.getElementById('efCC')?.value.trim(), bankName:document.getElementById('efBank')?.value.trim(), accountNumber:document.getElementById('efAccNo')?.value.trim(), ifscCode:document.getElementById('efIFSC')?.value.trim().toUpperCase(), personalEmail:email, workEmail:document.getElementById('efWEmail')?.value.trim(), mobileNumber:mobile, alternateNumber:document.getElementById('efAlt')?.value.trim(), currentStreet:document.getElementById('efCAddr')?.value.trim(), currentCity:document.getElementById('efCity')?.value.trim(), currentState:document.getElementById('efState')?.value.trim(), currentPincode:document.getElementById('efPIN')?.value.trim(), currentCountry:document.getElementById('efCountry')?.value.trim(), permanentStreet:document.getElementById('efPAddr')?.value.trim(), permanentCity:document.getElementById('efPCity')?.value.trim(), permanentState:document.getElementById('efPState')?.value.trim(), permanentPincode:document.getElementById('efPPIN')?.value.trim(), permanentCountry:document.getElementById('efPCountry')?.value.trim(), emergencyName:ecName, emergencyRelationship:document.getElementById('efECRel')?.value, emergencyPhone:ecPhone, education:collectEditEducation(), family:collectEditFamily(), workExperience:collectEditExperience() };
+
+    const formData = new FormData();
+    formData.append('employee', JSON.stringify(employeePayload));
+    const docFieldMap = { 'efAadhaar':'aadhaarDocument', 'efPAN_doc':'panDocument', 'efDegree':'degreeDocument', 'efExpDoc':'experienceDocument', 'efOfferLetter':'offerLetter', 'efProfilePhoto':'profilePhoto' };
+    Object.entries(docFieldMap).forEach(([inputId, partName]) => { const fi=document.getElementById(inputId); if (fi?.files?.length>0) formData.append(partName, fi.files[0]); });
+
+    const saveBtn = document.getElementById('editSaveBtn');
+    if (saveBtn) { saveBtn.disabled=true; saveBtn.innerHTML='<i class="fas fa-spinner fa-spin mr-1"></i>Saving...'; }
+
+    let result, resData;
+    try { result = await fetch(`${API_BASE}/update-employee/${employeePrimeId}`, { method:'PUT', body:formData }); resData = await result.json(); } catch(err) { if (saveBtn) { saveBtn.disabled=false; saveBtn.innerHTML='<i class="fas fa-save mr-1"></i>Save Changes'; } showToast('Network error.','error'); return; }
+
+    if (saveBtn) { saveBtn.disabled=false; saveBtn.innerHTML='<i class="fas fa-save mr-1"></i>Save Changes'; }
+    if (result.ok && resData.success) { showToast(`Employee updated successfully!`,'success'); closeEditOverlay(); await fetchAndRenderEmployees(); }
+    else { showToast(resData.message||'Failed to update employee.','error'); }
+}
+function closeEditOverlay() { const o=document.getElementById('editEmployeeOverlay'); if (o) o.remove(); }
+
+// ==================== DELETE MODAL ====================
+function openDeleteModal(employeePrimeId, name) {
+    deleteTargetId = employeePrimeId;
+    deleteTargetName = name;
+    document.getElementById('deleteEmployeeName').innerHTML = `Are you sure you want to delete <strong>${name}</strong>?`;
+    document.getElementById('deleteModal').classList.add('active');
+}
+function closeDeleteModal() { document.getElementById('deleteModal').classList.remove('active'); deleteTargetId = null; }
+
+async function confirmDeleteEmployee() {
+    if (!deleteTargetId) return;
+    const result = await apiFetch(`${API_BASE}/delete-employee/${deleteTargetId}`, { method: 'DELETE' });
+    if (result.ok) { showToast(`Employee ${deleteTargetName} deleted!`, 'success'); await fetchAndRenderEmployees(); }
+    else { showToast(result.data.message || 'Delete failed!', 'error'); }
+    closeDeleteModal();
+}
+
+// ==================== WIZARD ====================
+function updateWizardUI() {
+    for (let i = 0; i < totalSteps; i++) {
+        const wz = document.getElementById(`wz${i}`);
+        if (wz) {
+            if (i < currentStep) { wz.classList.add('done'); wz.classList.remove('cur'); }
+            else if (i === currentStep) { wz.classList.add('cur'); wz.classList.remove('done'); }
+            else { wz.classList.remove('cur','done'); }
+        }
+        const stepDiv = document.getElementById(`st${i}`);
+        if (stepDiv) stepDiv.style.display = i === currentStep ? 'block' : 'none';
+    }
+    const prevBtn=document.getElementById('prevBtn'), nextBtn=document.getElementById('nextBtn'), saveBtn=document.getElementById('saveBtn');
+    if (prevBtn) prevBtn.style.display = currentStep===0 ? 'none' : 'inline-flex';
+    if (nextBtn && saveBtn) {
+        if (currentStep === totalSteps-1) { nextBtn.style.display='none'; saveBtn.style.display='inline-flex'; }
+        else { nextBtn.style.display='inline-flex'; saveBtn.style.display='none'; }
+    }
+}
+function nextStep() { if (currentStep < totalSteps-1) { currentStep++; updateWizardUI(); } }
+function prevStep() { if (currentStep > 0) { currentStep--; updateWizardUI(); } }
+
+// ==================== FORM HELPERS ====================
+function setPill(groupId, value, btn) {
+    document.querySelectorAll(`#${groupId} .rpill`).forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('fGender').value = value;
+}
+function togglePWD(toggle) {
+    const details = document.getElementById('pwdDetails'), label = document.getElementById('pwdToggleLabel');
+    if (toggle.checked) { details.style.display='block'; label.innerText='Yes'; }
+    else { details.style.display='none'; label.innerText='No'; }
+}
+
+// ==================== DYNAMIC ROWS ====================
+function addEduRow() {
+    const row = document.createElement('div');
+    row.className = 'edu-row grid-3'; row.style.cssText = 'margin-bottom:10px;';
+    row.innerHTML = `<input placeholder="Degree"><input placeholder="Institution"><input placeholder="Year"><button type="button" onclick="this.parentElement.remove()" class="btn-danger btn-sm"><i class="fas fa-trash"></i></button>`;
+    document.getElementById('eduList').appendChild(row);
+}
+function addFamRow() {
+    const row = document.createElement('div');
+    row.className = 'fam-row grid-3'; row.style.cssText = 'margin-bottom:10px;';
+    row.innerHTML = `<input placeholder="Name"><input placeholder="Relationship"><input placeholder="Occupation"><button type="button" onclick="this.parentElement.remove()" class="btn-danger btn-sm"><i class="fas fa-trash"></i></button>`;
+    document.getElementById('famList').appendChild(row);
+}
+function addExpRow() {
+    const row = document.createElement('div');
+    row.className = 'exp-row grid-3'; row.style.cssText = 'margin-bottom:10px;';
+    row.innerHTML = `<input placeholder="Company"><input placeholder="Designation"><input placeholder="Years"><button type="button" onclick="this.parentElement.remove()" class="btn-danger btn-sm"><i class="fas fa-trash"></i></button>`;
+    document.getElementById('expList').appendChild(row);
+}
+
+// ==================== DOCUMENT PREVIEW ====================
+function addDocRow(input, docName) {
+    if (input.files.length > 0) {
+        uploadedDocs = uploadedDocs.filter(d => d.name !== docName);
+        uploadedDocs.push({ name: docName, file: input.files[0].name, fileObj: input.files[0] });
+        updateDocList();
+    }
+}
+function updateDocList() {
+    const container = document.getElementById('uploadedDocList');
+    if (container) container.innerHTML = uploadedDocs.map(doc => `<div class="doc-item"><span><i class="fas fa-file-pdf" style="color:var(--primary);"></i>&nbsp; ${doc.name}: <strong>${doc.file}</strong></span><button type="button" onclick="removeDoc('${doc.name}')" style="color:#dc3545;background:none;border:none;cursor:pointer;"><i class="fas fa-trash"></i></button></div>`).join('');
+}
+function removeDoc(docName) { uploadedDocs = uploadedDocs.filter(d => d.name !== docName); updateDocList(); }
+
+function collectEducation() { const rows=document.querySelectorAll('.edu-row'); const result=[]; rows.forEach(row => { const inputs=row.querySelectorAll('input'); if (inputs[0]?.value.trim()) result.push({ degree:inputs[0].value, institution:inputs[1].value, year:inputs[2].value }); }); return result.length ? JSON.stringify(result) : null; }
+function collectFamily() { const rows=document.querySelectorAll('.fam-row'); const result=[]; rows.forEach(row => { const inputs=row.querySelectorAll('input'); if (inputs[0]?.value.trim()) result.push({ name:inputs[0].value, relationship:inputs[1].value, occupation:inputs[2].value }); }); return result.length ? JSON.stringify(result) : null; }
+function collectExperience() { const rows=document.querySelectorAll('.exp-row'); const result=[]; rows.forEach(row => { const inputs=row.querySelectorAll('input'); if (inputs[0]?.value.trim()) result.push({ company:inputs[0].value, designation:inputs[1].value, years:inputs[2].value }); }); return result.length ? JSON.stringify(result) : null; }
+
+// ==================== CUSTOM FIELDS ====================
+function showCFBuilder() { document.getElementById('cfBuilderPanel').style.display='block'; document.getElementById('addCFBtn').style.display='none'; }
+function closeCFBuilder() { document.getElementById('cfBuilderPanel').style.display='none'; document.getElementById('addCFBtn').style.display='flex'; document.getElementById('cfLabel').value=''; document.getElementById('cfType').value='text'; document.getElementById('cfOptions').value=''; document.getElementById('cfPlaceholder').value=''; document.getElementById('cfRequired').checked=false; document.getElementById('cfDropdownOptions').style.display='none'; }
+function toggleCFOptions() { document.getElementById('cfDropdownOptions').style.display = document.getElementById('cfType').value==='dropdown' ? 'block' : 'none'; }
+
+function addCustomField() {
+    const label = document.getElementById('cfLabel').value.trim();
+    if (!label) { showToast('Please enter field label','error'); return; }
+    const type=document.getElementById('cfType').value, section=document.getElementById('cfSection').value, placeholder=document.getElementById('cfPlaceholder').value, isRequired=document.getElementById('cfRequired').checked;
+    let options=[];
+    if (type==='dropdown') { const optionsStr=document.getElementById('cfOptions').value; options=optionsStr.split(',').map(o=>o.trim()).filter(o=>o); }
+    const fieldId=`cf_${Date.now()}`;
+    customFieldsList.push({ id:fieldId, label, type, section, placeholder, required:isRequired, options });
+    renderCustomFields(); closeCFBuilder(); showToast(`Custom field "${label}" added!`,'success');
+}
+
+function renderCustomFields() {
+    const container = document.getElementById('customFieldsList');
+    if (!container) return;
+    if (customFieldsList.length===0) { container.innerHTML='<div class="text-center text-sm py-4" style="color:var(--text-light);">No custom fields added yet.</div>'; return; }
+    let html='';
+    customFieldsList.forEach(field => {
+        let inputHtml='';
+        switch(field.type) {
+            case 'text': inputHtml=`<input type="text" id="${field.id}" placeholder="${field.placeholder}" ${field.required?'required':''}>`; break;
+            case 'number': inputHtml=`<input type="number" id="${field.id}" placeholder="${field.placeholder}" ${field.required?'required':''}>`; break;
+            case 'date': inputHtml=`<input type="date" id="${field.id}" ${field.required?'required':''}>`; break;
+            case 'textarea': inputHtml=`<textarea id="${field.id}" rows="2" placeholder="${field.placeholder}" ${field.required?'required':''}></textarea>`; break;
+            case 'checkbox': inputHtml=`<div class="toggle-switch-wrap"><span style="font-size:12px;color:var(--text-light);">No</span><label class="toggle-switch"><input type="checkbox" id="${field.id}"><span class="toggle-thumb"></span></label><span style="font-size:12px;color:var(--text-light);">Yes</span></div>`; break;
+            case 'dropdown': let opts=`<option value="">Select ${field.label}</option>`; field.options.forEach(opt => { opts+=`<option value="${opt}">${opt}</option>`; }); inputHtml=`<select id="${field.id}" ${field.required?'required':''}>${opts}</select>`; break;
+            default: inputHtml=`<input type="text" id="${field.id}" placeholder="${field.placeholder}">`;
+        }
+        html+=`<div class="custom-field-card"><div style="flex:1;"><label>${field.label} ${field.required?'<span class="req">*</span>':''}</label>${inputHtml}</div><button type="button" onclick="removeCustomField('${field.id}')" style="color:#dc3545;background:none;border:none;cursor:pointer;margin-left:12px;"><i class="fas fa-trash"></i></button></div>`;
+    });
+    container.innerHTML = html;
+}
+function removeCustomField(fieldId) { customFieldsList=customFieldsList.filter(f=>f.id!==fieldId); renderCustomFields(); showToast('Custom field removed','info'); }
+
+// ==================== FORM SUBMIT ====================
+document.getElementById('addEmployeeForm')?.addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const firstName=document.getElementById('fFN').value.trim(), lastName=document.getElementById('fLN').value.trim(), email=document.getElementById('fPEmail').value.trim(), mobile=document.getElementById('fMob').value.trim(), dept=document.getElementById('fDept').value, desig=document.getElementById('fDesig').value.trim(), joiningDate=document.getElementById('fJD').value, basicSalary=document.getElementById('fBasic').value, ecName=document.getElementById('fECName').value.trim(), ecPhone=document.getElementById('fECPhone').value.trim();
+    if (!firstName||!lastName) { showToast('Please enter First Name and Last Name','error'); return; }
+    if (!email||!mobile) { showToast('Please enter Email and Mobile number','error'); return; }
+    if (!dept||!desig) { showToast('Please select Department and Designation','error'); return; }
+    if (!joiningDate||!basicSalary) { showToast('Please enter Joining Date and Basic Salary','error'); return; }
+    if (!ecName||!ecPhone) { showToast('Please enter Emergency Contact details','error'); return; }
+
+    const pwdToggle = document.getElementById('fPWDToggle').checked;
+    const employeePayload = { firstName, middleName:document.getElementById('fMN').value.trim(), lastName, dateOfBirth:document.getElementById('fDOB').value||null, gender:document.getElementById('fGender').value, maritalStatus:document.getElementById('fMarital').value, bloodGroup:document.getElementById('fBlood').value, panNumber:document.getElementById('fPAN').value.trim().toUpperCase(), aadhaarNumber:document.getElementById('fAAD').value.trim(), nationality:document.getElementById('fNat').value.trim(), religion:document.getElementById('fRel').value.trim(), linkedinProfile:document.getElementById('fLI').value.trim(), fatherSpouseName:document.getElementById('fFatherName').value.trim(), isPhysicallyChallenged:pwdToggle, disabilityType:pwdToggle?document.getElementById('fPWDType').value:null, disabilityPercentage:pwdToggle?(parseInt(document.getElementById('fPWDPct').value)||null):null, certificateNumber:pwdToggle?document.getElementById('fPWDCert').value.trim():null, department:dept, subDepartment:document.getElementById('fSubDept').value.trim(), designation:desig, employeeGrade:document.getElementById('fGrade').value, employmentType:document.getElementById('fEmpType').value, joiningDate, probationEndDate:document.getElementById('fProbEnd').value||null, reportingManager:document.getElementById('fMgr').value.trim(), hrBusinessPartner:document.getElementById('fHRBP').value.trim(), workLocation:document.getElementById('fWL').value, basicSalary:parseFloat(basicSalary)||null, shift:document.getElementById('fShift').value, costCentre:document.getElementById('fCC').value.trim(), bankName:document.getElementById('fBank').value.trim(), accountNumber:document.getElementById('fAccNo').value.trim(), ifscCode:document.getElementById('fIFSC').value.trim().toUpperCase(), personalEmail:email, workEmail:document.getElementById('fWEmail').value.trim(), mobileNumber:mobile, alternateNumber:document.getElementById('fAlt').value.trim(), currentStreet:document.getElementById('fCAddr').value.trim(), currentCity:document.getElementById('fCity').value.trim(), currentState:document.getElementById('fState').value.trim(), currentPincode:document.getElementById('fPIN').value.trim(), currentCountry:document.getElementById('fCountry').value.trim(), permanentStreet:document.getElementById('fPAddr').value.trim(), permanentCity:document.getElementById('fPCity').value.trim(), permanentState:document.getElementById('fPState').value.trim(), permanentPincode:document.getElementById('fPPIN').value.trim(), permanentCountry:document.getElementById('fPCountry').value.trim(), emergencyName:ecName, emergencyRelationship:document.getElementById('fECRel').value, emergencyPhone:ecPhone, education:collectEducation(), family:collectFamily(), workExperience:collectExperience() };
+
+    const formData = new FormData();
+    formData.append('employee', JSON.stringify(employeePayload));
+    const docKeyMap = { 'Aadhaar Card':'aadhaarDocument', 'PAN Card':'panDocument', 'Degree Certificate':'degreeDocument', 'Experience Letter':'experienceDocument' };
+    uploadedDocs.forEach(doc => { const key=docKeyMap[doc.name]; if (key&&doc.fileObj) formData.append(key, doc.fileObj); });
+
+    const saveBtn = document.getElementById('saveBtn');
+    saveBtn.disabled=true; saveBtn.innerHTML='<i class="fas fa-spinner fa-spin"></i> Saving...';
+
+    let result, resData;
+    try { result=await fetch(`${API_BASE}/create-employee`,{method:'POST',body:formData}); resData=await result.json(); } catch(err) { saveBtn.disabled=false; saveBtn.innerHTML='<i class="fas fa-save mr-1"></i>Save Employee'; showToast('Network error.','error'); return; }
+
+    saveBtn.disabled=false; saveBtn.innerHTML='<i class="fas fa-save mr-1"></i>Save Employee';
+    if (result.ok && resData.success) {
+        const savedName = resData.data?.fullName||`${firstName} ${lastName}`;
+        showToast(`Employee ${savedName} added successfully!`,'success');
+        resetAddForm.call(this);
+        document.querySelector('.tab-btn[data-tab="all"]').click();
+        await fetchAndRenderEmployees();
+    } else { showToast(resData.message||'Failed to save employee.','error'); }
+});
+
+function resetAddForm() {
+    document.getElementById('addEmployeeForm').reset();
+    document.getElementById('fNat').value='Indian'; document.getElementById('fCountry').value='India'; document.getElementById('fPCountry').value='India';
+    document.getElementById('eduList').innerHTML=''; document.getElementById('famList').innerHTML=''; document.getElementById('expList').innerHTML='';
+    document.getElementById('uploadedDocList').innerHTML=''; uploadedDocs=[]; customFieldsList=[]; renderCustomFields();
+    currentStep=0; updateWizardUI();
+    document.querySelectorAll('#genderGroup .rpill').forEach(p => p.classList.remove('active'));
+    document.getElementById('fGender').value='';
+}
+
+// ==================== DOCUMENTS TAB ====================
+function uploadDocument(docName) { const emp=document.getElementById('docEmployeeSelect').value; if (!emp) { showToast('Select employee first','error'); return; } showToast('To upload documents, use the Add/Edit Employee form','info'); }
+
+async function loadEmployeeDocuments() {
+    const employeeId = document.getElementById('docEmployeeSelect').value;
+    if (!employeeId) return;
+    const result = await apiFetch(`${API_BASE}/get-employee-by-employee-prime-id/${employeeId}`);
+    if (!result.ok) { showToast('Could not load documents','error'); return; }
+    const emp = result.data?.data;
+    if (!emp) return;
+    const docMap = [
+        { urlKey:'panDocumentUrl', statusId:'doc-pan-status' },
+        { urlKey:'aadhaarDocumentUrl', statusId:'doc-aadhar-status' },
+        { urlKey:'offerLetterUrl', statusId:'doc-offer-status' },
+        { urlKey:'degreeDocumentUrl', statusId:'doc-degree-status' },
+    ];
+    docMap.forEach(doc => {
+        const statusEl=document.getElementById(doc.statusId);
+        if (statusEl) { if (emp[doc.urlKey]) { statusEl.innerHTML=`<a href="${emp[doc.urlKey]}" target="_blank" style="color:#2b7a3e;font-weight:600;text-decoration:none;font-size:11px;"><i class="fas fa-check-circle mr-1"></i>View</a>`; } else { statusEl.innerHTML=`<span style="color:#dc3545;font-size:11px;">Not Uploaded</span>`; } }
+    });
+}
+
+async function populateDropdowns() {
+    const result = await apiFetch(`${API_BASE}/all-employees`);
+    const employees = result.ok ? (result.data || []) : [];
+    ['docEmployeeSelect'].forEach(id => {
+        const sel = document.getElementById(id);
+        if (sel) { let options='<option value="">Select Employee</option>'; employees.forEach(emp => { const name=`${emp.firstName||''} ${emp.lastName||''}`.trim(); options+=`<option value="${emp.employeeId}">${name} (${emp.employeeId})</option>`; }); sel.innerHTML=options; }
+    });
+}
+
+// ==================== TAB NAVIGATION ====================
+function initTabs() {
+    const tabs = document.querySelectorAll('.tab-btn');
+    const contents = document.querySelectorAll('.tab-content');
+    tabs.forEach(tab => {
+        tab.addEventListener('click', function() {
+            const tabId = this.getAttribute('data-tab');
+            tabs.forEach(t => t.classList.remove('active'));
+            this.classList.add('active');
+            contents.forEach(c => c.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
         });
+    });
+}
+
+// ==================== WIZARD STEP CLICK ====================
+document.querySelectorAll('.wz').forEach((wz, idx) => {
+    wz.addEventListener('click', () => { currentStep=idx; updateWizardUI(); });
+});
+
+// ==================== INIT ====================
+document.addEventListener('DOMContentLoaded', async function() {
+    if (typeof loadSidebar==='function') loadSidebar();
+    if (typeof loadHeader==='function') loadHeader();
+    if (typeof setActiveMenu==='function') setTimeout(() => setActiveMenu('employees'), 500);
+    initTabs();
+    updateWizardUI();
+    renderCustomFields();
+    await fetchAndRenderEmployees();
+});
     </script>
 </body>
 </html>

@@ -54,15 +54,15 @@
             appearance: none;
             width: 16px;
             height: 16px;
-            border: 2px solid #5c003f;
+            border: 2px solid #1B738C;
             border-radius: 4px;
             cursor: pointer;
             position: relative;
         }
 
         .custom-checkbox:checked {
-            background-color: #540863;
-            border-color: #540863;
+            background-color: #176276;
+            border-color: #62C9EA;
         }
 
         .custom-checkbox:checked::after {
@@ -80,7 +80,7 @@
         .input-focus-effect:focus {
             box-shadow: 0 0 0 3px rgba(84, 8, 99, 0.1);
             transform: translateY(-1px);
-            border-color: #540863;
+            border-color: #1b5f76;
             outline: none;
         }
 
@@ -90,7 +90,7 @@
 
         .login-btn-hover:hover:not(:disabled) {
             transform: translateY(-1px);
-            box-shadow: 0 8px 20px -5px rgba(84, 8, 99, 0.4);
+            box-shadow: 0 8px 20px -5px #BDE4EE;
         }
 
         @keyframes spin {
@@ -111,24 +111,24 @@
     </style>
 </head>
 
-<body class="bg-[#f3eeef] min-h-screen">
+<body class="bg-[#EBF4F6] min-h-screen">
     <div class="min-h-screen flex items-center justify-center p-4">
         <div class="w-full max-w-4xl">
-            <div class="bg-white rounded-2xl shadow-xl overflow-hidden border border-[#5c003f]">
+            <div class="bg-white rounded-2xl shadow-xl overflow-hidden border border-[#62C9EA]">
                 <div class="flex flex-col lg:flex-row">
                     <!-- Left Side - Welcome Section -->
                     <div class="lg:w-3/5 text-white hidden lg:flex flex-col justify-between relative overflow-hidden"
-                        style="background: linear-gradient(135deg, #540863 0%, #92487A 100%);">
+                        style="background: linear-gradient(135deg, #124f60 0%, #3788a2 100%);">
                         <div class="relative z-10 p-8">
                             <div class="flex items-center gap-2 mb-8">
-                                <div class="w-8 h-8 rounded-lg flex items-center justify-center backdrop-blur-sm"
-                                    style="background-color: rgba(255, 255, 255, 0.2);"><i
-                                        class="fas fa-chart-line text-base"></i></div>
-                                <span class="text-lg font-bold tracking-wide">HRMS Admin</span>
+                                <div class="w-16 h-16 flex items-center justify-center">
+                                    <img src="/assets/images/logo.png" class="w-full h-full object-contain">
+                                </div>
+
                             </div>
                             <div class="space-y-3">
                                 <h1 class="text-3xl font-bold leading-tight">Welcome to<br><span
-                                        style="color: #FFD3D5;">HRMS Platform</span></h1>
+                                        style="color: #EBF4F6;">HRMS Platform</span></h1>
                                 <p class="text-sm leading-relaxed text-white/80">Complete HR Management Solution for
                                     modern organizations.</p>
                             </div>
@@ -162,48 +162,48 @@
                     <!-- Right Side - Login Form -->
                     <div class="lg:w-3/5 p-8 bg-white">
                         <div class="text-center lg:text-left mb-6">
-                            <h2 class="text-2xl font-bold mb-1" style="color: #540863;">Sign In</h2>
-                            <p class="text-sm" style="color: #92487A;">Enter your credentials to access the admin panel
+                            <h2 class="text-2xl font-bold mb-1" style="color: #1B738C;">Sign In</h2>
+                            <p class="text-sm" style="color: #1a677c;">Enter your credentials to access the admin panel
                             </p>
                         </div>
 
                         <form id="loginForm" class="space-y-5">
                             <div class="space-y-1">
-                                <label class="block text-sm font-medium" style="color: #540863;"><i
+                                <label class="block text-sm font-medium" style="color: #1B738C;"><i
                                         class="fas fa-phone mr-1 text-xs"></i> Mobile Number</label>
                                 <input type="tel" id="mobile" name="mobile" placeholder="Enter 10-digit mobile number"
                                     class="w-full px-4 py-2.5 border rounded-lg focus:outline-none input-focus-effect"
-                                    style="border-color: #5c003f;" maxlength="10" autocomplete="off" required>
+                                    style="border-color: #1B738C;" maxlength="10" autocomplete="off" required>
                             </div>
 
                             <div class="space-y-1">
-                                <label class="block text-sm font-medium" style="color: #540863;"><i
+                                <label class="block text-sm font-medium" style="color: #1B738C;"><i
                                         class="fas fa-lock mr-1 text-xs"></i> Password</label>
                                 <div class="relative">
                                     <input type="password" id="password" name="password"
                                         placeholder="Enter your password"
                                         class="w-full px-4 py-2.5 border rounded-lg focus:outline-none input-focus-effect"
-                                        style="border-color: #5c003f;" autocomplete="off" required>
+                                        style="border-color: #1B738C;" autocomplete="off" required>
                                     <button type="button" id="togglePassword"
                                         class="absolute inset-y-0 right-0 pr-3 flex items-center"><i
                                             class="fas fa-eye text-sm hover:opacity-70"
-                                            style="color: #92487A;"></i></button>
+                                            style="color: #1B738C;"></i></button>
                                 </div>
                             </div>
 
                             <div class="flex items-center justify-between">
                                 <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox"
                                         id="rememberMe" class="custom-checkbox"><span class="text-sm"
-                                        style="color: #92487A;">Remember me</span></label>
+                                        style="color: #1B738C;">Remember me</span></label>
                             </div>
 
                             <button type="submit" id="loginBtn"
                                 class="w-full py-2.5 rounded-lg font-medium transition-all duration-300 login-btn-hover flex items-center justify-center gap-2"
-                                style="background: linear-gradient(135deg, #540863 0%, #92487A 100%); color: white;"><i
+                                style="background: linear-gradient(135deg, #124f60 0%, #3788a2 100%); color: white;"><i
                                     class="fas fa-sign-in-alt text-sm"></i><span>Sign In</span></button>
 
                             <div class="text-center pt-3">
-                                <p class="text-[11px]" style="color: #92487A;">© 2024 HRMS Admin Panel. All rights
+                                <p class="text-[11px]" style="color: #1B738C;">© 2026 HRMS Admin Panel. All rights
                                     reserved.</p>
                             </div>
                         </form>

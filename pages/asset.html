@@ -14,12 +14,25 @@
     
     <style>
         * { font-family: 'Inter', sans-serif; }
-        body { background-color: #f3eeef; }
+        
+        /* Dashboard Theme Colors - Company Theme */
+        :root {
+            --primary: #1B738C;
+            --primary-light: #62C9EA;
+            --primary-soft: #BDE4EE;
+            --primary-bg-light: #e9f2f4;
+            --button-hover: #166278;
+            --border-color: #1B738C;
+            --text-dark: #1B738C;
+            --text-light: #5a7c8a;
+        }
+        
+        body { background-color: #f5f9fb; }
         
         .section-card {
             background: white;
             border-radius: 12px;
-            border: 1px solid #c99ebb;
+            border: 1px solid var(--primary-light);
             padding: 20px;
             margin-bottom: 20px;
         }
@@ -27,44 +40,110 @@
         .stat-card {
             background: white;
             border-radius: 12px;
-            border: 1px solid #c99ebb;
+            border: 1px solid var(--primary-light);
             padding: 16px;
             transition: all 0.3s ease;
         }
-        .stat-card:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(84,8,99,0.1); }
+        .stat-card:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(27, 115, 140, 0.1); }
         
         .btn-primary {
-            background-color: #540863;
+            background-color: var(--primary);
             transition: all 0.3s ease;
             color: white;
             padding: 8px 16px;
             border-radius: 8px;
             cursor: pointer;
             border: none;
+            font-weight: 500;
         }
-        .btn-primary:hover { background-color: #92487A; transform: translateY(-1px); }
+        .btn-primary:hover { background-color: var(--button-hover); transform: translateY(-1px); }
         
         .btn-secondary {
-            background-color: #92487A;
+            background-color: var(--primary-light);
             transition: all 0.3s ease;
-            color: white;
+            color: var(--primary);
             padding: 8px 16px;
             border-radius: 8px;
             cursor: pointer;
             border: none;
+            font-weight: 500;
         }
-        .btn-secondary:hover { background-color: #540863; transform: translateY(-1px); }
+        .btn-secondary:hover { background-color: var(--primary); color: white; transform: translateY(-1px); }
+
+        .action-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 6px 8px;
+            font-size: 14px;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 6px;
+        }
+
+        .action-btn-edit {
+            color: var(--primary);
+        }
+        
+        .action-btn-edit:hover {
+            background-color: var(--primary-bg-light);
+            color: var(--primary);
+            transform: scale(1.1);
+        }
+
+        .action-btn-delete {
+            color: #dc3545;
+        }
+        
+        .action-btn-delete:hover {
+            background-color: rgba(220, 53, 69, 0.1);
+            color: #c82333;
+            transform: scale(1.1);
+        }
+
+        .action-btn-return {
+            color: #dc3545;
+        }
+        
+        .action-btn-return:hover {
+            background-color: rgba(220, 53, 69, 0.1);
+            color: #c82333;
+            transform: scale(1.1);
+        }
+
+        .action-btn-approve {
+            color: #2b7a3e;
+        }
+        
+        .action-btn-approve:hover {
+            background-color: rgba(43, 122, 62, 0.1);
+            color: #1e5a2e;
+            transform: scale(1.1);
+        }
+
+        .action-btn-reject {
+            color: #dc3545;
+        }
+        
+        .action-btn-reject:hover {
+            background-color: rgba(220, 53, 69, 0.1);
+            color: #c82333;
+            transform: scale(1.1);
+        }
         
         .btn-success {
-            background-color: #28a745;
+            background-color: #2b7a3e;
             color: white;
             padding: 6px 12px;
             border-radius: 6px;
             font-size: 12px;
             cursor: pointer;
             border: none;
+            font-weight: 500;
         }
-        .btn-success:hover { background-color: #218838; }
+        .btn-success:hover { background-color: #1e5a2e; }
         
         .btn-danger {
             background-color: #dc3545;
@@ -74,6 +153,7 @@
             font-size: 12px;
             cursor: pointer;
             border: none;
+            font-weight: 500;
         }
         .btn-danger:hover { background-color: #c82333; }
         
@@ -85,36 +165,39 @@
             font-size: 12px;
             cursor: pointer;
             border: none;
+            font-weight: 500;
         }
         .btn-warning:hover { background-color: #e0a800; }
         
         .btn-outline {
-            border: 1px solid #c99ebb;
-            color: #540863;
+            border: 1px solid var(--primary-light);
+            color: var(--primary);
             padding: 8px 16px;
             border-radius: 8px;
             background: transparent;
             cursor: pointer;
+            font-weight: 500;
         }
-        .btn-outline:hover { background-color: #540863; color: white; }
+        .btn-outline:hover { background-color: var(--primary-bg-light); border-color: var(--primary); }
         
         input, select, textarea {
-            border: 1px solid #c99ebb;
-            border-radius: 8px;
-            padding: 8px 12px;
+            border: 1px solid var(--primary-soft);
+            border-radius: 12px;
+            padding: 10px 14px;
             width: 100%;
+            transition: 0.2s;
         }
         input:focus, select:focus, textarea:focus {
             outline: none;
-            border-color: #c99ebb;
-            box-shadow: 0 0 0 2px rgba(84, 8, 99, 0.1);
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(27, 115, 140, 0.1);
         }
         
         label {
-            font-size: 13px;
-            font-weight: 500;
-            color: #540863;
-            margin-bottom: 4px;
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 6px;
             display: block;
         }
         
@@ -124,29 +207,30 @@
             gap: 8px;
             margin-bottom: 24px;
             padding-bottom: 12px;
-            border-bottom: 1px solid #c99ebb;
+            border-bottom: 2px solid var(--primary-soft);
             flex-wrap: wrap;
         }
         
         .tab-btn {
-            padding: 8px 20px;
-            border-radius: 8px;
+            padding: 8px 24px;
+            border-radius: 40px;
             font-size: 14px;
-            font-weight: 500;
-            transition: all 0.3s ease;
+            font-weight: 600;
+            transition: all 0.2s;
             background: transparent;
-            color: #92487A;
+            color: var(--primary);
             cursor: pointer;
             border: none;
+            position: relative;
         }
         
         .tab-btn:hover {
-            background-color: rgba(84, 8, 99, 0.1);
-            color: #540863;
+            background-color: var(--primary-bg-light);
+            color: var(--button-hover);
         }
         
         .tab-btn.active {
-            background-color: #540863;
+            background-color: var(--primary);
             color: white;
         }
         
@@ -154,13 +238,13 @@
         .tab-content.active { display: block; }
         
         /* Status Badges */
-        .status-assigned { background: rgba(40, 167, 69, 0.2); color: #155724; }
-        .status-available { background: rgba(23, 162, 184, 0.2); color: #0c5460; }
-        .status-maintenance { background: rgba(255, 193, 7, 0.2); color: #856404; }
-        .status-damaged { background: rgba(220, 53, 69, 0.2); color: #721c24; }
-        .status-pending { background: rgba(255, 193, 7, 0.2); color: #856404; }
-        .status-approved { background: rgba(40, 167, 69, 0.2); color: #155724; }
-        .status-rejected { background: rgba(220, 53, 69, 0.2); color: #721c24; }
+        .status-assigned { background: rgba(43, 122, 62, 0.15); color: #155724; }
+        .status-available { background: rgba(27, 115, 140, 0.15); color: #0c5460; }
+        .status-maintenance { background: rgba(255, 193, 7, 0.15); color: #856404; }
+        .status-damaged { background: rgba(220, 53, 69, 0.15); color: #721c24; }
+        .status-pending { background: rgba(255, 193, 7, 0.15); color: #856404; }
+        .status-approved { background: rgba(43, 122, 62, 0.15); color: #155724; }
+        .status-rejected { background: rgba(220, 53, 69, 0.15); color: #721c24; }
         
         /* Modal */
         .modal {
@@ -178,27 +262,58 @@
         .modal.active { display: flex; }
         .modal-content {
             background: white;
-            border-radius: 16px;
+            border-radius: 24px;
             width: 90%;
             max-width: 550px;
             max-height: 85vh;
             overflow-y: auto;
             padding: 24px;
+            box-shadow: 0 20px 35px rgba(0, 0, 0, 0.2);
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid var(--primary-soft);
+        }
+
+        .modal-header h3 {
+            font-weight: 700;
+            color: var(--primary);
+            font-size: 1.25rem;
+        }
+
+        .modal-close {
+            cursor: pointer;
+            font-size: 24px;
+            color: var(--primary-light);
+            transition: 0.2s;
+            border: none;
+            background: none;
+        }
+
+        .modal-close:hover {
+            color: var(--primary);
         }
         
         .toast {
             position: fixed;
             bottom: 20px;
             right: 20px;
-            padding: 12px 20px;
-            border-radius: 8px;
+            padding: 12px 24px;
+            border-radius: 40px;
             color: white;
             z-index: 1100;
             animation: slideIn 0.3s ease;
+            font-weight: 500;
         }
-        .toast.success { background-color: #28a745; }
+        .toast.success { background-color: #2b7a3e; }
         .toast.error { background-color: #dc3545; }
-        .toast.info { background-color: #17a2b8; }
+        .toast.info { background-color: var(--primary); }
+        .toast.warning { background-color: #ffc107; color: #333; }
         
         @keyframes slideIn {
             from { transform: translateX(100%); opacity: 0; }
@@ -208,8 +323,8 @@
         .main-content { margin-top: 64px; }
         
         ::-webkit-scrollbar { width: 5px; }
-        ::-webkit-scrollbar-track { background: #f3eeef; }
-        ::-webkit-scrollbar-thumb { background: #92487A; border-radius: 10px; }
+        ::-webkit-scrollbar-track { background: #f5f9fb; }
+        ::-webkit-scrollbar-thumb { background: var(--primary-light); border-radius: 10px; }
         
         .form-row {
             display: grid;
@@ -218,22 +333,56 @@
             margin-bottom: 16px;
         }
         
-        .data-row:hover { background-color: rgba(84, 8, 99, 0.05); cursor: pointer; }
-        table { width: 100%; border-collapse: collapse; }
+        .data-row:hover { background-color: rgba(27, 115, 140, 0.05); cursor: pointer; }
+        table { 
+            width: 100%; 
+            border-collapse: collapse; 
+            background: white;
+        }
+
+        table thead {
+            background-color: var(--primary-bg-light);
+            border-bottom: 2px solid var(--primary-light);
+        }
+
+        table thead th {
+            padding: 12px 16px;
+            text-align: left;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        table tbody td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #f0f0f0;
+            color: var(--text-dark);
+            font-size: 13px;
+        }
+
+        table tbody tr:hover {
+            background-color: rgba(27, 115, 140, 0.05);
+        }
         
         .asset-card {
             background: white;
-            border: 1px solid #c99ebb;
+            border: 1px solid var(--primary-light);
             border-radius: 12px;
             padding: 16px;
             transition: all 0.3s ease;
         }
-        .asset-card:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(84,8,99,0.1); }
+        .asset-card:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(27, 115, 140, 0.1); }
         
         /* Reduced Pie Chart Container */
         .pie-chart-container {
             max-width: 250px;
             margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
         }
         
         @media (max-width: 768px) {
@@ -244,7 +393,7 @@
         }
     </style>
 </head>
-<body class="bg-[#f3eeef]">
+<body class="bg-[#f5f9fb]">
     
     <div class="flex h-screen overflow-hidden">
         <div id="sidebar-container"></div>
@@ -252,308 +401,503 @@
         <div class="flex-1 flex flex-col overflow-hidden">
             <div id="header-container"></div>
             
-            <main class="flex-1 overflow-y-auto p-5 main-content">
-                
-                <!-- Page Header -->
-                <div class="mb-4">
-                    <h1 class="text-xl font-bold" style="color: #540863;">Asset Management</h1>
-                    <p class="text-xs mt-0.5" style="color: #92487A;">Manage company assets, assign to employees, track maintenance and returns</p>
-                </div>
-                
-                <!-- Tab Navigation -->
-                <div class="tab-nav">
-                    <button class="tab-btn active" data-tab="inventory">Asset Inventory</button>
-                    <button class="tab-btn" data-tab="assign">Assign Asset</button>
-                    <button class="tab-btn" data-tab="requests"> Requests</button>
-                    <button class="tab-btn" data-tab="maintenance"> Maintenance</button>
-                </div>
-                
-                <!-- ==================== TAB 1: ASSET INVENTORY ==================== -->
-                <div id="tab-inventory" class="tab-content active">
-                    <!-- Stats Cards -->
-                    <div class="grid grid-cols-1 md:grid-cols-5 gap-3 mb-5">
-                        <div class="stat-card"><p class="text-xs text-gray-500">Total Assets</p><p class="text-2xl font-bold" style="color:#540863;">156</p></div>
-                        <div class="stat-card"><p class="text-xs text-gray-500">Assigned</p><p class="text-2xl font-bold" style="color:#28a745;">98</p></div>
-                        <div class="stat-card"><p class="text-xs text-gray-500">Available</p><p class="text-2xl font-bold" style="color:#17a2b8;">42</p></div>
-                        <div class="stat-card"><p class="text-xs text-gray-500">Maintenance</p><p class="text-2xl font-bold" style="color:#ffc107;">12</p></div>
-                        <div class="stat-card"><p class="text-xs text-gray-500">Damaged</p><p class="text-2xl font-bold" style="color:#dc3545;">4</p></div>
+            <div class="flex-1 overflow-y-auto main-content">
+                <div class="p-6">
+                    <!-- Page Header -->
+                    <div class="mb-8">
+                        <h1 class="text-xl font-bold mb-2" style="color: var(--primary);">Asset Management</h1>
+                        <p style="color: var(--text-light);" class="text-sm">Manage company assets, assignments, and maintenance records</p>
                     </div>
-                    
-                    <div class="section-card">
-                        <div class="flex justify-between items-center mb-4 flex-wrap gap-3">
-                            <h3 class="text-md font-semibold" style="color:#540863;">Asset Inventory</h3>
-                            <div class="flex gap-2 flex-wrap">
-                                <select id="assetCategory" class="w-40 text-sm pl-2 " onchange="filterAssets()">
-                                    <option value="all">All Categories</option>
-                                    <option value="Laptop">Laptop</option>
-                                    <option value="Desktop">Desktop</option>
-                                    <option value="Monitor">Monitor</option>
-                                    <option value="Mobile">Mobile</option>
-                                    <option value="Accessories">Accessories</option>
-                                </select>
-                                <select id="assetStatus" class="w-40 text-sm pl-2" onchange="filterAssets()">
-                                    <option value="all">All Status</option>
-                                    <option value="Assigned">Assigned</option>
-                                    <option value="Available">Available</option>
-                                    <option value="Maintenance">Maintenance</option>
-                                    <option value="Damaged">Damaged</option>
-                                </select>
-                                <input type="text" id="assetSearch" placeholder="Search asset..." class="w-48 text-sm pl-2" onkeyup="filterAssets()">
-                                <button onclick="openAddAssetModal()" class="btn-primary text-sm"><i class="fas fa-plus mr-1"></i>Add Asset</button>
+
+                    <!-- Statistics Cards -->
+                    <!-- <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                        <div class="stat-card">
+                            <div class="text-3xl font-bold mb-2" style="color: var(--primary);">256</div>
+                            <p class="text-sm" style="color: var(--text-light);">Total Assets</p>
+                            <p class="text-xs font-medium mt-2" style="color: #2b7a3e;">↑ 12 new this month</p>
+                        </div>
+                        <div class="stat-card">
+                            <div class="text-3xl font-bold mb-2" style="color: var(--primary);">184</div>
+                            <p class="text-sm" style="color: var(--text-light);">Assigned</p>
+                            <p class="text-xs font-medium mt-2" style="color: var(--text-light);">71.9% utilization</p>
+                        </div>
+                        <div class="stat-card">
+                            <div class="text-3xl font-bold mb-2" style="color: var(--primary);">56</div>
+                            <p class="text-sm" style="color: var(--text-light);">Available</p>
+                            <p class="text-xs font-medium mt-2" style="color: var(--text-light);">Ready for assignment</p>
+                        </div>
+                        <div class="stat-card">
+                            <div class="text-3xl font-bold mb-2" style="color: var(--primary);">16</div>
+                            <p class="text-sm" style="color: var(--text-light);">Under Maintenance</p>
+                            <p class="text-xs font-medium mt-2" style="color: var(--text-light);">6.3% of total</p>
+                        </div>
+                    </div> -->
+
+                    <!-- Tab Navigation -->
+                    <div class="tab-nav">
+                        <button class="tab-btn active" data-tab="inventory">
+                            Asset Inventory
+                        </button>
+                        <button class="tab-btn" data-tab="assignments">
+                            Assignments
+                        </button>
+                        <button class="tab-btn" data-tab="requests">
+                          Requests
+                        </button>
+                        <button class="tab-btn" data-tab="maintenance">
+                          Maintenance
+                        </button>
+                    </div>
+
+                    <!-- TAB 1: Asset Inventory -->
+                    <div id="tab-inventory" class="tab-content active">
+                        <div class="section-card">
+                            <div class="flex justify-between items-center mb-6 flex-wrap gap-2">
+                                <h2 style="color: var(--primary);" class="text-lg font-bold"><i class="fas fa-list-check mr-2"></i>Asset Inventory</h2>
+                                <button class="btn-primary" onclick="openAddAssetModal()"><i class="fas fa-plus mr-1"></i>Add New Asset</button>
                             </div>
-                        </div>
-                        
-                        <div class="overflow-x-auto">
-                            <table class="w-full">
-                                <thead>
-                                    <tr class="border-b" style="border-color:#5c003f;">
-                                        <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">Asset ID</th>
-                                        <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">Asset Name</th>
-                                        <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">Category</th>
-                                        <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">Serial Number</th>
-                                        <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">Assigned To</th>
-                                        <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">Status</th>
-                                        <th class="text-left py-3 text-xs font-medium" style="color:#92487A;">Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="assetsList">
-                                    <tr class="border-b data-row" style="border-color:#e5e7eb;">
-                                        <td class="py-3 text-sm" style="color:#540863;">AST-001</td>
-                                        <td class="py-3 text-sm" style="color:#540863;">Dell XPS 15</td>
-                                        <td class="py-3 text-sm" style="color:#92487A;">Laptop</td>
-                                        <td class="py-3 text-sm" style="color:#92487A;">SN12345678</td>
-                                        <td class="py-3 text-sm" style="color:#92487A;">Rajesh Kumar</td>
-                                        <td class="py-3"><span class="status-assigned text-xs px-2 py-1 rounded-full">Assigned</span></td>
-                                        <td class="py-3"><button onclick="editAsset(this)" class="text-[#540863] mr-2"><i class="fas fa-edit"></i></button><button onclick="deleteAsset(this)" class="text-red-500"><i class="fas fa-trash"></i></button></td>
-                                    </tr>
-                                    <tr class="border-b data-row" style="border-color:#e5e7eb;">
-                                        <td class="py-3 text-sm" style="color:#540863;">AST-002</td>
-                                        <td class="py-3 text-sm" style="color:#540863;">HP Monitor</td>
-                                        <td class="py-3 text-sm" style="color:#92487A;">Monitor</td>
-                                        <td class="py-3 text-sm" style="color:#92487A;">SN87654321</td>
-                                        <td class="py-3 text-sm" style="color:#92487A;">Priya Sharma</td>
-                                        <td class="py-3"><span class="status-assigned text-xs px-2 py-1 rounded-full">Assigned</span></td>
-                                        <td class="py-3"><button onclick="editAsset(this)" class="text-[#540863] mr-2"><i class="fas fa-edit"></i></button><button onclick="deleteAsset(this)" class="text-red-500"><i class="fas fa-trash"></i></button></td>
-                                    </tr>
-                                    <tr class="border-b data-row" style="border-color:#e5e7eb;">
-                                        <td class="py-3 text-sm" style="color:#540863;">AST-003</td>
-                                        <td class="py-3 text-sm" style="color:#540863;">MacBook Pro</td>
-                                        <td class="py-3 text-sm" style="color:#92487A;">Laptop</td>
-                                        <td class="py-3 text-sm" style="color:#92487A;">SNMBP12345</td>
-                                        <td class="py-3 text-sm" style="color:#92487A;">-</td>
-                                        <td class="py-3"><span class="status-available text-xs px-2 py-1 rounded-full">Available</span></td>
-                                        <td class="py-3"><button onclick="editAsset(this)" class="text-[#540863] mr-2"><i class="fas fa-edit"></i></button><button onclick="deleteAsset(this)" class="text-red-500"><i class="fas fa-trash"></i></button></td>
-                                     </tr>
-                                    <tr class="border-b data-row" style="border-color:#e5e7eb;">
-                                        <td class="py-3 text-sm" style="color:#540863;">AST-004</td>
-                                        <td class="py-3 text-sm" style="color:#540863;">iPhone 14</td>
-                                        <td class="py-3 text-sm" style="color:#92487A;">Mobile</td>
-                                        <td class="py-3 text-sm" style="color:#92487A;">SNIP14_67890</td>
-                                        <td class="py-3 text-sm" style="color:#92487A;">Amit Mehta</td>
-                                        <td class="py-3"><span class="status-maintenance text-xs px-2 py-1 rounded-full">Maintenance</span></td>
-                                        <td class="py-3"><button onclick="editAsset(this)" class="text-[#540863] mr-2"><i class="fas fa-edit"></i></button><button onclick="deleteAsset(this)" class="text-red-500"><i class="fas fa-trash"></i></button></td>
-                                     </tr>
-                                </tbody>
-                             </table>
-                        </div>
-                    </div>
-                    
-                    <!-- Asset Distribution Chart -->
-                    <div class="section-card">
-                        <div class="text-center mb-2">
-                            <h3 class="text-md font-semibold" style="color:#540863;">Asset Distribution by Category</h3>
-                        </div>
-                        <div class="pie-chart-container">
-                            <canvas id="assetChart" height="200" width="200"></canvas>
-                        </div>
-                        <!-- Legend -->
-                        <div class="flex justify-center gap-4 mt-3 flex-wrap">
-                            <div class="flex items-center gap-1"><div class="w-3 h-3 rounded-full" style="background:#540863;"></div><span class="text-xs text-gray-600">Laptop (65)</span></div>
-                            <div class="flex items-center gap-1"><div class="w-3 h-3 rounded-full" style="background:#92487A;"></div><span class="text-xs text-gray-600">Desktop (28)</span></div>
-                            <div class="flex items-center gap-1"><div class="w-3 h-3 rounded-full" style="background:#E49BA6;"></div><span class="text-xs text-gray-600">Monitor (32)</span></div>
-                            <div class="flex items-center gap-1"><div class="w-3 h-3 rounded-full" style="background:#FFD3D5;"></div><span class="text-xs text-gray-600">Mobile (18)</span></div>
-                            <div class="flex items-center gap-1"><div class="w-3 h-3 rounded-full" style="background:#8a3a6a;"></div><span class="text-xs text-gray-600">Accessories (13)</span></div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- ==================== TAB 2: ASSIGN ASSET ==================== -->
-                <div id="tab-assign" class="tab-content">
-                    <div class="section-card">
-                        <h3 class="text-md font-semibold mb-4" style="color:#540863;">Assign Asset to Employee</h3>
-                        <form id="assignAssetForm">
-                            <div class="form-row">
-                                <div><label>Select Asset <span class="text-red-500">*</span></label>
-                                    <select id="assign_asset" required style="padding: 4px;">
-                                        <option value="">Select Asset</option>
-                                        <option value="AST-003">MacBook Pro (SN: SNMBP12345)</option>
-                                        <option value="AST-005">Lenovo ThinkPad (SN: SNLTP98765)</option>
-                                        <option value="AST-006">Dell Monitor (SN: SNDM54321)</option>
+
+                            <!-- Filters -->
+                            <div class="form-row mb-6">
+                                <div class="form-group">
+                                    <label>Search Asset</label>
+                                    <input type="text" id="assetSearch" placeholder="Asset name or serial..." onkeyup="filterAssets()">
+                                </div>
+                                <div class="form-group">
+                                    <label>Category</label>
+                                    <select id="assetCategory" onchange="filterAssets()">
+                                        <option value="all">All Categories</option>
+                                        <option value="Laptop">Laptop</option>
+                                        <option value="Desktop">Desktop</option>
+                                        <option value="Monitor">Monitor</option>
+                                        <option value="Mobile">Mobile Device</option>
+                                        <option value="Printer">Printer</option>
+                                        <option value="Accessories">Accessories</option>
                                     </select>
                                 </div>
-                                <div><label>Select Employee <span class="text-red-500">*</span></label>
-                                    <select id="assign_employee" required style="padding: 4px;">
-                                        <option value="">Select Employee</option>
-                                        <option>Rajesh Kumar (IT)</option>
-                                        <option>Priya Sharma (HR)</option>
-                                        <option>Amit Mehta (Sales)</option>
-                                        <option>Neha Gupta (Finance)</option>
-                                        <option>Vikram Singh (Operations)</option>
+                                <div class="form-group">
+                                    <label>Status</label>
+                                    <select id="assetStatus" onchange="filterAssets()">
+                                        <option value="all">All Status</option>
+                                        <option value="Assigned">Assigned</option>
+                                        <option value="Available">Available</option>
+                                        <option value="Maintenance">Under Maintenance</option>
+                                        <option value="Damaged">Damaged</option>
                                     </select>
                                 </div>
                             </div>
-                            <div class="form-row">
-                                <div><label>Issue Date <span class="text-red-500">*</span></label><input type="date" id="assign_date" required style="padding: 4px;"></div>
-                                <div><label>Expected Return Date</label><input type="date" id="assign_return_date" style="padding: 4px;"></div>
-                                <div><label>Condition</label>
-                                    <select id="assign_condition" style="padding: 4px;">
-                                        <option>Excellent</option>
-                                        <option>Good</option>
-                                        <option>Fair</option>
-                                        <option>Needs Repair</option>
+
+                            <!-- Assets Table -->
+                            <div class="overflow-x-auto">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Asset ID</th>
+                                            <th>Asset Name</th>
+                                            <th>Category</th>
+                                            <th>Serial Number</th>
+                                            <th>Acquisition Date</th>
+                                            <th>Status</th>
+                                            <th>Assigned To</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="assetsList">
+                                        <tr class="data-row">
+                                            <td>#AST001</td>
+                                            <td>Dell XPS 15</td>
+                                            <td>Laptop</td>
+                                            <td>DLX-2024-001</td>
+                                            <td>2024-01-15</td>
+                                            <td><span class="status-assigned px-2 py-1 rounded text-xs font-medium">Assigned</span></td>
+                                            <td>John Smith</td>
+                                            <td><button class="action-btn action-btn-edit" onclick="editAsset(this)" title="Edit"><i class="fas fa-edit"></i></button> <button class="action-btn action-btn-delete" onclick="deleteAsset(this)" title="Delete"><i class="fas fa-trash"></i></button></td>
+                                        </tr>
+                                        <tr class="data-row">
+                                            <td>#AST002</td>
+                                            <td>HP Monitor 27"</td>
+                                            <td>Monitor</td>
+                                            <td>HPM-2024-002</td>
+                                            <td>2024-01-20</td>
+                                            <td><span class="status-available px-2 py-1 rounded text-xs font-medium">Available</span></td>
+                                            <td>-</td>
+                                            <td><button class="action-btn action-btn-edit" onclick="editAsset(this)" title="Edit"><i class="fas fa-edit"></i></button> <button class="action-btn action-btn-delete" onclick="deleteAsset(this)" title="Delete"><i class="fas fa-trash"></i></button></td>
+                                        </tr>
+                                        <tr class="data-row">
+                                            <td>#AST003</td>
+                                            <td>iPhone 15 Pro</td>
+                                            <td>Mobile Device</td>
+                                            <td>IPH-2024-003</td>
+                                            <td>2024-02-01</td>
+                                            <td><span class="status-assigned px-2 py-1 rounded text-xs font-medium">Assigned</span></td>
+                                            <td>Sarah Johnson</td>
+                                            <td><button class="action-btn action-btn-edit" onclick="editAsset(this)" title="Edit"><i class="fas fa-edit"></i></button> <button class="action-btn action-btn-delete" onclick="deleteAsset(this)" title="Delete"><i class="fas fa-trash"></i></button></td>
+                                        </tr>
+                                        <tr class="data-row">
+                                            <td>#AST004</td>
+                                            <td>Canon Printer</td>
+                                            <td>Printer</td>
+                                            <td>CAN-2024-004</td>
+                                            <td>2024-02-10</td>
+                                            <td><span class="status-maintenance px-2 py-1 rounded text-xs font-medium">Under Maintenance</span></td>
+                                            <td>-</td>
+                                            <td><button class="action-btn action-btn-edit" onclick="editAsset(this)" title="Edit"><i class="fas fa-edit"></i></button> <button class="action-btn action-btn-delete" onclick="deleteAsset(this)" title="Delete"><i class="fas fa-trash"></i></button></td>
+                                        </tr>
+                                        <tr class="data-row">
+                                            <td>#AST005</td>
+                                            <td>Mechanical Keyboard</td>
+                                            <td>Accessories</td>
+                                            <td>MKB-2024-005</td>
+                                            <td>2024-02-15</td>
+                                            <td><span class="status-assigned px-2 py-1 rounded text-xs font-medium">Assigned</span></td>
+                                            <td>Mike Davis</td>
+                                            <td><button class="action-btn action-btn-edit" onclick="editAsset(this)" title="Edit"><i class="fas fa-edit"></i></button> <button class="action-btn action-btn-delete" onclick="deleteAsset(this)" title="Delete"><i class="fas fa-trash"></i></button></td>
+                                        </tr>
+                                        <tr class="data-row">
+                                            <td>#AST006</td>
+                                            <td>Logitech Mouse</td>
+                                            <td>Accessories</td>
+                                            <td>LGM-2024-006</td>
+                                            <td>2024-02-20</td>
+                                            <td><span class="status-damaged px-2 py-1 rounded text-xs font-medium">Damaged</span></td>
+                                            <td>-</td>
+                                            <td><button class="action-btn action-btn-edit" onclick="editAsset(this)" title="Edit"><i class="fas fa-edit"></i></button> <button class="action-btn action-btn-delete" onclick="deleteAsset(this)" title="Delete"><i class="fas fa-trash"></i></button></td>
+                                        </tr>
+                                        <tr class="data-row">
+                                            <td>#AST007</td>
+                                            <td>MacBook Pro 16"</td>
+                                            <td>Laptop</td>
+                                            <td>MBP-2024-007</td>
+                                            <td>2024-03-01</td>
+                                            <td><span class="status-available px-2 py-1 rounded text-xs font-medium">Available</span></td>
+                                            <td>-</td>
+                                            <td><button class="action-btn action-btn-edit" onclick="editAsset(this)" title="Edit"><i class="fas fa-edit"></i></button> <button class="action-btn action-btn-delete" onclick="deleteAsset(this)" title="Delete"><i class="fas fa-trash"></i></button></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TAB 2: Assignments -->
+                    <div id="tab-assignments" class="tab-content">
+                        <div class="section-card">
+                            <div class="flex justify-between items-center mb-6 flex-wrap gap-2">
+                                <h2 style="color: var(--primary);" class="text-lg font-bold"><i class="fas fa-user-check mr-2"></i>Asset Assignments</h2>
+                                <button class="btn-primary" onclick="openAssignAssetModal()"><i class="fas fa-user-plus mr-1"></i>Assign Asset</button>
+                            </div>
+
+                            <!-- Filter -->
+                            <div class="form-row mb-6">
+                                <div class="form-group">
+                                    <label>Search Employee</label>
+                                    <input type="text" id="assignmentSearch" placeholder="Employee name..." onkeyup="filterAssignments()">
+                                </div>
+                                <div class="form-group">
+                                    <label>Department</label>
+                                    <select id="assignmentDept" onchange="filterAssignments()">
+                                        <option value="all">All Departments</option>
+                                        <option value="IT">IT</option>
+                                        <option value="HR">HR</option>
+                                        <option value="Finance">Finance</option>
+                                        <option value="Sales">Sales</option>
                                     </select>
                                 </div>
                             </div>
-                            <div><label>Remarks</label><textarea id="assign_remarks" rows="2" placeholder="Any additional remarks" style="padding: 4px;"></textarea></div>
-                            <div class="flex justify-end mt-4"><button type="submit" class="btn-primary"><i class="fas fa-check-circle mr-2"></i>Assign Asset</button></div>
-                        </form>
-                    </div>
-                    
-                    <!-- Recently Assigned Assets -->
-                    <div class="section-card">
-                        <h3 class="text-md font-semibold mb-3" style="color:#540863;">Recently Assigned Assets</h3>
-                        <div class="overflow-x-auto">
-                            <table class="w-full">
-                                <thead>
-                                    <tr class="border-b" style="border-color:#5c003f;">
-                                        <th class="text-left py-2 text-xs">Asset</th>
-                                        <th class="text-left py-2 text-xs">Assigned To</th>
-                                        <th class="text-left py-2 text-xs">Issue Date</th>
-                                        <th class="text-left py-2 text-xs">Return Date</th>
-                                        <th class="text-left py-2 text-xs">Status</th>
-                                        <th class="text-left py-2 text-xs">Action</th>
-                                     </tr>
-                                </thead>
-                                <tbody id="recentAssignments">
-                                    <tr class="border-b"><td class="py-2 text-sm">Dell XPS 15</td><td class="py-2 text-sm">Rajesh Kumar</td><td class="py-2 text-sm">2024-04-01</td><td class="py-2 text-sm">-</td><td class="py-2"><span class="status-assigned text-xs px-2 py-1 rounded-full">Active</span></td><td class="py-2"><button onclick="returnAsset(this)" class="btn-warning text-xs">Return</button></td></tr>
-                                    <tr class="border-b"><td class="py-2 text-sm">HP Monitor</td><td class="py-2 text-sm">Priya Sharma</td><td class="py-2 text-sm">2024-03-28</td><td class="py-2 text-sm">-</td><td class="py-2"><span class="status-assigned text-xs px-2 py-1 rounded-full">Active</span></td><td class="py-2"><button onclick="returnAsset(this)" class="btn-warning text-xs">Return</button></td></tr>
-                                </tbody>
-                             </table>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- ==================== TAB 3: REQUESTS ==================== -->
-                <div id="tab-requests" class="tab-content">
-                    <div class="section-card">
-                        <div class="flex justify-between items-center mb-4">
-                            <h3 class="text-md font-semibold" style="color:#540863;">Asset Requests</h3>
-                            <div class="flex gap-2">
-                                <select id="requestStatus" class="w-36 text-sm" onchange="filterRequests()" style="padding: 4px;">
-                                    <option value="all">All Status</option>
-                                    <option value="pending">Pending</option>
-                                    <option value="approved">Approved</option>
-                                    <option value="rejected">Rejected</option>
-                                </select>
+
+                            <!-- Assignments Table -->
+                            <div class="overflow-x-auto">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Employee ID</th>
+                                            <th>Employee Name</th>
+                                            <th>Department</th>
+                                            <th>Asset</th>
+                                            <th>Asset ID</th>
+                                            <th>Assignment Date</th>
+                                            <th>Condition</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="assignmentsList">
+                                        <tr class="data-row">
+                                            <td>EMP001</td>
+                                            <td>John Smith</td>
+                                            <td>IT</td>
+                                            <td>Dell XPS 15</td>
+                                            <td>#AST001</td>
+                                            <td>2024-01-15</td>
+                                            <td><span class="status-assigned px-2 py-1 rounded text-xs font-medium">Good</span></td>
+                                            <td><button class="action-btn action-btn-return" onclick="returnAsset(this)" title="Return"><i class="fas fa-undo"></i></button></td>
+                                        </tr>
+                                        <tr class="data-row">
+                                            <td>EMP002</td>
+                                            <td>Sarah Johnson</td>
+                                            <td>HR</td>
+                                            <td>iPhone 15 Pro</td>
+                                            <td>#AST003</td>
+                                            <td>2024-02-01</td>
+                                            <td><span class="status-assigned px-2 py-1 rounded text-xs font-medium">Good</span></td>
+                                            <td><button class="action-btn action-btn-return" onclick="returnAsset(this)" title="Return"><i class="fas fa-undo"></i></button></td>
+                                        </tr>
+                                        <tr class="data-row">
+                                            <td>EMP003</td>
+                                            <td>Mike Davis</td>
+                                            <td>Finance</td>
+                                            <td>Mechanical Keyboard</td>
+                                            <td>#AST005</td>
+                                            <td>2024-02-15</td>
+                                            <td><span class="status-assigned px-2 py-1 rounded text-xs font-medium">Good</span></td>
+                                            <td><button class="action-btn action-btn-return" onclick="returnAsset(this)" title="Return"><i class="fas fa-undo"></i></button></td>
+                                        </tr>
+                                        <tr class="data-row">
+                                            <td>EMP004</td>
+                                            <td>Emily Brown</td>
+                                            <td>Sales</td>
+                                            <td>Samsung Galaxy Tab</td>
+                                            <td>#AST008</td>
+                                            <td>2024-03-05</td>
+                                            <td><span class="status-maintenance px-2 py-1 rounded text-xs font-medium">Needs Repair</span></td>
+                                            <td><button class="action-btn action-btn-return" onclick="returnAsset(this)" title="Return"><i class="fas fa-undo"></i></button></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
-                        
-                        <div class="overflow-x-auto">
-                            <table class="w-full">
-                                <thead>
-                                    <tr class="border-b" style="border-color:#5c003f;">
-                                        <th class="text-left py-2 text-xs">Request ID</th>
-                                        <th class="text-left py-2 text-xs">Employee</th>
-                                        <th class="text-left py-2 text-xs">Asset Type</th>
-                                        <th class="text-left py-2 text-xs">Request Date</th>
-                                        <th class="text-left py-2 text-xs">Priority</th>
-                                        <th class="text-left py-2 text-xs">Status</th>
-                                        <th class="text-left py-2 text-xs">Action</th>
-                                     </tr>
-                                </thead>
-                                <tbody id="requestsList">
-                                    <tr class="border-b"><td class="py-2 text-sm">REQ-001</td><td class="py-2 text-sm">Sarah Johnson</td><td class="py-2 text-sm">Laptop</td><td class="py-2 text-sm">2024-04-10</td><td class="py-2"><span class="text-xs px-2 py-1 rounded-full bg-red-100 text-red-600">High</span></td><td class="py-2"><span class="status-pending text-xs px-2 py-1 rounded-full">Pending</span></td><td class="py-2"><button onclick="approveRequest(this)" class="btn-success text-xs mr-1">Approve</button><button onclick="rejectRequest(this)" class="btn-danger text-xs">Reject</button></td></tr>
-                                    <tr class="border-b"><td class="py-2 text-sm">REQ-002</td><td class="py-2 text-sm">Michael Brown</td><td class="py-2 text-sm">Monitor</td><td class="py-2 text-sm">2024-04-09</td><td class="py-2"><span class="text-xs px-2 py-1 rounded-full bg-yellow-100 text-yellow-600">Medium</span></td><td class="py-2"><span class="status-pending text-xs px-2 py-1 rounded-full">Pending</span></td><td class="py-2"><button onclick="approveRequest(this)" class="btn-success text-xs mr-1">Approve</button><button onclick="rejectRequest(this)" class="btn-danger text-xs">Reject</button></td></tr>
-                                    <tr class="border-b"><td class="py-2 text-sm">REQ-003</td><td class="py-2 text-sm">Emma Davis</td><td class="py-2 text-sm">Mobile</td><td class="py-2 text-sm">2024-04-08</td><td class="py-2"><span class="text-xs px-2 py-1 rounded-full bg-green-100 text-green-600">Low</span></td><td class="py-2"><span class="status-approved text-xs px-2 py-1 rounded-full">Approved</span></td><td class="py-2"><button class="btn-primary text-xs">Assign</button></td></tr>
-                                </tbody>
-                             </table>
+                    </div>
+
+                    <!-- TAB 3: Asset Requests -->
+                    <div id="tab-requests" class="tab-content">
+                        <div class="section-card">
+                            <h2 style="color: var(--primary);" class="text-lg font-bold mb-6"><i class="fas fa-clipboard-list mr-2"></i>Asset Requests</h2>
+
+                            <!-- Filter -->
+                            <div class="form-row mb-6">
+                                <div class="form-group">
+                                    <label>Search Employee</label>
+                                    <input type="text" id="requestSearch" placeholder="Employee name..." onkeyup="filterRequests()">
+                                </div>
+                                <div class="form-group">
+                                    <label>Status</label>
+                                    <select id="requestStatus" onchange="filterRequests()">
+                                        <option value="all">All Status</option>
+                                        <option value="Pending">Pending</option>
+                                        <option value="Approved">Approved</option>
+                                        <option value="Rejected">Rejected</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Requests Table -->
+                            <div class="overflow-x-auto">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Request ID</th>
+                                            <th>Employee Name</th>
+                                            <th>Requested Asset</th>
+                                            <th>Reason</th>
+                                            <th>Request Date</th>
+                                            <th>Status</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="requestsList">
+                                        <tr class="data-row">
+                                            <td>#REQ001</td>
+                                            <td>Alex Wilson</td>
+                                            <td>HP Monitor 27"</td>
+                                            <td>Second monitor setup</td>
+                                            <td>2024-03-10</td>
+                                            <td><span class="status-pending px-2 py-1 rounded text-xs font-medium">Pending</span></td>
+                                            <td><button class="action-btn action-btn-approve" onclick="approveRequest(this)" title="Approve"><i class="fas fa-check"></i></button> <button class="action-btn action-btn-reject" onclick="rejectRequest(this)" title="Reject"><i class="fas fa-times"></i></button></td>
+                                        </tr>
+                                        <tr class="data-row">
+                                            <td>#REQ002</td>
+                                            <td>Jennifer Lee</td>
+                                            <td>Wireless Mouse</td>
+                                            <td>Mouse replacement</td>
+                                            <td>2024-03-12</td>
+                                            <td><span class="status-pending px-2 py-1 rounded text-xs font-medium">Pending</span></td>
+                                            <td><button class="action-btn action-btn-approve" onclick="approveRequest(this)" title="Approve"><i class="fas fa-check"></i></button> <button class="action-btn action-btn-reject" onclick="rejectRequest(this)" title="Reject"><i class="fas fa-times"></i></button></td>
+                                        </tr>
+                                        <tr class="data-row">
+                                            <td>#REQ003</td>
+                                            <td>Robert Martinez</td>
+                                            <td>MacBook Air</td>
+                                            <td>New project requirement</td>
+                                            <td>2024-03-08</td>
+                                            <td><span class="status-approved px-2 py-1 rounded text-xs font-medium">Approved</span></td>
+                                            <td><i class="fas fa-check-circle" style="color: #2b7a3e;"></i></td>
+                                        </tr>
+                                        <tr class="data-row">
+                                            <td>#REQ004</td>
+                                            <td>Lisa Anderson</td>
+                                            <td>Docking Station</td>
+                                            <td>Office upgrade</td>
+                                            <td>2024-03-09</td>
+                                            <td><span class="status-rejected px-2 py-1 rounded text-xs font-medium">Rejected</span></td>
+                                            <td><i class="fas fa-times-circle" style="color: #dc3545;"></i></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TAB 4: Maintenance -->
+                    <div id="tab-maintenance" class="tab-content">
+                        <div class="section-card">
+                            <div class="flex justify-between items-center mb-6 flex-wrap gap-2">
+                                <h2 style="color: var(--primary);" class="text-lg font-bold"><i class="fas fa-wrench mr-2"></i>Maintenance Records</h2>
+                                <button class="btn-primary" onclick="openMaintenanceModal()"><i class="fas fa-plus mr-1"></i>Add Maintenance</button>
+                            </div>
+
+                            <!-- Filter -->
+                            <div class="form-row mb-6">
+                                <div class="form-group">
+                                    <label>Search Asset</label>
+                                    <input type="text" id="maintenanceSearch" placeholder="Asset name..." onkeyup="filterMaintenance()">
+                                </div>
+                                <div class="form-group">
+                                    <label>Maintenance Type</label>
+                                    <select id="maintenanceType" onchange="filterMaintenance()">
+                                        <option value="all">All Types</option>
+                                        <option value="Preventive">Preventive</option>
+                                        <option value="Repair">Repair</option>
+                                        <option value="Replacement">Replacement</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Maintenance Table -->
+                            <div class="overflow-x-auto">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Maintenance ID</th>
+                                            <th>Asset Name</th>
+                                            <th>Asset ID</th>
+                                            <th>Type</th>
+                                            <th>Maintenance Date</th>
+                                            <th>Cost (₹)</th>
+                                            <th>Vendor</th>
+                                            <th>Remarks</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="maintenanceList">
+                                        <tr class="data-row">
+                                            <td>#MNT001</td>
+                                            <td>Dell XPS 15</td>
+                                            <td>#AST001</td>
+                                            <td><span class="status-maintenance px-2 py-1 rounded text-xs font-medium">Preventive</span></td>
+                                            <td>2024-02-15</td>
+                                            <td>₹5,500</td>
+                                            <td>Dell Service Center</td>
+                                            <td>Regular cleaning and update</td>
+                                            <td><button class="btn-secondary btn-sm text-xs" onclick="editMaintenance(this)">Edit</button> <button class="btn-danger text-xs" onclick="deleteMaintenance(this)">Delete</button></td>
+                                        </tr>
+                                        <tr class="data-row">
+                                            <td>#MNT002</td>
+                                            <td>Canon Printer</td>
+                                            <td>#AST004</td>
+                                            <td><span class="status-maintenance px-2 py-1 rounded text-xs font-medium">Repair</span></td>
+                                            <td>2024-03-01</td>
+                                            <td>₹8,900</td>
+                                            <td>Canon Technical Service</td>
+                                            <td>Toner replacement and cartridge cleaning</td>
+                                            <td><button class="btn-secondary btn-sm text-xs" onclick="editMaintenance(this)">Edit</button> <button class="btn-danger text-xs" onclick="deleteMaintenance(this)">Delete</button></td>
+                                        </tr>
+                                        <tr class="data-row">
+                                            <td>#MNT003</td>
+                                            <td>Logitech Mouse</td>
+                                            <td>#AST006</td>
+                                            <td><span class="status-maintenance px-2 py-1 rounded text-xs font-medium">Replacement</span></td>
+                                            <td>2024-03-05</td>
+                                            <td>₹1,200</td>
+                                            <td>Logitech Service</td>
+                                            <td>Replacement due to scroll wheel damage</td>
+                                            <td><button class="btn-secondary btn-sm text-xs" onclick="editMaintenance(this)">Edit</button> <button class="btn-danger text-xs" onclick="deleteMaintenance(this)">Delete</button></td>
+                                        </tr>
+                                        <tr class="data-row">
+                                            <td>#MNT004</td>
+                                            <td>MacBook Pro 16"</td>
+                                            <td>#AST007</td>
+                                            <td><span class="status-maintenance px-2 py-1 rounded text-xs font-medium">Preventive</span></td>
+                                            <td>2024-03-10</td>
+                                            <td>₹3,800</td>
+                                            <td>Apple Authorized Service</td>
+                                            <td>Battery health check and software update</td>
+                                            <td><button class="btn-secondary btn-sm text-xs" onclick="editMaintenance(this)">Edit</button> <button class="btn-danger text-xs" onclick="deleteMaintenance(this)">Delete</button></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
-                
-                <!-- ==================== TAB 4: MAINTENANCE ==================== -->
-                <div id="tab-maintenance" class="tab-content">
-                    <div class="section-card">
-                        <div class="flex justify-between items-center mb-4">
-                            <h3 class="text-md font-semibold" style="color:#540863;">Maintenance Records</h3>
-                            <button onclick="openMaintenanceModal()" class="btn-primary text-sm"><i class="fas fa-plus mr-1"></i>Add Record</button>
-                        </div>
-                        
-                        <div class="overflow-x-auto">
-                            <table class="w-full">
-                                <thead>
-                                    <tr class="border-b" style="border-color:#5c003f;">
-                                        <th class="text-left py-2 text-xs">Asset</th>
-                                        <th class="text-left py-2 text-xs">Maintenance Date</th>
-                                        <th class="text-left py-2 text-xs">Type</th>
-                                        <th class="text-left py-2 text-xs">Cost</th>
-                                        <th class="text-left py-2 text-xs">Vendor</th>
-                                        <th class="text-left py-2 text-xs">Status</th>
-                                        <th class="text-left py-2 text-xs">Action</th>
-                                     </tr>
-                                </thead>
-                                <tbody id="maintenanceList">
-                                    <tr class="border-b"><td class="py-2 text-sm">iPhone 14 (AST-004)</td><td class="py-2 text-sm">2024-04-05</td><td class="py-2 text-sm">Screen Repair</td><td class="py-2 text-sm">₹8,500</td><td class="py-2 text-sm">Apple Care</td><td class="py-2"><span class="status-maintenance text-xs px-2 py-1 rounded-full">In Progress</span></td><td class="py-2"><button onclick="editMaintenance(this)" class="text-[#540863] mr-2"><i class="fas fa-edit"></i></button><button onclick="deleteMaintenance(this)" class="text-red-500"><i class="fas fa-trash"></i></button></td></tr>
-                                    <tr class="border-b"><td class="py-2 text-sm">Dell XPS 15</td><td class="py-2 text-sm">2024-03-20</td><td class="py-2 text-sm">Battery Replacement</td><td class="py-2 text-sm">₹5,000</td><td class="py-2 text-sm">Dell Service</td><td class="py-2"><span class="status-assigned text-xs px-2 py-1 rounded-full">Completed</span></td><td class="py-2"><button onclick="editMaintenance(this)" class="text-[#540863] mr-2"><i class="fas fa-edit"></i></button><button onclick="deleteMaintenance(this)" class="text-red-500"><i class="fas fa-trash"></i></button></td></tr>
-                                </tbody>
-                             </table>
-                        </div>
-                    </div>
-                    
-                    <!-- Maintenance Schedule -->
-                    <div class="section-card">
-                        <h3 class="text-md font-semibold mb-3" style="color:#540863;">Upcoming Maintenance Schedule</h3>
-                        <div class="space-y-2">
-                            <div class="flex justify-between items-center p-2 border-b"><div><i class="fas fa-calendar text-[#540863] mr-2"></i><span>Laptop servicing</span></div><div>Due: 2024-04-25</div><div><span class="text-xs text-yellow-600">Pending</span></div></div>
-                            <div class="flex justify-between items-center p-2 border-b"><div><i class="fas fa-calendar text-[#540863] mr-2"></i><span>Monitor calibration</span></div><div>Due: 2024-04-30</div><div><span class="text-xs text-yellow-600">Pending</span></div></div>
-                        </div>
-                    </div>
-                </div>
-                
-            </main>
+            </div>
         </div>
     </div>
-    
+
+    <!-- MODALS -->
+
     <!-- Add Asset Modal -->
     <div id="addAssetModal" class="modal">
         <div class="modal-content">
-            <div class="flex justify-between items-center mb-4"><h3 class="text-lg font-semibold" style="color:#540863;">Add New Asset</h3><button onclick="closeAddAssetModal()" class="text-gray-500 text-xl">&times;</button></div>
+            <div class="modal-header">
+                <h3>Add New Asset</h3>
+                <button class="modal-close" onclick="closeAddAssetModal()">&times;</button>
+            </div>
             <form id="addAssetForm">
-                <div class="form-row"><div><label>Asset Name *</label><input type="text" id="asset_name" required style="padding: 2px;"></div><div><label>Category *</label><select id="asset_category" required><option>Laptop</option><option>Desktop</option><option>Monitor</option><option>Mobile</option><option>Accessories</option></select></div></div>
-                <div class="form-row"><div><label>Serial Number *</label><input type="text" id="asset_serial" required style="padding: 2px;"></div><div><label>Model Number</label><input type="text" id="asset_model" style="padding: 2px;"></div></div>
-                <div class="form-row"><div><label>Purchase Date</label><input type="date" id="asset_purchase_date" style="padding: 2px;"></div><div><label>Warranty Expiry</label><input type="date" id="asset_warranty" style="padding: 2px;"></div></div>
-                <div class="form-row"><div><label>Purchase Cost (₹)</label><input type="number" id="asset_cost" style="padding: 2px;"></div><div><label>Status</label><select id="asset_status" style="padding: 2px;"><option>Available</option><option>Assigned</option><option>Maintenance</option><option>Damaged</option></select></div></div>
-                <div class="flex justify-end gap-3 mt-4"><button type="button" onclick="closeAddAssetModal()" class="btn-outline">Cancel</button><button type="submit" class="btn-primary">Add Asset</button></div>
+                <div class="form-group"><label>Asset Name</label><input type="text" id="asset_name" required></div>
+                <div class="form-row"><div class="form-group"><label>Category</label><select id="asset_category" required><option>Select Category</option><option>Laptop</option><option>Desktop</option><option>Monitor</option><option>Mobile</option><option>Printer</option><option>Accessories</option></select></div><div class="form-group"><label>Serial Number</label><input type="text" id="asset_serial" required></div></div>
+                <div class="form-row"><div class="form-group"><label>Brand/Manufacturer</label><input type="text" id="asset_brand" required></div><div class="form-group"><label>Model</label><input type="text" id="asset_model" required></div></div>
+                <div class="form-row"><div class="form-group"><label>Purchase Date</label><input type="date" id="asset_purchase_date" required></div><div class="form-group"><label>Cost (₹)</label><input type="number" id="asset_cost" required></div></div>
+                <div class="form-row"><div class="form-group"><label>Status</label><select id="asset_status" required><option>Available</option><option>Assigned</option><option>Maintenance</option><option>Damaged</option></select></div><div class="form-group"><label>Warranty (Years)</label><input type="number" id="asset_warranty" value="1"></div></div>
+                <div class="form-group"><label>Specifications/Notes</label><textarea id="asset_specs" rows="3"></textarea></div>
+                <div class="flex gap-3 justify-end mt-6"><button type="button" class="btn-outline" onclick="closeAddAssetModal()">Cancel</button><button type="submit" class="btn-primary">Add Asset</button></div>
             </form>
         </div>
     </div>
-    
+
+    <!-- Assign Asset Modal -->
+    <div id="assignAssetModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Assign Asset to Employee</h3>
+                <button class="modal-close" onclick="closeAssignAssetModal()">&times;</button>
+            </div>
+            <form id="assignAssetForm">
+                <div class="form-group"><label>Select Asset</label><select id="assign_asset" required><option>Choose Asset</option><option>HP Monitor 27" - #AST002</option><option>MacBook Pro 16" - #AST007</option><option>Samsung Galaxy Tab - #AST008</option></select></div>
+                <div class="form-group"><label>Select Employee</label><select id="assign_employee" required><option>Choose Employee</option><option>Alex Wilson (EMP005)</option><option>Jennifer Lee (EMP006)</option><option>Robert Martinez (EMP007)</option></select></div>
+                <div class="form-group"><label>Assignment Date</label><input type="date" id="assign_date" required></div>
+                <div class="form-group"><label>Condition</label><select id="assign_condition"><option>Good</option><option>Fair</option><option>Poor</option></select></div>
+                <div class="form-group"><label>Notes</label><textarea id="assign_notes" rows="3"></textarea></div>
+                <div class="flex gap-3 justify-end mt-6"><button type="button" class="btn-outline" onclick="closeAssignAssetModal()">Cancel</button><button type="submit" class="btn-primary">Assign Asset</button></div>
+            </form>
+        </div>
+    </div>
+
     <!-- Maintenance Modal -->
     <div id="maintenanceModal" class="modal">
         <div class="modal-content">
-            <div class="flex justify-between items-center mb-4"><h3 class="text-lg font-semibold" style="color:#540863;">Add Maintenance Record</h3><button onclick="closeMaintenanceModal()" class="text-gray-500 text-xl">&times;</button></div>
+            <div class="modal-header">
+                <h3>Add Maintenance Record</h3>
+                <button class="modal-close" onclick="closeMaintenanceModal()">&times;</button>
+            </div>
             <form id="maintenanceForm">
-                <div><label>Select Asset</label><select required style="padding: 2px;"><option>iPhone 14</option><option>Dell XPS 15</option><option>HP Monitor</option></select></div>
-                <div class="mt-2"><label>Maintenance Type</label><select style="padding: 2px;"><option>Preventive</option><option>Repair</option><option>Replacement</option></select></div>
-                <div class="mt-2"><label>Maintenance Date</label><input type="date" required style="padding: 2px;"></div>
-                <div class="mt-2"><label>Cost (₹)</label><input type="number" placeholder="Enter cost" style="padding: 2px;"></div>
-                <div class="mt-2"><label>Vendor Name</label><input type="text" placeholder="Vendor name" style="padding: 2px;"></div>
-                <div class="mt-2"><label>Remarks</label><textarea rows="2" style="padding: 2px;"></textarea></div>
-                <div class="flex justify-end gap-3 mt-4"><button type="button" onclick="closeMaintenanceModal()" class="btn-outline">Cancel</button><button type="submit" class="btn-primary">Save Record</button></div>
+                <div class="form-group"><label>Select Asset</label><select id="maintenance_asset" required><option>Choose Asset</option><option>Dell XPS 15 - #AST001</option><option>Canon Printer - #AST004</option><option>Logitech Mouse - #AST006</option><option>MacBook Pro 16" - #AST007</option></select></div>
+                <div class="form-row"><div class="form-group"><label>Maintenance Type</label><select id="maintenance_type" required><option>Preventive</option><option>Repair</option><option>Replacement</option></select></div><div class="form-group"><label>Maintenance Date</label><input type="date" id="maintenance_date" required></div></div>
+                <div class="form-row"><div class="form-group"><label>Cost (₹)</label><input type="number" id="maintenance_cost" required></div><div class="form-group"><label>Vendor Name</label><input type="text" id="maintenance_vendor" required></div></div>
+                <div class="form-group"><label>Remarks/Description</label><textarea id="maintenance_remarks" rows="3"></textarea></div>
+                <div class="flex gap-3 justify-end mt-6"><button type="button" class="btn-outline" onclick="closeMaintenanceModal()">Cancel</button><button type="submit" class="btn-primary">Save Record</button></div>
             </form>
         </div>
     </div>
-    
+
     <script src="/assets/js/common.js"></script>
     <script src="/assets/js/sidebar.js"></script>
     <script src="/assets/js/header.js"></script>
@@ -619,6 +963,9 @@
             showToast(`Asset assigned to ${employee} successfully!`, 'success');
             this.reset();
         });
+
+        function openAssignAssetModal() { document.getElementById('assignAssetModal').classList.add('active'); document.getElementById('assignAssetForm').reset(); }
+        function closeAssignAssetModal() { document.getElementById('assignAssetModal').classList.remove('active'); }
         
         function returnAsset(btn) {
             if(confirm('Return this asset?')) {
@@ -630,31 +977,62 @@
         // Request Functions
         function filterRequests() {
             const status = document.getElementById('requestStatus').value;
+            const search = document.getElementById('requestSearch').value.toLowerCase();
             const rows = document.querySelectorAll('#requestsList tr');
             rows.forEach(row => {
                 let show = true;
                 const rowStatus = row.cells[5]?.innerText.toLowerCase();
-                if(status !== 'all' && !rowStatus.includes(status)) show = false;
+                const name = row.cells[1]?.innerText.toLowerCase();
+                if(status !== 'all' && !rowStatus.includes(status.toLowerCase())) show = false;
+                if(search && !name.includes(search)) show = false;
                 row.style.display = show ? '' : 'none';
             });
         }
         
         function approveRequest(btn) {
             const row = btn.closest('tr');
-            row.cells[5].innerHTML = '<span class="status-approved text-xs px-2 py-1 rounded-full">Approved</span>';
-            btn.parentElement.innerHTML = '<button class="btn-primary text-xs">Assign</button>';
+            row.cells[5].innerHTML = '<span class="status-approved px-2 py-1 rounded text-xs font-medium">Approved</span>';
+            btn.parentElement.innerHTML = '<button class="btn-primary text-xs" disabled>Approved</button>';
             showToast('Request approved!', 'success');
         }
         
         function rejectRequest(btn) {
             const row = btn.closest('tr');
-            row.cells[5].innerHTML = '<span class="status-rejected text-xs px-2 py-1 rounded-full">Rejected</span>';
-            btn.parentElement.innerHTML = '-';
+            row.cells[5].innerHTML = '<span class="status-rejected px-2 py-1 rounded text-xs font-medium">Rejected</span>';
+            btn.parentElement.innerHTML = '<span class="text-gray-500">Rejected</span>';
             showToast('Request rejected!', 'warning');
         }
         
         // Maintenance Functions
-        function openMaintenanceModal() { document.getElementById('maintenanceModal').classList.add('active'); }
+        function filterAssignments() {
+            const search = document.getElementById('assignmentSearch').value.toLowerCase();
+            const dept = document.getElementById('assignmentDept').value;
+            const rows = document.querySelectorAll('#assignmentsList tr');
+            rows.forEach(row => {
+                let show = true;
+                const name = row.cells[1]?.innerText.toLowerCase();
+                const rowDept = row.cells[2]?.innerText;
+                if(search && !name.includes(search)) show = false;
+                if(dept !== 'all' && rowDept !== dept) show = false;
+                row.style.display = show ? '' : 'none';
+            });
+        }
+
+        function filterMaintenance() {
+            const search = document.getElementById('maintenanceSearch').value.toLowerCase();
+            const type = document.getElementById('maintenanceType').value;
+            const rows = document.querySelectorAll('#maintenanceList tr');
+            rows.forEach(row => {
+                let show = true;
+                const name = row.cells[1]?.innerText.toLowerCase();
+                const rowType = row.cells[3]?.innerText.toLowerCase();
+                if(search && !name.includes(search)) show = false;
+                if(type !== 'all' && !rowType.includes(type.toLowerCase())) show = false;
+                row.style.display = show ? '' : 'none';
+            });
+        }
+        
+        function openMaintenanceModal() { document.getElementById('maintenanceModal').classList.add('active'); document.getElementById('maintenanceForm').reset(); }
         function closeMaintenanceModal() { document.getElementById('maintenanceModal').classList.remove('active'); }
         document.getElementById('maintenanceForm')?.addEventListener('submit', function(e) { e.preventDefault(); showToast('Maintenance record added!', 'success'); closeMaintenanceModal(); });
         function editMaintenance(btn) { showToast('Edit maintenance', 'info'); }
@@ -662,7 +1040,8 @@
         
         // Asset Distribution Chart
         function updateAssetChart() {
-            const ctx = document.getElementById('assetChart').getContext('2d');
+            const ctx = document.getElementById('assetChart')?.getContext('2d');
+            if (!ctx) return;
             if (assetChart) assetChart.destroy();
             assetChart = new Chart(ctx, {
                 type: 'doughnut',
@@ -670,7 +1049,7 @@
                     labels: ['Laptop', 'Desktop', 'Monitor', 'Mobile', 'Accessories'],
                     datasets: [{
                         data: [65, 28, 32, 18, 13],
-                        backgroundColor: ['#540863', '#92487A', '#E49BA6', '#FFD3D5', '#8a3a6a'],
+                        backgroundColor: ['#1B738C', '#62C9EA', '#BDE4EE', '#e9f2f4', '#5a7c8a'],
                         borderWidth: 0,
                         hoverOffset: 8
                     }]
@@ -681,9 +1060,9 @@
                     plugins: {
                         legend: { display: false },
                         tooltip: {
-                            backgroundColor: '#540863',
+                            backgroundColor: '#1B738C',
                             titleColor: 'white',
-                            bodyColor: '#f3eeef',
+                            bodyColor: '#f5f9fb',
                             callbacks: {
                                 label: function(context) {
                                     const label = context.label || '';

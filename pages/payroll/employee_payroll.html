@@ -1,0 +1,1014 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Pay – Salary Structure</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        * { font-family: 'Inter', sans-serif; }
+
+        :root {
+            --primary: #1B738C;
+            --primary-light: #62C9EA;
+            --primary-soft: #BDE4EE;
+            --primary-bg-light: #e9f2f4;
+            --button-hover: #166278;
+            --border-color: #1B738C;
+            --text-dark: #1B738C;
+            --text-light: #5a7c8a;
+        }
+
+        body {
+            background-color: #EBF4F6;
+        }
+
+        /* ── Scrollbar ── */
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-track { background: var(--bg); }
+        ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 10px; }
+
+        /* ── Cards ── */
+        .section-card {
+            background: white;
+            border-radius: 14px;
+            border: 1px solid #3aa6ca;
+            padding: 22px 24px;
+            margin-bottom: 20px;
+            box-shadow: 0 1px 4px rgba(84,8,99,0.04);
+        }
+
+        /* ── Buttons ── */
+        .btn-primary {
+            background-color: #1B738C;
+            color: white;
+            padding: 9px 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            border: none;
+            font-size: 13.5px;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+            box-shadow: 0 2px 6px #62C9EA(84,8,99,0.18);
+        }
+        .btn-primary:hover {
+            background-color: #186980;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px #62C9EA(84,8,99,0.22);
+        }
+        .btn-primary:active { transform: translateY(0); }
+        .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+        .btn-outline {
+            border: 1.5px solid var(--primary);
+            color: var(--primary);
+            padding: 9px 18px;
+            border-radius: 8px;
+            background: transparent;
+            cursor: pointer;
+            font-size: 13.5px;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
+        }
+        .btn-outline:hover { background-color: var(--primary); color: white; }
+
+        /* Initiate Pay – gradient CTA */
+        .btn-initiate {
+            background: linear-gradient(135deg, var(--primary) 0%, #134657 100%);
+            color: white;
+            padding: 9px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            border: none;
+            font-size: 13px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            transition: all 0.2s;
+            box-shadow: 0 2px 8px #62C9EA(84,8,99,0.22);
+        }
+        .btn-initiate:hover {
+            box-shadow: 0 5px 16px #62C9EA(84,8,99,0.3);
+            transform: translateY(-1px);
+        }
+        .btn-initiate:active { transform: translateY(0); }
+
+        /* ── Form Fields ── */
+        input, select {
+            border: 1px solid #62C9EA;
+            border-radius: 8px;
+            padding: 9px 12px;
+            width: 100%;
+            font-size: 13.5px;
+            color: #333;
+            background: #fff;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(84,8,99,0.08);
+        }
+        input::placeholder { color: #62C9EA; }
+        input[readonly] { background: #faf5f8; color: #888; cursor: default; border: 1px solid black; }
+
+        label {
+            font-size: 12.5px;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 5px;
+            display: block;
+            letter-spacing: 0.01em;
+        }
+
+        .form-group { display: flex; flex-direction: column; }
+
+        /* ── Nav ── */
+        .submodule-nav {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 22px;
+            padding-bottom: 14px;
+            border-bottom: 1.5px solid var(--border);
+            flex-wrap: wrap;
+        }
+        .submodule-link {
+            padding: 8px 22px;
+            border-radius: 8px;
+            font-size: 13.5px;
+            font-weight: 500;
+            transition: all 0.2s;
+            background: #EBF4F6;
+            color: #337388;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            border: 1.5px solid transparent;
+        }
+        .submodule-link:hover {
+            background-color: #96cbdc(84,8,99,0.06);
+            color: var(--primary);
+            border-color: #b1e0f0;
+        }
+        .submodule-link.active {
+            background-color: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        /* ── Page header ── */
+        .page-header-row {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            margin-bottom: 18px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        /* ── Form grid ── */
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+        .split-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+        }
+        @media (max-width: 600px) { .split-form { grid-template-columns: 1fr; } }
+
+        /* ── Initiate Pay form (expandable) ── */
+        .initiate-form-wrapper {
+            display: none;
+            margin-bottom: 20px;
+            animation: fadeDown 0.22s ease;
+        }
+        .initiate-form-wrapper.open { display: block; }
+
+        @keyframes fadeDown {
+            from { opacity: 0; transform: translateY(-8px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        .form-section-title {
+            font-size: 11.5px;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin: 18px 0 10px;
+            padding-bottom: 6px;
+            border-bottom: 1px solid #cdeaf1;
+        }
+
+        /* ── Amount prefix ── */
+        .amount-wrap { position: relative; }
+        .amount-prefix {
+            position: absolute;
+            left: 11px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--muted);
+            font-size: 13px;
+            pointer-events: none;
+        }
+        .amount-wrap input { padding-left: 24px; }
+
+        /* ── Employee meta pill ── */
+        .emp-meta-row {
+            display: none;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 4px;
+            background: #EBF4F6;
+            border: 1px solid #EBF4F6;
+            border-radius: 8px;
+            padding: 10px 14px;
+        }
+        .emp-meta-row.show { display: flex; }
+        .meta-pill {
+            font-size: 11.5px;
+            font-weight: 600;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .meta-pill i { opacity: 0.55; }
+
+        /* ── Table ── */
+        .data-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+        .data-table th {
+            text-align: left;
+            padding: 10px 12px;
+            color: var(--primary);
+            font-weight: 700;
+            font-size: 12px;
+            border-bottom: 2px solid var(--border);
+            background: #EBF4F6;
+        }
+        .data-table td { padding: 10px 12px; border-bottom: 1px solid #ede6eb; vertical-align: middle; }
+        .data-table tr:last-child td { border-bottom: none; }
+        .data-table tbody tr:hover { background: rgba(84,8,99,0.03); cursor: pointer; }
+
+        .badge {
+            font-size: 11px;
+            font-weight: 600;
+            padding: 3px 9px;
+            border-radius: 20px;
+            background: rgba(84,8,99,0.08);
+            color: var(--primary);
+        }
+        .badge-green { background: #dcfce7; color: #15803d; }
+
+        /* ── Summary stat cards ── */
+        .stat-card {
+            padding: 14px 16px;
+            border: 1.5px solid var(--border);
+            border-radius: 10px;
+            background: #fff;
+        }
+        .stat-card .stat-label { font-size: 11.5px; color: var(--muted); font-weight: 500; margin-bottom: 4px; }
+        .stat-card .stat-value { font-size: 22px; font-weight: 800; color: var(--primary); }
+        .stat-card .stat-value.green  { color: #16a34a; }
+        .stat-card .stat-value.red    { color: #dc3545; }
+
+        /* ── Progress bar ── */
+        .progress-bar { height: 6px; background: #ede6eb; border-radius: 10px; overflow: hidden; margin-bottom: 6px; }
+        .progress-fill { height: 100%; background: linear-gradient(90deg, var(--primary), var(--primary-light)); border-radius: 10px; transition: width 0.25s ease; }
+
+        /* ── Toast ── */
+        .toast {
+            position: fixed;
+            bottom: 22px;
+            right: 22px;
+            padding: 11px 18px;
+            border-radius: 9px;
+            color: white;
+            z-index: 1100;
+            font-size: 13.5px;
+            font-weight: 500;
+            animation: slideIn 0.28s ease;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+        }
+        .toast.success { background-color: #1a8c42; }
+        .toast.error   { background-color: #d43030; }
+        .toast.info    { background-color: #0e6fa8; }
+
+        @keyframes slideIn {
+            from { transform: translateX(110%); opacity: 0; }
+            to   { transform: translateX(0);    opacity: 1; }
+        }
+
+        .main-content { margin-top: 64px; }
+
+        @media (max-width: 768px) {
+            .section-card  { padding: 16px; }
+            .submodule-link { padding: 6px 12px; font-size: 12px; }
+            .page-header-row { flex-direction: column; align-items: flex-start; }
+        }
+
+
+         /* override blue focus ring with existing theme color */
+        input:focus, select:focus, textarea:focus {
+            border-color: 1px solid#62C9EA ;
+            box-shadow: 0 0 0 3px var(--color-secondary)/25% !important;
+            outline: none !important;
+        }
+    </style>
+</head>
+
+<body >
+
+<div class="flex h-screen overflow-hidden">
+    <!-- Sidebar -->
+    <div id="sidebar-container"></div>
+
+    <div class="flex-1 flex flex-col overflow-hidden">
+        <!-- Header -->
+        <div id="header-container"></div>
+
+        <main class="flex-1 overflow-y-auto p-5 main-content">
+
+            <!-- Page Header -->
+            <div class="flex flex-wrap items-start justify-between gap-4 mb-6">
+                <div>
+                    <h1 class="text-xl font-bold text-[var(--primary)]">Payroll Management</h1>
+                    <p class="text-sm text-[var(--text-dark)] mt-1">Manage salary structures &amp; process employee payroll.</p>
+                </div>
+                
+                <button onclick="toggleInitiateForm()" 
+                        class="btn-initiate flex items-center gap-2 px-6 py-2.5 text-sm font-semibold rounded-lg shadow-md hover:shadow-lg transition-all">
+                    <i class="fas fa-paper-plane"></i> 
+                    Initiate Pay
+                </button>
+            </div>
+
+            <!-- Sub Navigation -->
+            <div class="flex gap-2 pb-4 border-b border-[#62C9EA] mb-6 flex-wrap">
+                <a href="#" class="submodule-link active px-6 py-2 rounded-lg text-sm font-medium">Salary Structure</a>
+                <a href="/pages/payroll/payslips.html" class="submodule-link px-6 py-2 rounded-lg text-sm font-medium">Payslips</a>
+            </div>
+
+            <!-- Payroll Configuration -->
+            <div class="section-card">
+                <h3 class="flex items-center gap-2 text-base font-semibold text-[var(--primary)] mb-5">
+                    <i class="fas fa-sliders-h"></i> 
+                    Payroll Configuration
+                </h3>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    <div class="form-group">
+                        <label class="text-xs font-semibold text-[var(--primary)]">Select Month</label>
+                        <select id="payrollMonth" class="w-full px-4 py-2.5 border border-[#62C9EA] rounded-lg text-sm">
+                            <option value="1">January 2024</option>
+                            <option value="2">February 2024</option>
+                            <option value="3">March 2024</option>
+                            <option value="4" selected>April 2024</option>
+                            <option value="5">May 2024</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="text-xs font-semibold text-[var(--primary)]">Select Department</label>
+                        <select id="payrollDept" class="w-full px-4 py-2.5 border border-[#62C9EA] rounded-lg text-sm">
+                            <option value="all">All Departments</option>
+                            <option>IT</option>
+                            <option>Human Resources</option>
+                            <option>Sales</option>
+                            <option>Finance</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Initiate Pay Form -->
+            <div id="initiateFormWrapper" class="initiate-form-wrapper section-card hidden">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="flex items-center gap-2 text-base font-semibold text-[var(--primary)]">
+                        <i class="fas fa-paper-plane"></i> 
+                        Initiate Pay Run
+                    </h3>
+                    <button onclick="toggleInitiateForm()" 
+                            class="text-2xl leading-none text-[var(--muted)] hover:text-[var(--primary)] transition-colors">
+                        &times;
+                    </button>
+                </div>
+                
+                <p class="text-xs text-[var(--muted)] mb-5">Select an employee &amp; fill the details below to initiate payroll.</p>
+
+                <!-- Employee Selection -->
+                <div class="form-group mb-4">
+                    <label class="text-xs font-semibold text-[var(--primary)]">Employee Name <span class="text-red-600">*</span></label>
+                    <select id="initiateEmployee" onchange="onEmployeeSelect()" 
+                            class="w-full px-4 py-2.5 rounded-lg text-sm">
+                        <option value="">— Select Employee —</option>
+                        <option>Rajesh Kumar</option>
+                        <option>Priya Sharma</option>
+                        <option>Amit Mehta</option>
+                        <option>Neha Gupta</option>
+                        <option>Vikram Singh</option>
+                        <option>Sarah Johnson</option>
+                        <option>Michael Brown</option>
+                    </select>
+                </div>
+
+                <!-- Employee Meta -->
+                <div id="empMetaRow" class="hidden flex-wrap gap-3 bg-[#faf5f8] border border-[var(--border)] rounded-lg p-4 mb-5">
+                    <span class="meta-pill"><i class="fas fa-id-badge"></i><span id="metaId"></span></span>
+                    <span class="meta-pill"><i class="fas fa-briefcase"></i><span id="metaDesig"></span></span>
+                    <span class="meta-pill"><i class="fas fa-building"></i><span id="metaDept"></span></span>
+                </div>
+
+                <!-- Earnings Section -->
+                <div class="text-xs font-bold tracking-widest uppercase text-[var(--muted)] mb-3 mt-2">Earnings</div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    <div class="form-group">
+                        <label class="text-xs font-semibold text-[var(--primary)]">Basic Salary (BASIC) <span class="text-red-600">*</span></label>
+                        <div class="relative">
+                            <span class="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--muted)]">₹</span>
+                            <input type="number" id="basicSalary" placeholder="0.00" 
+                                 class="pl-8 w-full px-4 py-2.5 border border-[#62C9EA] rounded-lg text-sm">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="text-xs font-semibold text-[var(--primary)]">HRA – House Rent Allowance</label>
+                        <div class="relative">
+                            <span class="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--muted)]">₹</span>
+                            <input type="number" id="hraAmount" placeholder="0.00" 
+                                   class="pl-8 w-full px-4 py-2.5  rounded-lg text-sm">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="text-xs font-semibold text-[var(--primary)]">Allowances</label>
+                        <div class="relative">
+                            <span class="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--muted)]">₹</span>
+                            <input type="number" id="allowancesAmt" placeholder="0.00" 
+                                   class="pl-8 w-full px-4 py-2.5 rounded-lg text-sm">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="text-xs font-semibold text-[var(--primary)]">Gross Salary 
+                            <span class="font-normal text-[var(--muted)]">(Basic + HRA + Allowances)</span>
+                        </label>
+                        <div class="relative">
+                            <span class="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--muted)]">₹</span>
+                            <input type="number" id="grossSalary" placeholder="0.00" 
+                                   class="pl-8 font-semibold w-full px-4 py-2.5  rounded-lg text-sm">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Deductions Section -->
+                <div class="text-xs font-bold tracking-widest uppercase text-[var(--muted)] mb-3 mt-8">Deductions</div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+                    <div class="form-group">
+                        <label class="text-xs font-semibold text-[var(--primary)]">Provident Fund (PF)</label>
+                        <div class="relative">
+                            <span class="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--muted)]">₹</span>
+                            <input type="number" id="pfAmount" placeholder="0.00" 
+                                   class="pl-8 w-full px-4 py-2.5 rounded-lg text-sm">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="text-xs font-semibold text-[var(--primary)]">Employee State Insurance (ESI)</label>
+                        <div class="relative">
+                            <span class="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--muted)]">₹</span>
+                            <input type="number" id="esiAmount" placeholder="0.00" 
+                                   class="pl-8 w-full px-4 py-2.5  rounded-lg text-sm">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="text-xs font-semibold text-[var(--primary)]">Tax Deducted at Source (TDS)</label>
+                        <div class="relative">
+                            <span class="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--muted)]">₹</span>
+                            <input type="number" id="tdsAmount" placeholder="0.00" 
+                                   class="pl-8 w-full px-4 py-2.5  rounded-lg text-sm">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex justify-end gap-4 mt-8">
+                    <button onclick="toggleInitiateForm()" 
+                            class="btn-outline px-6 py-2.5 text-sm font-medium">Cancel</button>
+                    <button onclick="submitInitiatePay()" 
+                            class="btn-primary px-6 py-2.5 text-sm font-medium">
+                        <i class="fas fa-check-circle"></i> Confirm &amp; Process
+                    </button>
+                </div>
+            </div>
+
+            <!-- Payroll Summary -->
+            <div class="section-card hidden" id="payrollSummary">
+                <h3 class="flex items-center gap-2 text-base font-semibold text-[var(--primary)] mb-5">
+                    <i class="fas fa-chart-bar"></i> 
+                    Payroll Summary — April 2024
+                </h3>
+                
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                    <div class="stat-card">
+                        <div class="stat-label">Total Employees</div>
+                        <div class="stat-value" id="totalEmployees">156</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Total Gross Salary</div>
+                        <div class="stat-value" id="totalGross">₹48,50,000</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Total Deductions</div>
+                        <div class="stat-value text-red-600" id="totalDeductionsSummary">₹7,96,000</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Net Payable</div>
+                        <div class="stat-value text-green-600" id="totalNetPayable">₹40,54,000</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Employee Salary List -->
+            <div class="section-card hidden" id="employeeSalaryList">
+                <div class="flex flex-wrap justify-between items-center gap-4 mb-5">
+                    <h3 class="flex items-center gap-2 text-base font-semibold text-[var(--primary)]">
+                        <i class="fas fa-users"></i> 
+                        Employee Salary Details
+                    </h3>
+                    <div class="w-full md:w-72">
+                        <input type="text" id="salarySearch" 
+                               placeholder="Search employee…" 
+                               onkeyup="filterSalaryList()"
+                               class="w-full px-4 py-2.5 border border-[var(--border)] rounded-lg text-sm">
+                    </div>
+                </div>
+
+                <div class="overflow-x-auto">
+                    <table class="data-table w-full">
+                        <thead>
+                            <tr>
+                                <th>Employee</th>
+                                <th>Department</th>
+                                <th>Basic</th>
+                                <th>HRA</th>
+                                <th>Allowances</th>
+                                <th>Gross</th>
+                                <th>Deductions</th>
+                                <th>Net Salary</th>
+                                <!-- <th class="text-center">Action</th> -->
+                            </tr>
+                        </thead>
+                        <tbody id="salaryList">
+                            <tr>
+                                <td class="font-semibold text-[var(--primary)]">Rajesh Kumar</td>
+                                <td><span class="badge">IT</span></td>
+                                <td>₹30,000</td>
+                                <td>₹15,000</td>
+                                <td>₹8,000</td>
+                                <td class="font-semibold">₹53,000</td>
+                                <td class="text-red-600">₹5,000</td>
+                                <td class="font-bold text-green-600">₹48,000</td>
+                                <td class="text-center">
+                                    <button onclick="downloadSlip(this)" 
+                                            class="text-[var(--primary)] hover:bg-[rgba(84,8,99,0.08)] p-2 rounded-lg transition-colors">
+                                        <i class="fas fa-download"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="font-semibold text-[var(--primary)]">Priya Sharma</td>
+                                <td><span class="badge">HR</span></td>
+                                <td>₹28,000</td>
+                                <td>₹14,000</td>
+                                <td>₹7,000</td>
+                                <td class="font-semibold">₹49,000</td>
+                                <td class="text-red-600">₹4,800</td>
+                                <td class="font-bold text-green-600">₹44,200</td>
+                                <td class="text-center">
+                                    <button onclick="downloadSlip(this)" 
+                                            class="text-[var(--primary)] hover:bg-[rgba(84,8,99,0.08)] p-2 rounded-lg transition-colors">
+                                        <i class="fas fa-download"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="font-semibold text-[var(--primary)]">Amit Mehta</td>
+                                <td><span class="badge">Sales</span></td>
+                                <td>₹35,000</td>
+                                <td>₹17,500</td>
+                                <td>₹10,000</td>
+                                <td class="font-semibold">₹62,500</td>
+                                <td class="text-red-600">₹6,200</td>
+                                <td class="font-bold text-green-600">₹56,300</td>
+                                <td class="text-center">
+                                    <button onclick="downloadSlip(this)" 
+                                            class="text-[var(--primary)] hover:bg-[rgba(84,8,99,0.08)] p-2 rounded-lg transition-colors">
+                                        <i class="fas fa-download"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Processing Status -->
+            <div id="processStatus" class="section-card hidden">
+                <div class="progress-bar h-1.5 bg-[#ede6eb] rounded-full overflow-hidden mb-3">
+                    <div class="progress-fill h-full bg-gradient-to-r from-[var(--primary)] to-[var(--primary-light)] rounded-full transition-all" 
+                         id="processProgress" style="width: 0%"></div>
+                </div>
+                <p class="text-xs text-[var(--muted)]" id="processText">Processing payroll…</p>
+            </div>
+
+        </main>
+    </div>
+</div>
+
+
+
+<!-- ── Scripts ── -->
+<script src="/assets/js/common.js"></script>
+<script src="/assets/js/sidebar.js"></script>
+<script src="/assets/js/header.js"></script>
+
+<script>
+const BASE_PAYROLL_URL = 'http://localhost:8086/api/v1';
+const BASE_EMP_URL = 'http://localhost:8086/api'
+const token    = localStorage.getItem('token') || '';
+
+// Month number → enum name map (matches backend PayrollMonth enum)
+const MONTH_ENUM = {
+    '1':'JANUARY','2':'FEBRUARY','3':'MARCH','4':'APRIL',
+    '5':'MAY','6':'JUNE','7':'JULY','8':'AUGUST',
+    '9':'SEPTEMBER','10':'OCTOBER','11':'NOVEMBER','12':'DECEMBER'
+};
+
+// Cache of fetched employee objects keyed by employeeId
+// { "EMP001": { employeeId, fullName, designation, department, basicSalary } }
+let employeeCache = {};
+let formOpen = false;
+
+// ─────────────────────────────────────────────────────────────────
+// AUTH HEADER
+// ─────────────────────────────────────────────────────────────────
+function authHeaders() {
+    return {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+        'X-Initiated-By': 'hr.admin'
+    };
+}
+
+// ─────────────────────────────────────────────────────────────────
+// ON PAGE LOAD — load summary + salary list for current filter
+// ─────────────────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', function () {
+    loadSidebar();
+    loadHeader();
+    setActiveMenu('payroll');
+    loadPageData();
+
+    // Re-fetch whenever month or department filter changes
+    document.getElementById('payrollMonth').addEventListener('change', loadPageData);
+    document.getElementById('payrollDept').addEventListener('change', () => {
+        loadPageData();
+        // Also refresh employee dropdown if initiate form is open
+        if (formOpen) loadEmployeeDropdown();
+    });
+});
+
+// ─────────────────────────────────────────────────────────────────
+// LOAD SUMMARY + SALARY LIST
+// ─────────────────────────────────────────────────────────────────
+async function loadPageData() {
+    const month = MONTH_ENUM[document.getElementById('payrollMonth').value];
+    const dept  = document.getElementById('payrollDept').value;
+    const year  = 2024; // TODO: make dynamic from month selector
+
+    await Promise.all([
+        loadSummary(month, year, dept),
+        loadSalaryList(month, year, dept)
+    ]);
+}
+
+async function loadSummary(month, year, dept) {
+    try {
+        const res  = await fetch(
+            `${BASE_PAYROLL_URL}/payroll/summary?month=${month}&year=${year}&department=${dept}`,
+            { headers: authHeaders() }
+        );
+        const json = await res.json();
+
+        if (json.success && json.data) {
+            const d = json.data;
+            // Show summary card only when there's data
+            if (d.totalEmployees > 0) {
+                document.getElementById('payrollSummary').style.display = 'block';
+                document.getElementById('totalEmployees').textContent      = d.totalEmployees;
+                document.getElementById('totalGross').textContent          = formatINR(d.totalGrossSalary);
+                document.getElementById('totalDeductionsSummary').textContent = formatINR(d.totalDeductions);
+                document.getElementById('totalNetPayable').textContent     = formatINR(d.totalNetPayable);
+
+                // Update summary heading with selected month name
+                document.querySelector('#payrollSummary h3').innerHTML =
+                    `<i class="fas fa-chart-bar"></i> Payroll Summary — ${month} ${year}`;
+            } else {
+                document.getElementById('payrollSummary').style.display = 'none';
+            }
+        }
+    } catch (err) {
+        console.error('Summary load failed:', err);
+    }
+}
+
+async function loadSalaryList(month, year, dept) {
+    try {
+        const res  = await fetch(
+            `${BASE_PAYROLL_URL}/payroll/list?month=${month}&year=${year}&department=${dept}`,
+            { headers: authHeaders() }
+        );
+        const json = await res.json();
+
+        const tbody = document.getElementById('salaryList');
+        const listCard = document.getElementById('employeeSalaryList');
+
+        if (json.success && json.data && json.data.length > 0) {
+            listCard.style.display = 'block';
+            tbody.innerHTML = json.data.map(r => `
+                <tr>
+                    <td class="font-semibold text-[var(--primary)]">${r.fullName}</td>
+                    <td><span class="badge">${r.department || '—'}</span></td>
+                    <td>${formatINR(r.basicSalary)}</td>
+                    <td>${formatINR(r.hra)}</td>
+                    <td>${formatINR(r.allowances)}</td>
+                    <td class="font-semibold">${formatINR(r.grossSalary)}</td>
+                    <td class="text-red-600">${formatINR(r.totalDeductions)}</td>
+                    <td class="font-bold text-green-600">${formatINR(r.netSalary)}</td>
+                    <!-- <td class="text-center">
+                        <button onclick="downloadSlip('${r.payrollId}')"
+                                class="text-[var(--primary)] hover:bg-[rgba(84,8,99,0.08)] p-2 rounded-lg transition-colors"
+                                title="Download Payslip">
+                            <i class="fas fa-download"></i>
+                        </button>
+                    </td> -->
+                </tr>
+            `).join('');
+        } else {
+            listCard.style.display = 'none';
+            tbody.innerHTML = '';
+        }
+    } catch (err) {
+        console.error('Salary list load failed:', err);
+    }
+}
+
+// ─────────────────────────────────────────────────────────────────
+// EMPLOYEE DROPDOWN — fetched from backend by department
+// ─────────────────────────────────────────────────────────────────
+async function loadEmployeeDropdown() {
+    const dept = document.getElementById('payrollDept').value;
+    const select = document.getElementById('initiateEmployee');
+
+    select.innerHTML = '<option value="">Loading…</option>';
+    select.disabled = true;
+
+    try {
+        const res  = await fetch(
+            `${BASE_EMP_URL}/employees/payroll-list?department=${dept}`,
+            { headers: authHeaders() }
+        );
+        const json = await res.json();
+
+        employeeCache = {};
+        select.innerHTML = '<option value="">— Select Employee —</option>';
+
+        if (json.success && json.data && json.data.length > 0) {
+            json.data.forEach(emp => {
+                employeeCache[emp.employeeId] = emp;
+                const opt = document.createElement('option');
+                opt.value       = emp.employeeId;
+                opt.textContent = emp.fullName;
+                select.appendChild(opt);
+            });
+        } else {
+            select.innerHTML = '<option value="">No active employees in this department</option>';
+        }
+    } catch (err) {
+        console.error('Employee dropdown load failed:', err);
+        select.innerHTML = '<option value="">Failed to load employees</option>';
+        showToast('Could not load employee list. Please try again.', 'error');
+    } finally {
+        select.disabled = false;
+    }
+}
+
+// ─────────────────────────────────────────────────────────────────
+// TOGGLE INITIATE FORM
+// ─────────────────────────────────────────────────────────────────
+function toggleInitiateForm() {
+    formOpen = !formOpen;
+    const wrapper = document.getElementById('initiateFormWrapper');
+    wrapper.classList.toggle('open', formOpen);
+
+    if (formOpen) {
+        loadEmployeeDropdown(); // fetch fresh list on open
+    } else {
+        resetForm();
+    }
+}
+
+function resetForm() {
+    document.getElementById('initiateEmployee').innerHTML = '<option value="">— Select Employee —</option>';
+    document.getElementById('empMetaRow').classList.remove('show');
+    ['basicSalary','hraAmount','allowancesAmt','grossSalary',
+     'pfAmount','esiAmount','tdsAmount'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.value = '';
+    });
+    employeeCache = {};
+}
+
+// ─────────────────────────────────────────────────────────────────
+// ON EMPLOYEE SELECT — pre-fill from cache
+// ─────────────────────────────────────────────────────────────────
+function onEmployeeSelect() {
+    const empId   = document.getElementById('initiateEmployee').value;
+    const metaRow = document.getElementById('empMetaRow');
+
+    if (!empId) {
+        metaRow.classList.remove('show');
+        resetFieldsOnly();
+        return;
+    }
+
+    const emp = employeeCache[empId];
+    if (!emp) return;
+
+    document.getElementById('metaId').textContent    = emp.employeeId;
+    document.getElementById('metaDesig').textContent = emp.designation || '—';
+    document.getElementById('metaDept').textContent  = emp.department  || '—';
+    metaRow.classList.add('show');
+
+    // Pre-fill basic from employee master; HRA = 50% of basic (standard rule), rest blank
+    const basic = emp.basicSalary || 0;
+    const hra   = Math.round(basic * 0.5);
+
+    document.getElementById('basicSalary').value   = basic;
+    document.getElementById('hraAmount').value      = hra;
+    document.getElementById('allowancesAmt').value  = '';
+    document.getElementById('grossSalary').value    = basic + hra;
+    document.getElementById('pfAmount').value       = Math.round(basic * 0.12); // 12% PF standard
+    document.getElementById('esiAmount').value      = '';
+    document.getElementById('tdsAmount').value      = '';
+}
+
+function resetFieldsOnly() {
+    ['basicSalary','hraAmount','allowancesAmt','grossSalary',
+     'pfAmount','esiAmount','tdsAmount'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.value = '';
+    });
+}
+
+// Auto-compute gross when earnings change
+['basicSalary','hraAmount','allowancesAmt'].forEach(id => {
+    document.getElementById(id)?.addEventListener('input', () => {
+        const basic      = parseFloat(document.getElementById('basicSalary').value)  || 0;
+        const hra        = parseFloat(document.getElementById('hraAmount').value)     || 0;
+        const allowances = parseFloat(document.getElementById('allowancesAmt').value) || 0;
+        document.getElementById('grossSalary').value = basic + hra + allowances;
+    });
+});
+
+// ─────────────────────────────────────────────────────────────────
+// SUBMIT INITIATE PAY → POST /api/v1/payroll
+// ─────────────────────────────────────────────────────────────────
+async function submitInitiatePay() {
+    const empId  = document.getElementById('initiateEmployee').value;
+    const basic  = document.getElementById('basicSalary').value;
+
+    if (!empId) { showToast('Please select an employee.', 'error');  return; }
+    if (!basic) { showToast('Basic salary is required.', 'error');   return; }
+
+    const monthNum  = document.getElementById('payrollMonth').value;
+    const monthEnum = MONTH_ENUM[monthNum];
+
+    const payload = {
+        employeeId:   empId,
+        payrollMonth: monthEnum,
+        payrollYear:  2024,
+        basicSalary:  parseFloat(document.getElementById('basicSalary').value)   || 0,
+        hra:          parseFloat(document.getElementById('hraAmount').value)      || 0,
+        allowances:   parseFloat(document.getElementById('allowancesAmt').value)  || 0,
+        pf:           parseFloat(document.getElementById('pfAmount').value)       || 0,
+        esi:          parseFloat(document.getElementById('esiAmount').value)      || 0,
+        tds:          parseFloat(document.getElementById('tdsAmount').value)      || 0,
+        remarks:      ''
+    };
+
+    // Show progress bar
+    const statusDiv  = document.getElementById('processStatus');
+    const progressEl = document.getElementById('processProgress');
+    const textEl     = document.getElementById('processText');
+    statusDiv.style.display = 'block';
+    textEl.textContent = 'Initiating pay run…';
+
+    // Animate progress to 60% while waiting for API
+    let pct = 0;
+    const fakeProgress = setInterval(() => {
+        if (pct < 60) { pct += 5; progressEl.style.width = pct + '%'; }
+    }, 80);
+
+    try {
+        const res  = await fetch(`${BASE_PAYROLL_URL}/payroll/create-payroll`, {
+            method:  'POST',
+            headers: authHeaders(),
+            body:    JSON.stringify(payload)
+        });
+        const json = await res.json();
+
+        clearInterval(fakeProgress);
+
+        if (json.success) {
+            // Complete the progress bar
+            progressEl.style.width = '100%';
+            textEl.textContent = 'Processing complete! 100%';
+
+            setTimeout(async () => {
+                statusDiv.style.display = 'none';
+                progressEl.style.width  = '0%';
+
+                showToast(json.message || 'Pay run completed successfully!', 'success');
+                toggleInitiateForm();
+
+                // Refresh summary and list with current filters
+                await loadPageData();
+            }, 500);
+        } else {
+            clearInterval(fakeProgress);
+            statusDiv.style.display = 'none';
+            progressEl.style.width  = '0%';
+            showToast(json.message || 'Pay run failed. Please try again.', 'error');
+        }
+    } catch (err) {
+        clearInterval(fakeProgress);
+        statusDiv.style.display = 'none';
+        progressEl.style.width  = '0%';
+        console.error('Pay run error:', err);
+        showToast('Network error. Please check your connection and try again.', 'error');
+    }
+}
+
+// ─────────────────────────────────────────────────────────────────
+// UTILITY
+// ─────────────────────────────────────────────────────────────────
+function formatINR(amount) {
+    if (amount == null || amount === 0) return '₹0';
+    return '₹' + Number(amount).toLocaleString('en-IN');
+}
+
+function filterSalaryList() {
+    const search = document.getElementById('salarySearch').value.toLowerCase();
+    document.querySelectorAll('#salaryList tr').forEach(row => {
+        const name = row.cells[0]?.textContent.toLowerCase() || '';
+        row.style.display = name.includes(search) ? '' : 'none';
+    });
+}
+
+
+function downloadSlip(payrollId) { showToast('Payslip download coming soon.', 'info'); }
+
+function showToast(message, type = 'info') {
+    const t = document.createElement('div');
+    t.className = `toast ${type}`;
+    t.textContent = message;
+    document.body.appendChild(t);
+    setTimeout(() => {
+        t.style.transition = 'opacity 0.3s';
+        t.style.opacity = '0';
+        setTimeout(() => t.remove(), 300);
+    }, 2700);
+}
+
+function setActiveMenu(module) {
+    setTimeout(() => {
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('data-module') === module) link.classList.add('active');
+        });
+    }, 500);
+}
+</script>
+</body>
+</html>
